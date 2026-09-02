@@ -1,0 +1,322 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    // 0. Default Deny Catch-all
+    match /{document=**} {
+      allow read, write: if false;
+    }
+
+    // -------------------------------------------------------------
+    // Global Helper Primitives
+    // -------------------------------------------------------------
+    function isValidId(id) {
+      return id is string && id.size() > 0 && id.size() <= 128 && id.matches('^[a-zA-Z0-9_\\-]+$');
+    }
+
+    function incoming() {
+      return request.resource.data;
+    }
+
+    function existing() {
+      return resource.data;
+    }
+
+    function isSignedIn() {
+      return request.auth != null && request.auth.uid != null;
+    }
+
+    function isEmailVerified() {
+      return isSignedIn() && request.auth.token.email_verified == true;
+    }
+
+    // Primary Admin check using secure Firestore Admin role document or verified owner email
+    function isAdmin() {
+      return isSignedIn() && (
+        exists(/databases/$(database)/documents/admins/$(request.auth.uid)) ||
+        (isEmailVerified() && (request.auth.token.email == 'sobhye915@gmail.com' || request.auth.token.email == 'formantony13@gmail.com'))
+      );
+    }
+
+    function isSuperAdmin() {
+      return isSignedIn() && (
+        (exists(/databases/$(database)/documents/admins/$(request.auth.uid)) && 
+         get(/databases/$(database)/documents/admins/$(request.auth.uid)).data.role == 'SUPER_ADMIN') ||
+        (isEmailVerified() && (request.auth.token.email == 'sobhye915@gmail.com' || request.auth.token.email == 'formantony13@gmail.com'))
+      );
+    }
+
+    // -------------------------------------------------------------
+    // Entity Validation Functions (Eight Pillars Anti-Update-Gap)
+    // -------------------------------------------------------------
+    function isValidAdmin(data) {
+      return data.keys().hasAll(['email', 'role', 'createdAt']) &&
+             data.email is string && data.email.size() <= 128 &&
+             data.role in ['SUPER_ADMIN', 'ADMIN', 'MANAGER', 'TECHNICIAN'] &&
+             (!('id' in data) || (data.id is string && data.id.size() <= 128)) &&
+             (!('displayName' in data) || (data.displayName is string && data.displayName.size() <= 100)) &&
+             data.createdAt is string;
+    }
+
+    function isValidBookingCreate(data) {
+      return data.keys().hasAll(['id', 'fullName', 'phoneNumber', 'address', 'deviceType', 'issueDescription', 'status', 'createdAt', 'updatedAt']) &&
+             data.id is string && data.id.size() >= 3 && data.id.size() <= 64 &&
+             data.fullName is string && data.fullName.size() >= 2 && data.fullName.size() <= 100 &&
+             data.phoneNumber is string && data.phoneNumber.size() >= 8 && data.phoneNumber.size() <= 25 &&
+             data.address is string && data.address.size() >= 3 && data.address.size() <= 300 &&
+             data.deviceType is string && data.deviceType.size() >= 2 && data.deviceType.size() <= 50 &&
+             data.issueDescription is string && data.issueDescription.size() >= 3 && data.issueDescription.size() <= 2000 &&
+             data.status == 'NEW' &&
+             (!('brand' in data) || (data.brand is string && data.brand.size() <= 50)) &&
+             (!('preferredTime' in data) || (data.preferredTime is string && data.preferredTime.size() <= 100)) &&
+             (!('imageUrl' in data) || (data.imageUrl is string && data.imageUrl.size() <= 600000)) &&
+             (!('notes' in data) || (data.notes is string && data.notes.size() <= 1000)) &&
+             (!('technicianName' in data) || (data.technicianName is string && data.technicianName.size() == 0)) &&
+             (!('estimatedCost' in data) || (data.estimatedCost is number && data.estimatedCost == 0)) &&
+             data.createdAt is string &&
+             data.updatedAt is string;
+    }
+
+    function isValidBookingUpdate(data) {
+      return data.id is string &&
+             data.fullName is string && data.fullName.size() <= 100 &&
+             data.phoneNumber is string && data.phoneNumber.size() <= 25 &&
+             data.address is string && data.address.size() <= 300 &&
+             data.deviceType is string && data.deviceType.size() <= 50 &&
+             data.issueDescription is string && data.issueDescription.size() <= 2000 &&
+             data.status in ['NEW', 'CONTACTED', 'SCHEDULED', 'ASSIGNED', 'IN_PROGRESS', 'WAITING_FOR_PART', 'COMPLETED', 'CANCELLED'] &&
+             data.updatedAt is string;
+    }
+
+    function isValidTracking(data) {
+      return data.keys().hasAll(['id', 'status', 'deviceType', 'phoneLast4', 'stage', 'createdAt', 'updatedAt']) &&
+             data.id is string && data.id.size() <= 64 &&
+             data.status in ['NEW', 'CONTACTED', 'SCHEDULED', 'ASSIGNED', 'IN_PROGRESS', 'WAITING_FOR_PART', 'COMPLETED', 'CANCELLED'] &&
+             data.deviceType is string && data.deviceType.size() <= 50 &&
+             data.phoneLast4 is string && data.phoneLast4.size() == 4 &&
+             data.stage is number && data.stage >= 1 && data.stage <= 4 &&
+             (!('brand' in data) || (data.brand is string && data.brand.size() <= 50)) &&
+             (!('preferredTime' in data) || (data.preferredTime is string && data.preferredTime.size() <= 100)) &&
+             (!('customerFirstName' in data) || (data.customerFirstName is string && data.customerFirstName.size() <= 50)) &&
+             (!('hasWarranty' in data) || (data.hasWarranty is bool)) &&
+             data.createdAt is string &&
+             data.updatedAt is string;
+    }
+
+    function isValidCustomer(data) {
+      return data.keys().hasAll(['id', 'name', 'phone', 'address', 'totalBookings', 'createdAt', 'updatedAt']) &&
+             data.id is string && data.id.size() <= 64 &&
+             data.name is string && data.name.size() <= 100 &&
+             data.phone is string && data.phone.size() <= 25 &&
+             data.address is string && data.address.size() <= 300 &&
+             data.totalBookings is number &&
+             (!('area' in data) || (data.area is string && data.area.size() <= 100)) &&
+             (!('notes' in data) || (data.notes is string && data.notes.size() <= 2000)) &&
+             (!('totalSpent' in data) || (data.totalSpent is number)) &&
+             (!('lastBookingDate' in data) || (data.lastBookingDate is string)) &&
+             data.createdAt is string &&
+             data.updatedAt is string;
+    }
+
+    function isValidRepairJob(data) {
+      return data.keys().hasAll(['id', 'bookingId', 'customerId', 'customerName', 'customerPhone', 'address', 'applianceType', 'brand', 'problemDescription', 'diagnosis', 'solution', 'technicianName', 'status', 'createdAt', 'updatedAt']) &&
+             data.id is string && data.id.size() <= 64 &&
+             data.customerName is string && data.customerName.size() <= 100 &&
+             data.customerPhone is string && data.customerPhone.size() <= 25 &&
+             data.diagnosis is string && data.diagnosis.size() <= 2000 &&
+             data.solution is string && data.solution.size() <= 2000 &&
+             data.technicianName is string && data.technicianName.size() <= 100 &&
+             data.status in ['NEW', 'CONTACTED', 'SCHEDULED', 'ASSIGNED', 'IN_PROGRESS', 'WAITING_FOR_PART', 'COMPLETED', 'CANCELLED'] &&
+             (!('partsReplaced' in data) || (data.partsReplaced is list)) &&
+             (!('laborCost' in data) || (data.laborCost is number)) &&
+             (!('partsCost' in data) || (data.partsCost is number)) &&
+             (!('totalCost' in data) || (data.totalCost is number)) &&
+             (!('warrantyDuration' in data) || (data.warrantyDuration is string && data.warrantyDuration.size() <= 100)) &&
+             data.createdAt is string &&
+             data.updatedAt is string;
+    }
+
+    function isValidReviewCreate(data) {
+      return data.keys().hasAll(['id', 'name', 'deviceType', 'rating', 'comment', 'date', 'avatarLetter', 'verified', 'status', 'createdAt']) &&
+             data.id is string && data.id.size() <= 64 &&
+             data.name is string && data.name.size() >= 2 && data.name.size() <= 100 &&
+             data.deviceType is string && data.deviceType.size() <= 50 &&
+             data.rating is number && data.rating >= 1 && data.rating <= 5 &&
+             data.comment is string && data.comment.size() >= 5 && data.comment.size() <= 1000 &&
+             data.status == 'PENDING' &&
+             data.verified == false &&
+             data.date is string &&
+             data.createdAt is string;
+    }
+
+    function isValidWork(data) {
+      return data.keys().hasAll(['id', 'title', 'category', 'deviceType', 'problem', 'solution', 'date', 'image', 'createdAt']) &&
+             data.id is string && data.id.size() <= 64 &&
+             data.title is string && data.title.size() <= 150 &&
+             data.category in ['ثلاجات', 'غسالات', 'ديب فريزر', 'تكييفات', 'بوتاجازات'] &&
+             data.problem is string && data.problem.size() <= 1000 &&
+             data.solution is string && data.solution.size() <= 1000 &&
+             data.image is string && data.image.size() <= 600000 &&
+             (!('beforeImage' in data) || (data.beforeImage is string && data.beforeImage.size() <= 600000)) &&
+             (!('brand' in data) || (data.brand is string && data.brand.size() <= 100)) &&
+             (!('partsReplaced' in data) || (data.partsReplaced is list)) &&
+             (!('warranty' in data) || (data.warranty is string && data.warranty.size() <= 100)) &&
+             data.createdAt is string;
+    }
+
+    function isValidSettings(data) {
+      return data.centerName is string && data.centerName.size() <= 100 &&
+             data.phone1 is string && data.phone1.size() <= 30 &&
+             data.whatsappNumber is string && data.whatsappNumber.size() <= 30;
+    }
+
+    function isValidForSaleItem(data) {
+      return data.keys().hasAll(['id', 'title', 'category', 'brand', 'price', 'status', 'condition', 'specs', 'warranty', 'image', 'description', 'createdAt']) &&
+             data.id is string && data.id.size() <= 64 &&
+             data.title is string && data.title.size() <= 150 &&
+             data.category in ['ثلاجات', 'غسالات', 'ديب فريزر', 'تكييفات', 'بوتاجازات', 'أخرى'] &&
+             data.brand is string && data.brand.size() <= 100 &&
+             data.price is number && data.price >= 0 &&
+             (!('originalPrice' in data) || (data.originalPrice is number)) &&
+             data.status in ['AVAILABLE', 'RESERVED', 'SOLD'] &&
+             data.condition is string && data.condition.size() <= 200 &&
+             data.specs is list && data.specs.size() <= 20 &&
+             data.warranty is string && data.warranty.size() <= 150 &&
+             data.image is string && data.image.size() <= 600000 &&
+             (!('additionalImages' in data) || (data.additionalImages is list && data.additionalImages.size() <= 10)) &&
+             data.description is string && data.description.size() <= 2000 &&
+             (!('location' in data) || (data.location is string && data.location.size() <= 200)) &&
+             (!('featured' in data) || (data.featured is bool)) &&
+             data.createdAt is string &&
+             (!('updatedAt' in data) || (data.updatedAt is string));
+    }
+
+    function isValidAuditLog(data) {
+      return data.keys().hasAll(['id', 'action', 'performedBy', 'targetId', 'targetCollection', 'details', 'timestamp']) &&
+             data.id is string && data.id.size() <= 64 &&
+             data.action is string &&
+             data.performedBy is map &&
+             data.targetId is string &&
+             data.targetCollection is string &&
+             data.details is string && data.details.size() <= 1000 &&
+             data.timestamp is string;
+    }
+
+    // -------------------------------------------------------------
+    // 1. Admins Collection
+    // -------------------------------------------------------------
+    match /admins/{adminId} {
+      allow get: if isSignedIn() && (request.auth.uid == adminId || isAdmin());
+      allow list: if isAdmin();
+      allow create: if isValidId(adminId) && 
+                       (isSuperAdmin() || (isEmailVerified() && (request.auth.token.email == 'formantony13@gmail.com' || request.auth.token.email == 'sobhye915@gmail.com'))) &&
+                       isValidAdmin(incoming());
+      allow update: if isValidId(adminId) && isSuperAdmin() && isValidAdmin(incoming());
+      allow delete: if isValidId(adminId) && isSuperAdmin() && request.auth.uid != adminId;
+    }
+
+    // -------------------------------------------------------------
+    // 2. Bookings Collection (PRIVATE PII - Admin Only Read/List)
+    // -------------------------------------------------------------
+    match /bookings/{bookingId} {
+      // Public creation with strict validation and NEW status
+      allow create: if isValidId(bookingId) && isValidBookingCreate(incoming());
+      
+      // Strict Privacy: Only authenticated Admins can read or list customer booking docs!
+      allow read, list: if isAdmin();
+      
+      // Only Admin can update booking status, technician, or details
+      allow update: if isValidId(bookingId) && isAdmin() && isValidBookingUpdate(incoming()) &&
+                       incoming().id == existing().id &&
+                       incoming().createdAt == existing().createdAt;
+      
+      // Only Admin can delete bookings
+      allow delete: if isValidId(bookingId) && isAdmin();
+    }
+
+    // -------------------------------------------------------------
+    // 3. Booking Tracking Collection (SAFE PUBLIC TRACKING - NO PII)
+    // -------------------------------------------------------------
+    match /booking_tracking/{trackingId} {
+      // Individual customer can query their own tracking card by Booking ID
+      allow get: if isValidId(trackingId);
+      
+      // Prevent mass scraping: listing all tracking records requires admin
+      allow list: if isAdmin();
+      
+      // Creation allowed during booking submission (contains non-PII and phoneLast4 only)
+      allow create: if isValidId(trackingId) && isValidTracking(incoming());
+      
+      // Updates/Deletions restricted to Admins
+      allow update, delete: if isValidId(trackingId) && isAdmin();
+    }
+
+    // -------------------------------------------------------------
+    // 4. Customers Collection (Private CRM - Admin Only)
+    // -------------------------------------------------------------
+    match /customers/{customerId} {
+      allow read: if isAdmin();
+      allow create, update: if isValidId(customerId) && isAdmin() && isValidCustomer(incoming());
+      allow delete: if isValidId(customerId) && isAdmin();
+    }
+
+    // -------------------------------------------------------------
+    // 5. Repairs Collection (Work Orders - Admin Only)
+    // -------------------------------------------------------------
+    match /repairs/{repairId} {
+      allow read: if isAdmin();
+      allow create, update: if isValidId(repairId) && isAdmin() && isValidRepairJob(incoming());
+      allow delete: if isValidId(repairId) && isAdmin();
+    }
+
+    // -------------------------------------------------------------
+    // 6. Works Collection (Portfolio - Public Read, Admin Write)
+    // -------------------------------------------------------------
+    match /works/{workId} {
+      allow read: if true;
+      allow create, update: if isValidId(workId) && isAdmin() && isValidWork(incoming());
+      allow delete: if isValidId(workId) && isAdmin();
+    }
+
+    // -------------------------------------------------------------
+    // 7. Reviews Collection (Moderated - Public Create PENDING, Public Read APPROVED)
+    // -------------------------------------------------------------
+    match /reviews/{reviewId} {
+      // Public can only list or get APPROVED reviews; Admin can see all
+      allow list, get: if resource.data.status == 'APPROVED' || isAdmin();
+      
+      // Public can submit a new review; enforced status PENDING and verified false
+      allow create: if isValidId(reviewId) && isValidReviewCreate(incoming());
+      
+      // Only Admin can moderate, approve, or delete reviews
+      allow update, delete: if isValidId(reviewId) && isAdmin();
+    }
+
+    // -------------------------------------------------------------
+    // 8. Settings Collection (Branding - Public Read, Admin Write)
+    // -------------------------------------------------------------
+    match /settings/{settingId} {
+      allow read: if true;
+      allow write: if isValidId(settingId) && isAdmin() && isValidSettings(incoming());
+    }
+
+    // -------------------------------------------------------------
+    // 9. For Sale Collection (Appliance Showcase - Public Read, Admin Write)
+    // -------------------------------------------------------------
+    match /for_sale/{itemId} {
+      allow read: if true;
+      allow create, update: if isValidId(itemId) && isAdmin() && isValidForSaleItem(incoming());
+      allow delete: if isValidId(itemId) && isAdmin();
+    }
+
+    // -------------------------------------------------------------
+    // 10. Audit Logs Collection (Tamper-proof, Append-Only)
+    // -------------------------------------------------------------
+    match /audit_logs/{logId} {
+      allow read: if isAdmin();
+      allow create: if isValidId(logId) && isAdmin() && isValidAuditLog(incoming());
+      // Tamper-proof: append-only, absolutely no updates or deletes permitted
+      allow update, delete: if false;
+    }
+  }
+}

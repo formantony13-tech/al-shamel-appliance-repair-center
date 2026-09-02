@@ -1,0 +1,105 @@
+rules_version = '2';
+service firebase.storage {
+  match /b/{bucket}/o {
+    
+    // Default Deny
+    match /{allPaths=**} {
+      allow read, write: if false;
+    }
+    
+    function isSignedIn() {
+      return request.auth != null && request.auth.uid != null;
+    }
+    
+    function isEmailVerified() {
+      return isSignedIn() && request.auth.token.email_verified == true;
+    }
+    
+    function isAdmin() {
+      return isSignedIn() && (
+        firestore.exists(/databases/(default)/documents/admins/$(request.auth.uid)) ||
+        (isEmailVerified() && (request.auth.token.email == 'sobhye915@gmail.com' || request.auth.token.email == 'formantony13@gmail.com'))
+      );
+    }
+
+    function isValidImageExtension(fileName) {
+      return fileName.matches('(?i).+\\.(jpe?g|png|webp)$');
+    }
+
+    function isValidImage(maxBytes) {
+      return request.resource.size > 0
+          && request.resource.size <= maxBytes
+          && request.resource.contentType.matches('^image/(jpeg|png|webp|jpg)$');
+    }
+
+    // -------------------------------------------------------------
+    // 1. PUBLIC SHOWCASE & ASSETS (Public Read, Admin Write)
+    // -------------------------------------------------------------
+    match /public/works/{fileName} {
+      allow read: if true;
+      allow write: if isAdmin() && isValidImage(8 * 1024 * 1024) && isValidImageExtension(fileName);
+    }
+
+    match /public/for_sale/{fileName} {
+      allow read: if true;
+      allow write: if isAdmin() && isValidImage(8 * 1024 * 1024) && isValidImageExtension(fileName);
+    }
+
+    match /public/settings/{fileName} {
+      allow read: if true;
+      allow write: if isAdmin() && isValidImage(5 * 1024 * 1024) && isValidImageExtension(fileName);
+    }
+
+    // Public Customer Reviews Images (Public Read, Anonymous Upload with tight limits)
+    match /public/reviews/{fileName} {
+      allow read: if true;
+      allow create: if isValidImage(3 * 1024 * 1024) && isValidImageExtension(fileName);
+      allow update, delete: if isAdmin();
+    }
+
+    // -------------------------------------------------------------
+    // 2. PRIVATE SECURE ASSETS (Admin Only Read, Controlled Upload)
+    // -------------------------------------------------------------
+    // Booking fault photos: Only Admin can read! Customer can upload their device picture safely.
+    match /private/bookings/{fileName} {
+      allow read: if isAdmin();
+      allow create: if isValidImage(5 * 1024 * 1024) && isValidImageExtension(fileName);
+      allow update, delete: if isAdmin();
+    }
+
+    match /private/customers/{fileName} {
+      allow read, write: if isAdmin() && isValidImage(5 * 1024 * 1024) && isValidImageExtension(fileName);
+    }
+
+    match /private/repairs/{fileName} {
+      allow read, write: if isAdmin() && isValidImage(8 * 1024 * 1024) && isValidImageExtension(fileName);
+    }
+
+    // -------------------------------------------------------------
+    // 3. BACKWARD COMPATIBILITY PATHS (Secured)
+    // -------------------------------------------------------------
+    match /works/{fileName} {
+      allow read: if true;
+      allow write: if isAdmin() && isValidImage(8 * 1024 * 1024) && isValidImageExtension(fileName);
+    }
+    match /for_sale/{fileName} {
+      allow read: if true;
+      allow write: if isAdmin() && isValidImage(8 * 1024 * 1024) && isValidImageExtension(fileName);
+    }
+    match /settings/{fileName} {
+      allow read: if true;
+      allow write: if isAdmin() && isValidImage(5 * 1024 * 1024) && isValidImageExtension(fileName);
+    }
+    match /reviews/{fileName} {
+      allow read: if true;
+      allow create: if isValidImage(3 * 1024 * 1024) && isValidImageExtension(fileName);
+      allow update, delete: if isAdmin();
+    }
+    match /bookings/{fileName} {
+      // Hardened: public read removed!
+      allow read: if isAdmin();
+      allow create: if isValidImage(5 * 1024 * 1024) && isValidImageExtension(fileName);
+      allow update, delete: if isAdmin();
+    }
+  }
+}

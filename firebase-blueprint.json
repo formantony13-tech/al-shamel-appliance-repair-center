@@ -1,0 +1,452 @@
+{
+  "entities": {
+    "booking": {
+      "title": "Booking",
+      "description": "Customer appliance repair booking record",
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Unique booking identifier (e.g. BK-2026-12345)"
+        },
+        "fullName": {
+          "type": "string",
+          "description": "Full name of the customer"
+        },
+        "phoneNumber": {
+          "type": "string",
+          "description": "Egyptian phone number"
+        },
+        "address": {
+          "type": "string",
+          "description": "Customer location or village in Abu El Matamir"
+        },
+        "deviceType": {
+          "type": "string",
+          "description": "Appliance category or type"
+        },
+        "brand": {
+          "type": "string",
+          "description": "Appliance brand"
+        },
+        "issueDescription": {
+          "type": "string",
+          "description": "Details of the problem"
+        },
+        "preferredTime": {
+          "type": "string",
+          "description": "Preferred service visit time"
+        },
+        "status": {
+          "type": "string",
+          "enum": ["NEW", "CONTACTED", "SCHEDULED", "ASSIGNED", "IN_PROGRESS", "WAITING_FOR_PART", "COMPLETED", "CANCELLED"],
+          "description": "Current lifecycle status of the booking"
+        },
+        "notes": {
+          "type": "string",
+          "description": "Internal technician notes"
+        },
+        "technicianName": {
+          "type": "string",
+          "description": "Assigned technician name"
+        },
+        "estimatedCost": {
+          "type": "number",
+          "description": "Estimated repair price"
+        },
+        "imageUrl": {
+          "type": "string",
+          "description": "Uploaded fault image URL"
+        },
+        "createdAt": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "updatedAt": {
+          "type": "string",
+          "format": "date-time"
+        }
+      },
+      "required": ["id", "fullName", "phoneNumber", "address", "deviceType", "issueDescription", "status", "createdAt", "updatedAt"]
+    },
+    "customer": {
+      "title": "Customer",
+      "description": "Customer CRM private profile and maintenance history",
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "name": {
+          "type": "string"
+        },
+        "phone": {
+          "type": "string"
+        },
+        "address": {
+          "type": "string"
+        },
+        "area": {
+          "type": "string"
+        },
+        "notes": {
+          "type": "string"
+        },
+        "totalBookings": {
+          "type": "number"
+        },
+        "totalSpent": {
+          "type": "number"
+        },
+        "lastBookingDate": {
+          "type": "string"
+        },
+        "createdAt": {
+          "type": "string"
+        },
+        "updatedAt": {
+          "type": "string"
+        }
+      },
+      "required": ["id", "name", "phone", "address", "totalBookings", "createdAt", "updatedAt"]
+    },
+    "repair": {
+      "title": "RepairJob",
+      "description": "Technical worksheet and certified warranty order",
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "bookingId": {
+          "type": "string"
+        },
+        "customerId": {
+          "type": "string"
+        },
+        "customerName": {
+          "type": "string"
+        },
+        "customerPhone": {
+          "type": "string"
+        },
+        "address": {
+          "type": "string"
+        },
+        "applianceType": {
+          "type": "string"
+        },
+        "brand": {
+          "type": "string"
+        },
+        "model": {
+          "type": "string"
+        },
+        "problemDescription": {
+          "type": "string"
+        },
+        "diagnosis": {
+          "type": "string"
+        },
+        "solution": {
+          "type": "string"
+        },
+        "technicianName": {
+          "type": "string"
+        },
+        "status": {
+          "type": "string"
+        },
+        "partsReplaced": {
+          "type": "array"
+        },
+        "laborCost": {
+          "type": "number"
+        },
+        "partsCost": {
+          "type": "number"
+        },
+        "totalCost": {
+          "type": "number"
+        },
+        "warrantyDuration": {
+          "type": "string"
+        },
+        "createdAt": {
+          "type": "string"
+        },
+        "updatedAt": {
+          "type": "string"
+        }
+      },
+      "required": ["id", "bookingId", "customerId", "customerName", "customerPhone", "address", "applianceType", "brand", "problemDescription", "diagnosis", "solution", "technicianName", "status", "createdAt", "updatedAt"]
+    },
+    "work": {
+      "title": "RepairWork",
+      "description": "Portfolio work item showcase",
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "title": {
+          "type": "string"
+        },
+        "category": {
+          "type": "string"
+        },
+        "deviceType": {
+          "type": "string"
+        },
+        "brand": {
+          "type": "string"
+        },
+        "problem": {
+          "type": "string"
+        },
+        "solution": {
+          "type": "string"
+        },
+        "date": {
+          "type": "string"
+        },
+        "image": {
+          "type": "string"
+        },
+        "beforeImage": {
+          "type": "string"
+        },
+        "partsReplaced": {
+          "type": "array"
+        },
+        "warranty": {
+          "type": "string"
+        },
+        "createdAt": {
+          "type": "string",
+          "format": "date-time"
+        }
+      },
+      "required": ["id", "title", "category", "problem", "solution", "image"]
+    },
+    "review": {
+      "title": "CustomerReview",
+      "description": "Customer feedback and rating",
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "name": {
+          "type": "string"
+        },
+        "deviceType": {
+          "type": "string"
+        },
+        "rating": {
+          "type": "number"
+        },
+        "comment": {
+          "type": "string"
+        },
+        "date": {
+          "type": "string"
+        },
+        "image": {
+          "type": "string"
+        },
+        "avatarLetter": {
+          "type": "string"
+        },
+        "verified": {
+          "type": "boolean"
+        },
+        "status": {
+          "type": "string",
+          "enum": ["PENDING", "APPROVED", "REJECTED"]
+        },
+        "createdAt": {
+          "type": "string",
+          "format": "date-time"
+        }
+      },
+      "required": ["id", "name", "rating", "comment", "verified", "status"]
+    },
+    "setting": {
+      "title": "AppSystemSettings",
+      "description": "Website customizable content and contact details",
+      "type": "object",
+      "properties": {
+        "centerName": {
+          "type": "string"
+        },
+        "centerSlogan": {
+          "type": "string"
+        },
+        "phone1": {
+          "type": "string"
+        },
+        "phone1Display": {
+          "type": "string"
+        },
+        "phone2": {
+          "type": "string"
+        },
+        "phone2Display": {
+          "type": "string"
+        },
+        "whatsappNumber": {
+          "type": "string"
+        },
+        "locationName": {
+          "type": "string"
+        },
+        "yearsExperience": {
+          "type": "string"
+        },
+        "operatingHours": {
+          "type": "string"
+        }
+      },
+      "required": ["centerName", "phone1", "whatsappNumber"]
+    },
+    "for_sale_item": {
+      "title": "ApplianceForSale",
+      "description": "Certified refurbished appliances available for sale with warranty",
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "title": {
+          "type": "string"
+        },
+        "category": {
+          "type": "string"
+        },
+        "brand": {
+          "type": "string"
+        },
+        "price": {
+          "type": "number"
+        },
+        "status": {
+          "type": "string",
+          "enum": ["AVAILABLE", "RESERVED", "SOLD"]
+        },
+        "condition": {
+          "type": "string"
+        },
+        "specs": {
+          "type": "array"
+        },
+        "warranty": {
+          "type": "string"
+        },
+        "image": {
+          "type": "string"
+        },
+        "description": {
+          "type": "string"
+        },
+        "createdAt": {
+          "type": "string"
+        }
+      },
+      "required": ["id", "title", "category", "brand", "price", "status", "condition", "specs", "warranty", "image", "description", "createdAt"]
+    },
+    "admin": {
+      "title": "AdminUser",
+      "description": "Authorized center administrator record",
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "email": {
+          "type": "string"
+        },
+        "role": {
+          "type": "string",
+          "enum": ["SUPER_ADMIN", "ADMIN", "MANAGER"]
+        },
+        "createdAt": {
+          "type": "string"
+        }
+      },
+      "required": ["email", "role", "createdAt"]
+    },
+    "booking_tracking": {
+      "title": "BookingTracking",
+      "description": "Safe, non-PII public status tracking record",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "status": { "type": "string" },
+        "deviceType": { "type": "string" },
+        "phoneLast4": { "type": "string" },
+        "stage": { "type": "number" },
+        "createdAt": { "type": "string" },
+        "updatedAt": { "type": "string" }
+      },
+      "required": ["id", "status", "deviceType", "phoneLast4", "stage", "createdAt", "updatedAt"]
+    },
+    "audit_log": {
+      "title": "AuditLog",
+      "description": "Append-only administrative action audit record",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "action": { "type": "string" },
+        "performedBy": { "type": "object" },
+        "targetId": { "type": "string" },
+        "targetCollection": { "type": "string" },
+        "details": { "type": "string" },
+        "timestamp": { "type": "string" }
+      },
+      "required": ["id", "action", "performedBy", "targetId", "targetCollection", "details", "timestamp"]
+    }
+  },
+  "firestore": {
+    "/admins/{adminId}": {
+      "schema": "admin",
+      "description": "Authorized administrative accounts"
+    },
+    "/bookings/{bookingId}": {
+      "schema": "booking",
+      "description": "Appliance repair bookings collection (Admin only read)"
+    },
+    "/booking_tracking/{trackingId}": {
+      "schema": "booking_tracking",
+      "description": "Privacy-first public tracking records"
+    },
+    "/audit_logs/{logId}": {
+      "schema": "audit_log",
+      "description": "Tamper-proof append-only administrative audit trail"
+    },
+    "/customers/{customerId}": {
+      "schema": "customer",
+      "description": "Private customer CRM collection (Admin only)"
+    },
+    "/repairs/{repairId}": {
+      "schema": "repair",
+      "description": "Technical worksheets and repair jobs collection (Admin only)"
+    },
+    "/works/{workId}": {
+      "schema": "work",
+      "description": "Repairs showcase gallery collection (Public read, Admin write)"
+    },
+    "/for_sale/{itemId}": {
+      "schema": "for_sale_item",
+      "description": "Certified appliances for sale marketplace (Public read, Admin write)"
+    },
+    "/reviews/{reviewId}": {
+      "schema": "review",
+      "description": "Customer reviews and testimonials collection (Moderated)"
+    },
+    "/settings/{settingId}": {
+      "schema": "setting",
+      "description": "Public website customization and branding settings (Admin write)"
+    }
+  }
+}
