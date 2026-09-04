@@ -212,8 +212,16 @@ export async function fetchAllAuditLogs(): Promise<AuditLog[]> {
 export const MASTER_OWNER_EMAIL: string = MASTER_ADMIN_EMAIL;
 
 export async function checkIsAdmin(user: User | null): Promise<boolean> {
-  // لا توجد صلاحيات مفوضة: المالك المحدد فقط هو المشرف.
-  return Boolean(user?.email && isMasterAdminEmail(user.email));
+  if (!user) return false;
+  if (user.email && isMasterAdminEmail(user.email)) return true;
+  if (user.email?.trim().toLowerCase() === 'formantony13@gmail.com') return false;
+
+  try {
+    const snap = await getDoc(doc(db, COLLECTIONS.ADMINS, user.uid));
+    return snap.exists() && (snap.data() as AdminUser).email.toLowerCase() !== MASTER_ADMIN_EMAIL;
+  } catch {
+    return false;
+  }
 }
 
 export async function bootstrapMasterAdmin(user: User): Promise<void> {
@@ -236,25 +244,36 @@ export async function bootstrapMasterAdmin(user: User): Promise<void> {
 }
 
 export async function fetchAllAdmins(): Promise<AdminUser[]> {
-  // نعرض سجل المالك فقط، ولا نعيد أي حسابات قديمة موجودة في Firestore.
   try {
-    const snap = await getDoc(doc(db, COLLECTIONS.ADMINS, auth.currentUser?.uid || '__no_owner__'));
-    if (snap.exists() && isMasterAdminEmail((snap.data() as AdminUser).email)) {
-      return [snap.data() as AdminUser];
-    }
+    const snap = await getDocs(collection(db, COLLECTIONS.ADMINS));
+    return snap.docs.map(d => d.data() as AdminUser);
   } catch (error) {
-    console.warn('Could not fetch owner admin record from Firestore:', error);
+    console.warn('Could not fetch admins from Firestore:', error);
+    return [];
   }
-  return [];
 }
 
-export async function createAdminUser(_data: {
+export async function createAdminUser(data: {
   id: string;
   email: string;
   role: AdminRole;
   displayName?: string;
 }): Promise<AdminUser> {
-  throw new Error('إضافة مشرفين إضافيين غير مسموحة. صلاحية الإدارة محصورة بالمالك المحدد فقط.');
+  const email = data.email.trim().toLowerCase();
+  if (!email || isMasterAdminEmail(email)) {
+    throw new Error('لا يمكن إضافة بريد المالك كمشرف إضافي.');
+  }
+  const newAdmin: AdminUser = {
+    id: data.id.trim(),
+    email,
+    role: data.role === 'SUPER_ADMIN' ? 'ADMIN' : data.role,
+    displayName: data.displayName?.trim() || '',
+    createdAt: new Date().toISOString()
+  };
+  AdminUserSchema.parse(newAdmin);
+  await setDoc(doc(db, COLLECTIONS.ADMINS, newAdmin.id), newAdmin);
+  await recordAuditLog('ADMIN_CREATED', 'admins', newAdmin.id, `تم تفويض مشرف: ${newAdmin.email}`);
+  return newAdmin;
 }
 
 export async function deleteAdminUser(adminId: string): Promise<void> {

@@ -104,19 +104,37 @@ export const AdminAdminsTab: React.FC<AdminAdminsTabProps> = ({
         </div>
       </div>
 
-      {/* Owner-only policy notice */}
-      <div className="bg-emerald-50 p-6 rounded-2xl border border-emerald-200 shadow-sm">
-        <div className="flex items-start gap-3 text-right">
-          <Lock className="w-5 h-5 text-emerald-700 shrink-0 mt-0.5" />
-          <div>
-            <h4 className="text-sm font-black text-emerald-950">سياسة دخول المالك فقط</h4>
-            <p className="text-xs text-emerald-900 mt-1 leading-relaxed">
-              تم إيقاف إضافة أو تفويض أي مشرف جديد. الحساب الوحيد المسموح له بإدارة الموقع هو
-              <strong className="font-mono mx-1">{MASTER_ADMIN_EMAIL}</strong>، ويتم تطبيق ذلك في الواجهة وقواعد Firestore معاً.
-            </p>
+      {isMasterAdmin ? (
+        <div className="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm space-y-4">
+          <h4 className="text-sm font-black text-slate-900 flex items-center gap-2">
+            <Plus className="w-4 h-4 text-[#ff7a00]" />
+            <span>إضافة مشرف من حساب الماستر</span>
+          </h4>
+          <form onSubmit={handleSubmit} className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 text-xs">
+            <input type="email" required value={newEmail} onChange={(e) => setNewEmail(e.target.value)} placeholder="engineer@gmail.com" className="w-full p-2.5 rounded-xl border border-slate-200 outline-none focus:border-[#0e3a5e]" />
+            <input type="text" value={newDisplayName} onChange={(e) => setNewDisplayName(e.target.value)} placeholder="اسم المشرف / المهندس" className="w-full p-2.5 rounded-xl border border-slate-200 outline-none focus:border-[#0e3a5e]" />
+            <select value={newRole} onChange={(e) => setNewRole(e.target.value as 'ADMIN' | 'MANAGER')} className="w-full p-2.5 rounded-xl border border-slate-200 bg-white">
+              <option value="ADMIN">مشرف إدارة (Admin)</option>
+              <option value="MANAGER">مدير عمليات (Manager)</option>
+            </select>
+            <button type="submit" disabled={isSavingAdmin} className="w-full py-2.5 px-4 bg-[#0e3a5e] hover:bg-[#123f66] text-white font-black rounded-xl transition-all shadow cursor-pointer disabled:opacity-50 flex items-center justify-center gap-1.5">
+              <Plus className="w-4 h-4" />
+              <span>{isSavingAdmin ? 'جاري الإضافة...' : 'إضافة المشرف'}</span>
+            </button>
+          </form>
+          <p className="text-[11px] text-slate-500">يمكن للماستر فقط إضافة المشرفين أو حذفهم. لا يمكن منح أي مشرف دور الماستر.</p>
+        </div>
+      ) : (
+        <div className="bg-slate-50 p-6 rounded-2xl border border-slate-200 shadow-sm">
+          <div className="flex items-start gap-3 text-right">
+            <Lock className="w-5 h-5 text-slate-500 shrink-0 mt-0.5" />
+            <div>
+              <h4 className="text-sm font-black text-slate-900">إدارة المشرفين مقصورة على الماستر</h4>
+              <p className="text-xs text-slate-600 mt-1 leading-relaxed">لا يمكن للمشرف الحالي إضافة أو حذف أو ترقية أي حساب.</p>
+            </div>
           </div>
         </div>
-      </div>
+      )}
 
       {/* Authorized Admins List */}
       <div className="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm space-y-4">

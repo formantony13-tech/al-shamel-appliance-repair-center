@@ -230,8 +230,14 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({
       const provider = new GoogleAuthProvider();
       provider.setCustomParameters({ prompt: 'select_account' });
       const result = await signInWithPopup(auth, provider);
+      const allowed = await checkIsAdmin(result.user);
       if (isMasterAdminEmail(result.user.email)) {
         await bootstrapMasterAdmin(result.user);
+      }
+      if (!allowed) {
+        await signOut(auth);
+        setLoginError('هذا الحساب غير مصرح له بالدخول. الماستر هو sobhye915@gmail.com ويمكنه تفويض المشرفين.');
+        return;
       }
       onShowToast('تم تسجيل الدخول بنجاح عبر حساب Google!', 'success');
     } catch (err: any) {

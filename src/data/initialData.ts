@@ -1,16 +1,16 @@
 import { RepairWork, CustomerReview, AppSystemSettings, ApplianceForSale } from '../types';
-import realAlaskaFreezer from '../assets/images/real_alaska_freezer_1788256277335.jpg';
-import silverWasherRepair from '../assets/images/silver_washer_repair_1788256297679.jpg';
-import samsungWasherBefore from '../assets/images/samsung_washer_before_1788256315096.jpg';
-import samsungWasherAfter from '../assets/images/samsung_washer_after_1788256332451.jpg';
-import fridgeRustBefore from '../assets/images/fridge_rust_before_1788256351312.jpg';
-import fridgeRestoredAfter from '../assets/images/fridge_restored_after_1788256368740.jpg';
-import sharpFridgeSale from '../assets/images/sharp_fridge_sale_1788359978990.jpg';
-import lgWasherSale from '../assets/images/lg_washer_sale_1788359996645.jpg';
-import kiriaziFreezerSale from '../assets/images/kiriazi_freezer_sale_1788360011974.jpg';
-import cookerStoveSale from '../assets/images/cooker_stove_sale_1788360063132.jpg';
-import realCompressorRepair from '../assets/images/real_compressor_repair_1788360027168.jpg';
-import realWasherBoardRepair from '../assets/images/real_washer_board_1788360044372.jpg';
+import realAlaskaFreezer from '../assets/images/real_alaska_freezer_1788256277335.webp';
+import silverWasherRepair from '../assets/images/silver_washer_repair_1788256297679.webp';
+import samsungWasherBefore from '../assets/images/samsung_washer_before_1788256315096.webp';
+import samsungWasherAfter from '../assets/images/samsung_washer_after_1788256332451.webp';
+import fridgeRustBefore from '../assets/images/fridge_rust_before_1788256351312.webp';
+import fridgeRestoredAfter from '../assets/images/fridge_restored_after_1788256368740.webp';
+import sharpFridgeSale from '../assets/images/sharp_fridge_sale_1788359978990.webp';
+import lgWasherSale from '../assets/images/lg_washer_sale_1788359996645.webp';
+import kiriaziFreezerSale from '../assets/images/kiriazi_freezer_sale_1788360011974.webp';
+import cookerStoveSale from '../assets/images/cooker_stove_sale_1788360063132.webp';
+import realCompressorRepair from '../assets/images/real_compressor_repair_1788360027168.webp';
+import realWasherBoardRepair from '../assets/images/real_washer_board_1788360044372.webp';
 
 export const INITIAL_SETTINGS: AppSystemSettings = {
   centerName: 'مركز قطب للحل السريع',

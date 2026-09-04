@@ -11,10 +11,10 @@ import {
   LOCATION_NAME 
 } from '../config';
 import { AppSystemSettings } from '../types';
-import realAlaskaFreezer from '../assets/images/real_alaska_freezer_1788256277335.jpg';
-import silverWasherRepair from '../assets/images/silver_washer_repair_1788256297679.jpg';
-import samsungWasherAfter from '../assets/images/samsung_washer_after_1788256332451.jpg';
-import fridgeRestoredAfter from '../assets/images/fridge_restored_after_1788256368740.jpg';
+import realAlaskaFreezer from '../assets/images/real_alaska_freezer_1788256277335.webp';
+import silverWasherRepair from '../assets/images/silver_washer_repair_1788256297679.webp';
+import samsungWasherAfter from '../assets/images/samsung_washer_after_1788256332451.webp';
+import fridgeRestoredAfter from '../assets/images/fridge_restored_after_1788256368740.webp';
 
 interface HeroProps {
   onOpenBooking: () => void;
@@ -45,7 +45,7 @@ export const Hero: React.FC<HeroProps> = ({ onOpenBooking, settings }) => {
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-12 items-center">
           
           {/* Main Hero Content (Right in RTL) */}
-          <div className="lg:col-span-7 text-right">
+          <div className="order-2 lg:order-none lg:col-span-7 text-right">
             
             {/* Top Badge: Experience & Speed */}
             <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-[#0e3a5e]/10 text-[#0e3a5e] text-xs sm:text-sm font-black mb-4 border border-[#0e3a5e]/15">
@@ -188,7 +188,7 @@ export const Hero: React.FC<HeroProps> = ({ onOpenBooking, settings }) => {
           </div>
 
           {/* Image Showcase Grid with REAL APPLIANCE PHOTOS (Left in RTL) */}
-          <div className="lg:col-span-5 relative">
+          <div className="order-1 lg:order-none lg:col-span-5 relative">
             <div className="grid grid-cols-2 gap-3 sm:gap-4">
               
               {/* Card 1: Deep Freezer / Chest Freezer Repair */}
@@ -196,6 +196,10 @@ export const Hero: React.FC<HeroProps> = ({ onOpenBooking, settings }) => {
                 <img
                   src={realAlaskaFreezer}
                   alt="صيانة ديب فريزر ألاسكا رأسي وأفقي"
+                  width="720"
+                  height="900"
+                  loading="lazy"
+                  decoding="async"
                   className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-[#0e3a5e]/95 via-[#0e3a5e]/30 to-transparent flex flex-col justify-end p-3.5 sm:p-4 text-white">
@@ -211,6 +215,10 @@ export const Hero: React.FC<HeroProps> = ({ onOpenBooking, settings }) => {
                 <img
                   src={fridgeRestoredAfter}
                   alt="تجديد ثلاجة بابين دوكو فرن وبارومة"
+                  width="720"
+                  height="900"
+                  loading="lazy"
+                  decoding="async"
                   className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-[#0e3a5e]/95 via-[#0e3a5e]/30 to-transparent flex flex-col justify-end p-3.5 sm:p-4 text-white">
@@ -226,6 +234,10 @@ export const Hero: React.FC<HeroProps> = ({ onOpenBooking, settings }) => {
                 <img
                   src={samsungWasherAfter}
                   alt="تجديد وصيانة غسالة سامسونج داياموند أوتوماتيك"
+                  width="720"
+                  height="900"
+                  loading="lazy"
+                  decoding="async"
                   className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-[#0e3a5e]/95 via-[#0e3a5e]/30 to-transparent flex flex-col justify-end p-3.5 sm:p-4 text-white">
@@ -241,6 +253,10 @@ export const Hero: React.FC<HeroProps> = ({ onOpenBooking, settings }) => {
                 <img
                   src={silverWasherRepair}
                   alt="صيانة غسالات أمامية وفوق أوتوماتيك"
+                  width="720"
+                  height="900"
+                  loading="lazy"
+                  decoding="async"
                   className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-[#0e3a5e]/95 via-[#0e3a5e]/30 to-transparent flex flex-col justify-end p-3.5 sm:p-4 text-white">
@@ -253,7 +269,7 @@ export const Hero: React.FC<HeroProps> = ({ onOpenBooking, settings }) => {
             </div>
 
             {/* Floating Rating Badge */}
-            <div className="absolute -bottom-4 right-1/2 translate-x-1/2 sm:translate-x-0 sm:right-4 bg-white/95 backdrop-blur-md rounded-2xl p-3.5 sm:p-4 shadow-xl border border-slate-200/80 flex items-center gap-3">
+            <div className="relative mt-3 w-fit max-w-full mx-auto sm:mx-0 sm:mt-0 sm:absolute sm:-bottom-4 sm:right-4 bg-white/95 backdrop-blur-md rounded-2xl p-3.5 sm:p-4 shadow-xl border border-slate-200/80 flex items-center gap-3">
               <div className="w-12 h-12 rounded-xl bg-[#0e3a5e] text-white flex items-center justify-center font-black text-lg shadow-sm">
                 4.9
               </div>
