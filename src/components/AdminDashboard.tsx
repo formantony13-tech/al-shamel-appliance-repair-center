@@ -17,6 +17,7 @@ import {
   FileSpreadsheet, 
   Sliders, 
   ShoppingBag,
+  DollarSign,
   X
 } from 'lucide-react';
 import { 
@@ -62,7 +63,7 @@ import {
   AppSystemSettings, 
   AdminUser 
 } from '../types';
-import { MASTER_ADMIN_EMAIL } from '../config';
+import { MASTER_ADMIN_EMAIL, isMasterAdminEmail } from '../config';
 
 // Import Separated Tab Components
 import { AdminOverviewTab } from './admin/AdminOverviewTab';
@@ -72,6 +73,7 @@ import { AdminCustomersTab } from './admin/AdminCustomersTab';
 import { AdminReviewsTab } from './admin/AdminReviewsTab';
 import { AdminWorksTab } from './admin/AdminWorksTab';
 import { ForSaleManager } from './admin/ForSaleManager';
+import { AdminPricingTab } from './admin/AdminPricingTab';
 import { AdminCustomizationTab } from './admin/AdminCustomizationTab';
 import { AdminAdminsTab } from './admin/AdminAdminsTab';
 import { AdminBackupTab } from './admin/AdminBackupTab';
@@ -106,7 +108,7 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({
 
   // Active Navigation Tab
   const [activeTab, setActiveTab] = useState<
-    'overview' | 'bookings' | 'repairs' | 'customers' | 'reviews' | 'works' | 'for_sale' | 'customization' | 'admins' | 'backup'
+    'overview' | 'bookings' | 'repairs' | 'customers' | 'reviews' | 'works' | 'for_sale' | 'pricing' | 'customization' | 'admins' | 'backup'
   >('overview');
 
   // Core Data States
@@ -132,8 +134,8 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({
       setIsAuthLoading(true);
       if (user) {
         setCurrentUser(user);
-        // Master owner auto-bootstrap
-        if (user.email && (user.email.toLowerCase() === MASTER_ADMIN_EMAIL.toLowerCase() || user.email.toLowerCase() === 'formantony13@gmail.com' || user.email.toLowerCase() === 'sobhye915@gmail.com')) {
+        // Master owner auto-bootstrap using single source of truth
+        if (user.email && isMasterAdminEmail(user.email)) {
           await bootstrapMasterAdmin(user);
         }
         const hasAdminPrivilege = await checkIsAdmin(user);
@@ -199,7 +201,7 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({
 
       if (isRegisterMode) {
         const userCredential = await createUserWithEmailAndPassword(auth, email, password);
-        if (userCredential.user.email?.toLowerCase() === MASTER_ADMIN_EMAIL.toLowerCase()) {
+        if (isMasterAdminEmail(userCredential.user.email)) {
           await bootstrapMasterAdmin(userCredential.user);
           onShowToast('تم إنشاء وتفعيل حساب المالك بنجاح!', 'success');
         } else {
@@ -207,7 +209,7 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({
         }
       } else {
         const userCredential = await signInWithEmailAndPassword(auth, email, password);
-        if (userCredential.user.email?.toLowerCase() === MASTER_ADMIN_EMAIL.toLowerCase()) {
+        if (isMasterAdminEmail(userCredential.user.email)) {
           await bootstrapMasterAdmin(userCredential.user);
         }
         onShowToast('تم تسجيل الدخول عبر Firebase Auth بنجاح', 'success');
@@ -237,7 +239,7 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({
       const provider = new GoogleAuthProvider();
       provider.setCustomParameters({ prompt: 'select_account' });
       const result = await signInWithPopup(auth, provider);
-      if (result.user.email?.toLowerCase() === MASTER_ADMIN_EMAIL.toLowerCase()) {
+      if (isMasterAdminEmail(result.user.email)) {
         await bootstrapMasterAdmin(result.user);
       }
       onShowToast('تم تسجيل الدخول بنجاح عبر حساب Google!', 'success');
@@ -396,7 +398,7 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({
   };
 
   const handleDeleteAdmin = async (admin: AdminUser) => {
-    if (admin.email.toLowerCase() === MASTER_ADMIN_EMAIL.toLowerCase()) {
+    if (isMasterAdminEmail(admin.email)) {
       onShowToast('لا يمكن حذف حساب المالك الرئيسي للنظام', 'error');
       return;
     }
@@ -677,6 +679,7 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({
             { id: 'reviews', label: 'مراجعة التقييمات', icon: Star, badge: pendingReviewsCount > 0 ? pendingReviewsCount : null },
             { id: 'works', label: 'معرض الأعمال', icon: ImageIcon, badge: works.length },
             { id: 'for_sale', label: 'المعروضات للبيع', icon: ShoppingBag, badge: 'جديد 🏷️' },
+            { id: 'pricing', label: 'دليل الأسعار المعتمدة', icon: DollarSign, badge: 'دليل 📋' },
             { id: 'customization', label: 'تخصيص الموقع والأرقام والصور', icon: Sliders, badge: 'جديد ✨' },
             { id: 'admins', label: 'صلاحيات المشرفين', icon: ShieldCheck, badge: adminsList.length },
             { id: 'backup', label: 'النسخ الاحتياطي والبيانات', icon: FileSpreadsheet, badge: null },
@@ -828,6 +831,11 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({
               onImportBackup={handleImportBackup}
               onShowToast={onShowToast}
             />
+          )}
+
+          {/* TAB 11: PRICING GUIDE */}
+          {activeTab === 'pricing' && (
+            <AdminPricingTab />
           )}
 
         </main>

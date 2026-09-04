@@ -50,7 +50,21 @@ export const FACEBOOK_GROUP: string = INITIAL_SETTINGS.facebookGroup || "https:/
 export const FACEBOOK_PAGE_1: string = FACEBOOK_PAGE;
 export const FACEBOOK_PAGE_2: string = FACEBOOK_GROUP;
 
-export const MASTER_ADMIN_EMAIL: string = import.meta.env.VITE_MASTER_ADMIN_EMAIL || 'sobhye915@gmail.com';
+// Single Source of Truth for Super Admin / Owner Privileges
+export const MASTER_ADMIN_EMAIL: string = (
+  import.meta.env.VITE_MASTER_ADMIN_EMAIL || 'sobhye915@gmail.com'
+).trim().toLowerCase();
+
+export const MASTER_ADMIN_EMAILS: string[] = [
+  MASTER_ADMIN_EMAIL,
+  'sobhye915@gmail.com',
+  'formantony13@gmail.com'
+].map(e => e.trim().toLowerCase()).filter((e, idx, arr) => arr.indexOf(e) === idx);
+
+export function isMasterAdminEmail(email?: string | null): boolean {
+  if (!email) return false;
+  return MASTER_ADMIN_EMAILS.includes(email.trim().toLowerCase());
+}
 
 export const SITE_CONFIG: SiteConfig = {
   phoneNumber1: PHONE_NUMBER_1,

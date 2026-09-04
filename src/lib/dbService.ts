@@ -44,6 +44,7 @@ import {
   AuditLogSchema
 } from './schemas';
 import { validateEgyptianPhone } from './validation';
+import { isMasterAdminEmail, MASTER_ADMIN_EMAIL } from '../config';
 import type { User } from 'firebase/auth';
 
 // Storage keys for offline resilience
@@ -99,18 +100,20 @@ function setLocalCache<T>(key: string, value: T): void {
   }
 }
 
-// Generate Standardized Unique Booking Code, e.g. BK-2026-04812
+// Generate Standardized Collision-Resistant Unique Booking Code, e.g. BK-2026-739412
 export function generateBookingId(): string {
   const year = new Date().getFullYear();
-  const randomNum = Math.floor(10000 + Math.random() * 90000);
-  return `BK-${year}-${randomNum}`;
+  const timeEntropy = Date.now().toString().slice(-3);
+  const randEntropy = Math.floor(100 + Math.random() * 900);
+  return `BK-${year}-${timeEntropy}${randEntropy}`;
 }
 
-// Generate Unique Repair Job Code, e.g. JOB-2026-08123
+// Generate Standardized Collision-Resistant Unique Repair Job Code, e.g. JOB-2026-739412
 export function generateRepairJobId(): string {
   const year = new Date().getFullYear();
-  const randomNum = Math.floor(10000 + Math.random() * 90000);
-  return `JOB-${year}-${randomNum}`;
+  const timeEntropy = Date.now().toString().slice(-3);
+  const randEntropy = Math.floor(100 + Math.random() * 900);
+  return `JOB-${year}-${timeEntropy}${randEntropy}`;
 }
 
 // Helper to determine tracking progress stage (1 to 4)
@@ -206,19 +209,13 @@ export async function fetchAllAuditLogs(): Promise<AuditLog[]> {
 // -------------------------------------------------------------
 // ADMIN ROLE VERIFICATION & BOOTSTRAP
 // -------------------------------------------------------------
-export const MASTER_OWNER_EMAIL: string = (
-  import.meta.env.VITE_MASTER_ADMIN_EMAIL || 'sobhye915@gmail.com'
-).trim().toLowerCase();
+export const MASTER_OWNER_EMAIL: string = MASTER_ADMIN_EMAIL;
 
 export async function checkIsAdmin(user: User | null): Promise<boolean> {
   if (!user) return false;
 
-  // Master owner email root-of-trust check
-  if (user.email && (
-    user.email.toLowerCase() === MASTER_OWNER_EMAIL.toLowerCase() || 
-    user.email.toLowerCase() === 'formantony13@gmail.com' || 
-    user.email.toLowerCase() === 'sobhye915@gmail.com'
-  )) {
+  // Master owner email root-of-trust check using unified single source of truth
+  if (user.email && isMasterAdminEmail(user.email)) {
     return true;
   }
 
@@ -435,6 +432,54 @@ export async function createBooking(data: {
   }
 
   return newBooking;
+}
+
+/**
+ * Synchronize offline/pending bookings to Firestore
+ */
+export async function syncPendingBookings(): Promise<number> {
+  const localBookings = getLocalCache<BookingRecord[]>(STORAGE_KEYS.BOOKINGS, []);
+  const pending = localBookings.filter(b => b.syncState === 'PENDING_SYNC' || b.syncState === 'SYNC_FAILED');
+  if (pending.length === 0) return 0;
+
+  let synced = 0;
+  for (const booking of pending) {
+    try {
+      const customerFirstName = booking.fullName.trim().split(' ')[0] || 'عميل';
+      const trackingRecord: BookingTrackingRecord = {
+        id: booking.id,
+        status: booking.status,
+        deviceType: booking.deviceType.trim(),
+        brand: booking.brand?.trim() || '',
+        preferredTime: booking.preferredTime || 'صباحاً (9 ص - 2 ظ)',
+        phoneLast4: booking.phoneNumber.slice(-4),
+        customerFirstName,
+        hasWarranty: false,
+        stage: calculateStageFromStatus(booking.status),
+        createdAt: booking.createdAt,
+        updatedAt: new Date().toISOString()
+      };
+
+      await Promise.all([
+        setDoc(doc(db, COLLECTIONS.BOOKINGS, booking.id), { ...booking, syncState: 'SYNCED', updatedAt: new Date().toISOString() }),
+        setDoc(doc(db, COLLECTIONS.BOOKING_TRACKING, booking.id), trackingRecord)
+      ]);
+      booking.syncState = 'SYNCED';
+      synced++;
+    } catch {
+      booking.syncState = 'SYNC_FAILED';
+    }
+  }
+
+  setLocalCache(STORAGE_KEYS.BOOKINGS, localBookings);
+  return synced;
+}
+
+// Auto-sync listener when browser reconnects to internet
+if (typeof window !== 'undefined') {
+  window.addEventListener('online', () => {
+    syncPendingBookings().catch(() => {});
+  });
 }
 
 /**

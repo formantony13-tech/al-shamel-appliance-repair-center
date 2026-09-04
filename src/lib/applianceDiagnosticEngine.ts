@@ -1,7 +1,7 @@
 /**
- * Smart Diagnostic & Technician AI Assistant for Qotb Maintenance Center
+ * Smart Diagnostic & Technician Knowledge Engine for Appliance Faults
  * Analyzes reported symptoms and provides instant technical diagnosis, probable root cause,
- * recommended parts, and estimated repair duration.
+ * recommended parts, and estimated repair duration based on 30+ years of repair expertise.
  */
 
 export interface DiagnosticResult {
@@ -19,12 +19,12 @@ export interface DiagnosticResult {
 export async function diagnoseApplianceFault(
   deviceType: string,
   problemDescription: string,
-  brand = ''
+  _brand = ''
 ): Promise<DiagnosticResult> {
   const desc = problemDescription.toLowerCase();
   const dev = deviceType.toLowerCase();
 
-  // Rule-based high accuracy diagnostic knowledge base tailored to Qotb Center's 30-year expertise
+  // Rule-based high accuracy diagnostic knowledge base
   if (dev.includes('غسال') || dev.includes('washer')) {
     if (desc.includes('صوت') || desc.includes('عصر') || desc.includes('خض') || desc.includes('خشونة') || desc.includes('طرد')) {
       return {

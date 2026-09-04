@@ -15,7 +15,7 @@ import {
   Lightbulb
 } from 'lucide-react';
 import { RepairJob, BookingRecord } from '../../types';
-import { diagnoseApplianceFault, DiagnosticResult } from '../../lib/geminiDiagnostic';
+import { diagnoseApplianceFault, DiagnosticResult } from '../../lib/applianceDiagnosticEngine';
 
 interface AdminRepairsTabProps {
   repairJobs: RepairJob[];

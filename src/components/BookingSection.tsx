@@ -10,6 +10,7 @@ import {
   Sparkles,
   CheckCircle2,
   AlertCircle,
+  AlertTriangle,
   Upload,
   Trash2,
   MessageCircle,
@@ -83,6 +84,7 @@ export const BookingSection: React.FC<BookingSectionProps> = ({
   const [appliancePhoto, setAppliancePhoto] = useState<string>('');
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [confirmedBooking, setConfirmedBooking] = useState<BookingRecord | null>(null);
+  const [fallbackWhatsAppUrl, setFallbackWhatsAppUrl] = useState<string | null>(null);
 
   const popularBranches = [
     'محافظة البحيرة (دمنهور، أبو المطامير، كفر الدوار...)',
@@ -218,7 +220,20 @@ _تم تسجيل الطلب في قاعدة بيانات المركز بأبو �
     } catch (error: any) {
       console.error('Error creating booking:', error);
       const friendlyMsg = getArabicFirebaseErrorMessage(error);
-      onShowToast(friendlyMsg || 'حدث خطأ أثناء حفظ الحجز في قاعدة البيانات، يرجى المحاولة مرة أخرى أو الاتصال المباشر', 'error');
+      const targetPhone = selectedTargetNumber === '1' ? PHONE_NUMBER_1 : PHONE_NUMBER_2;
+      const fallbackMsg = `*طلب صيانة عاجل (إرسال مباشر عبر واتساب)* 🛠️
+━━━━━━━━━━━━━━━━━━
+👤 *الاسم:* ${formData.fullName.trim()}
+📱 *الموبايل:* ${formData.phoneNumber.trim()}
+📍 *العنوان:* ${formData.address.trim()}
+🔌 *الجهاز:* ${formData.deviceType} ${formData.brand ? `(${formData.brand.trim()})` : ''}
+⏰ *الموعد المطلوب:* ${formData.preferredTime}
+📝 *وصف العطل:*
+${formData.issueDescription.trim()}
+━━━━━━━━━━━━━━━━━━`;
+      const fallbackUrl = `https://wa.me/${targetPhone}?text=${encodeURIComponent(fallbackMsg)}`;
+      setFallbackWhatsAppUrl(fallbackUrl);
+      onShowToast(friendlyMsg || 'تعذر الاتصال بالسيرفر، اضغط على زر الواتساب بالأسفل لإرسال بياناتك فوراً للمهندس دون أي تأخير', 'error');
     } finally {
       setIsSubmitting(false);
     }
@@ -277,6 +292,12 @@ _تم تسجيل الطلب في قاعدة بيانات المركز بأبو �
                     </button>
                   </div>
 
+                  {confirmedBooking.syncState === 'PENDING_SYNC' && (
+                    <div className="p-3.5 bg-amber-50 border border-amber-200 rounded-2xl text-xs text-amber-900 font-bold text-right">
+                      ⚠️ تم حفظ طلبك محلياً في هاتفك/جهازك لضعف شبكة الإنترنت، وسيتزامن تلقائياً مع السيرفر فور استقرار الاتصال. يمكنك تأكيد الموعد فوراً عبر زر الواتساب أدناه.
+                    </div>
+                  )}
+
                   <div className="flex flex-col sm:flex-row items-center justify-center gap-3 pt-2">
                     {onViewWarrantyCertificate && (
                       <button
@@ -323,6 +344,27 @@ _تم تسجيل الطلب في قاعدة بيانات المركز بأبو �
               ) : (
                 /* MAIN BOOKING FORM */
                 <div>
+                  {fallbackWhatsAppUrl && (
+                    <div className="mb-6 p-4 rounded-2xl bg-amber-50 border-2 border-amber-300 text-right space-y-2.5 animate-fadeIn">
+                      <div className="flex items-center gap-2 text-amber-900 font-black text-sm">
+                        <AlertTriangle className="w-5 h-5 text-amber-600 shrink-0" />
+                        <span>تعذر إرسال الحجز للسيرفر السحابي</span>
+                      </div>
+                      <p className="text-xs text-amber-800 font-semibold leading-relaxed">
+                        لا تقلق! تم تجهيز بيانات حجزك بالكامل. اضغط على الزر التالي لإرسالها فوراً للمهندس المسؤول عبر الواتساب لتحديد الموعد فوراً:
+                      </p>
+                      <a
+                        href={fallbackWhatsAppUrl}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="inline-flex items-center justify-center gap-2 w-full py-3 px-4 rounded-xl bg-[#25D366] hover:bg-[#20ba59] text-white font-black text-sm shadow-md transition-transform active:scale-95"
+                      >
+                        <MessageSquare className="w-4 h-4" />
+                        <span>إرسال الطلب الآن عبر واتساب مباشرة 💬</span>
+                      </a>
+                    </div>
+                  )}
+
                   <div className="text-right mb-8">
                     <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2.5 mb-3">
                       <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-[#ff7a00]/10 text-[#ff7a00] text-xs font-black uppercase tracking-wider w-fit">
