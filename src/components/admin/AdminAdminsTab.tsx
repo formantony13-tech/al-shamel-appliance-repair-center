@@ -17,7 +17,7 @@ interface AdminAdminsTabProps {
   currentAdminUid?: string;
   isMasterAdmin: boolean;
   adminsList: AdminUser[];
-  onAddAdmin: (email: string, displayName: string, role: 'SUPER_ADMIN' | 'ADMIN' | 'MANAGER') => Promise<void>;
+  onAddAdmin: (uid: string, email: string, displayName: string, role: 'SUPER_ADMIN' | 'ADMIN' | 'MANAGER') => Promise<void>;
   onDeleteAdmin: (admin: AdminUser) => Promise<void>;
   onRunSecurityAudit: () => Promise<void>;
   auditReport: Array<{ name: string; category: string; passed: boolean; details: string }> | null;
@@ -39,17 +39,19 @@ export const AdminAdminsTab: React.FC<AdminAdminsTabProps> = ({
   isSavingAdmin,
   onShowToast
 }) => {
+  const [newUid, setNewUid] = useState('');
   const [newEmail, setNewEmail] = useState('');
   const [newDisplayName, setNewDisplayName] = useState('');
   const [newRole, setNewRole] = useState<'SUPER_ADMIN' | 'ADMIN' | 'MANAGER'>('ADMIN');
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!newEmail.trim()) {
-      onShowToast('يرجى كتابة البريد الإلكتروني للمشرف', 'error');
+    if (!newUid.trim() || !newEmail.trim()) {
+      onShowToast('يرجى كتابة UID والبريد الإلكتروني لحساب Firebase', 'error');
       return;
     }
-    await onAddAdmin(newEmail.trim(), newDisplayName.trim(), newRole);
+    await onAddAdmin(newUid.trim(), newEmail.trim(), newDisplayName.trim(), newRole);
+    setNewUid('');
     setNewEmail('');
     setNewDisplayName('');
     setNewRole('ADMIN');
@@ -110,7 +112,8 @@ export const AdminAdminsTab: React.FC<AdminAdminsTabProps> = ({
             <Plus className="w-4 h-4 text-[#ff7a00]" />
             <span>إضافة مشرف من حساب الماستر</span>
           </h4>
-          <form onSubmit={handleSubmit} className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 text-xs">
+          <form onSubmit={handleSubmit} className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-3 text-xs">
+            <input type="text" required value={newUid} onChange={(e) => setNewUid(e.target.value)} placeholder="Firebase UID" className="w-full p-2.5 rounded-xl border border-slate-200 outline-none focus:border-[#0e3a5e]" dir="ltr" />
             <input type="email" required value={newEmail} onChange={(e) => setNewEmail(e.target.value)} placeholder="engineer@gmail.com" className="w-full p-2.5 rounded-xl border border-slate-200 outline-none focus:border-[#0e3a5e]" />
             <input type="text" value={newDisplayName} onChange={(e) => setNewDisplayName(e.target.value)} placeholder="اسم المشرف / المهندس" className="w-full p-2.5 rounded-xl border border-slate-200 outline-none focus:border-[#0e3a5e]" />
             <select value={newRole} onChange={(e) => setNewRole(e.target.value as 'ADMIN' | 'MANAGER')} className="w-full p-2.5 rounded-xl border border-slate-200 bg-white">
@@ -122,7 +125,7 @@ export const AdminAdminsTab: React.FC<AdminAdminsTabProps> = ({
               <span>{isSavingAdmin ? 'جاري الإضافة...' : 'إضافة المشرف'}</span>
             </button>
           </form>
-          <p className="text-[11px] text-slate-500">يمكن للماستر فقط إضافة المشرفين أو حذفهم. لا يمكن منح أي مشرف دور الماستر.</p>
+          <p className="text-[11px] text-slate-500">أدخل UID حساب Firebase الحقيقي للمشرف مع بريده. يمكن للماستر فقط إضافة المشرفين أو حذفهم، ولا يمكن منح أي مشرف دور الماستر.</p>
         </div>
       ) : (
         <div className="bg-slate-50 p-6 rounded-2xl border border-slate-200 shadow-sm">

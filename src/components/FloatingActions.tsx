@@ -96,7 +96,7 @@ _أبو المطامير - محافظة البحيرة_`;
   return (
     <>
       {/* Floating Buttons Container - Bottom Left (RTL Friendly) */}
-      <div id="floating-actions" className="fixed bottom-[calc(1rem+env(safe-area-inset-bottom))] left-3 sm:left-6 z-40 flex flex-col items-center gap-2 sm:gap-3 max-w-[calc(100vw-1.5rem)]">
+      <div id="floating-actions" className="fixed bottom-5 left-4 sm:left-6 z-40 flex flex-col items-center gap-3">
         
         {/* Scroll To Top Button */}
         {showScrollTop && (
@@ -129,7 +129,7 @@ _أبو المطامير - محافظة البحيرة_`;
           {/* Expanded Menu */}
           {isMenuOpen && (
             <div 
-              className="absolute bottom-16 left-0 bg-white/95 backdrop-blur-md rounded-3xl shadow-2xl border border-slate-200 p-3 w-[min(280px,calc(100vw-1.5rem))] flex flex-col gap-2 animate-fadeIn text-right z-50"
+              className="absolute bottom-16 left-0 bg-white/95 backdrop-blur-md rounded-3xl shadow-2xl border border-slate-200 p-3 min-w-[260px] sm:min-w-[280px] flex flex-col gap-2 animate-fadeIn text-right z-50"
               onClick={(e) => e.stopPropagation()}
             >
               <div className="flex items-center justify-between px-2 pb-1 border-b border-slate-100">

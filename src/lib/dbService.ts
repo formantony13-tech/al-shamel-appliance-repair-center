@@ -214,7 +214,6 @@ export const MASTER_OWNER_EMAIL: string = MASTER_ADMIN_EMAIL;
 export async function checkIsAdmin(user: User | null): Promise<boolean> {
   if (!user) return false;
   if (user.email && isMasterAdminEmail(user.email)) return true;
-  if (user.email?.trim().toLowerCase() === 'formantony13@gmail.com') return false;
 
   try {
     const snap = await getDoc(doc(db, COLLECTIONS.ADMINS, user.uid));
@@ -238,8 +237,19 @@ export async function bootstrapMasterAdmin(user: User): Promise<void> {
   try {
     AdminUserSchema.parse(adminData);
     await setDoc(doc(db, COLLECTIONS.ADMINS, user.uid), adminData, { merge: true });
+    await cleanupLegacyAdminRecords();
   } catch (error) {
     console.warn('Could not bootstrap admin record in Firestore:', error);
+  }
+}
+
+async function cleanupLegacyAdminRecords(): Promise<void> {
+  try {
+    const snap = await getDocs(collection(db, COLLECTIONS.ADMINS));
+    const legacyDocs = snap.docs.filter(d => (d.data() as AdminUser).email?.trim().toLowerCase() === 'formantony13@gmail.com');
+    await Promise.all(legacyDocs.map(d => deleteDoc(d.ref)));
+  } catch (error) {
+    console.warn('Could not clean legacy admin records:', error);
   }
 }
 

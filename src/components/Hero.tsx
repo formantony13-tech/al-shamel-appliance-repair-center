@@ -45,7 +45,7 @@ export const Hero: React.FC<HeroProps> = ({ onOpenBooking, settings }) => {
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-12 items-center">
           
           {/* Main Hero Content (Right in RTL) */}
-          <div className="order-2 lg:order-none lg:col-span-7 text-right">
+          <div className="lg:col-span-7 text-right">
             
             {/* Top Badge: Experience & Speed */}
             <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-[#0e3a5e]/10 text-[#0e3a5e] text-xs sm:text-sm font-black mb-4 border border-[#0e3a5e]/15">
@@ -188,7 +188,7 @@ export const Hero: React.FC<HeroProps> = ({ onOpenBooking, settings }) => {
           </div>
 
           {/* Image Showcase Grid with REAL APPLIANCE PHOTOS (Left in RTL) */}
-          <div className="order-1 lg:order-none lg:col-span-5 relative">
+          <div className="lg:col-span-5 relative">
             <div className="grid grid-cols-2 gap-3 sm:gap-4">
               
               {/* Card 1: Deep Freezer / Chest Freezer Repair */}
@@ -269,7 +269,7 @@ export const Hero: React.FC<HeroProps> = ({ onOpenBooking, settings }) => {
             </div>
 
             {/* Floating Rating Badge */}
-            <div className="relative mt-3 w-fit max-w-full mx-auto sm:mx-0 sm:mt-0 sm:absolute sm:-bottom-4 sm:right-4 bg-white/95 backdrop-blur-md rounded-2xl p-3.5 sm:p-4 shadow-xl border border-slate-200/80 flex items-center gap-3">
+            <div className="absolute -bottom-4 right-1/2 translate-x-1/2 sm:translate-x-0 sm:right-4 bg-white/95 backdrop-blur-md rounded-2xl p-3.5 sm:p-4 shadow-xl border border-slate-200/80 flex items-center gap-3">
               <div className="w-12 h-12 rounded-xl bg-[#0e3a5e] text-white flex items-center justify-center font-black text-lg shadow-sm">
                 4.9
               </div>

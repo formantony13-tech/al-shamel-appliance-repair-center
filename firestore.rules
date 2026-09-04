@@ -38,8 +38,7 @@ service cloud.firestore {
     function isAdmin() {
       return isOwner() || (isEmailVerified() && exists(/databases/$(database)/documents/admins/$(request.auth.uid)) &&
         get(/databases/$(database)/documents/admins/$(request.auth.uid)).data.email == request.auth.token.email &&
-        get(/databases/$(database)/documents/admins/$(request.auth.uid)).data.email != 'sobhye915@gmail.com' &&
-        get(/databases/$(database)/documents/admins/$(request.auth.uid)).data.email != 'formantony13@gmail.com');
+        get(/databases/$(database)/documents/admins/$(request.auth.uid)).data.email != 'sobhye915@gmail.com');
     }
 
     function isSuperAdmin() {
@@ -209,10 +208,10 @@ service cloud.firestore {
       allow get: if isSignedIn() && (request.auth.uid == adminId || isAdmin());
       allow list: if isAdmin();
       allow create: if isSuperAdmin() && isValidId(adminId) &&
-                       incoming().email is string && incoming().email != 'sobhye915@gmail.com' && incoming().email != 'formantony13@gmail.com' &&
+                       incoming().email is string && incoming().email != 'sobhye915@gmail.com' &&
                        incoming().role in ['ADMIN', 'MANAGER', 'TECHNICIAN'] && isValidAdmin(incoming());
       allow update: if isSuperAdmin() && isValidId(adminId) && adminId != request.auth.uid &&
-                       incoming().email is string && incoming().email != 'sobhye915@gmail.com' && incoming().email != 'formantony13@gmail.com' &&
+                       incoming().email is string && incoming().email != 'sobhye915@gmail.com' &&
                        incoming().role in ['ADMIN', 'MANAGER', 'TECHNICIAN'] && isValidAdmin(incoming());
       allow delete: if isSuperAdmin() && isValidId(adminId) && adminId != request.auth.uid;
     }

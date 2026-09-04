@@ -203,7 +203,7 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({
         onShowToast('تم تسجيل الدخول وتحقق المالك بنجاح', 'success');
       } else {
         await signOut(auth);
-        setLoginError('هذا الحساب غير مصرح له بالدخول. المالك الوحيد هو sobhye915@gmail.com');
+        setLoginError('هذا الحساب غير مصرح له بالدخول إلى لوحة الإدارة.');
       }
     } catch (err: any) {
       console.error('Firebase Auth Error:', err);
@@ -215,8 +215,10 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({
         setLoginError('كلمة المرور ضعيفة، يجب أن تكون 6 أحرف على الأقل');
       } else if (err.code === 'auth/invalid-email') {
         setLoginError('صيغة البريد الإلكتروني غير صالحة');
+      } else if (err.code === 'auth/unauthorized-domain') {
+        setLoginError('تسجيل Google غير متاح من هذا النطاق حالياً. استخدم الدخول بالبريد وكلمة المرور أو تواصل مع مسؤول النظام.');
       } else {
-        setLoginError(err?.message || 'فشل تسجيل الدخول عبر Firebase Auth');
+        setLoginError('تعذر تسجيل الدخول حالياً. حاول مرة أخرى.');
       }
     } finally {
       setIsLoggingIn(false);
@@ -236,14 +238,18 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({
       }
       if (!allowed) {
         await signOut(auth);
-        setLoginError('هذا الحساب غير مصرح له بالدخول. الماستر هو sobhye915@gmail.com ويمكنه تفويض المشرفين.');
+        setLoginError('هذا الحساب غير مصرح له بالدخول إلى لوحة الإدارة.');
         return;
       }
       onShowToast('تم تسجيل الدخول بنجاح عبر حساب Google!', 'success');
     } catch (err: any) {
       console.error('Google Sign-In Error:', err);
       if (err.code !== 'auth/popup-closed-by-user') {
-        setLoginError('تعذر تسجيل الدخول عبر Google: ' + (err?.message || ''));
+        if (err.code === 'auth/unauthorized-domain') {
+          setLoginError('تسجيل Google غير متاح من هذا النطاق حالياً. استخدم الدخول بالبريد وكلمة المرور أو تواصل مع مسؤول النظام.');
+        } else {
+          setLoginError('تعذر تسجيل الدخول عبر Google حالياً. حاول مرة أخرى.');
+        }
       }
     } finally {
       setIsGoogleLoggingIn(false);
@@ -376,11 +382,11 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({
   };
 
   // Admin Management Handlers
-  const handleAddAdmin = async (email: string, displayName: string, role: 'SUPER_ADMIN' | 'ADMIN' | 'MANAGER') => {
+  const handleAddAdmin = async (uid: string, email: string, displayName: string, role: 'SUPER_ADMIN' | 'ADMIN' | 'MANAGER') => {
     setIsSavingAdmin(true);
     try {
       const newAdmin = await createAdminUser({
-        id: `admin_${Date.now()}`,
+        id: uid,
         email,
         displayName,
         role
