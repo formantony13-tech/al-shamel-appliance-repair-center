@@ -104,61 +104,18 @@ export const AdminAdminsTab: React.FC<AdminAdminsTabProps> = ({
         </div>
       </div>
 
-      {/* Add New Admin Form */}
-      <div className="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm space-y-4">
-        <h4 className="text-sm font-black text-slate-900 flex items-center gap-2">
-          <Plus className="w-4 h-4 text-[#ff7a00]" />
-          <span>إضافة حساب مشرف جديد أو تفويض فني</span>
-        </h4>
-        
-        <form onSubmit={handleSubmit} className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 text-xs">
+      {/* Owner-only policy notice */}
+      <div className="bg-emerald-50 p-6 rounded-2xl border border-emerald-200 shadow-sm">
+        <div className="flex items-start gap-3 text-right">
+          <Lock className="w-5 h-5 text-emerald-700 shrink-0 mt-0.5" />
           <div>
-            <label className="font-bold text-slate-700 block mb-1">البريد الإلكتروني (Gmail أو مسجل)</label>
-            <input
-              type="email"
-              required
-              value={newEmail}
-              onChange={(e) => setNewEmail(e.target.value)}
-              placeholder="engineer@gmail.com"
-              className="w-full p-2.5 rounded-xl border border-slate-200 outline-none focus:border-[#0e3a5e]"
-            />
+            <h4 className="text-sm font-black text-emerald-950">سياسة دخول المالك فقط</h4>
+            <p className="text-xs text-emerald-900 mt-1 leading-relaxed">
+              تم إيقاف إضافة أو تفويض أي مشرف جديد. الحساب الوحيد المسموح له بإدارة الموقع هو
+              <strong className="font-mono mx-1">{MASTER_ADMIN_EMAIL}</strong>، ويتم تطبيق ذلك في الواجهة وقواعد Firestore معاً.
+            </p>
           </div>
-
-          <div>
-            <label className="font-bold text-slate-700 block mb-1">اسم المشرف / المهندس</label>
-            <input
-              type="text"
-              value={newDisplayName}
-              onChange={(e) => setNewDisplayName(e.target.value)}
-              placeholder="مثال: م. أحمد الصاوي"
-              className="w-full p-2.5 rounded-xl border border-slate-200 outline-none focus:border-[#0e3a5e]"
-            />
-          </div>
-
-          <div>
-            <label className="font-bold text-slate-700 block mb-1">مستوى الصلاحية (Role)</label>
-            <select
-              value={newRole}
-              onChange={(e) => setNewRole(e.target.value as any)}
-              className="w-full p-2.5 rounded-xl border border-slate-200 bg-white"
-            >
-              <option value="ADMIN">مشرف إدارة كاملة (Admin)</option>
-              <option value="MANAGER">مدير عمليات ومتابعة (Manager)</option>
-              <option value="SUPER_ADMIN">مدير عام للنظام (Super Admin)</option>
-            </select>
-          </div>
-
-          <div className="flex items-end">
-            <button
-              type="submit"
-              disabled={isSavingAdmin}
-              className="w-full py-2.5 px-4 bg-[#0e3a5e] hover:bg-[#123f66] text-white font-black rounded-xl transition-all shadow cursor-pointer disabled:opacity-50 flex items-center justify-center gap-1.5"
-            >
-              <Plus className="w-4 h-4" />
-              <span>{isSavingAdmin ? 'جاري الإضافة...' : 'إضافة وتوثيق المشرف'}</span>
-            </button>
-          </div>
-        </form>
+        </div>
       </div>
 
       {/* Authorized Admins List */}
@@ -310,7 +267,7 @@ export const AdminAdminsTab: React.FC<AdminAdminsTabProps> = ({
             <div>
               <span className="font-bold text-slate-800 block">إدارة البريد الإلكتروني الرئيسي عبر متغيرات البيئة</span>
               <span className="text-[11px] text-slate-500">
-                البريد الإلكتروني للمدير الرئيسي معرف بأمان في <code className="bg-slate-200 px-1 py-0.5 rounded text-slate-800">VITE_MASTER_ADMIN_EMAIL</code>، مما يحمي النظام من أي تعديل غير مصرح به.
+                البريد الوحيد المسموح به مثبت في سياسة الأمان هو <code className="bg-slate-200 px-1 py-0.5 rounded text-slate-800">sobhye915@gmail.com</code>، ويتم التحقق منه في التطبيق وقواعد Firebase معاً.
               </span>
             </div>
           </div>

@@ -30,20 +30,18 @@ service cloud.firestore {
       return isSignedIn() && request.auth.token.email_verified == true;
     }
 
-    // Primary Admin check using secure Firestore Admin role document or verified owner email
+    // Owner-only policy: a verified sobhye915@gmail.com session is the sole administrator.
+    // Do not trust editable admin documents or environment-configured email lists.
+    function isOwner() {
+      return isEmailVerified() && request.auth.token.email == 'sobhye915@gmail.com';
+    }
+
     function isAdmin() {
-      return isSignedIn() && (
-        exists(/databases/$(database)/documents/admins/$(request.auth.uid)) ||
-        (isEmailVerified() && (request.auth.token.email == 'sobhye915@gmail.com' || request.auth.token.email == 'formantony13@gmail.com'))
-      );
+      return isOwner();
     }
 
     function isSuperAdmin() {
-      return isSignedIn() && (
-        (exists(/databases/$(database)/documents/admins/$(request.auth.uid)) && 
-         get(/databases/$(database)/documents/admins/$(request.auth.uid)).data.role == 'SUPER_ADMIN') ||
-        (isEmailVerified() && (request.auth.token.email == 'sobhye915@gmail.com' || request.auth.token.email == 'formantony13@gmail.com'))
-      );
+      return isOwner();
     }
 
     // -------------------------------------------------------------
@@ -208,11 +206,13 @@ service cloud.firestore {
     match /admins/{adminId} {
       allow get: if isSignedIn() && (request.auth.uid == adminId || isAdmin());
       allow list: if isAdmin();
-      allow create: if isValidId(adminId) && 
-                       (isSuperAdmin() || (isEmailVerified() && (request.auth.token.email == 'formantony13@gmail.com' || request.auth.token.email == 'sobhye915@gmail.com'))) &&
-                       isValidAdmin(incoming());
-      allow update: if isValidId(adminId) && isSuperAdmin() && isValidAdmin(incoming());
-      allow delete: if isValidId(adminId) && isSuperAdmin() && request.auth.uid != adminId;
+      allow create: if isOwner() && adminId == request.auth.uid &&
+                       isValidAdmin(incoming()) && incoming().email == 'sobhye915@gmail.com' &&
+                       incoming().role == 'SUPER_ADMIN';
+      allow update: if isOwner() && adminId == request.auth.uid &&
+                       isValidAdmin(incoming()) && incoming().email == 'sobhye915@gmail.com' &&
+                       incoming().role == 'SUPER_ADMIN';
+      allow delete: if false;
     }
 
     // -------------------------------------------------------------

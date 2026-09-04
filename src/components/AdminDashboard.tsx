@@ -46,7 +46,6 @@ import {
 import { 
   auth,
   signInWithEmailAndPassword,
-  createUserWithEmailAndPassword,
   signInWithPopup,
   GoogleAuthProvider,
   signOut,
@@ -101,7 +100,6 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({
   // Login Form States
   const [loginEmail, setLoginEmail] = useState('');
   const [loginPassword, setLoginPassword] = useState('');
-  const [isRegisterMode, setIsRegisterMode] = useState(false);
   const [loginError, setLoginError] = useState('');
   const [isLoggingIn, setIsLoggingIn] = useState(false);
   const [isGoogleLoggingIn, setIsGoogleLoggingIn] = useState(false);
@@ -199,20 +197,13 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({
       const email = loginEmail.trim();
       const password = loginPassword.trim();
 
-      if (isRegisterMode) {
-        const userCredential = await createUserWithEmailAndPassword(auth, email, password);
-        if (isMasterAdminEmail(userCredential.user.email)) {
-          await bootstrapMasterAdmin(userCredential.user);
-          onShowToast('تم إنشاء وتفعيل حساب المالك بنجاح!', 'success');
-        } else {
-          onShowToast('تم إنشاء الحساب بنجاح، بانتظار تفعيل صلاحية المشرف', 'info');
-        }
+      const userCredential = await signInWithEmailAndPassword(auth, email, password);
+      if (isMasterAdminEmail(userCredential.user.email)) {
+        await bootstrapMasterAdmin(userCredential.user);
+        onShowToast('تم تسجيل الدخول وتحقق المالك بنجاح', 'success');
       } else {
-        const userCredential = await signInWithEmailAndPassword(auth, email, password);
-        if (isMasterAdminEmail(userCredential.user.email)) {
-          await bootstrapMasterAdmin(userCredential.user);
-        }
-        onShowToast('تم تسجيل الدخول عبر Firebase Auth بنجاح', 'success');
+        await signOut(auth);
+        setLoginError('هذا الحساب غير مصرح له بالدخول. المالك الوحيد هو sobhye915@gmail.com');
       }
     } catch (err: any) {
       console.error('Firebase Auth Error:', err);
@@ -580,27 +571,13 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({
             >
               <ShieldCheck className="w-4 h-4 text-[#ff7a00]" />
               <span>
-                {isLoggingIn 
-                  ? 'جاري التحقق...' 
-                  : isRegisterMode 
-                    ? 'تسجيل حساب مشرف جديد' 
-                    : 'تسجيل الدخول'}
+                {isLoggingIn ? 'جاري التحقق...' : 'تسجيل الدخول'}
               </span>
             </button>
           </form>
 
-          <div className="mt-5 flex items-center justify-between text-xs text-slate-500 font-bold border-t border-slate-100 pt-4">
-            <span>{isRegisterMode ? 'لديك حساب مسجل بالفعل؟' : 'هل تحتاج لإنشاء حساب مشرف؟'}</span>
-            <button
-              type="button"
-              onClick={() => {
-                setIsRegisterMode(!isRegisterMode);
-                setLoginError('');
-              }}
-              className="text-[#0e3a5e] hover:text-[#ff7a00] font-black underline cursor-pointer"
-            >
-              {isRegisterMode ? 'تسجيل الدخول' : 'إنشاء حساب جديد'}
-            </button>
+          <div className="mt-5 text-center text-xs text-slate-500 font-bold border-t border-slate-100 pt-4">
+            الدخول متاح للمالك المعتمد فقط: <span className="font-mono text-slate-700">{MASTER_ADMIN_EMAIL}</span>
           </div>
 
           <div className="mt-4 text-center">

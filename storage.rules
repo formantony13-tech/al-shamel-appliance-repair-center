@@ -16,10 +16,7 @@ service firebase.storage {
     }
     
     function isAdmin() {
-      return isSignedIn() && (
-        firestore.exists(/databases/(default)/documents/admins/$(request.auth.uid)) ||
-        (isEmailVerified() && (request.auth.token.email == 'sobhye915@gmail.com' || request.auth.token.email == 'formantony13@gmail.com'))
-      );
+      return isEmailVerified() && request.auth.token.email == 'sobhye915@gmail.com';
     }
 
     function isValidImageExtension(fileName) {

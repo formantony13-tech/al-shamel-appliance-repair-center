@@ -51,19 +51,13 @@ export const FACEBOOK_PAGE_1: string = FACEBOOK_PAGE;
 export const FACEBOOK_PAGE_2: string = FACEBOOK_GROUP;
 
 // Single Source of Truth for Super Admin / Owner Privileges
-export const MASTER_ADMIN_EMAIL: string = (
-  import.meta.env.VITE_MASTER_ADMIN_EMAIL || 'sobhye915@gmail.com'
-).trim().toLowerCase();
-
-export const MASTER_ADMIN_EMAILS: string[] = [
-  MASTER_ADMIN_EMAIL,
-  'sobhye915@gmail.com',
-  'formantony13@gmail.com'
-].map(e => e.trim().toLowerCase()).filter((e, idx, arr) => arr.indexOf(e) === idx);
+// سياسة المالك الوحيدة: لا تعتمد صلاحية الإدارة على متغيرات بيئة أو قائمة بريد قابلة للتوسعة.
+// يجب أن يتطابق البريد حرفياً (مع تجاهل حالة الأحرف والمسافات) مع حساب المالك.
+export const MASTER_ADMIN_EMAIL = 'sobhye915@gmail.com';
+export const MASTER_ADMIN_EMAILS = [MASTER_ADMIN_EMAIL];
 
 export function isMasterAdminEmail(email?: string | null): boolean {
-  if (!email) return false;
-  return MASTER_ADMIN_EMAILS.includes(email.trim().toLowerCase());
+  return Boolean(email && email.trim().toLowerCase() === MASTER_ADMIN_EMAIL);
 }
 
 export const SITE_CONFIG: SiteConfig = {

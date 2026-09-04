@@ -212,20 +212,8 @@ export async function fetchAllAuditLogs(): Promise<AuditLog[]> {
 export const MASTER_OWNER_EMAIL: string = MASTER_ADMIN_EMAIL;
 
 export async function checkIsAdmin(user: User | null): Promise<boolean> {
-  if (!user) return false;
-
-  // Master owner email root-of-trust check using unified single source of truth
-  if (user.email && isMasterAdminEmail(user.email)) {
-    return true;
-  }
-
-  try {
-    const adminDocRef = doc(db, COLLECTIONS.ADMINS, user.uid);
-    const snap = await getDoc(adminDocRef);
-    return snap.exists();
-  } catch {
-    return false;
-  }
+  // لا توجد صلاحيات مفوضة: المالك المحدد فقط هو المشرف.
+  return Boolean(user?.email && isMasterAdminEmail(user.email));
 }
 
 export async function bootstrapMasterAdmin(user: User): Promise<void> {
@@ -248,45 +236,31 @@ export async function bootstrapMasterAdmin(user: User): Promise<void> {
 }
 
 export async function fetchAllAdmins(): Promise<AdminUser[]> {
+  // نعرض سجل المالك فقط، ولا نعيد أي حسابات قديمة موجودة في Firestore.
   try {
-    const snap = await getDocs(collection(db, COLLECTIONS.ADMINS));
-    if (!snap.empty) {
-      return snap.docs.map(d => d.data() as AdminUser);
+    const snap = await getDoc(doc(db, COLLECTIONS.ADMINS, auth.currentUser?.uid || '__no_owner__'));
+    if (snap.exists() && isMasterAdminEmail((snap.data() as AdminUser).email)) {
+      return [snap.data() as AdminUser];
     }
   } catch (error) {
-    console.warn('Could not fetch admins from Firestore:', error);
+    console.warn('Could not fetch owner admin record from Firestore:', error);
   }
   return [];
 }
 
-export async function createAdminUser(data: {
+export async function createAdminUser(_data: {
   id: string;
   email: string;
   role: AdminRole;
   displayName?: string;
 }): Promise<AdminUser> {
-  const newAdmin: AdminUser = {
-    id: data.id.trim(),
-    email: data.email.trim().toLowerCase(),
-    role: data.role,
-    displayName: data.displayName?.trim() || '',
-    createdAt: new Date().toISOString()
-  };
-
-  AdminUserSchema.parse(newAdmin);
-  await setDoc(doc(db, COLLECTIONS.ADMINS, newAdmin.id), newAdmin);
-  
-  await recordAuditLog(
-    'ADMIN_CREATED', 
-    'admins', 
-    newAdmin.id, 
-    `تم تفويض مشرف جديد: ${newAdmin.email} بصلاحية ${newAdmin.role}`
-  );
-
-  return newAdmin;
+  throw new Error('إضافة مشرفين إضافيين غير مسموحة. صلاحية الإدارة محصورة بالمالك المحدد فقط.');
 }
 
 export async function deleteAdminUser(adminId: string): Promise<void> {
+  if (adminId === auth.currentUser?.uid) {
+    throw new Error('لا يمكن حذف صلاحية المالك الرئيسي.');
+  }
   try {
     await deleteDoc(doc(db, COLLECTIONS.ADMINS, adminId));
     await recordAuditLog(

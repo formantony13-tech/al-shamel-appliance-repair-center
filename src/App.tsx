@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { lazy, Suspense, useState, useEffect } from 'react';
 import { Header } from './components/Header';
 import { Hero } from './components/Hero';
 import { ServicesSection } from './components/ServicesSection';
@@ -11,7 +11,7 @@ import { ContactSection } from './components/ContactSection';
 import { Footer } from './components/Footer';
 import { FloatingActions } from './components/FloatingActions';
 import { Toast } from './components/Toast';
-import { AdminDashboard } from './components/AdminDashboard';
+const AdminDashboard = lazy(() => import('./components/AdminDashboard').then((module) => ({ default: module.AdminDashboard })));
 import { BookingTrackerModal } from './components/BookingTrackerModal';
 import { WarrantyCertificateModal } from './components/WarrantyCertificateModal';
 import { TroubleshootingGuideModal } from './components/TroubleshootingGuideModal';
@@ -253,13 +253,15 @@ export default function App() {
 
       {/* Admin Dashboard Modal */}
       {isAdminDashboardOpen && (
-        <AdminDashboard
-          onClose={() => setIsAdminDashboardOpen(false)}
-          onShowToast={showToast}
-          onViewWarrantyCertificate={handleOpenWarrantyCertificate}
-          settings={settings}
-          onSettingsUpdated={(updatedSettings) => setSettings(updatedSettings)}
-        />
+        <Suspense fallback={null}>
+          <AdminDashboard
+            onClose={() => setIsAdminDashboardOpen(false)}
+            onShowToast={showToast}
+            onViewWarrantyCertificate={handleOpenWarrantyCertificate}
+            settings={settings}
+            onSettingsUpdated={(updatedSettings) => setSettings(updatedSettings)}
+          />
+        </Suspense>
       )}
 
       {/* Customer Booking Tracker Modal */}
