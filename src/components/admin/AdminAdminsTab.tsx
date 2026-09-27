@@ -288,7 +288,7 @@ export const AdminAdminsTab: React.FC<AdminAdminsTabProps> = ({
             <div>
               <span className="font-bold text-slate-800 block">إدارة البريد الإلكتروني الرئيسي عبر متغيرات البيئة</span>
               <span className="text-[11px] text-slate-500">
-                البريد الوحيد المسموح به مثبت في سياسة الأمان هو <code className="bg-slate-200 px-1 py-0.5 rounded text-slate-800">sobhye915@gmail.com</code>، ويتم التحقق منه في التطبيق وقواعد Firebase معاً.
+                البريد الوحيد المسموح به مثبت في سياسة الأمان هو <code className="bg-slate-200 px-1 py-0.5 rounded text-slate-800">mohamed0102666sobhy@eng.com</code>، ويتم التحقق منه في التطبيق وقواعد Firebase معاً.
               </span>
             </div>
           </div>
