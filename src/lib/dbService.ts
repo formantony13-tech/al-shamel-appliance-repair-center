@@ -217,7 +217,12 @@ export async function checkIsAdmin(user: User | null): Promise<boolean> {
 
   try {
     const snap = await getDoc(doc(db, COLLECTIONS.ADMINS, user.uid));
-    return snap.exists() && (snap.data() as AdminUser).email.toLowerCase() !== MASTER_ADMIN_EMAIL;
+    if (!snap.exists() || !user.email) return false;
+    const admin = snap.data() as AdminUser;
+    const delegatedRoles: AdminRole[] = ['ADMIN', 'MANAGER', 'TECHNICIAN'];
+    return delegatedRoles.includes(admin.role) &&
+      admin.email.trim().toLowerCase() === user.email.trim().toLowerCase() &&
+      !isMasterAdminEmail(admin.email);
   } catch {
     return false;
   }
@@ -237,19 +242,22 @@ export async function bootstrapMasterAdmin(user: User): Promise<void> {
   try {
     AdminUserSchema.parse(adminData);
     await setDoc(doc(db, COLLECTIONS.ADMINS, user.uid), adminData, { merge: true });
-    await cleanupLegacyAdminRecords();
+    await cleanupInvalidOwnerRecords();
   } catch (error) {
     console.warn('Could not bootstrap admin record in Firestore:', error);
   }
 }
 
-async function cleanupLegacyAdminRecords(): Promise<void> {
+async function cleanupInvalidOwnerRecords(): Promise<void> {
   try {
     const snap = await getDocs(collection(db, COLLECTIONS.ADMINS));
-    const legacyDocs = snap.docs.filter(d => (d.data() as AdminUser).email?.trim().toLowerCase() === 'formantony13@gmail.com');
-    await Promise.all(legacyDocs.map(d => deleteDoc(d.ref)));
+    const invalidOwnerDocs = snap.docs.filter((d) => {
+      const admin = d.data() as AdminUser;
+      return admin.role === 'SUPER_ADMIN' && !isMasterAdminEmail(admin.email);
+    });
+    await Promise.all(invalidOwnerDocs.map(d => deleteDoc(d.ref)));
   } catch (error) {
-    console.warn('Could not clean legacy admin records:', error);
+    console.warn('Could not clean invalid owner records:', error);
   }
 }
 

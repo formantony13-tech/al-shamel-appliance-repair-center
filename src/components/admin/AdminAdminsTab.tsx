@@ -10,7 +10,7 @@ import {
   AlertCircle 
 } from 'lucide-react';
 import { AdminUser } from '../../types';
-import { MASTER_ADMIN_EMAIL } from '../../config';
+import { isMasterAdminEmail } from '../../config';
 
 interface AdminAdminsTabProps {
   currentAdminEmail?: string;
@@ -43,6 +43,7 @@ export const AdminAdminsTab: React.FC<AdminAdminsTabProps> = ({
   const [newEmail, setNewEmail] = useState('');
   const [newDisplayName, setNewDisplayName] = useState('');
   const [newRole, setNewRole] = useState<'SUPER_ADMIN' | 'ADMIN' | 'MANAGER'>('ADMIN');
+  const visibleAdmins = adminsList.filter((admin) => !isMasterAdminEmail(admin.email));
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -88,7 +89,9 @@ export const AdminAdminsTab: React.FC<AdminAdminsTabProps> = ({
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-xs">
           <div className="bg-slate-50 p-4 rounded-xl space-y-1">
             <span className="text-[11px] text-slate-400 block font-bold">البريد الإلكتروني المسجل:</span>
-            <span className="font-black text-slate-900 font-mono text-sm">{currentAdminEmail || 'غير محدد'}</span>
+            <span className="font-black text-slate-900 font-mono text-sm">
+              {isMasterAdmin ? 'المالك الرئيسي' : currentAdminEmail || 'غير محدد'}
+            </span>
             {currentAdminUid && (
               <span className="text-[10px] text-slate-500 font-mono block">UID: {currentAdminUid}</span>
             )}
@@ -142,12 +145,12 @@ export const AdminAdminsTab: React.FC<AdminAdminsTabProps> = ({
       {/* Authorized Admins List */}
       <div className="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm space-y-4">
         <h4 className="text-sm font-black text-slate-900">
-          قائمة المشرفين المصرح لهم حالياً ({adminsList.length})
+          قائمة المشرفين المصرح لهم حالياً ({visibleAdmins.length})
         </h4>
 
-        {adminsList.length === 0 ? (
+        {visibleAdmins.length === 0 ? (
           <div className="text-center py-8 text-slate-400 font-semibold text-xs bg-slate-50 rounded-xl">
-            لا يوجد مشرفين مسجلين بعد. سيتم اعتماد حساب المالك الرئيسي تلقائياً عند أول تسجيل دخول.
+            لا يوجد مشرفون مفوضون مسجلون بعد. حساب المالك محفوظ داخلياً ولا يظهر في هذه القائمة.
           </div>
         ) : (
           <div className="overflow-x-auto">
@@ -162,8 +165,7 @@ export const AdminAdminsTab: React.FC<AdminAdminsTabProps> = ({
                 </tr>
               </thead>
               <tbody className="divide-y divide-slate-100">
-                {adminsList.map((admin) => {
-                  const isMaster = admin.email.toLowerCase() === MASTER_ADMIN_EMAIL.toLowerCase();
+                {visibleAdmins.map((admin) => {
                   return (
                     <tr key={admin.id} className="hover:bg-slate-50/80 transition-colors">
                       <td className="p-3 font-bold text-slate-800">
@@ -190,18 +192,14 @@ export const AdminAdminsTab: React.FC<AdminAdminsTabProps> = ({
                         {admin.createdAt ? new Date(admin.createdAt).toLocaleDateString('ar-EG') : 'الأساسي'}
                       </td>
                       <td className="p-3 text-center">
-                        {isMaster ? (
-                          <span className="text-[11px] text-slate-400 font-bold">حساب المالك الرئيسي 🔒</span>
-                        ) : (
-                          <button
-                            type="button"
-                            onClick={() => onDeleteAdmin(admin)}
-                            className="p-1.5 rounded-lg text-red-500 hover:bg-red-50 transition-colors cursor-pointer"
-                            title="إلغاء تفويض المشرف"
-                          >
-                            <Trash2 className="w-4 h-4" />
-                          </button>
-                        )}
+                        <button
+                          type="button"
+                          onClick={() => onDeleteAdmin(admin)}
+                          className="p-1.5 rounded-lg text-red-500 hover:bg-red-50 transition-colors cursor-pointer"
+                          title="إلغاء تفويض المشرف"
+                        >
+                          <Trash2 className="w-4 h-4" />
+                        </button>
                       </td>
                     </tr>
                   );
@@ -288,7 +286,7 @@ export const AdminAdminsTab: React.FC<AdminAdminsTabProps> = ({
             <div>
               <span className="font-bold text-slate-800 block">إدارة البريد الإلكتروني الرئيسي عبر متغيرات البيئة</span>
               <span className="text-[11px] text-slate-500">
-                البريد الوحيد المسموح به مثبت في سياسة الأمان هو <code className="bg-slate-200 px-1 py-0.5 rounded text-slate-800">mohamed0102666sobhy@eng.com</code>، ويتم التحقق منه في التطبيق وقواعد Firebase معاً.
+                حساب المالك الرئيسي مثبت داخلياً في سياسة الأمان، ويتم التحقق منه في التطبيق وقواعد Firebase معاً دون عرضه في واجهة الإدارة.
               </span>
             </div>
           </div>

@@ -198,9 +198,12 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({
       const password = loginPassword.trim();
 
       const userCredential = await signInWithEmailAndPassword(auth, email, password);
-      if (isMasterAdminEmail(userCredential.user.email)) {
-        await bootstrapMasterAdmin(userCredential.user);
-        onShowToast('تم تسجيل الدخول وتحقق المالك بنجاح', 'success');
+      const allowed = await checkIsAdmin(userCredential.user);
+      if (allowed) {
+        if (isMasterAdminEmail(userCredential.user.email)) {
+          await bootstrapMasterAdmin(userCredential.user);
+        }
+        onShowToast('تم تسجيل الدخول بنجاح إلى لوحة الإدارة', 'success');
       } else {
         await signOut(auth);
         setLoginError('هذا الحساب غير مصرح له بالدخول إلى لوحة الإدارة.');
@@ -552,7 +555,7 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({
                   required
                   value={loginEmail}
                   onChange={(e) => setLoginEmail(e.target.value)}
-                  placeholder="admin@alshamel.com"
+                  placeholder="البريد المسجل في Firebase"
                   className="w-full pl-4 pr-10 py-3 rounded-xl border border-slate-200 focus:border-[#0e3a5e] focus:ring-2 focus:ring-[#0e3a5e]/20 outline-none text-sm font-semibold transition-all"
                 />
                 <User className="w-4 h-4 text-slate-400 absolute top-3.5 right-3.5" />
@@ -589,7 +592,7 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({
           </form>
 
           <div className="mt-5 text-center text-xs text-slate-500 font-bold border-t border-slate-100 pt-4">
-            الدخول متاح للمالك المعتمد فقط: <span className="font-mono text-slate-700">{MASTER_ADMIN_EMAIL}</span>
+            الدخول متاح للمالك والمشرفين المفوضين فقط
           </div>
 
           <div className="mt-4 text-center">
@@ -624,7 +627,7 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({
                 </span>
               </h1>
               <p className="text-[11px] text-slate-300 font-semibold flex items-center gap-2 mt-0.5">
-                <span>المشرف: {currentUser?.email || 'المسؤول'}</span>
+                <span>المشرف: {isMasterAdmin ? 'المالك الرئيسي' : currentUser?.email || 'المسؤول'}</span>
                 <span className="text-emerald-300 font-black">• متصل</span>
               </p>
             </div>
