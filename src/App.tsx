@@ -253,7 +253,16 @@ export default function App() {
 
       {/* Admin Dashboard Modal */}
       {isAdminDashboardOpen && (
-        <Suspense fallback={null}>
+        <Suspense
+          fallback={
+            <div className="fixed inset-0 z-[60] flex items-center justify-center bg-slate-950/70 p-4 backdrop-blur-sm" role="status" aria-live="polite">
+              <div className="rounded-2xl bg-white px-6 py-5 text-center shadow-2xl">
+                <div className="mx-auto mb-3 h-8 w-8 animate-spin rounded-full border-4 border-slate-200 border-t-[#0f3d5e]" aria-hidden="true" />
+                <p className="font-bold text-slate-700">جارٍ تحميل لوحة الإدارة...</p>
+              </div>
+            </div>
+          }
+        >
           <AdminDashboard
             onClose={() => setIsAdminDashboardOpen(false)}
             onShowToast={showToast}
