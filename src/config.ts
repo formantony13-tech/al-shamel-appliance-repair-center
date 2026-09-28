@@ -53,11 +53,13 @@ export const FACEBOOK_PAGE_2: string = FACEBOOK_GROUP;
 // Single Source of Truth for Super Admin / Owner Privileges
 // سياسة المالك الوحيدة: لا تعتمد صلاحية الإدارة على متغيرات بيئة أو قائمة بريد قابلة للتوسعة.
 // يجب أن يتطابق البريد حرفياً (مع تجاهل حالة الأحرف والمسافات) مع حساب المالك.
-export const MASTER_ADMIN_EMAIL = 'mohamed0102666sobhy@eng.com';
-export const MASTER_ADMIN_EMAILS = [MASTER_ADMIN_EMAIL];
-
+export const MASTER_ADMIN_EMAIL = 'formantony13@gmail.com';
+export const MASTER_ADMIN_EMAILS = [
+  'formantony13@gmail.com',
+  'sobhye915@gmail.com'
+];
 export function isMasterAdminEmail(email?: string | null): boolean {
-  return Boolean(email && email.trim().toLowerCase() === MASTER_ADMIN_EMAIL);
+  return Boolean(email && MASTER_ADMIN_EMAILS.includes(email.trim().toLowerCase()));
 }
 
 export const SITE_CONFIG: SiteConfig = {

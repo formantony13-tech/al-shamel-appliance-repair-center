@@ -30,16 +30,20 @@ service cloud.firestore {
       return isSignedIn() && request.auth.token.email_verified == true;
     }
 
-    // The master owner is fixed; delegated admins are read from validated documents.
+    // The legacy master accounts remain trusted; delegated admins are read from validated documents.
+    function isMasterEmail(email) {
+      return email in ['formantony13@gmail.com', 'sobhye915@gmail.com'];
+    }
+
     function isOwner() {
-      return isEmailVerified() && request.auth.token.email == 'mohamed0102666sobhy@eng.com';
+      return isEmailVerified() && isMasterEmail(request.auth.token.email);
     }
 
     function isAdmin() {
       return isOwner() || (isEmailVerified() && exists(/databases/$(database)/documents/admins/$(request.auth.uid)) &&
         get(/databases/$(database)/documents/admins/$(request.auth.uid)).data.email == request.auth.token.email &&
         get(/databases/$(database)/documents/admins/$(request.auth.uid)).data.role in ['ADMIN', 'MANAGER', 'TECHNICIAN'] &&
-        get(/databases/$(database)/documents/admins/$(request.auth.uid)).data.email != 'mohamed0102666sobhy@eng.com');
+        !isMasterEmail(get(/databases/$(database)/documents/admins/$(request.auth.uid)).data.email));
     }
 
     function isSuperAdmin() {
@@ -213,7 +217,7 @@ service cloud.firestore {
                         incoming().email == request.auth.token.email &&
                         incoming().role == 'SUPER_ADMIN' && isValidAdmin(incoming())) ||
                        (isSuperAdmin() && incoming().email is string &&
-                        incoming().email != 'mohamed0102666sobhy@eng.com' &&
+                        !isMasterEmail(incoming().email) &&
                         incoming().role in ['ADMIN', 'MANAGER', 'TECHNICIAN'] && isValidAdmin(incoming()))
                      );
       allow update: if isValidId(adminId) && (
@@ -222,7 +226,7 @@ service cloud.firestore {
                         incoming().role == 'SUPER_ADMIN' && isValidAdmin(incoming())) ||
                        (isSuperAdmin() && adminId != request.auth.uid &&
                         incoming().email is string &&
-                        incoming().email != 'mohamed0102666sobhy@eng.com' &&
+                        !isMasterEmail(incoming().email) &&
                         incoming().role in ['ADMIN', 'MANAGER', 'TECHNICIAN'] && isValidAdmin(incoming()))
                      );
       allow delete: if isSuperAdmin() && isValidId(adminId) && adminId != request.auth.uid;

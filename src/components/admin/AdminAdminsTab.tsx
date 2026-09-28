@@ -175,7 +175,7 @@ export const AdminAdminsTab: React.FC<AdminAdminsTabProps> = ({
               {isChangingPassword ? 'جاري تغيير كلمة المرور...' : 'حفظ كلمة المرور الجديدة'}
             </button>
           </form>
-          <p className="text-[11px] text-slate-500">للحماية، يطلب النظام كلمة المرور الحالية أولاً. لا يتم حفظ كلمات المرور في Firestore أو في كود الموقع.</p>
+          <p className="text-[11px] text-slate-500">للحماية، يطلب النظام كلمة المرور الحالية أولاً. هذا الخيار يعمل مع حسابات Email/Password فقط؛ حساب Google يغيّر كلمة المرور من حساب Google نفسه.</p>
         </div>
         </>
       ) : (
