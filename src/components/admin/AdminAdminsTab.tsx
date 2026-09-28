@@ -23,6 +23,7 @@ interface AdminAdminsTabProps {
   auditReport: Array<{ name: string; category: string; passed: boolean; details: string }> | null;
   isRunningAudit: boolean;
   isSavingAdmin: boolean;
+  onChangeMasterPassword: (currentPassword: string, newPassword: string) => Promise<void>;
   onShowToast: (msg: string, type?: 'success' | 'error' | 'info') => void;
 }
 
@@ -37,12 +38,17 @@ export const AdminAdminsTab: React.FC<AdminAdminsTabProps> = ({
   auditReport,
   isRunningAudit,
   isSavingAdmin,
+  onChangeMasterPassword,
   onShowToast
 }) => {
   const [newUid, setNewUid] = useState('');
   const [newEmail, setNewEmail] = useState('');
   const [newDisplayName, setNewDisplayName] = useState('');
   const [newRole, setNewRole] = useState<'SUPER_ADMIN' | 'ADMIN' | 'MANAGER'>('ADMIN');
+  const [currentPassword, setCurrentPassword] = useState('');
+  const [newPassword, setNewPassword] = useState('');
+  const [confirmPassword, setConfirmPassword] = useState('');
+  const [isChangingPassword, setIsChangingPassword] = useState(false);
   const visibleAdmins = adminsList.filter((admin) => !isMasterAdminEmail(admin.email));
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -56,6 +62,31 @@ export const AdminAdminsTab: React.FC<AdminAdminsTabProps> = ({
     setNewEmail('');
     setNewDisplayName('');
     setNewRole('ADMIN');
+  };
+  const handlePasswordChange = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (newPassword !== confirmPassword) {
+      onShowToast('كلمة المرور الجديدة وتأكيدها غير متطابقين.', 'error');
+      return;
+    }
+    setIsChangingPassword(true);
+    try {
+      await onChangeMasterPassword(currentPassword, newPassword);
+      setCurrentPassword('');
+      setNewPassword('');
+      setConfirmPassword('');
+      onShowToast('تم تغيير كلمة مرور الماستر بنجاح.', 'success');
+    } catch (error: any) {
+      const code = error?.code;
+      onShowToast(
+        code === 'auth/wrong-password' || code === 'auth/invalid-credential'
+          ? 'كلمة المرور الحالية غير صحيحة.'
+          : error?.message || 'تعذر تغيير كلمة المرور حالياً.',
+        'error'
+      );
+    } finally {
+      setIsChangingPassword(false);
+    }
   };
 
   return (
@@ -110,6 +141,7 @@ export const AdminAdminsTab: React.FC<AdminAdminsTabProps> = ({
       </div>
 
       {isMasterAdmin ? (
+        <>
         <div className="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm space-y-4">
           <h4 className="text-sm font-black text-slate-900 flex items-center gap-2">
             <Plus className="w-4 h-4 text-[#ff7a00]" />
@@ -130,6 +162,22 @@ export const AdminAdminsTab: React.FC<AdminAdminsTabProps> = ({
           </form>
           <p className="text-[11px] text-slate-500">أدخل UID حساب Firebase الحقيقي للمشرف مع بريده. يمكن للماستر فقط إضافة المشرفين أو حذفهم، ولا يمكن منح أي مشرف دور الماستر.</p>
         </div>
+        <div className="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm space-y-4">
+          <h4 className="text-sm font-black text-slate-900 flex items-center gap-2">
+            <Key className="w-4 h-4 text-[#ff7a00]" />
+            <span>تغيير كلمة مرور الماستر</span>
+          </h4>
+          <form onSubmit={handlePasswordChange} className="grid grid-cols-1 md:grid-cols-3 gap-3 text-xs">
+            <input type="password" required minLength={8} value={currentPassword} onChange={(e) => setCurrentPassword(e.target.value)} placeholder="كلمة المرور الحالية" autoComplete="current-password" className="w-full p-2.5 rounded-xl border border-slate-200 outline-none focus:border-[#0e3a5e]" dir="ltr" />
+            <input type="password" required minLength={8} value={newPassword} onChange={(e) => setNewPassword(e.target.value)} placeholder="كلمة المرور الجديدة" autoComplete="new-password" className="w-full p-2.5 rounded-xl border border-slate-200 outline-none focus:border-[#0e3a5e]" dir="ltr" />
+            <input type="password" required minLength={8} value={confirmPassword} onChange={(e) => setConfirmPassword(e.target.value)} placeholder="تأكيد كلمة المرور الجديدة" autoComplete="new-password" className="w-full p-2.5 rounded-xl border border-slate-200 outline-none focus:border-[#0e3a5e]" dir="ltr" />
+            <button type="submit" disabled={isChangingPassword} className="md:col-span-3 w-full py-2.5 px-4 bg-amber-600 hover:bg-amber-700 text-white font-black rounded-xl transition-all shadow cursor-pointer disabled:opacity-50">
+              {isChangingPassword ? 'جاري تغيير كلمة المرور...' : 'حفظ كلمة المرور الجديدة'}
+            </button>
+          </form>
+          <p className="text-[11px] text-slate-500">للحماية، يطلب النظام كلمة المرور الحالية أولاً. لا يتم حفظ كلمات المرور في Firestore أو في كود الموقع.</p>
+        </div>
+        </>
       ) : (
         <div className="bg-slate-50 p-6 rounded-2xl border border-slate-200 shadow-sm">
           <div className="flex items-start gap-3 text-right">

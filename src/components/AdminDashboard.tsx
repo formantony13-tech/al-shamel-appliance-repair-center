@@ -46,6 +46,9 @@ import {
 import { 
   auth,
   signInWithEmailAndPassword,
+  EmailAuthProvider,
+  reauthenticateWithCredential,
+  updatePassword,
   signOut,
   onAuthStateChanged,
   User as FirebaseUser
@@ -387,6 +390,21 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({
     } catch {
       onShowToast('فشل إلغاء تفويض المشرف', 'error');
     }
+  };
+
+  const handleChangeMasterPassword = async (currentPassword: string, newPassword: string) => {
+    if (!currentUser || !isMasterAdmin) {
+      throw new Error('لا تملك صلاحية تغيير كلمة مرور الماستر.');
+    }
+    if (newPassword.length < 8) {
+      throw new Error('كلمة المرور الجديدة يجب أن تكون 8 أحرف على الأقل.');
+    }
+    const credential = EmailAuthProvider.credential(
+      currentUser.email || MASTER_ADMIN_EMAIL,
+      currentPassword
+    );
+    await reauthenticateWithCredential(currentUser, credential);
+    await updatePassword(currentUser, newPassword);
   };
 
   // Zero-Trust Security Audit
@@ -739,6 +757,7 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({
               auditReport={auditReport}
               isRunningAudit={isRunningAudit}
               isSavingAdmin={isSavingAdmin}
+              onChangeMasterPassword={handleChangeMasterPassword}
               onShowToast={onShowToast}
             />
           )}
