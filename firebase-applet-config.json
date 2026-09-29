@@ -1,12 +1,12 @@
 {
-  "projectId": "glowing-thought-pcf5x",
-  "appId": "1:498590668792:web:0eac895afbebef3f47e80d",
-  "apiKey": "AIzaSyB3M2pGPQwpEQZBq3rkGNXRUdxvYsEkZv8",
-  "authDomain": "glowing-thought-pcf5x.firebaseapp.com",
-  "firestoreDatabaseId": "ai-studio-alshamelapplianc-9527bdb8-2f91-4d0b-b083-f59c7e881ac0",
-  "storageBucket": "glowing-thought-pcf5x.firebasestorage.app",
-  "messagingSenderId": "498590668792",
+  "projectId": "al-shamel-appliance-repair",
+  "appId": "1:604571159960:web:b6d6514ebe8194711c2fed",
+  "apiKey": "AIzaSyD0bhR_JJ2A973u9-Bo_2F040VP1jhEHO8",
+  "authDomain": "al-shamel-appliance-repair.firebaseapp.com",
+  "firestoreDatabaseId": "(default)",
+  "storageBucket": "al-shamel-appliance-repair.firebasestorage.app",
+  "messagingSenderId": "604571159960",
   "measurementId": "",
-  "oAuthClientId": "498590668792-6403t69rgjo5c0jkn4jq7isb1sshfa9s.apps.googleusercontent.com",
+  "oAuthClientId": "",
   "recaptchaSiteKey": ""
 }
