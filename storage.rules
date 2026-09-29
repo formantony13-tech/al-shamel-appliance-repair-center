@@ -16,7 +16,7 @@ service firebase.storage {
     }
     
     function isOwner() {
-      return isEmailVerified() && request.auth.token.email in ['formantony13@gmail.com', 'sobhye915@gmail.com'];
+      return isEmailVerified() && request.auth.token.email == 'sobhye915@gmail.com';
     }
 
     function isAdmin() {
@@ -24,7 +24,7 @@ service firebase.storage {
         firestore.exists(/databases/(default)/documents/admins/$(request.auth.uid)) &&
         firestore.get(/databases/(default)/documents/admins/$(request.auth.uid)).data.email == request.auth.token.email &&
         firestore.get(/databases/(default)/documents/admins/$(request.auth.uid)).data.role in ['ADMIN', 'MANAGER', 'TECHNICIAN'] &&
-        !(firestore.get(/databases/(default)/documents/admins/$(request.auth.uid)).data.email in ['formantony13@gmail.com', 'sobhye915@gmail.com']));
+        firestore.get(/databases/(default)/documents/admins/$(request.auth.uid)).data.email != 'sobhye915@gmail.com');
     }
 
     function isValidImageExtension(fileName) {

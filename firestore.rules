@@ -30,9 +30,9 @@ service cloud.firestore {
       return isSignedIn() && request.auth.token.email_verified == true;
     }
 
-    // The legacy master accounts remain trusted; delegated admins are read from validated documents.
+    // Only the confirmed owner account is trusted; delegated admins are validated separately.
     function isMasterEmail(email) {
-      return email in ['formantony13@gmail.com', 'sobhye915@gmail.com'];
+      return email == 'sobhye915@gmail.com';
     }
 
     function isOwner() {

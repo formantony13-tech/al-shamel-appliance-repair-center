@@ -50,14 +50,10 @@ export const FACEBOOK_GROUP: string = INITIAL_SETTINGS.facebookGroup || "https:/
 export const FACEBOOK_PAGE_1: string = FACEBOOK_PAGE;
 export const FACEBOOK_PAGE_2: string = FACEBOOK_GROUP;
 
-// Single Source of Truth for Super Admin / Owner Privileges
-// سياسة المالك الوحيدة: لا تعتمد صلاحية الإدارة على متغيرات بيئة أو قائمة بريد قابلة للتوسعة.
-// يجب أن يتطابق البريد حرفياً (مع تجاهل حالة الأحرف والمسافات) مع حساب المالك.
-export const MASTER_ADMIN_EMAIL = 'formantony13@gmail.com';
-export const MASTER_ADMIN_EMAILS = [
-  'formantony13@gmail.com',
-  'sobhye915@gmail.com'
-];
+// Single Source of Truth for Super Admin / Owner Privileges.
+// The owner account is intentionally singular and cannot be expanded from the UI.
+export const MASTER_ADMIN_EMAIL = 'sobhye915@gmail.com';
+export const MASTER_ADMIN_EMAILS = [MASTER_ADMIN_EMAIL];
 export function isMasterAdminEmail(email?: string | null): boolean {
   return Boolean(email && MASTER_ADMIN_EMAILS.includes(email.trim().toLowerCase()));
 }
