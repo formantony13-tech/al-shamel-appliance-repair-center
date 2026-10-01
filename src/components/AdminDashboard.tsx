@@ -47,6 +47,7 @@ import {
   auth,
   signInWithEmailAndPassword,
   signInWithPopup,
+  signInWithRedirect,
   GoogleAuthProvider,
   EmailAuthProvider,
   reauthenticateWithCredential,
@@ -238,9 +239,9 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({
   const handleGoogleLogin = async () => {
     setLoginError('');
     setIsGoogleLoggingIn(true);
+    const provider = new GoogleAuthProvider();
+    provider.setCustomParameters({ prompt: 'select_account' });
     try {
-      const provider = new GoogleAuthProvider();
-      provider.setCustomParameters({ prompt: 'select_account' });
       const result = await signInWithPopup(auth, provider);
       const isMaster = isMasterAdminEmail(result.user.email);
       if (isMaster) await bootstrapMasterAdmin(result.user);
@@ -253,6 +254,11 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({
       onShowToast('تم تسجيل الدخول بنجاح عبر حساب Google!', 'success');
     } catch (err: any) {
       console.error('Google Sign-In Error:', err);
+      if (err.code === 'auth/popup-blocked') {
+        setLoginError('تم منع النافذة المنبثقة، سيتم فتح Google في نفس الصفحة...');
+        await signInWithRedirect(auth, provider);
+        return;
+      }
       if (err.code !== 'auth/popup-closed-by-user') {
         setLoginError(err.code === 'auth/unauthorized-domain'
           ? 'نطاق الموقع غير مضاف إلى Authorized domains في Firebase.'
