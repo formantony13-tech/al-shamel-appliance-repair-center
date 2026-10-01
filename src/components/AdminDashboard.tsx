@@ -256,6 +256,12 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({
       if (err.code !== 'auth/popup-closed-by-user') {
         setLoginError(err.code === 'auth/unauthorized-domain'
           ? 'نطاق الموقع غير مضاف إلى Authorized domains في Firebase.'
+          : err.code === 'auth/operation-not-allowed'
+          ? 'تسجيل الدخول عبر Google غير مفعّل في Firebase بعد.'
+          : err.code === 'auth/popup-blocked'
+          ? 'المتصفح منع نافذة Google. اسمح بالنوافذ المنبثقة للموقع ثم حاول مرة أخرى.'
+          : err.code === 'auth/popup-redirect-cancelled-by-user'
+          ? 'تم إلغاء تسجيل الدخول عبر Google.'
           : 'تعذر تسجيل الدخول عبر Google حالياً. حاول مرة أخرى.');
       }
     } finally {
@@ -613,7 +619,7 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({
   // -------------------------------------------------------------
   return (
     <div className="fixed inset-0 z-50 bg-slate-900/70 backdrop-blur-sm flex flex-col items-center justify-center p-2 sm:p-4 overflow-hidden">
-      <div className="bg-[#f8fafc] w-full max-w-7xl h-full max-h-[94vh] rounded-3xl shadow-2xl flex flex-col overflow-hidden border border-slate-200">
+      <div className="bg-[#f8fafc] w-full max-w-7xl xl:max-w-[96vw] h-full max-h-[94vh] xl:max-h-[96vh] rounded-3xl shadow-2xl flex flex-col overflow-hidden border border-slate-200">
         
         {/* Top Header Bar */}
         <header className="bg-[#0e3a5e] text-white px-5 sm:px-8 py-4 flex items-center justify-between shadow-md shrink-0">
@@ -710,7 +716,7 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({
         </nav>
 
         {/* Content Body */}
-        <main className="flex-1 overflow-y-auto p-4 sm:p-6 lg:p-8 space-y-6">
+        <main className="flex-1 overflow-y-auto p-3 sm:p-5 lg:p-6 xl:p-7 space-y-5 lg:space-y-6">
           
           {/* TAB 1: OVERVIEW */}
           {activeTab === 'overview' && (
