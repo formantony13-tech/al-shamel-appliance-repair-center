@@ -133,7 +133,7 @@ export const AdminCustomizationTab: React.FC<AdminCustomizationTabProps> = ({
               min={1}
               max={60}
               value={form.yearsExperience}
-              onChange={(e) => setForm({ ...form, yearsExperience: parseInt(e.target.value) || 20 })}
+              onChange={(e) => setForm({ ...form, yearsExperience: String(parseInt(e.target.value, 10) || 20) })}
               className="w-full p-3 rounded-xl border border-slate-200 outline-none focus:border-[#0e3a5e] font-semibold"
             />
           </div>
