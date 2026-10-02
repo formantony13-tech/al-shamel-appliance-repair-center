@@ -102,7 +102,7 @@ export const AdminWorksTab: React.FC<AdminWorksTabProps> = ({
     setIsModalOpen(true);
   };
 
-  // Upload main image to Firebase Storage
+  // Upload main image to الرفع والضغط الآمن
   const handleMainImageFileChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (!file) return;
@@ -112,17 +112,17 @@ export const AdminWorksTab: React.FC<AdminWorksTabProps> = ({
       setFormError(null);
       const result = await compressAndUploadImage(file, 'works', `work_main_${Date.now()}`);
       setFormData(prev => ({ ...prev, image: result.url }));
-      onShowToast('تم رفع وحفظ صورة العمل بنجاح على Firebase Cloud Storage', 'success');
+      onShowToast('تم رفع وحفظ صورة العمل بنجاح على الرفع والضغط الآمن', 'success');
     } catch (err: any) {
       console.error('Work image upload error:', err);
       setFormError(err?.message || 'فشل رفع الصورة السحابية');
-      onShowToast('فشل رفع الصورة إلى التخزين السحابي', 'error');
+      onShowToast('فشل تجهيز الصورة', 'error');
     } finally {
       setUploadingMainImage(false);
     }
   };
 
-  // Upload before image to Firebase Storage
+  // Upload before image to الرفع والضغط الآمن
   const handleBeforeImageFileChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (!file) return;
@@ -132,11 +132,11 @@ export const AdminWorksTab: React.FC<AdminWorksTabProps> = ({
       setFormError(null);
       const result = await compressAndUploadImage(file, 'works', `work_before_${Date.now()}`);
       setFormData(prev => ({ ...prev, beforeImage: result.url }));
-      onShowToast('تم رفع وحفظ صورة قبل الصيانة على Firebase Storage', 'success');
+      onShowToast('تم رفع وحفظ صورة قبل الصيانة على الرفع والضغط الآمن', 'success');
     } catch (err: any) {
       console.error('Work before-image upload error:', err);
       setFormError(err?.message || 'فشل رفع صورة قبل الصيانة');
-      onShowToast('فشل رفع الصورة إلى التخزين السحابي', 'error');
+      onShowToast('فشل تجهيز الصورة', 'error');
     } finally {
       setUploadingBeforeImage(false);
     }
@@ -244,7 +244,7 @@ export const AdminWorksTab: React.FC<AdminWorksTabProps> = ({
                 إدارة معرض الأعمال والإنجازات الحقيقية
               </h2>
               <p className="text-xs sm:text-sm text-slate-500 font-semibold mt-1">
-                توثيق صور الصيانة الواقعية وقطع الغيار ورفعها مباشرة على Firebase Storage
+                توثيق صور الصيانة الواقعية وقطع الغيار ورفعها مباشرة على الرفع والضغط الآمن
               </p>
             </div>
           </div>
@@ -264,7 +264,7 @@ export const AdminWorksTab: React.FC<AdminWorksTabProps> = ({
         <div className="mt-5 p-4 rounded-2xl bg-amber-50/80 border border-amber-200/80 text-amber-950 text-xs flex items-start gap-3">
           <Sparkles className="w-5 h-5 text-amber-600 shrink-0 mt-0.5" />
           <div className="space-y-1">
-            <span className="font-black block text-amber-900">توثيق الصور السحابي المباشر (Firebase Cloud Storage):</span>
+            <span className="font-black block text-amber-900">توثيق الصور السحابي المباشر (الرفع والضغط الآمن):</span>
             <p className="text-[11px] font-semibold text-amber-800 leading-relaxed">
               جميع الصور المرفوعة تخزن سحابياً بروابط CDN دائمة ومضغوطة تلقائياً. الصور الواقعية لأعمال الصيانة (صور المحابس، الكباسات، الدوائر الكهربائية، وقطع الغيار) تزيد من ثقة العملاء وتثبت احترافية مركز قطب.
             </p>
@@ -431,7 +431,7 @@ export const AdminWorksTab: React.FC<AdminWorksTabProps> = ({
                     {editingWork ? 'تعديل عمل في المعرض' : 'إضافة وتوثيق عمل صيانة جديد'}
                   </h3>
                   <p className="text-xs text-slate-400 font-semibold">
-                    يتم رفع الصور وتخزينها سحابياً عبر Firebase Storage
+                    يتم رفع الصور وتخزينها سحابياً عبر الرفع والضغط الآمن
                   </p>
                 </div>
               </div>
@@ -567,9 +567,9 @@ export const AdminWorksTab: React.FC<AdminWorksTabProps> = ({
                   <div className="flex items-center justify-between">
                     <label className="font-black text-slate-800 flex items-center gap-2">
                       <ImageIcon className="w-4 h-4 text-[#0e3a5e]" />
-                      <span>الصورة الأساسية للعمل (Firebase Storage) <span className="text-rose-500">*</span></span>
+                      <span>الصورة الأساسية للعمل (الرفع والضغط الآمن) <span className="text-rose-500">*</span></span>
                     </label>
-                    <span className="text-[11px] font-bold text-slate-500">رفع سحابي مباشر</span>
+                    <span className="text-[11px] font-bold text-slate-500">رفع وضغط تلقائي</span>
                   </div>
 
                   <div className="flex flex-col sm:flex-row items-center gap-4">
@@ -607,7 +607,7 @@ export const AdminWorksTab: React.FC<AdminWorksTabProps> = ({
                         {uploadingMainImage ? (
                           <>
                             <div className="w-4 h-4 border-2 border-[#0e3a5e] border-t-transparent rounded-full animate-spin"></div>
-                            <span>جاري رفع الصورة إلى Firebase Storage...</span>
+                            <span>جاري رفع الصورة إلى الرفع والضغط الآمن...</span>
                           </>
                         ) : (
                           <>
@@ -675,7 +675,7 @@ export const AdminWorksTab: React.FC<AdminWorksTabProps> = ({
                         ) : (
                           <>
                             <Upload className="w-3.5 h-3.5 text-amber-600" />
-                            <span>رفع صورة قبل الصيانة (Firebase Storage)</span>
+                            <span>رفع صورة قبل الصيانة (الرفع والضغط الآمن)</span>
                           </>
                         )}
                       </button>

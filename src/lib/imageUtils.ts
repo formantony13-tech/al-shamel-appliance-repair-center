@@ -179,16 +179,14 @@ export async function compressAndUploadImage(
       storagePath
     };
   } catch (err) {
-    // If browser is offline, provide local temporary dataUrl for local preview
-    if (!navigator.onLine) {
-      console.warn('Network offline: using local image preview cache.');
-      return {
-        url: processed.dataUrl,
-        sizeBytes: processed.sizeBytes,
-        storagePath
-      };
-    }
-    // If online, do not silently swallow storage failure into Firestore
-    throw err;
+    // Firebase Storage is optional on the free Spark plan. Keep the workflow usable
+    // by storing the already-compressed JPEG data URL in Firestore as a fallback.
+    // The image has already been resized and compressed, so this is bounded and safe
+    // for the small public images used by the site.
+    console.warn('Firebase Storage unavailable; using compressed Firestore image fallback.', err);
+    return {
+      url: processed.dataUrl,
+      sizeBytes: processed.sizeBytes
+    };
   }
 }

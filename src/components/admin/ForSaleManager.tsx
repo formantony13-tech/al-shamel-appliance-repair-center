@@ -192,7 +192,7 @@ export const ForSaleManager: React.FC<ForSaleManagerProps> = ({
     notify('تم استنساخ بيانات الجهاز، يمكنك تعديلها وحفظها كجهاز جديد', 'info');
   };
 
-  // Main Image Upload with Firebase Storage & Compression
+  // Main Image Upload with الرفع والضغط الآمن & Compression
   const handleMainImageUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (!file) return;
@@ -205,7 +205,7 @@ export const ForSaleManager: React.FC<ForSaleManagerProps> = ({
       notify('تم رفع الصورة الأساسية وتخزينها سحابياً بنجاح', 'success');
     } catch (err: any) {
       console.error('Image upload failed:', err);
-      setErrorMsg(err?.message || 'فشل رفع الصورة الأساسية إلى Firebase Storage');
+      setErrorMsg(err?.message || 'فشل رفع الصورة الأساسية إلى الرفع والضغط الآمن');
       notify('فشل رفع الصورة الأساسية', 'error');
     } finally {
       setUploadingMainImage(false);
@@ -1185,9 +1185,9 @@ export const ForSaleManager: React.FC<ForSaleManagerProps> = ({
                   <div className="flex items-center justify-between">
                     <label className="font-black text-slate-800 flex items-center gap-2">
                       <ImageIcon className="w-4 h-4 text-[#0e3a5e]" />
-                      <span>الصورة الأساسية للجهاز (Firebase Cloud Storage) <span className="text-rose-500">*</span></span>
+                      <span>الصورة الأساسية للجهاز (الرفع والضغط الآمن) <span className="text-rose-500">*</span></span>
                     </label>
-                    <span className="text-[11px] font-bold text-slate-500">رفع سحابي مباشر</span>
+                    <span className="text-[11px] font-bold text-slate-500">رفع وضغط تلقائي</span>
                   </div>
 
                   <div className="flex flex-col sm:flex-row items-center gap-4">
@@ -1225,7 +1225,7 @@ export const ForSaleManager: React.FC<ForSaleManagerProps> = ({
                         {uploadingMainImage ? (
                           <>
                             <div className="w-4 h-4 border-2 border-[#0e3a5e] border-t-transparent rounded-full animate-spin"></div>
-                            <span>جاري الرفع السحابي إلى Firebase Storage...</span>
+                            <span>جاري الرفع السحابي إلى الرفع والضغط الآمن...</span>
                           </>
                         ) : (
                           <>

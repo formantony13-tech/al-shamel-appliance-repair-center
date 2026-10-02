@@ -8,6 +8,18 @@ export default defineConfig(() => ({
   // deployments can override this with BASE_PATH=/ or another public path.
   base: process.env.BASE_PATH || '/',
   plugins: [react(), tailwindcss()],
+  build: {
+    chunkSizeWarningLimit: 700,
+    rollupOptions: {
+      output: {
+        manualChunks: {
+          firebase: ['firebase/app', 'firebase/auth', 'firebase/firestore', 'firebase/storage'],
+          icons: ['lucide-react'],
+          react: ['react', 'react-dom']
+        }
+      }
+    }
+  },
   resolve: {
     alias: {
       '@': path.resolve(__dirname, '.'),

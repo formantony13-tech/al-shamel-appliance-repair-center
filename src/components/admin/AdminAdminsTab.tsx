@@ -354,7 +354,7 @@ export const AdminAdminsTab: React.FC<AdminAdminsTabProps> = ({
             <div>
               <span className="font-bold text-slate-800 block">تأمين رفع الملفات والصور</span>
               <span className="text-[11px] text-slate-500">
-                قواعد Firebase Storage تتحقق من حجم ونوعية الصور لمنع رفع أي ملفات ضارة.
+                قواعد رفع الصور المضغوطة تتحقق من حجم ونوعية الصور لمنع رفع أي ملفات ضارة.
               </span>
             </div>
           </div>
