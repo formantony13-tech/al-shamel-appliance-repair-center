@@ -36,11 +36,11 @@ service cloud.firestore {
     }
 
     function isOwner() {
-      return isEmailVerified() && isMasterEmail(request.auth.token.email);
+      return isSignedIn() && isMasterEmail(request.auth.token.email);
     }
 
     function isAdmin() {
-      return isOwner() || (isEmailVerified() && exists(/databases/$(database)/documents/admins/$(request.auth.uid)) &&
+      return isOwner() || (isSignedIn() && exists(/databases/$(database)/documents/admins/$(request.auth.uid)) &&
         get(/databases/$(database)/documents/admins/$(request.auth.uid)).data.email == request.auth.token.email &&
         get(/databases/$(database)/documents/admins/$(request.auth.uid)).data.role in ['ADMIN', 'MANAGER', 'TECHNICIAN'] &&
         !isMasterEmail(get(/databases/$(database)/documents/admins/$(request.auth.uid)).data.email));
