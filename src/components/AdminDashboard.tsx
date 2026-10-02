@@ -30,6 +30,7 @@ import {
   deleteCustomerReview, 
   fetchAllCustomers, 
   updateCustomerNotes, 
+  deleteCustomer,
   fetchAllRepairJobs, 
   createRepairJob, 
   deleteRepairJob, 
@@ -353,8 +354,14 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({
   };
 
   const handleDeleteCustomer = async (customerId: string) => {
-    setCustomers(prev => prev.filter(c => c.id !== customerId));
-    onShowToast('تم تحديث قائمة العملاء', 'info');
+    if (!window.confirm('هل أنت متأكد من حذف سجل العميل نهائياً؟')) return;
+    try {
+      await deleteCustomer(customerId);
+      setCustomers(prev => prev.filter(c => c.id !== customerId));
+      onShowToast('تم حذف سجل العميل من قاعدة البيانات', 'info');
+    } catch (error: any) {
+      onShowToast(error?.message || 'فشل حذف سجل العميل', 'error');
+    }
   };
 
   // Reviews Handlers

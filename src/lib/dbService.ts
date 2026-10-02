@@ -803,6 +803,22 @@ export async function fetchAllCustomers(): Promise<Customer[]> {
   return localList;
 }
 
+export async function deleteCustomer(customerId: string): Promise<void> {
+  try {
+    await deleteDoc(doc(db, COLLECTIONS.CUSTOMERS, customerId));
+    const local = getLocalCache<Customer[]>(STORAGE_KEYS.CUSTOMERS, []);
+    setLocalCache(STORAGE_KEYS.CUSTOMERS, local.filter(customer => customer.id !== customerId));
+    await recordAuditLog(
+      'CUSTOMER_DELETED',
+      'customers',
+      customerId,
+      `حذف سجل العميل: ${customerId}`
+    );
+  } catch (error) {
+    handleFirestoreError(error, OperationType.DELETE, `customers/${customerId}`);
+  }
+}
+
 export async function updateCustomerNotes(customerId: string, notes: string): Promise<void> {
   const local = getLocalCache<Customer[]>(STORAGE_KEYS.CUSTOMERS, []);
   const now = new Date().toISOString();
