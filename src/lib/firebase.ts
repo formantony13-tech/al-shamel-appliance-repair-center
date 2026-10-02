@@ -19,6 +19,8 @@ import {
 } from 'firebase/firestore';
 import { 
   getAuth, 
+  setPersistence,
+  browserLocalPersistence,
   signInWithEmailAndPassword,
   createUserWithEmailAndPassword,
   EmailAuthProvider,
@@ -62,6 +64,9 @@ export const db: Firestore = firestoreInstance;
 
 // Initialize Auth
 export const auth = getAuth(app);
+void setPersistence(auth, browserLocalPersistence).catch((error) => {
+  console.warn('Could not enable local auth persistence:', error);
+});
 
 // Initialize Storage
 export const storage = getStorage(app);
