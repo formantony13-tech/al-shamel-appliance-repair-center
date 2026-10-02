@@ -45,6 +45,17 @@ import firebaseConfig from '../../firebase-applet-config.json';
 // Initialize Firebase App
 const app = getApps().length > 0 ? getApp() : initializeApp(firebaseConfig);
 
+// A secondary Auth instance lets the owner create another email/password user
+// without signing the owner out of the current browser session.
+export async function createSecondaryAuthUser(email: string, password: string): Promise<User> {
+  const secondaryApp = getApps().find((candidate) => candidate.name === 'admin-user-creator')
+    ?? initializeApp(firebaseConfig, 'admin-user-creator');
+  const secondaryAuth = getAuth(secondaryApp);
+  const credential = await createUserWithEmailAndPassword(secondaryAuth, email, password);
+  await signOut(secondaryAuth);
+  return credential.user;
+}
+
 // Initialize Firestore with robust caching and auto-detect long polling for sandboxed environments
 let firestoreInstance: Firestore;
 try {

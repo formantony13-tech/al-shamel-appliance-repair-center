@@ -11,7 +11,8 @@ import {
   deleteDoc, 
   query, 
   where, 
-  orderBy 
+  orderBy,
+  createSecondaryAuthUser
 } from './firebase';
 import { handleFirestoreError, OperationType } from './firebaseErrorHandler';
 import { INITIAL_WORKS, INITIAL_REVIEWS, INITIAL_SETTINGS, INITIAL_PRODUCTS_FOR_SALE } from '../data/initialData';
@@ -272,8 +273,8 @@ export async function fetchAllAdmins(): Promise<AdminUser[]> {
 }
 
 export async function createAdminUser(data: {
-  id: string;
   email: string;
+  password: string;
   role: AdminRole;
   displayName?: string;
 }): Promise<AdminUser> {
@@ -281,8 +282,12 @@ export async function createAdminUser(data: {
   if (!email || isMasterAdminEmail(email)) {
     throw new Error('لا يمكن إضافة بريد المالك كمشرف إضافي.');
   }
+  if (data.password.length < 6) {
+    throw new Error('كلمة مرور المشرف يجب أن تكون 6 أحرف على الأقل.');
+  }
+  const authUser = await createSecondaryAuthUser(email, data.password);
   const newAdmin: AdminUser = {
-    id: data.id.trim(),
+    id: authUser.uid,
     email,
     role: data.role === 'SUPER_ADMIN' ? 'ADMIN' : data.role,
     displayName: data.displayName?.trim() || '',
@@ -290,7 +295,7 @@ export async function createAdminUser(data: {
   };
   AdminUserSchema.parse(newAdmin);
   await setDoc(doc(db, COLLECTIONS.ADMINS, newAdmin.id), newAdmin);
-  await recordAuditLog('ADMIN_CREATED', 'admins', newAdmin.id, `تم تفويض مشرف: ${newAdmin.email}`);
+  await recordAuditLog('ADMIN_CREATED', 'admins', newAdmin.id, `تم إنشاء حساب مشرف: ${newAdmin.email}`);
   return newAdmin;
 }
 

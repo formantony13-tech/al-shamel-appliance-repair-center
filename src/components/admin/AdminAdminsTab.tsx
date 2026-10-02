@@ -17,7 +17,7 @@ interface AdminAdminsTabProps {
   currentAdminUid?: string;
   isMasterAdmin: boolean;
   adminsList: AdminUser[];
-  onAddAdmin: (uid: string, email: string, displayName: string, role: 'SUPER_ADMIN' | 'ADMIN' | 'MANAGER') => Promise<void>;
+  onAddAdmin: (email: string, password: string, displayName: string, role: 'SUPER_ADMIN' | 'ADMIN' | 'MANAGER') => Promise<void>;
   onDeleteAdmin: (admin: AdminUser) => Promise<void>;
   onRunSecurityAudit: () => Promise<void>;
   auditReport: Array<{ name: string; category: string; passed: boolean; details: string }> | null;
@@ -41,8 +41,8 @@ export const AdminAdminsTab: React.FC<AdminAdminsTabProps> = ({
   onChangeMasterPassword,
   onShowToast
 }) => {
-  const [newUid, setNewUid] = useState('');
   const [newEmail, setNewEmail] = useState('');
+  const [newAdminPassword, setNewAdminPassword] = useState('');
   const [newDisplayName, setNewDisplayName] = useState('');
   const [newRole, setNewRole] = useState<'SUPER_ADMIN' | 'ADMIN' | 'MANAGER'>('ADMIN');
   const [currentPassword, setCurrentPassword] = useState('');
@@ -53,13 +53,13 @@ export const AdminAdminsTab: React.FC<AdminAdminsTabProps> = ({
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!newUid.trim() || !newEmail.trim()) {
-      onShowToast('يرجى كتابة UID والبريد الإلكتروني لحساب Firebase', 'error');
+    if (!newEmail.trim() || newAdminPassword.length < 6) {
+      onShowToast('يرجى كتابة بريد صحيح وكلمة مرور من 6 أحرف على الأقل', 'error');
       return;
     }
-    await onAddAdmin(newUid.trim(), newEmail.trim(), newDisplayName.trim(), newRole);
-    setNewUid('');
+    await onAddAdmin(newEmail.trim(), newAdminPassword, newDisplayName.trim(), newRole);
     setNewEmail('');
+    setNewAdminPassword('');
     setNewDisplayName('');
     setNewRole('ADMIN');
   };
@@ -148,8 +148,8 @@ export const AdminAdminsTab: React.FC<AdminAdminsTabProps> = ({
             <span>إضافة مشرف من حساب الماستر</span>
           </h4>
           <form onSubmit={handleSubmit} className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-3 text-xs">
-            <input type="text" required value={newUid} onChange={(e) => setNewUid(e.target.value)} placeholder="Firebase UID" className="w-full p-2.5 rounded-xl border border-slate-200 outline-none focus:border-[#0e3a5e]" dir="ltr" />
             <input type="email" required value={newEmail} onChange={(e) => setNewEmail(e.target.value)} placeholder="engineer@gmail.com" className="w-full p-2.5 rounded-xl border border-slate-200 outline-none focus:border-[#0e3a5e]" />
+            <input type="password" required minLength={6} value={newAdminPassword} onChange={(e) => setNewAdminPassword(e.target.value)} placeholder="كلمة مرور الدخول" autoComplete="new-password" className="w-full p-2.5 rounded-xl border border-slate-200 outline-none focus:border-[#0e3a5e]" dir="ltr" />
             <input type="text" value={newDisplayName} onChange={(e) => setNewDisplayName(e.target.value)} placeholder="اسم المشرف / المهندس" className="w-full p-2.5 rounded-xl border border-slate-200 outline-none focus:border-[#0e3a5e]" />
             <select value={newRole} onChange={(e) => setNewRole(e.target.value as 'ADMIN' | 'MANAGER')} className="w-full p-2.5 rounded-xl border border-slate-200 bg-white">
               <option value="ADMIN">مشرف إدارة (Admin)</option>
@@ -160,7 +160,7 @@ export const AdminAdminsTab: React.FC<AdminAdminsTabProps> = ({
               <span>{isSavingAdmin ? 'جاري الإضافة...' : 'إضافة المشرف'}</span>
             </button>
           </form>
-          <p className="text-[11px] text-slate-500">أدخل UID حساب Firebase الحقيقي للمشرف مع بريده. يمكن للماستر فقط إضافة المشرفين أو حذفهم، ولا يمكن منح أي مشرف دور الماستر.</p>
+          <p className="text-[11px] text-slate-500">سيُنشئ النظام حساب دخول فعليًا تلقائيًا ويولّد UID دون الحاجة إلى فتح Firebase Console. يمكن للماستر فقط إضافة المشرفين أو حذفهم، ولا يمكن منح أي مشرف دور الماستر.</p>
         </div>
         <div className="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm space-y-4">
           <h4 className="text-sm font-black text-slate-900 flex items-center gap-2">

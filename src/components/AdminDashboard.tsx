@@ -408,12 +408,12 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({
   };
 
   // Admin Management Handlers
-  const handleAddAdmin = async (uid: string, email: string, displayName: string, role: 'SUPER_ADMIN' | 'ADMIN' | 'MANAGER') => {
+  const handleAddAdmin = async (email: string, password: string, displayName: string, role: 'SUPER_ADMIN' | 'ADMIN' | 'MANAGER') => {
     setIsSavingAdmin(true);
     try {
       const newAdmin = await createAdminUser({
-        id: uid,
         email,
+        password,
         displayName,
         role
       });
