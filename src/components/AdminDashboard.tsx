@@ -408,7 +408,7 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({
   };
 
   // Admin Management Handlers
-  const handleAddAdmin = async (email: string, password: string, displayName: string, role: 'SUPER_ADMIN' | 'ADMIN' | 'MANAGER') => {
+  const handleAddAdmin = async (email: string, password: string, displayName: string, role: 'SUPER_ADMIN' | 'ADMIN' | 'MANAGER' | 'TECHNICIAN') => {
     setIsSavingAdmin(true);
     try {
       const newAdmin = await createAdminUser({
@@ -467,7 +467,7 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({
           name: 'قواعد حماية Firestore Security Rules',
           category: 'قواعد البيانات',
           passed: true,
-          details: 'الحسابات غير المصرح لها ممنوعة 100% من قراءة بيانات العملاء، الحجوزات، وأوامر الصيانة.'
+          details: 'تمنع قواعد Firestore القراءة العامة للحجوزات وبيانات العملاء والإصلاحات، وتسمح بها للمشرفين المصرح لهم فقط.'
         },
         {
           name: 'التحقق من هوية المشرفين (Firebase Auth RBAC)',
@@ -479,7 +479,7 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({
           name: 'قواعد حماية وسائط Firebase Storage',
           category: 'الملفات والصور',
           passed: true,
-          details: 'ممنوع رفع أي ملفات تنفيذية أو غير صور، والحد الأقصى للصور 10 ميجابايت مع التحقق من الهوية.'
+          details: 'تتحقق القواعد من امتداد الصورة ونوعها وحجمها. صور الحجوزات العامة محدودة المسار والبيانات، بينما أصول الإدارة تتطلب جلسة مشرف.'
         },
         {
           name: 'تشفير وحماية البيانات أثناء النقل (TLS / HTTPS)',
@@ -488,7 +488,7 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({
           details: 'جميع الاتصالات مشفرة ببروتوكولات TLS 1.3 المعتمدة من Google Cloud.'
         }
       ]);
-      onShowToast('اكتمل الفحص الأمني السحابي بنجاح: النظام مؤمن 100%', 'success');
+      onShowToast('اكتمل فحص إعدادات الأمان الأساسية بنجاح', 'success');
     } catch {
       onShowToast('تعذر إكمال الفحص الأمني', 'error');
     } finally {

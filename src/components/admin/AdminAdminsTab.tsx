@@ -17,7 +17,7 @@ interface AdminAdminsTabProps {
   currentAdminUid?: string;
   isMasterAdmin: boolean;
   adminsList: AdminUser[];
-  onAddAdmin: (email: string, password: string, displayName: string, role: 'SUPER_ADMIN' | 'ADMIN' | 'MANAGER') => Promise<void>;
+  onAddAdmin: (email: string, password: string, displayName: string, role: 'SUPER_ADMIN' | 'ADMIN' | 'MANAGER' | 'TECHNICIAN') => Promise<void>;
   onDeleteAdmin: (admin: AdminUser) => Promise<void>;
   onRunSecurityAudit: () => Promise<void>;
   auditReport: Array<{ name: string; category: string; passed: boolean; details: string }> | null;
@@ -44,7 +44,7 @@ export const AdminAdminsTab: React.FC<AdminAdminsTabProps> = ({
   const [newEmail, setNewEmail] = useState('');
   const [newAdminPassword, setNewAdminPassword] = useState('');
   const [newDisplayName, setNewDisplayName] = useState('');
-  const [newRole, setNewRole] = useState<'SUPER_ADMIN' | 'ADMIN' | 'MANAGER'>('ADMIN');
+  const [newRole, setNewRole] = useState<'SUPER_ADMIN' | 'ADMIN' | 'MANAGER' | 'TECHNICIAN'>('ADMIN');
   const [currentPassword, setCurrentPassword] = useState('');
   const [newPassword, setNewPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
@@ -151,9 +151,10 @@ export const AdminAdminsTab: React.FC<AdminAdminsTabProps> = ({
             <input type="email" required value={newEmail} onChange={(e) => setNewEmail(e.target.value)} placeholder="engineer@gmail.com" className="w-full p-2.5 rounded-xl border border-slate-200 outline-none focus:border-[#0e3a5e]" />
             <input type="password" required minLength={6} value={newAdminPassword} onChange={(e) => setNewAdminPassword(e.target.value)} placeholder="كلمة مرور الدخول" autoComplete="new-password" className="w-full p-2.5 rounded-xl border border-slate-200 outline-none focus:border-[#0e3a5e]" dir="ltr" />
             <input type="text" value={newDisplayName} onChange={(e) => setNewDisplayName(e.target.value)} placeholder="اسم المشرف / المهندس" className="w-full p-2.5 rounded-xl border border-slate-200 outline-none focus:border-[#0e3a5e]" />
-            <select value={newRole} onChange={(e) => setNewRole(e.target.value as 'ADMIN' | 'MANAGER')} className="w-full p-2.5 rounded-xl border border-slate-200 bg-white">
+            <select value={newRole} onChange={(e) => setNewRole(e.target.value as 'ADMIN' | 'MANAGER' | 'TECHNICIAN')} className="w-full p-2.5 rounded-xl border border-slate-200 bg-white">
               <option value="ADMIN">مشرف إدارة (Admin)</option>
               <option value="MANAGER">مدير عمليات (Manager)</option>
+              <option value="TECHNICIAN">فني صيانة (Technician)</option>
             </select>
             <button type="submit" disabled={isSavingAdmin} className="w-full py-2.5 px-4 bg-[#0e3a5e] hover:bg-[#123f66] text-white font-black rounded-xl transition-all shadow cursor-pointer disabled:opacity-50 flex items-center justify-center gap-1.5">
               <Plus className="w-4 h-4" />
@@ -233,7 +234,7 @@ export const AdminAdminsTab: React.FC<AdminAdminsTabProps> = ({
                             ? 'bg-blue-100 text-blue-800 border border-blue-200'
                             : 'bg-emerald-100 text-emerald-800 border border-emerald-200'
                         }`}>
-                          {admin.role === 'SUPER_ADMIN' ? 'مدير عام (Super Admin)' : admin.role === 'MANAGER' ? 'مدير عمليات (Manager)' : 'مشرف (Admin)'}
+                          {admin.role === 'SUPER_ADMIN' ? 'مدير عام (Super Admin)' : admin.role === 'MANAGER' ? 'مدير عمليات (Manager)' : admin.role === 'TECHNICIAN' ? 'فني صيانة (Technician)' : 'مشرف (Admin)'}
                         </span>
                       </td>
                       <td className="p-3 text-slate-400 text-[11px]">
@@ -312,8 +313,8 @@ export const AdminAdminsTab: React.FC<AdminAdminsTabProps> = ({
               <div className="flex items-center gap-2">
                 <CheckCircle2 className="w-5 h-5 text-emerald-400 shrink-0" />
                 <div>
-                  <span className="font-black block text-emerald-400">النظام مؤمّن وموثق بنسبة 100% وفق أحدث معايير Zero-Trust</span>
-                  <span className="text-[11px] text-slate-300">تم التحقق من كافة قواعد Firestore وStorage ومنع أي تسريب لبيانات العملاء أو الحجوزات أو الإصلاحات.</span>
+                  <span className="font-black block text-emerald-400">إعدادات الحماية الأساسية مفعّلة</span>
+                  <span className="text-[11px] text-slate-300">تتم حماية بيانات العملاء والحجوزات بقواعد وصول مخصصة، مع التحقق من صلاحيات المشرفين ونوع ملفات الصور.</span>
                 </div>
               </div>
             </div>

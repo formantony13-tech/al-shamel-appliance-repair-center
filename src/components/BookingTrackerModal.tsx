@@ -49,8 +49,8 @@ export const BookingTrackerModal: React.FC<BookingTrackerModalProps> = ({
       return;
     }
 
-    if (cleanLast4 && cleanLast4.length !== 4) {
-      onShowToast('يرجى إدخال 4 أرقام صحيحة لتأكيد الهوية أو ترك الحقل فارغاً', 'error');
+    if (cleanLast4.length !== 4) {
+      onShowToast('يرجى إدخال آخر 4 أرقام من رقم الهاتف للتحقق من الملكية', 'error');
       return;
     }
 
@@ -177,9 +177,8 @@ export const BookingTrackerModal: React.FC<BookingTrackerModalProps> = ({
           <div>
             <div className="flex items-center justify-between mb-1">
               <label className="block text-xs font-bold text-slate-700">
-                آخر 4 أرقام من رقم الموبايل (للتحقق والخصوصية)
+                آخر 4 أرقام من رقم الموبايل (مطلوبة للخصوصية) <span className="text-red-500">*</span>
               </label>
-              <span className="text-[10px] text-slate-400 font-semibold">اختياري للتأكيد</span>
             </div>
             <div className="relative">
               <input
@@ -189,6 +188,7 @@ export const BookingTrackerModal: React.FC<BookingTrackerModalProps> = ({
                 value={phoneLast4Input}
                 onChange={(e) => setPhoneLast4Input(e.target.value.replace(/\D/g, ''))}
                 className="w-full px-4 py-3 pl-10 rounded-2xl border-2 border-slate-200 focus:border-[#0e3a5e] focus:outline-none text-sm font-mono font-bold text-slate-800 text-left tracking-widest"
+                required
               />
               <Lock className="w-4 h-4 text-slate-400 absolute left-3 top-3.5" />
             </div>
@@ -260,12 +260,6 @@ export const BookingTrackerModal: React.FC<BookingTrackerModalProps> = ({
               <div className="flex items-center justify-between border-b border-slate-100 pb-2.5">
                 <span className="text-xs text-slate-400 font-bold">كود الحجز المعتمد:</span>
                 <span className="text-sm font-black font-mono text-[#0e3a5e]">{trackingRecord.id}</span>
-              </div>
-              <div className="flex items-center justify-between border-b border-slate-100 pb-2.5">
-                <span className="text-xs text-slate-400 font-bold">صاحب الطلب:</span>
-                <span className="text-sm font-bold text-slate-800">
-                  {trackingRecord.customerFirstName ? `${trackingRecord.customerFirstName} ***` : 'عميل المركز'}
-                </span>
               </div>
               <div className="flex items-center justify-between border-b border-slate-100 pb-2.5">
                 <span className="text-xs text-slate-400 font-bold">نوع الجهاز والماركة:</span>

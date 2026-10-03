@@ -37,13 +37,12 @@ export interface BookingRecord {
 }
 
 export interface BookingTrackingRecord {
-  id: string; // e.g. BK-2026-00101
+  id: string; // e.g. BK-2026-MX8K2-7F3Q9A
   status: BookingStatus;
   deviceType: string;
   brand?: string;
   preferredTime: string;
-  phoneLast4: string; // only last 4 digits for secondary verification
-  customerFirstName?: string; // e.g. "أحمد"
+  phoneLast4Hash: string; // SHA-256; never expose the phone digits publicly
   hasWarranty: boolean;
   stage: number; // 1: استلام, 2: موعد, 3: فحص وإصلاح, 4: اكتمال وضمان
   createdAt: string;

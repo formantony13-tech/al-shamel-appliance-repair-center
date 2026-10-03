@@ -101,12 +101,31 @@ function setLocalCache<T>(key: string, value: T): void {
   }
 }
 
-// Generate Standardized Collision-Resistant Unique Booking Code, e.g. BK-2026-739412
+// Generate a collision-resistant public booking code. New codes do not expose
+// a short, guessable timestamp/random-number combination.
 export function generateBookingId(): string {
   const year = new Date().getFullYear();
-  const timeEntropy = Date.now().toString().slice(-3);
-  const randEntropy = Math.floor(100 + Math.random() * 900);
-  return `BK-${year}-${timeEntropy}${randEntropy}`;
+  const timeEntropy = Date.now().toString(36).slice(-5).toUpperCase();
+  const bytes = new Uint8Array(6);
+  if (typeof globalThis.crypto?.getRandomValues === 'function') {
+    globalThis.crypto.getRandomValues(bytes);
+  } else {
+    bytes.forEach((_, index) => { bytes[index] = Math.floor(Math.random() * 256); });
+  }
+  const randomEntropy = Array.from(bytes, byte => byte.toString(36).padStart(2, '0')).join('').slice(0, 8).toUpperCase();
+  return `BK-${year}-${timeEntropy}-${randomEntropy}`;
+}
+
+async function hashPhoneLast4(phoneLast4: string): Promise<string> {
+  const value = new TextEncoder().encode(phoneLast4);
+  if (globalThis.crypto?.subtle) {
+    const digest = await globalThis.crypto.subtle.digest('SHA-256', value);
+    return Array.from(new Uint8Array(digest), byte => byte.toString(16).padStart(2, '0')).join('');
+  }
+  // Older environments should still produce a stable non-raw value.
+  let hash = 2166136261;
+  for (const byte of value) hash = Math.imul(hash ^ byte, 16777619);
+  return `${(hash >>> 0).toString(16).padStart(8, '0')}`.repeat(8);
 }
 
 // Generate Standardized Collision-Resistant Unique Repair Job Code, e.g. JOB-2026-739412
@@ -379,8 +398,7 @@ export async function createBooking(data: {
   const now = new Date().toISOString();
   const phoneValidation = validateEgyptianPhone(data.phoneNumber);
   const normalizedPhone = phoneValidation.isValid ? phoneValidation.normalized : data.phoneNumber.trim();
-  const phoneLast4 = normalizedPhone.slice(-4);
-  const customerFirstName = data.fullName.trim().split(' ')[0] || 'عميل';
+  const phoneLast4Hash = await hashPhoneLast4(normalizedPhone.slice(-4));
 
   // 1. Full Private Booking Record (Admin Only Access)
   const newBooking: BookingRecord = {
@@ -402,15 +420,14 @@ export async function createBooking(data: {
     syncState: 'PENDING_SYNC'
   };
 
-  // 2. Safe Public Tracking Record (No PII, No Address, No Notes)
+  // 2. Safe Public Tracking Record (no raw phone digits, name, address, or notes)
   const trackingRecord: BookingTrackingRecord = {
     id: bookingId,
     status: 'NEW',
     deviceType: data.deviceType.trim(),
     brand: data.brand?.trim() || '',
     preferredTime: data.preferredTime || 'صباحاً (9 ص - 2 ظ)',
-    phoneLast4,
-    customerFirstName,
+    phoneLast4Hash,
     hasWarranty: false,
     stage: 1,
     createdAt: now,
@@ -461,15 +478,13 @@ export async function syncPendingBookings(): Promise<number> {
   let synced = 0;
   for (const booking of pending) {
     try {
-      const customerFirstName = booking.fullName.trim().split(' ')[0] || 'عميل';
       const trackingRecord: BookingTrackingRecord = {
         id: booking.id,
         status: booking.status,
         deviceType: booking.deviceType.trim(),
         brand: booking.brand?.trim() || '',
         preferredTime: booking.preferredTime || 'صباحاً (9 ص - 2 ظ)',
-        phoneLast4: booking.phoneNumber.slice(-4),
-        customerFirstName,
+        phoneLast4Hash: await hashPhoneLast4(booking.phoneNumber.slice(-4)),
         hasWarranty: false,
         stage: calculateStageFromStatus(booking.status),
         createdAt: booking.createdAt,
@@ -501,11 +516,11 @@ if (typeof window !== 'undefined') {
 /**
  * Safe Public Booking Tracker:
  * Queries the public-safe booking_tracking collection.
- * Requires bookingId + optional phoneLast4 for secondary verification.
+ * Requires bookingId + phoneLast4 for secondary verification.
  */
 export async function getBookingTracking(
   bookingId: string, 
-  phoneLast4?: string
+  phoneLast4: string
 ): Promise<{ success: boolean; data?: BookingTrackingRecord; error?: string }> {
   const cleanId = bookingId.trim().toUpperCase();
 
@@ -537,13 +552,11 @@ export async function getBookingTracking(
   }
 
   // Verification factor: check last 4 digits if provided
-  if (phoneLast4 && phoneLast4.trim().length === 4) {
-    if (found.phoneLast4 !== phoneLast4.trim()) {
-      return {
-        success: false,
-        error: 'عفواً، آخر 4 أرقام من الهاتف غير مطابقة لكود هذا الحجز لضمان الخصوصية'
-      };
-    }
+  if (phoneLast4.trim().length !== 4 || await hashPhoneLast4(phoneLast4.trim()) !== found.phoneLast4Hash) {
+    return {
+      success: false,
+      error: 'عفواً، آخر 4 أرقام من الهاتف غير مطابقة لكود هذا الحجز لضمان الخصوصية'
+    };
   }
 
   return {
