@@ -13,7 +13,7 @@ export function validateEgyptianPhone(phone: string): { isValid: boolean; normal
 
   if (match) {
     const rawDigits = match[1]; // 10-digit number like 1066007455
-    const normalized = `0${rawDigits}`; // Standard Egyptian 11 digits format: 01066007455
+    const normalized = `0${rawDigits}`; // Standard Egyptian 11 digits format: 01026663706
     return { isValid: true, normalized };
   }
 

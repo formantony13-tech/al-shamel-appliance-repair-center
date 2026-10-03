@@ -15,11 +15,11 @@ import realWasherBoardRepair from '../assets/images/real_washer_board_1788360044
 export const INITIAL_SETTINGS: AppSystemSettings = {
   centerName: 'مركز قطب للحل السريع',
   centerSlogan: 'مهما كانت المشكلة صعبة.. إحنا نحلها لك!',
-  phone1: '201066007455',
-  phone1Display: '01066007455',
+  phone1: '201026663706',
+  phone1Display: '01026663706',
   phone2: '201010965540',
   phone2Display: '01010965540',
-  whatsappNumber: '201066007455',
+  whatsappNumber: '201026663706',
   locationName: 'فروعنا تغطي محافظات: البحيرة • الغربية • الشرقية',
   yearsExperience: '30+',
   operatingHours: 'يومياً على مدار 24 ساعة لخدمتكم بمحافظات البحيرة والغربية والشرقية',
@@ -322,4 +322,3 @@ export const INITIAL_REVIEWS: CustomerReview[] = [
     verified: true
   }
 ];
-
