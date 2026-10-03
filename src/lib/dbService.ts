@@ -1105,15 +1105,22 @@ export async function fetchAllReviews(includePending = false): Promise<CustomerR
   return withTimeout(
     (async () => {
       try {
-        const q = query(collection(db, COLLECTIONS.REVIEWS), orderBy('createdAt', 'desc'));
+        // Public visitors may only query approved reviews. Request that subset
+        // from Firestore instead of fetching pending/rejected records and
+        // filtering them in the browser (which is rejected by security rules).
+        const q = includePending
+          ? query(collection(db, COLLECTIONS.REVIEWS), orderBy('createdAt', 'desc'))
+          : query(collection(db, COLLECTIONS.REVIEWS), where('status', '==', 'APPROVED'));
         const querySnapshot = await getDocs(q);
         if (!querySnapshot.empty) {
-          const reviews = querySnapshot.docs.map(doc => doc.data() as CustomerReview);
+          const reviews = querySnapshot.docs
+            .map(doc => doc.data() as CustomerReview)
+            .sort((a, b) => String(b.createdAt || '').localeCompare(String(a.createdAt || '')));
           setLocalCache(STORAGE_KEYS.REVIEWS, reviews);
           if (includePending) {
             return reviews;
           }
-          return reviews.filter(r => r.status === 'APPROVED');
+          return reviews;
         }
         return includePending ? local : local.filter(r => r.status === 'APPROVED');
       } catch {
