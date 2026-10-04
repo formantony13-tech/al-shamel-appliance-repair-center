@@ -1,14 +1,14 @@
 import React from 'react';
-import { 
-  TrendingUp, 
-  Calendar, 
-  Wrench, 
-  Users, 
-  Star, 
-  CheckCircle2, 
-  Clock, 
-  DollarSign, 
-  MapPin, 
+import {
+  TrendingUp,
+  Calendar,
+  Wrench,
+  Users,
+  Star,
+  CheckCircle2,
+  Clock,
+  DollarSign,
+  MapPin,
   AlertCircle,
   Sparkles,
   PhoneCall,
@@ -70,7 +70,7 @@ export const AdminOverviewTab: React.FC<AdminOverviewTabProps> = ({
           <button
             type="button"
             onClick={() => onNavigateTab('bookings')}
-            className="px-3.5 py-1.5 bg-[#0e3a5e] text-white rounded-xl font-black text-xs hover:bg-[#123f66] transition-colors cursor-pointer shrink-0"
+            className="px-3.5 py-1.5 bg-[#123b4a] text-white rounded-xl font-black text-xs hover:bg-[#174c5d] transition-colors cursor-pointer shrink-0"
           >
             عرض الطلبات الجديدة 📋
           </button>
@@ -80,9 +80,9 @@ export const AdminOverviewTab: React.FC<AdminOverviewTabProps> = ({
       {/* Primary KPI Metric Cards */}
       <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
         {/* Total Bookings */}
-        <div 
+        <div
           onClick={() => onNavigateTab('bookings')}
-          className="bg-white p-5 rounded-2xl border border-slate-200 shadow-sm hover:border-[#ff7a00]/50 transition-all cursor-pointer group"
+          className="bg-white p-5 rounded-2xl border border-slate-200 shadow-sm hover:border-[#d97706]/50 transition-all cursor-pointer group"
         >
           <div className="flex items-center justify-between mb-3">
             <span className="text-xs font-black text-slate-500">إجمالي الحجوزات</span>
@@ -100,7 +100,7 @@ export const AdminOverviewTab: React.FC<AdminOverviewTabProps> = ({
         </div>
 
         {/* Completed Repairs */}
-        <div 
+        <div
           onClick={() => onNavigateTab('repairs')}
           className="bg-white p-5 rounded-2xl border border-slate-200 shadow-sm hover:border-emerald-500/50 transition-all cursor-pointer group"
         >
@@ -120,7 +120,7 @@ export const AdminOverviewTab: React.FC<AdminOverviewTabProps> = ({
         </div>
 
         {/* Total Customers */}
-        <div 
+        <div
           onClick={() => onNavigateTab('customers')}
           className="bg-white p-5 rounded-2xl border border-slate-200 shadow-sm hover:border-indigo-500/50 transition-all cursor-pointer group"
         >
@@ -140,13 +140,13 @@ export const AdminOverviewTab: React.FC<AdminOverviewTabProps> = ({
         </div>
 
         {/* Portfolio & Reviews */}
-        <div 
+        <div
           onClick={() => onNavigateTab('reviews')}
           className="bg-white p-5 rounded-2xl border border-slate-200 shadow-sm hover:border-amber-500/50 transition-all cursor-pointer group"
         >
           <div className="flex items-center justify-between mb-3">
             <span className="text-xs font-black text-slate-500">التقييمات والأعمال</span>
-            <div className="w-9 h-9 rounded-xl bg-amber-50 text-[#ff7a00] flex items-center justify-center group-hover:scale-110 transition-transform">
+            <div className="w-9 h-9 rounded-xl bg-amber-50 text-[#d97706] flex items-center justify-center group-hover:scale-110 transition-transform">
               <Star className="w-5 h-5" />
             </div>
           </div>
@@ -163,12 +163,12 @@ export const AdminOverviewTab: React.FC<AdminOverviewTabProps> = ({
 
       {/* Middle Grid: Geographic Distribution & Top Devices */}
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-        
+
         {/* Branches & Areas Distribution */}
         <div className="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm space-y-4">
           <div className="flex items-center justify-between border-b border-slate-100 pb-3">
             <h3 className="text-sm font-black text-slate-900 flex items-center gap-2">
-              <MapPin className="w-4 h-4 text-[#ff7a00]" />
+              <MapPin className="w-4 h-4 text-[#d97706]" />
               <span>التوزيع الجغرافي للطلبات</span>
             </h3>
             <span className="text-[10px] font-bold text-slate-400">الفروع الثلاثة</span>
@@ -178,12 +178,12 @@ export const AdminOverviewTab: React.FC<AdminOverviewTabProps> = ({
             <div>
               <div className="flex items-center justify-between font-bold text-slate-700 mb-1">
                 <span>محافظة البحيرة (دمنهور، أبو المطامير...)</span>
-                <span className="font-mono text-[#0e3a5e]">{branchStats.beheira} طلب</span>
+                <span className="font-mono text-[#123b4a]">{branchStats.beheira} طلب</span>
               </div>
               <div className="w-full h-2 rounded-full bg-slate-100 overflow-hidden">
-                <div 
-                  className="h-full bg-[#0e3a5e] rounded-full" 
-                  style={{ width: `${totalBookings > 0 ? (branchStats.beheira / totalBookings) * 100 : 33}%` }} 
+                <div
+                  className="h-full bg-[#123b4a] rounded-full"
+                  style={{ width: `${totalBookings > 0 ? (branchStats.beheira / totalBookings) * 100 : 33}%` }}
                 />
               </div>
             </div>
@@ -191,12 +191,12 @@ export const AdminOverviewTab: React.FC<AdminOverviewTabProps> = ({
             <div>
               <div className="flex items-center justify-between font-bold text-slate-700 mb-1">
                 <span>محافظة الغربية (طنطا، المحلة، كفر الزيات...)</span>
-                <span className="font-mono text-[#ff7a00]">{branchStats.gharbia} طلب</span>
+                <span className="font-mono text-[#d97706]">{branchStats.gharbia} طلب</span>
               </div>
               <div className="w-full h-2 rounded-full bg-slate-100 overflow-hidden">
-                <div 
-                  className="h-full bg-[#ff7a00] rounded-full" 
-                  style={{ width: `${totalBookings > 0 ? (branchStats.gharbia / totalBookings) * 100 : 33}%` }} 
+                <div
+                  className="h-full bg-[#d97706] rounded-full"
+                  style={{ width: `${totalBookings > 0 ? (branchStats.gharbia / totalBookings) * 100 : 33}%` }}
                 />
               </div>
             </div>
@@ -207,9 +207,9 @@ export const AdminOverviewTab: React.FC<AdminOverviewTabProps> = ({
                 <span className="font-mono text-emerald-600">{branchStats.sharqia} طلب</span>
               </div>
               <div className="w-full h-2 rounded-full bg-slate-100 overflow-hidden">
-                <div 
-                  className="h-full bg-emerald-600 rounded-full" 
-                  style={{ width: `${totalBookings > 0 ? (branchStats.sharqia / totalBookings) * 100 : 33}%` }} 
+                <div
+                  className="h-full bg-emerald-600 rounded-full"
+                  style={{ width: `${totalBookings > 0 ? (branchStats.sharqia / totalBookings) * 100 : 33}%` }}
                 />
               </div>
             </div>
@@ -221,9 +221,9 @@ export const AdminOverviewTab: React.FC<AdminOverviewTabProps> = ({
                   <span className="font-mono text-slate-500">{otherAreaCount} طلب</span>
                 </div>
                 <div className="w-full h-2 rounded-full bg-slate-100 overflow-hidden">
-                  <div 
-                    className="h-full bg-slate-400 rounded-full" 
-                    style={{ width: `${totalBookings > 0 ? (otherAreaCount / totalBookings) * 100 : 10}%` }} 
+                  <div
+                    className="h-full bg-slate-400 rounded-full"
+                    style={{ width: `${totalBookings > 0 ? (otherAreaCount / totalBookings) * 100 : 10}%` }}
                   />
                 </div>
               </div>
@@ -235,7 +235,7 @@ export const AdminOverviewTab: React.FC<AdminOverviewTabProps> = ({
         <div className="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm space-y-4">
           <div className="flex items-center justify-between border-b border-slate-100 pb-3">
             <h3 className="text-sm font-black text-slate-900 flex items-center gap-2">
-              <Wrench className="w-4 h-4 text-[#0e3a5e]" />
+              <Wrench className="w-4 h-4 text-[#123b4a]" />
               <span>الأجهزة الأكثر طلباً للصيانة</span>
             </h3>
             <span className="text-[10px] font-bold text-slate-400">إحصائية دقيقة</span>
@@ -260,9 +260,9 @@ export const AdminOverviewTab: React.FC<AdminOverviewTabProps> = ({
         </div>
 
         {/* Quick Operational Shortcuts */}
-        <div className="bg-gradient-to-br from-[#0e3a5e] to-[#123f66] text-white p-6 rounded-2xl shadow-sm space-y-4">
+        <div className="bg-gradient-to-br from-[#123b4a] to-[#174c5d] text-white p-6 rounded-2xl shadow-sm space-y-4">
           <h3 className="text-sm font-black flex items-center gap-2 text-white">
-            <Sparkles className="w-4 h-4 text-[#ff7a00]" />
+            <Sparkles className="w-4 h-4 text-[#d97706]" />
             <span>إجراءات التشغيل السريعة</span>
           </h3>
 
@@ -297,7 +297,7 @@ export const AdminOverviewTab: React.FC<AdminOverviewTabProps> = ({
             <button
               type="button"
               onClick={() => onNavigateTab('pricing')}
-              className="w-full p-2.5 rounded-xl bg-[#ff7a00] hover:bg-[#e66e00] text-white font-black text-right flex items-center justify-between transition-colors cursor-pointer shadow"
+              className="w-full p-2.5 rounded-xl bg-[#d97706] hover:bg-[#b45309] text-white font-black text-right flex items-center justify-between transition-colors cursor-pointer shadow"
             >
               <span>جدول أسعار الصيانة الاسترشادية</span>
               <span>←</span>
@@ -311,13 +311,13 @@ export const AdminOverviewTab: React.FC<AdminOverviewTabProps> = ({
       <div className="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm space-y-4">
         <div className="flex items-center justify-between border-b border-slate-100 pb-3">
           <h3 className="text-sm font-black text-slate-900 flex items-center gap-2">
-            <Calendar className="w-4 h-4 text-[#ff7a00]" />
+            <Calendar className="w-4 h-4 text-[#d97706]" />
             <span>آخر الحجوزات الواردة</span>
           </h3>
           <button
             type="button"
             onClick={() => onNavigateTab('bookings')}
-            className="text-xs font-black text-[#0e3a5e] hover:underline"
+            className="text-xs font-black text-[#123b4a] hover:underline"
           >
             عرض الكل ({bookings.length}) ←
           </button>
@@ -338,21 +338,21 @@ export const AdminOverviewTab: React.FC<AdminOverviewTabProps> = ({
               </thead>
               <tbody className="divide-y divide-slate-100">
                 {bookings.slice(0, 5).map((booking) => (
-                  <tr 
+                  <tr
                     key={booking.id}
                     onClick={() => onSelectBooking(booking)}
                     className="hover:bg-slate-50/80 cursor-pointer transition-colors"
                   >
-                    <td className="py-2.5 font-mono font-bold text-[#0e3a5e]">{booking.id}</td>
+                    <td className="py-2.5 font-mono font-bold text-[#123b4a]">{booking.id}</td>
                     <td className="py-2.5 font-bold text-slate-900">{booking.fullName}</td>
                     <td className="py-2.5 text-slate-700">{booking.deviceType}</td>
                     <td className="py-2.5 text-slate-500 max-w-[150px] truncate">{booking.address}</td>
                     <td className="py-2.5">
                       <span className={`px-2 py-0.5 rounded text-[10px] font-black ${
-                        booking.status === 'NEW' 
-                          ? 'bg-blue-100 text-blue-800' 
-                          : booking.status === 'COMPLETED' 
-                          ? 'bg-emerald-100 text-emerald-800' 
+                        booking.status === 'NEW'
+                          ? 'bg-blue-100 text-blue-800'
+                          : booking.status === 'COMPLETED'
+                          ? 'bg-emerald-100 text-emerald-800'
                           : 'bg-amber-100 text-amber-800'
                       }`}>
                         {booking.status}

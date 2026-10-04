@@ -236,7 +236,7 @@ export const AdminWorksTab: React.FC<AdminWorksTabProps> = ({
       <div className="bg-white rounded-3xl border border-slate-200 p-6 sm:p-7 shadow-xs">
         <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
           <div className="flex items-center gap-3">
-            <div className="p-3 rounded-2xl bg-[#0e3a5e]/10 text-[#0e3a5e]">
+            <div className="p-3 rounded-2xl bg-[#123b4a]/10 text-[#123b4a]">
               <ImageIcon className="w-6 h-6" />
             </div>
             <div>
@@ -253,9 +253,9 @@ export const AdminWorksTab: React.FC<AdminWorksTabProps> = ({
             id="admin-add-work-btn"
             type="button"
             onClick={handleOpenAddModal}
-            className="flex items-center gap-2 px-6 py-3 rounded-2xl bg-[#0e3a5e] hover:bg-[#123f66] text-white font-black text-xs sm:text-sm shadow-lg shadow-[#0e3a5e]/20 transition-all cursor-pointer"
+            className="flex items-center gap-2 px-6 py-3 rounded-2xl bg-[#123b4a] hover:bg-[#174c5d] text-white font-black text-xs sm:text-sm shadow-lg shadow-[#123b4a]/20 transition-all cursor-pointer"
           >
-            <Plus className="w-4 h-4 text-[#ff7a00]" />
+            <Plus className="w-4 h-4 text-[#d97706]" />
             <span>إضافة عمل جديد للمعرض</span>
           </button>
         </div>
@@ -281,7 +281,7 @@ export const AdminWorksTab: React.FC<AdminWorksTabProps> = ({
             placeholder="بحث في أعمال الصيانة بالعنوان أو وصف العطل أو طريقة الإصلاح..."
             value={searchTerm}
             onChange={e => setSearchTerm(e.target.value)}
-            className="w-full pr-10 pl-4 py-2.5 text-xs sm:text-sm bg-slate-50 border border-slate-200 rounded-xl focus:bg-white focus:border-[#0e3a5e] focus:outline-hidden transition-all"
+            className="w-full pr-10 pl-4 py-2.5 text-xs sm:text-sm bg-slate-50 border border-slate-200 rounded-xl focus:bg-white focus:border-[#123b4a] focus:outline-hidden transition-all"
           />
         </div>
 
@@ -309,7 +309,7 @@ export const AdminWorksTab: React.FC<AdminWorksTabProps> = ({
           <p className="text-xs text-slate-500">يمكنك إضافة عمل جديد أو تغيير كلمات وتصنيفات البحث</p>
           <button
             onClick={handleOpenAddModal}
-            className="px-5 py-2.5 rounded-xl bg-[#0e3a5e] text-white font-bold text-xs hover:bg-[#123f66] transition-colors"
+            className="px-5 py-2.5 rounded-xl bg-[#123b4a] text-white font-bold text-xs hover:bg-[#174c5d] transition-colors"
           >
             إضافة عمل للمعرض الآن
           </button>
@@ -331,7 +331,7 @@ export const AdminWorksTab: React.FC<AdminWorksTabProps> = ({
                     className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
                     loading="lazy"
                   />
-                  <span className="absolute top-3 right-3 px-3 py-1 rounded-xl bg-[#0e3a5e]/90 text-white text-xs font-black backdrop-blur-md shadow-md">
+                  <span className="absolute top-3 right-3 px-3 py-1 rounded-xl bg-[#123b4a]/90 text-white text-xs font-black backdrop-blur-md shadow-md">
                     {work.category}
                   </span>
                   {work.beforeImage && (
@@ -423,7 +423,7 @@ export const AdminWorksTab: React.FC<AdminWorksTabProps> = ({
           <div className="bg-white rounded-3xl max-w-2xl w-full p-6 sm:p-8 shadow-2xl border border-slate-100 my-8 text-right animate-fade-in">
             <div className="flex items-center justify-between pb-4 mb-6 border-b border-slate-100">
               <div className="flex items-center gap-3">
-                <div className="p-2.5 rounded-2xl bg-[#0e3a5e]/10 text-[#0e3a5e]">
+                <div className="p-2.5 rounded-2xl bg-[#123b4a]/10 text-[#123b4a]">
                   <ImageIcon className="w-6 h-6" />
                 </div>
                 <div>
@@ -463,7 +463,7 @@ export const AdminWorksTab: React.FC<AdminWorksTabProps> = ({
                     placeholder="مثال: إصلاح ثلاجة شارب 16 قدم - استبدال كمبروسر وشحن فريون أصلي"
                     value={formData.title}
                     onChange={e => setFormData({ ...formData, title: e.target.value })}
-                    className="w-full px-4 py-2.5 text-xs sm:text-sm bg-slate-50 border border-slate-200 rounded-xl focus:bg-white focus:border-[#0e3a5e] focus:outline-hidden font-semibold"
+                    className="w-full px-4 py-2.5 text-xs sm:text-sm bg-slate-50 border border-slate-200 rounded-xl focus:bg-white focus:border-[#123b4a] focus:outline-hidden font-semibold"
                   />
                 </div>
 
@@ -473,7 +473,7 @@ export const AdminWorksTab: React.FC<AdminWorksTabProps> = ({
                   <select
                     value={formData.category}
                     onChange={e => setFormData({ ...formData, category: e.target.value as ApplianceCategory })}
-                    className="w-full px-4 py-2.5 text-xs sm:text-sm bg-slate-50 border border-slate-200 rounded-xl focus:bg-white focus:border-[#0e3a5e] focus:outline-hidden font-semibold"
+                    className="w-full px-4 py-2.5 text-xs sm:text-sm bg-slate-50 border border-slate-200 rounded-xl focus:bg-white focus:border-[#123b4a] focus:outline-hidden font-semibold"
                   >
                     <option value="ثلاجات">ثلاجات</option>
                     <option value="غسالات">غسالات</option>
@@ -491,7 +491,7 @@ export const AdminWorksTab: React.FC<AdminWorksTabProps> = ({
                     placeholder="مثال: ثلاجة 18 قدم نوفروست"
                     value={formData.deviceType}
                     onChange={e => setFormData({ ...formData, deviceType: e.target.value })}
-                    className="w-full px-4 py-2.5 text-xs sm:text-sm bg-slate-50 border border-slate-200 rounded-xl focus:bg-white focus:border-[#0e3a5e] focus:outline-hidden font-semibold"
+                    className="w-full px-4 py-2.5 text-xs sm:text-sm bg-slate-50 border border-slate-200 rounded-xl focus:bg-white focus:border-[#123b4a] focus:outline-hidden font-semibold"
                   />
                 </div>
 
@@ -503,7 +503,7 @@ export const AdminWorksTab: React.FC<AdminWorksTabProps> = ({
                     placeholder="مثال: توشيبا العربي / إل جي / كريازي"
                     value={formData.brand}
                     onChange={e => setFormData({ ...formData, brand: e.target.value })}
-                    className="w-full px-4 py-2.5 text-xs sm:text-sm bg-slate-50 border border-slate-200 rounded-xl focus:bg-white focus:border-[#0e3a5e] focus:outline-hidden font-semibold"
+                    className="w-full px-4 py-2.5 text-xs sm:text-sm bg-slate-50 border border-slate-200 rounded-xl focus:bg-white focus:border-[#123b4a] focus:outline-hidden font-semibold"
                   />
                 </div>
 
@@ -514,7 +514,7 @@ export const AdminWorksTab: React.FC<AdminWorksTabProps> = ({
                     type="date"
                     value={formData.date}
                     onChange={e => setFormData({ ...formData, date: e.target.value })}
-                    className="w-full px-4 py-2.5 text-xs sm:text-sm bg-slate-50 border border-slate-200 rounded-xl focus:bg-white focus:border-[#0e3a5e] focus:outline-hidden font-semibold"
+                    className="w-full px-4 py-2.5 text-xs sm:text-sm bg-slate-50 border border-slate-200 rounded-xl focus:bg-white focus:border-[#123b4a] focus:outline-hidden font-semibold"
                   />
                 </div>
 
@@ -529,7 +529,7 @@ export const AdminWorksTab: React.FC<AdminWorksTabProps> = ({
                     placeholder="ما المشكلة التي كان يعاني منها الجهاز؟ مثال: صوت عالي بالكمبروسر مع توقف كامل للتبريد في الكابينة"
                     value={formData.problem}
                     onChange={e => setFormData({ ...formData, problem: e.target.value })}
-                    className="w-full px-4 py-2.5 text-xs bg-slate-50 border border-slate-200 rounded-xl focus:bg-white focus:border-[#0e3a5e] focus:outline-hidden font-semibold"
+                    className="w-full px-4 py-2.5 text-xs bg-slate-50 border border-slate-200 rounded-xl focus:bg-white focus:border-[#123b4a] focus:outline-hidden font-semibold"
                   />
                 </div>
 
@@ -544,7 +544,7 @@ export const AdminWorksTab: React.FC<AdminWorksTabProps> = ({
                     placeholder="كيف تم حل المشكلة؟ مثال: تغيير الكمبروسر بآخر أصلي، تنظيف الدائرة بالنيتروجين، تغيير فلتر الدراير، والشحن بميزان رقمي"
                     value={formData.solution}
                     onChange={e => setFormData({ ...formData, solution: e.target.value })}
-                    className="w-full px-4 py-2.5 text-xs bg-slate-50 border border-slate-200 rounded-xl focus:bg-white focus:border-[#0e3a5e] focus:outline-hidden font-semibold"
+                    className="w-full px-4 py-2.5 text-xs bg-slate-50 border border-slate-200 rounded-xl focus:bg-white focus:border-[#123b4a] focus:outline-hidden font-semibold"
                   />
                 </div>
 
@@ -558,7 +558,7 @@ export const AdminWorksTab: React.FC<AdminWorksTabProps> = ({
                     placeholder="موتور دانفوس ألماني أصلي&#10;فلتر دراير نحاس إيطالي&#10;شحن فريون R134a"
                     value={formData.partsReplacedText}
                     onChange={e => setFormData({ ...formData, partsReplacedText: e.target.value })}
-                    className="w-full px-4 py-2.5 text-xs bg-slate-50 border border-slate-200 rounded-xl focus:bg-white focus:border-[#0e3a5e] focus:outline-hidden font-semibold"
+                    className="w-full px-4 py-2.5 text-xs bg-slate-50 border border-slate-200 rounded-xl focus:bg-white focus:border-[#123b4a] focus:outline-hidden font-semibold"
                   />
                 </div>
 
@@ -566,7 +566,7 @@ export const AdminWorksTab: React.FC<AdminWorksTabProps> = ({
                 <div className="sm:col-span-2 bg-slate-50 p-4 rounded-2xl border border-slate-200 space-y-3">
                   <div className="flex items-center justify-between">
                     <label className="font-black text-slate-800 flex items-center gap-2">
-                      <ImageIcon className="w-4 h-4 text-[#0e3a5e]" />
+                      <ImageIcon className="w-4 h-4 text-[#123b4a]" />
                       <span>الصورة الأساسية للعمل (الرفع والضغط الآمن) <span className="text-rose-500">*</span></span>
                     </label>
                     <span className="text-[11px] font-bold text-slate-500">رفع وضغط تلقائي</span>
@@ -606,12 +606,12 @@ export const AdminWorksTab: React.FC<AdminWorksTabProps> = ({
                       >
                         {uploadingMainImage ? (
                           <>
-                            <div className="w-4 h-4 border-2 border-[#0e3a5e] border-t-transparent rounded-full animate-spin"></div>
+                            <div className="w-4 h-4 border-2 border-[#123b4a] border-t-transparent rounded-full animate-spin"></div>
                             <span>جاري رفع الصورة إلى الرفع والضغط الآمن...</span>
                           </>
                         ) : (
                           <>
-                            <Upload className="w-4 h-4 text-[#0e3a5e]" />
+                            <Upload className="w-4 h-4 text-[#123b4a]" />
                             <span>اختر الصورة الأساسية للرفع السحابي</span>
                           </>
                         )}
@@ -696,9 +696,9 @@ export const AdminWorksTab: React.FC<AdminWorksTabProps> = ({
                 <button
                   type="submit"
                   disabled={saving || uploadingMainImage || uploadingBeforeImage}
-                  className="flex items-center gap-2 px-6 py-2.5 rounded-xl bg-[#0e3a5e] hover:bg-[#123f66] text-white font-black text-xs shadow-lg shadow-[#0e3a5e]/20 transition-all cursor-pointer disabled:opacity-50"
+                  className="flex items-center gap-2 px-6 py-2.5 rounded-xl bg-[#123b4a] hover:bg-[#174c5d] text-white font-black text-xs shadow-lg shadow-[#123b4a]/20 transition-all cursor-pointer disabled:opacity-50"
                 >
-                  <Save className="w-4 h-4 text-[#ff7a00]" />
+                  <Save className="w-4 h-4 text-[#d97706]" />
                   <span>{saving ? 'جاري الحفظ في Firestore...' : editingWork ? 'حفظ التعديلات' : 'نشر العمل في المعرض'}</span>
                 </button>
               </div>
@@ -726,7 +726,7 @@ export const AdminWorksTab: React.FC<AdminWorksTabProps> = ({
               </button>
             </div>
             <div className="p-6 space-y-3">
-              <span className="text-xs font-bold text-[#0e3a5e] bg-[#0e3a5e]/10 px-2.5 py-1 rounded-lg">
+              <span className="text-xs font-bold text-[#123b4a] bg-[#123b4a]/10 px-2.5 py-1 rounded-lg">
                 {previewWork.category} • {previewWork.date}
               </span>
               <h3 className="text-base font-black text-slate-900">{previewWork.title}</h3>

@@ -55,9 +55,9 @@ export const WarrantyCertificateModal: React.FC<WarrantyCertificateModalProps> =
           <div className="flex items-center gap-2">
             <button
               onClick={handlePrint}
-              className="px-4 py-2.5 rounded-xl bg-[#0e3a5e] hover:bg-[#123f66] text-white text-xs sm:text-sm font-black flex items-center gap-2 shadow-md transition-all"
+              className="px-4 py-2.5 rounded-xl bg-[#123b4a] hover:bg-[#174c5d] text-white text-xs sm:text-sm font-black flex items-center gap-2 shadow-md transition-all"
             >
-              <Printer className="w-4 h-4 text-[#ff7a00]" />
+              <Printer className="w-4 h-4 text-[#d97706]" />
               <span>طباعة شهادة الضمان / حفظ PDF</span>
             </button>
           </div>
@@ -71,20 +71,20 @@ export const WarrantyCertificateModal: React.FC<WarrantyCertificateModalProps> =
         </div>
 
         {/* PRINTABLE CERTIFICATE DOCUMENT */}
-        <div ref={printRef} className="p-6 sm:p-8 border-4 border-double border-[#0e3a5e]/30 rounded-2xl bg-gradient-to-b from-amber-50/20 via-white to-amber-50/10 relative overflow-hidden print:border-4 print:p-8">
+        <div ref={printRef} className="p-6 sm:p-8 border-4 border-double border-[#123b4a]/30 rounded-2xl bg-gradient-to-b from-amber-50/20 via-white to-amber-50/10 relative overflow-hidden print:border-4 print:p-8">
           
           {/* Subtle Background Watermark Stamp */}
           <div className="absolute inset-0 flex items-center justify-center pointer-events-none opacity-[0.03] select-none">
-            <ShieldCheck className="w-96 h-96 text-[#0e3a5e]" />
+            <ShieldCheck className="w-96 h-96 text-[#123b4a]" />
           </div>
 
           {/* Certificate Header */}
-          <div className="flex flex-col sm:flex-row items-center justify-between gap-4 border-b-2 border-[#0e3a5e]/20 pb-5">
+          <div className="flex flex-col sm:flex-row items-center justify-between gap-4 border-b-2 border-[#123b4a]/20 pb-5">
             <div className="text-center sm:text-right">
-              <span className="text-[11px] font-black text-[#ff7a00] uppercase tracking-widest block mb-1">
+              <span className="text-[11px] font-black text-[#d97706] uppercase tracking-widest block mb-1">
                 جمهورية مصر العربية - محافظة البحيرة
               </span>
-              <h2 className="text-2xl sm:text-3xl font-black text-[#0e3a5e]">
+              <h2 className="text-2xl sm:text-3xl font-black text-[#123b4a]">
                 {CENTER_NAME}
               </h2>
               <p className="text-xs text-slate-600 font-bold mt-1">
@@ -96,16 +96,16 @@ export const WarrantyCertificateModal: React.FC<WarrantyCertificateModalProps> =
             </div>
 
             {/* Seal / Badge */}
-            <div className="flex flex-col items-center justify-center px-4 py-3 bg-[#0e3a5e]/5 rounded-2xl border-2 border-[#0e3a5e]/20 shrink-0">
-              <Award className="w-10 h-10 text-[#ff7a00] mb-1" />
-              <span className="text-xs font-black text-[#0e3a5e]">شهادة ضمان معتمدة</span>
+            <div className="flex flex-col items-center justify-center px-4 py-3 bg-[#123b4a]/5 rounded-2xl border-2 border-[#123b4a]/20 shrink-0">
+              <Award className="w-10 h-10 text-[#d97706] mb-1" />
+              <span className="text-xs font-black text-[#123b4a]">شهادة ضمان معتمدة</span>
               <span className="text-[10px] font-bold text-slate-500 font-mono mt-0.5">{booking.id}</span>
             </div>
           </div>
 
           {/* Title Ribbon */}
           <div className="my-6 text-center">
-            <div className="inline-block px-6 py-2 rounded-xl bg-gradient-to-r from-[#0e3a5e] to-[#123f66] text-white shadow-md">
+            <div className="inline-block px-6 py-2 rounded-xl bg-gradient-to-r from-[#123b4a] to-[#174c5d] text-white shadow-md">
               <h3 className="text-base sm:text-lg font-black tracking-wide">
                 إيصال صيانة وشهادة ضمان قطع غيار أصلية
               </h3>
@@ -124,7 +124,7 @@ export const WarrantyCertificateModal: React.FC<WarrantyCertificateModalProps> =
 
             <div className="p-3.5 rounded-xl bg-white border border-slate-200 shadow-2xs">
               <span className="text-slate-400 font-bold block mb-1">رقم الهاتف المسجل:</span>
-              <span className="text-sm font-black font-mono text-[#0e3a5e]">{booking.phoneNumber}</span>
+              <span className="text-sm font-black font-mono text-[#123b4a]">{booking.phoneNumber}</span>
             </div>
 
             <div className="p-3.5 rounded-xl bg-white border border-slate-200 shadow-2xs">
@@ -153,7 +153,7 @@ export const WarrantyCertificateModal: React.FC<WarrantyCertificateModalProps> =
           {/* Fault & Repair Details */}
           <div className="space-y-3 my-4 text-xs">
             <div className="p-3.5 rounded-xl bg-slate-50 border border-slate-200">
-              <span className="font-black text-[#0e3a5e] block mb-1">بيان العطل الذي تم إصلاحه:</span>
+              <span className="font-black text-[#123b4a] block mb-1">بيان العطل الذي تم إصلاحه:</span>
               <p className="text-slate-700 font-semibold leading-relaxed">
                 {booking.issueDescription}
               </p>
@@ -187,18 +187,18 @@ export const WarrantyCertificateModal: React.FC<WarrantyCertificateModalProps> =
           </div>
 
           {/* Footer & Signature Stamp */}
-          <div className="pt-6 border-t-2 border-[#0e3a5e]/20 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs">
+          <div className="pt-6 border-t-2 border-[#123b4a]/20 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs">
             <div className="space-y-1 text-center sm:text-right">
-              <p className="font-black text-[#0e3a5e]">أرقام طوارئ الدعم الفني وخدمة العملاء:</p>
+              <p className="font-black text-[#123b4a]">أرقام طوارئ الدعم الفني وخدمة العملاء:</p>
               <p className="font-mono font-bold text-slate-700">{DISPLAY_PHONE_1} — {DISPLAY_PHONE_2}</p>
               <p className="text-[10px] text-slate-500 font-semibold">{LOCATION_NAME}</p>
             </div>
 
             <div className="text-center">
-              <div className="w-32 h-16 border-2 border-dashed border-[#0e3a5e]/40 rounded-xl flex items-center justify-center bg-white">
+              <div className="w-32 h-16 border-2 border-dashed border-[#123b4a]/40 rounded-xl flex items-center justify-center bg-white">
                 <div className="text-center">
-                  <span className="text-[10px] font-black text-[#0e3a5e] block">ختم واعتماد</span>
-                  <span className="text-[11px] font-black text-[#ff7a00]">مركز قطب للصيانة</span>
+                  <span className="text-[10px] font-black text-[#123b4a] block">ختم واعتماد</span>
+                  <span className="text-[11px] font-black text-[#d97706]">مركز قطب للصيانة</span>
                 </div>
               </div>
               <span className="text-[10px] text-slate-400 font-bold mt-1 block">توقيع المهندس المسؤول</span>

@@ -268,7 +268,7 @@ ${formData.issueDescription.trim()}
                     <span className="text-xs font-black text-emerald-600 bg-emerald-50 px-3.5 py-1 rounded-full border border-emerald-200">
                       تم استلام وتوثيق طلبك بنجاح
                     </span>
-                    <h3 className="text-2xl sm:text-3xl font-black text-[#0e3a5e] mt-2">
+                    <h3 className="text-2xl sm:text-3xl font-black text-[#123b4a] mt-2">
                       شكراً لك أستاذ {confirmedBooking.fullName}
                     </h3>
                     <p className="text-xs sm:text-sm text-slate-600 font-semibold mt-1">
@@ -277,15 +277,15 @@ ${formData.issueDescription.trim()}
                   </div>
 
                   {/* Booking ID Box */}
-                  <div className="p-4 rounded-2xl bg-white border-2 border-[#0e3a5e]/20 max-w-sm mx-auto flex items-center justify-between shadow-sm">
+                  <div className="p-4 rounded-2xl bg-white border-2 border-[#123b4a]/20 max-w-sm mx-auto flex items-center justify-between shadow-sm">
                     <div className="text-right">
                       <span className="text-[11px] font-bold text-slate-400 block">كود متابعة الحجز:</span>
-                      <span className="text-xl font-black text-[#0e3a5e] font-mono">{confirmedBooking.id}</span>
+                      <span className="text-xl font-black text-[#123b4a] font-mono">{confirmedBooking.id}</span>
                     </div>
                     <button
                       type="button"
                       onClick={copyBookingId}
-                      className="p-2.5 rounded-xl bg-slate-100 hover:bg-[#0e3a5e] hover:text-white text-slate-700 transition-colors"
+                      className="p-2.5 rounded-xl bg-slate-100 hover:bg-[#123b4a] hover:text-white text-slate-700 transition-colors"
                       title="نسخ كود الحجز"
                     >
                       <Copy className="w-4 h-4" />
@@ -303,9 +303,9 @@ ${formData.issueDescription.trim()}
                       <button
                         type="button"
                         onClick={() => onViewWarrantyCertificate(confirmedBooking)}
-                        className="w-full sm:w-auto px-6 py-3.5 rounded-2xl bg-[#0e3a5e] hover:bg-[#123f66] text-white font-black text-sm flex items-center justify-center gap-2 shadow-md"
+                        className="w-full sm:w-auto px-6 py-3.5 rounded-2xl bg-[#123b4a] hover:bg-[#174c5d] text-white font-black text-sm flex items-center justify-center gap-2 shadow-md"
                       >
-                        <Award className="w-4 h-4 text-[#ff7a00]" />
+                        <Award className="w-4 h-4 text-[#d97706]" />
                         <span>عرض وطباعة إيصال الحجز والضمان</span>
                       </button>
                     )}
@@ -367,7 +367,7 @@ ${formData.issueDescription.trim()}
 
                   <div className="text-right mb-8">
                     <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2.5 mb-3">
-                      <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-[#ff7a00]/10 text-[#ff7a00] text-xs font-black uppercase tracking-wider w-fit">
+                      <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-[#d97706]/10 text-[#d97706] text-xs font-black uppercase tracking-wider w-fit">
                         <Calendar className="w-3.5 h-3.5" />
                         <span>حجز زيارة مهندس صيانة</span>
                       </div>
@@ -379,7 +379,7 @@ ${formData.issueDescription.trim()}
                             onClick={onOpenTroubleshooting}
                             className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-amber-50 hover:bg-amber-100 text-amber-900 text-xs font-black border border-amber-200 transition-colors"
                           >
-                            <HelpCircle className="w-3.5 h-3.5 text-[#ff7a00]" />
+                            <HelpCircle className="w-3.5 h-3.5 text-[#d97706]" />
                             <span>دليل الأعطال</span>
                           </button>
                         )}
@@ -390,13 +390,13 @@ ${formData.issueDescription.trim()}
                             onClick={onOpenTracker}
                             className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-black border border-slate-200 transition-colors"
                           >
-                            <Search className="w-3.5 h-3.5 text-[#ff7a00]" />
+                            <Search className="w-3.5 h-3.5 text-[#d97706]" />
                             <span>تتبع الحجز</span>
                           </button>
                         )}
                       </div>
                     </div>
-                    <h2 className="text-2xl sm:text-3xl font-black text-[#0e3a5e] leading-tight">
+                    <h2 className="text-2xl sm:text-3xl font-black text-[#123b4a] leading-tight">
                       احجز مهندس صيانة لمنزلك الآن
                     </h2>
                     <p className="mt-2 text-xs sm:text-sm text-slate-600 font-semibold leading-relaxed">
@@ -439,7 +439,7 @@ ${formData.issueDescription.trim()}
                               <MessageSquare className="w-4 h-4" />
                             </div>
                             <div>
-                              <span className="text-xs font-black text-[#0e3a5e] block">الخط الأساسي</span>
+                              <span className="text-xs font-black text-[#123b4a] block">الخط الأساسي</span>
                               <span className="text-xs font-mono font-bold text-emerald-800" dir="ltr">{DISPLAY_PHONE_1}</span>
                             </div>
                           </div>
@@ -462,7 +462,7 @@ ${formData.issueDescription.trim()}
                               <MessageCircle className="w-4 h-4 text-[#25D366]" />
                             </div>
                             <div>
-                              <span className="text-xs font-black text-[#0e3a5e] block">الخط الثاني</span>
+                              <span className="text-xs font-black text-[#123b4a] block">الخط الثاني</span>
                               <span className="text-xs font-mono font-bold text-slate-800" dir="ltr">{DISPLAY_PHONE_2}</span>
                             </div>
                           </div>
@@ -485,7 +485,7 @@ ${formData.issueDescription.trim()}
                           placeholder="مثال: أحمد عبد الله"
                           value={formData.fullName}
                           onChange={(e) => setFormData({ ...formData, fullName: e.target.value })}
-                          className="w-full px-4 py-3 rounded-2xl border border-slate-200 bg-white text-sm font-semibold text-slate-800 focus:outline-none focus:ring-2 focus:ring-[#0e3a5e]/20 focus:border-[#0e3a5e] transition-all"
+                          className="w-full px-4 py-3 rounded-2xl border border-slate-200 bg-white text-sm font-semibold text-slate-800 focus:outline-none focus:ring-2 focus:ring-[#123b4a]/20 focus:border-[#123b4a] transition-all"
                         />
                       </div>
 
@@ -499,7 +499,7 @@ ${formData.issueDescription.trim()}
                           placeholder="010xxxxxxxx أو 011xxxxxxxx"
                           value={formData.phoneNumber}
                           onChange={(e) => setFormData({ ...formData, phoneNumber: e.target.value })}
-                          className="w-full px-4 py-3 rounded-2xl border border-slate-200 bg-white text-sm font-semibold text-slate-800 focus:outline-none focus:ring-2 focus:ring-[#0e3a5e]/20 focus:border-[#0e3a5e] transition-all text-left"
+                          className="w-full px-4 py-3 rounded-2xl border border-slate-200 bg-white text-sm font-semibold text-slate-800 focus:outline-none focus:ring-2 focus:ring-[#123b4a]/20 focus:border-[#123b4a] transition-all text-left"
                           dir="ltr"
                         />
                       </div>
@@ -517,7 +517,7 @@ ${formData.issueDescription.trim()}
                           placeholder="اكتب محافظتك والمركز / القرية بالتفصيل (مثال: دمنهور - شارع الجمهورية أو طنطا أو الزقازيق...)"
                           value={formData.address}
                           onChange={(e) => setFormData({ ...formData, address: e.target.value })}
-                          className="w-full pl-4 pr-10 py-3 rounded-2xl border border-slate-200 bg-white text-sm font-semibold text-slate-800 focus:outline-none focus:ring-2 focus:ring-[#0e3a5e]/20 focus:border-[#0e3a5e] transition-all"
+                          className="w-full pl-4 pr-10 py-3 rounded-2xl border border-slate-200 bg-white text-sm font-semibold text-slate-800 focus:outline-none focus:ring-2 focus:ring-[#123b4a]/20 focus:border-[#123b4a] transition-all"
                         />
                         <MapPin className="w-5 h-5 text-slate-400 absolute top-3.5 right-3.5" />
                       </div>
@@ -540,7 +540,7 @@ ${formData.issueDescription.trim()}
                               }}
                               className={`px-3 py-1.5 rounded-xl text-[11px] font-bold transition-all ${
                                 formData.address.includes(branch.substring(0, 12))
-                                  ? 'bg-[#0e3a5e] text-white shadow-sm'
+                                  ? 'bg-[#123b4a] text-white shadow-sm'
                                   : 'bg-slate-100 text-slate-700 border border-slate-200 hover:bg-slate-200'
                               }`}
                             >
@@ -558,7 +558,7 @@ ${formData.issueDescription.trim()}
                           <label className="block text-xs font-black text-slate-700">
                             اكتب نوع جهازك <span className="text-red-500">*</span>
                           </label>
-                          <span className="text-[11px] text-[#ff7a00] font-bold">
+                          <span className="text-[11px] text-[#d97706] font-bold">
                             حر (يمكنك كتابة أي نوع)
                           </span>
                         </div>
@@ -568,7 +568,7 @@ ${formData.issueDescription.trim()}
                           placeholder="اكتب نوع جهازك هنا (مثال: ديب فريزر، غسالة، ثلاجة، فرن...)"
                           value={formData.deviceType}
                           onChange={(e) => setFormData({ ...formData, deviceType: e.target.value })}
-                          className="w-full px-4 py-3 rounded-2xl border border-slate-200 bg-white text-sm font-bold text-slate-800 focus:outline-none focus:ring-2 focus:ring-[#0e3a5e]/20 focus:border-[#0e3a5e] transition-all"
+                          className="w-full px-4 py-3 rounded-2xl border border-slate-200 bg-white text-sm font-bold text-slate-800 focus:outline-none focus:ring-2 focus:ring-[#123b4a]/20 focus:border-[#123b4a] transition-all"
                         />
                         
                         {/* Quick suggestions chips */}
@@ -584,7 +584,7 @@ ${formData.issueDescription.trim()}
                                 onClick={() => setFormData(prev => ({ ...prev, deviceType: sugg }))}
                                 className={`px-2 py-0.5 rounded-lg text-[10px] font-bold transition-all ${
                                   formData.deviceType === sugg
-                                    ? 'bg-[#ff7a00] text-white'
+                                    ? 'bg-[#d97706] text-white'
                                     : 'bg-slate-100 text-slate-600 hover:bg-slate-200'
                                 }`}
                               >
@@ -604,7 +604,7 @@ ${formData.issueDescription.trim()}
                           placeholder="مثال: ألاسكا، كريازي، شارب، توشيبا، LG، سامسونج، زانوسي، بيكو"
                           value={formData.brand}
                           onChange={(e) => setFormData({ ...formData, brand: e.target.value })}
-                          className="w-full px-4 py-3 rounded-2xl border border-slate-200 bg-white text-sm font-semibold text-slate-800 focus:outline-none focus:ring-2 focus:ring-[#0e3a5e]/20 focus:border-[#0e3a5e] transition-all"
+                          className="w-full px-4 py-3 rounded-2xl border border-slate-200 bg-white text-sm font-semibold text-slate-800 focus:outline-none focus:ring-2 focus:ring-[#123b4a]/20 focus:border-[#123b4a] transition-all"
                         />
                       </div>
                     </div>
@@ -617,7 +617,7 @@ ${formData.issueDescription.trim()}
                       <select
                         value={formData.preferredTime}
                         onChange={(e) => setFormData({ ...formData, preferredTime: e.target.value })}
-                        className="w-full px-4 py-3 rounded-2xl border border-slate-200 bg-white text-sm font-bold text-slate-800 focus:outline-none focus:ring-2 focus:ring-[#0e3a5e]/20 focus:border-[#0e3a5e] transition-all"
+                        className="w-full px-4 py-3 rounded-2xl border border-slate-200 bg-white text-sm font-bold text-slate-800 focus:outline-none focus:ring-2 focus:ring-[#123b4a]/20 focus:border-[#123b4a] transition-all"
                       >
                         {timeOptions.map((time) => (
                           <option key={time} value={time}>
@@ -638,7 +638,7 @@ ${formData.issueDescription.trim()}
                         placeholder="مثال: الديب فريزر مش بيجمد / الثلاجة بتجمع ثلج ومش بتبرد أو بتنزل ميه / الغسالة بتعصر بصوت عالي أو بتسرب ميه أو فيها برومة..."
                         value={formData.issueDescription}
                         onChange={(e) => setFormData({ ...formData, issueDescription: e.target.value })}
-                        className="w-full px-4 py-3 rounded-2xl border border-slate-200 bg-white text-sm font-semibold text-slate-800 focus:outline-none focus:ring-2 focus:ring-[#0e3a5e]/20 focus:border-[#0e3a5e] transition-all"
+                        className="w-full px-4 py-3 rounded-2xl border border-slate-200 bg-white text-sm font-semibold text-slate-800 focus:outline-none focus:ring-2 focus:ring-[#123b4a]/20 focus:border-[#123b4a] transition-all"
                       />
                     </div>
 
@@ -660,8 +660,8 @@ ${formData.issueDescription.trim()}
                           </button>
                         </div>
                       ) : (
-                        <label className="border-2 border-dashed border-slate-300 hover:border-[#0e3a5e] rounded-2xl p-4 flex flex-col items-center justify-center cursor-pointer bg-white hover:bg-slate-50 transition-colors">
-                          <Upload className="w-6 h-6 text-[#ff7a00] mb-1" />
+                        <label className="border-2 border-dashed border-slate-300 hover:border-[#123b4a] rounded-2xl p-4 flex flex-col items-center justify-center cursor-pointer bg-white hover:bg-slate-50 transition-colors">
+                          <Upload className="w-6 h-6 text-[#d97706] mb-1" />
                           <span className="text-xs font-bold text-slate-700">اضغط لرفع صورة من هاتفك أو اسحبها هنا</span>
                           <span className="text-[10px] text-slate-400 mt-0.5">تساعد المهندس في تشخيص العطل قبل التحرك</span>
                           <input
@@ -711,11 +711,11 @@ ${formData.issueDescription.trim()}
           <div className="lg:col-span-5 space-y-6">
             
             {/* Direct Call Box with Both Numbers */}
-            <div className="rounded-3xl bg-[#0e3a5e] text-white p-7 shadow-xl relative overflow-hidden">
-              <div className="absolute top-0 left-0 w-32 h-32 bg-[#ff7a00]/10 rounded-full blur-2xl pointer-events-none"></div>
+            <div className="rounded-3xl bg-[#123b4a] text-white p-7 shadow-xl relative overflow-hidden">
+              <div className="absolute top-0 left-0 w-32 h-32 bg-[#d97706]/10 rounded-full blur-2xl pointer-events-none"></div>
               
               <div className="flex items-center gap-3 mb-4">
-                <div className="w-12 h-12 rounded-2xl bg-white/10 flex items-center justify-center text-[#ff7a00]">
+                <div className="w-12 h-12 rounded-2xl bg-white/10 flex items-center justify-center text-[#d97706]">
                   <Phone className="w-6 h-6" />
                 </div>
                 <div>
@@ -729,7 +729,7 @@ ${formData.issueDescription.trim()}
                 <span className="text-[11px] font-bold text-slate-300 block mb-1">الخط الأساسي (واتساب وهاتف):</span>
                 <a
                   href={`tel:+${PHONE_NUMBER_1}`}
-                  className="text-xl sm:text-2xl font-black text-[#ff7a00] hover:text-white transition-colors block font-mono"
+                  className="text-xl sm:text-2xl font-black text-[#d97706] hover:text-white transition-colors block font-mono"
                   dir="ltr"
                 >
                   {DISPLAY_PHONE_1}
@@ -751,14 +751,14 @@ ${formData.issueDescription.trim()}
               <div className="mt-4 grid grid-cols-2 gap-2">
                 <a
                   href={`tel:+${PHONE_NUMBER_1}`}
-                  className="py-3 rounded-xl bg-[#ff7a00] hover:bg-[#e66e00] text-white font-black text-xs flex items-center justify-center gap-1.5 transition-colors"
+                  className="py-3 rounded-xl bg-[#d97706] hover:bg-[#b45309] text-white font-black text-xs flex items-center justify-center gap-1.5 transition-colors"
                 >
                   <Phone className="w-4 h-4" />
                   <span>اتصال رقم 1</span>
                 </a>
                 <a
                   href={`tel:+${PHONE_NUMBER_2}`}
-                  className="py-3 rounded-xl bg-white text-[#0e3a5e] font-black text-xs flex items-center justify-center gap-1.5 hover:bg-slate-100 transition-colors"
+                  className="py-3 rounded-xl bg-white text-[#123b4a] font-black text-xs flex items-center justify-center gap-1.5 hover:bg-slate-100 transition-colors"
                 >
                   <Phone className="w-4 h-4 text-emerald-600" />
                   <span>اتصال رقم 2</span>
@@ -768,8 +768,8 @@ ${formData.issueDescription.trim()}
 
             {/* Service Guarantees Card */}
             <div className="rounded-3xl bg-slate-50 border border-slate-200 p-6 space-y-4">
-              <h4 className="text-sm font-black text-[#0e3a5e] flex items-center gap-2">
-                <ShieldCheck className="w-4 h-4 text-[#ff7a00]" />
+              <h4 className="text-sm font-black text-[#123b4a] flex items-center gap-2">
+                <ShieldCheck className="w-4 h-4 text-[#d97706]" />
                 مميزات الصيانة مع مركز قطب:
               </h4>
 
@@ -796,15 +796,15 @@ ${formData.issueDescription.trim()}
             {/* Service Area Card */}
             <div className="rounded-3xl bg-slate-50 border border-slate-200 p-6">
               <div className="flex items-center justify-between mb-2">
-                <h4 className="text-sm font-black text-[#0e3a5e] flex items-center gap-2">
-                  <MapPin className="w-4 h-4 text-[#ff7a00]" />
+                <h4 className="text-sm font-black text-[#123b4a] flex items-center gap-2">
+                  <MapPin className="w-4 h-4 text-[#d97706]" />
                   نطاق التغطية والخدمة:
                 </h4>
                 <a
                   href={GOOGLE_MAPS_LINK}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="text-xs text-[#ff7a00] hover:underline font-bold"
+                  className="text-xs text-[#d97706] hover:underline font-bold"
                 >
                   الخريطة 📍
                 </a>

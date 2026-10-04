@@ -92,9 +92,9 @@ export const AdminAdminsTab: React.FC<AdminAdminsTabProps> = ({
   return (
     <div className="space-y-6">
       {/* Header Banner */}
-      <div className="bg-gradient-to-r from-[#0e3a5e] to-[#123f66] text-white p-6 rounded-2xl shadow-sm flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+      <div className="bg-gradient-to-r from-[#123b4a] to-[#174c5d] text-white p-6 rounded-2xl shadow-sm flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
         <div>
-          <div className="flex items-center gap-2 text-[#ff7a00] font-black text-xs mb-1">
+          <div className="flex items-center gap-2 text-[#d97706] font-black text-xs mb-1">
             <ShieldCheck className="w-4 h-4" />
             <span>إدارة المشرفين وصلاحيات الحماية السحابية</span>
           </div>
@@ -113,7 +113,7 @@ export const AdminAdminsTab: React.FC<AdminAdminsTabProps> = ({
       {/* Current Session Info */}
       <div className="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm space-y-4">
         <h4 className="text-sm font-black text-slate-900 flex items-center gap-2 border-b border-slate-100 pb-3">
-          <UserCheck className="w-4 h-4 text-[#0e3a5e]" />
+          <UserCheck className="w-4 h-4 text-[#123b4a]" />
           <span>بيانات جلسة المشرف الحالي</span>
         </h4>
 
@@ -144,19 +144,19 @@ export const AdminAdminsTab: React.FC<AdminAdminsTabProps> = ({
         <>
         <div className="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm space-y-4">
           <h4 className="text-sm font-black text-slate-900 flex items-center gap-2">
-            <Plus className="w-4 h-4 text-[#ff7a00]" />
+            <Plus className="w-4 h-4 text-[#d97706]" />
             <span>إضافة مشرف من حساب الماستر</span>
           </h4>
           <form onSubmit={handleSubmit} className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-3 text-xs">
-            <input type="email" required value={newEmail} onChange={(e) => setNewEmail(e.target.value)} placeholder="engineer@gmail.com" className="w-full p-2.5 rounded-xl border border-slate-200 outline-none focus:border-[#0e3a5e]" />
-            <input type="password" required minLength={6} value={newAdminPassword} onChange={(e) => setNewAdminPassword(e.target.value)} placeholder="كلمة مرور الدخول" autoComplete="new-password" className="w-full p-2.5 rounded-xl border border-slate-200 outline-none focus:border-[#0e3a5e]" dir="ltr" />
-            <input type="text" value={newDisplayName} onChange={(e) => setNewDisplayName(e.target.value)} placeholder="اسم المشرف / المهندس" className="w-full p-2.5 rounded-xl border border-slate-200 outline-none focus:border-[#0e3a5e]" />
+            <input type="email" required value={newEmail} onChange={(e) => setNewEmail(e.target.value)} placeholder="engineer@gmail.com" className="w-full p-2.5 rounded-xl border border-slate-200 outline-none focus:border-[#123b4a]" />
+            <input type="password" required minLength={6} value={newAdminPassword} onChange={(e) => setNewAdminPassword(e.target.value)} placeholder="كلمة مرور الدخول" autoComplete="new-password" className="w-full p-2.5 rounded-xl border border-slate-200 outline-none focus:border-[#123b4a]" dir="ltr" />
+            <input type="text" value={newDisplayName} onChange={(e) => setNewDisplayName(e.target.value)} placeholder="اسم المشرف / المهندس" className="w-full p-2.5 rounded-xl border border-slate-200 outline-none focus:border-[#123b4a]" />
             <select value={newRole} onChange={(e) => setNewRole(e.target.value as 'ADMIN' | 'MANAGER' | 'TECHNICIAN')} className="w-full p-2.5 rounded-xl border border-slate-200 bg-white">
               <option value="ADMIN">مشرف إدارة (Admin)</option>
               <option value="MANAGER">مدير عمليات (Manager)</option>
               <option value="TECHNICIAN">فني صيانة (Technician)</option>
             </select>
-            <button type="submit" disabled={isSavingAdmin} className="w-full py-2.5 px-4 bg-[#0e3a5e] hover:bg-[#123f66] text-white font-black rounded-xl transition-all shadow cursor-pointer disabled:opacity-50 flex items-center justify-center gap-1.5">
+            <button type="submit" disabled={isSavingAdmin} className="w-full py-2.5 px-4 bg-[#123b4a] hover:bg-[#174c5d] text-white font-black rounded-xl transition-all shadow cursor-pointer disabled:opacity-50 flex items-center justify-center gap-1.5">
               <Plus className="w-4 h-4" />
               <span>{isSavingAdmin ? 'جاري الإضافة...' : 'إضافة المشرف'}</span>
             </button>
@@ -165,13 +165,13 @@ export const AdminAdminsTab: React.FC<AdminAdminsTabProps> = ({
         </div>
         <div className="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm space-y-4">
           <h4 className="text-sm font-black text-slate-900 flex items-center gap-2">
-            <Key className="w-4 h-4 text-[#ff7a00]" />
+            <Key className="w-4 h-4 text-[#d97706]" />
             <span>تغيير كلمة مرور الماستر</span>
           </h4>
           <form onSubmit={handlePasswordChange} className="grid grid-cols-1 md:grid-cols-3 gap-3 text-xs">
-            <input type="password" required minLength={8} value={currentPassword} onChange={(e) => setCurrentPassword(e.target.value)} placeholder="كلمة المرور الحالية" autoComplete="current-password" className="w-full p-2.5 rounded-xl border border-slate-200 outline-none focus:border-[#0e3a5e]" dir="ltr" />
-            <input type="password" required minLength={8} value={newPassword} onChange={(e) => setNewPassword(e.target.value)} placeholder="كلمة المرور الجديدة" autoComplete="new-password" className="w-full p-2.5 rounded-xl border border-slate-200 outline-none focus:border-[#0e3a5e]" dir="ltr" />
-            <input type="password" required minLength={8} value={confirmPassword} onChange={(e) => setConfirmPassword(e.target.value)} placeholder="تأكيد كلمة المرور الجديدة" autoComplete="new-password" className="w-full p-2.5 rounded-xl border border-slate-200 outline-none focus:border-[#0e3a5e]" dir="ltr" />
+            <input type="password" required minLength={8} value={currentPassword} onChange={(e) => setCurrentPassword(e.target.value)} placeholder="كلمة المرور الحالية" autoComplete="current-password" className="w-full p-2.5 rounded-xl border border-slate-200 outline-none focus:border-[#123b4a]" dir="ltr" />
+            <input type="password" required minLength={8} value={newPassword} onChange={(e) => setNewPassword(e.target.value)} placeholder="كلمة المرور الجديدة" autoComplete="new-password" className="w-full p-2.5 rounded-xl border border-slate-200 outline-none focus:border-[#123b4a]" dir="ltr" />
+            <input type="password" required minLength={8} value={confirmPassword} onChange={(e) => setConfirmPassword(e.target.value)} placeholder="تأكيد كلمة المرور الجديدة" autoComplete="new-password" className="w-full p-2.5 rounded-xl border border-slate-200 outline-none focus:border-[#123b4a]" dir="ltr" />
             <button type="submit" disabled={isChangingPassword} className="md:col-span-3 w-full py-2.5 px-4 bg-amber-600 hover:bg-amber-700 text-white font-black rounded-xl transition-all shadow cursor-pointer disabled:opacity-50">
               {isChangingPassword ? 'جاري تغيير كلمة المرور...' : 'حفظ كلمة المرور الجديدة'}
             </button>
@@ -325,7 +325,7 @@ export const AdminAdminsTab: React.FC<AdminAdminsTabProps> = ({
       {/* Security Best Practices */}
       <div className="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm space-y-4">
         <h4 className="text-sm font-black text-slate-900 flex items-center gap-2 border-b border-slate-100 pb-3">
-          <Key className="w-4 h-4 text-[#ff7a00]" />
+          <Key className="w-4 h-4 text-[#d97706]" />
           <span>توصيات الأمان وحماية لوحة التحكم</span>
         </h4>
 

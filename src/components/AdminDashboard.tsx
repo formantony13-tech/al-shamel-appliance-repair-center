@@ -530,7 +530,7 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({
             <X className="w-5 h-5" />
           </button>
 
-          <div className="w-16 h-16 rounded-2xl bg-amber-500/10 text-[#ff7a00] flex items-center justify-center mx-auto mb-5 border border-amber-200">
+          <div className="w-16 h-16 rounded-2xl bg-amber-500/10 text-[#d97706] flex items-center justify-center mx-auto mb-5 border border-amber-200">
             <Lock className="w-8 h-8" />
           </div>
 
@@ -581,7 +581,7 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({
                   value={loginEmail}
                   onChange={(e) => setLoginEmail(e.target.value)}
                   placeholder="البريد المسجل في Firebase"
-                  className="w-full pl-4 pr-10 py-3 rounded-xl border border-slate-200 focus:border-[#0e3a5e] focus:ring-2 focus:ring-[#0e3a5e]/20 outline-none text-sm font-semibold transition-all"
+                  className="w-full pl-4 pr-10 py-3 rounded-xl border border-slate-200 focus:border-[#123b4a] focus:ring-2 focus:ring-[#123b4a]/20 outline-none text-sm font-semibold transition-all"
                 />
                 <User className="w-4 h-4 text-slate-400 absolute top-3.5 right-3.5" />
               </div>
@@ -598,7 +598,7 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({
                   value={loginPassword}
                   onChange={(e) => setLoginPassword(e.target.value)}
                   placeholder="••••••••"
-                  className="w-full pl-4 pr-10 py-3 rounded-xl border border-slate-200 focus:border-[#0e3a5e] focus:ring-2 focus:ring-[#0e3a5e]/20 outline-none text-sm font-semibold transition-all"
+                  className="w-full pl-4 pr-10 py-3 rounded-xl border border-slate-200 focus:border-[#123b4a] focus:ring-2 focus:ring-[#123b4a]/20 outline-none text-sm font-semibold transition-all"
                 />
                 <KeyRound className="w-4 h-4 text-slate-400 absolute top-3.5 right-3.5" />
               </div>
@@ -607,9 +607,9 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({
             <button
               type="submit"
               disabled={isLoggingIn || isGoogleLoggingIn}
-              className="w-full py-3.5 rounded-xl bg-[#0e3a5e] hover:bg-[#123f66] text-white font-black text-sm shadow-lg shadow-[#0e3a5e]/20 transition-all flex items-center justify-center gap-2 mt-6 cursor-pointer"
+              className="w-full py-3.5 rounded-xl bg-[#123b4a] hover:bg-[#174c5d] text-white font-black text-sm shadow-lg shadow-[#123b4a]/20 transition-all flex items-center justify-center gap-2 mt-6 cursor-pointer"
             >
-              <ShieldCheck className="w-4 h-4 text-[#ff7a00]" />
+              <ShieldCheck className="w-4 h-4 text-[#d97706]" />
               <span>
                 {isLoggingIn ? 'جاري التحقق...' : 'تسجيل الدخول'}
               </span>
@@ -635,9 +635,9 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({
       <div className="bg-[#f8fafc] w-full max-w-7xl xl:max-w-[96vw] h-full max-h-[94vh] xl:max-h-[96vh] rounded-3xl shadow-2xl flex flex-col overflow-hidden border border-slate-200">
         
         {/* Top Header Bar */}
-        <header className="bg-[#0e3a5e] text-white px-5 sm:px-8 py-4 flex items-center justify-between shadow-md shrink-0">
+        <header className="bg-[#123b4a] text-white px-5 sm:px-8 py-4 flex items-center justify-between shadow-md shrink-0">
           <div className="flex items-center gap-3">
-            <div className="w-10 h-10 rounded-xl bg-[#ff7a00] flex items-center justify-center text-white font-black shadow">
+            <div className="w-10 h-10 rounded-xl bg-[#d97706] flex items-center justify-center text-white font-black shadow">
               <LayoutDashboard className="w-5 h-5" />
             </div>
             <div>
@@ -706,11 +706,11 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({
                 onClick={() => setActiveTab(tab.id as any)}
                 className={`flex items-center gap-2 px-3 sm:px-4 py-3.5 text-xs sm:text-sm font-black border-b-2 transition-all whitespace-nowrap cursor-pointer ${
                   isActive
-                    ? 'border-[#ff7a00] text-[#0e3a5e] bg-amber-500/5'
+                    ? 'border-[#d97706] text-[#123b4a] bg-amber-500/5'
                     : 'border-transparent text-slate-500 hover:text-slate-800 hover:bg-slate-50'
                 }`}
               >
-                <Icon className={`w-4 h-4 ${isActive ? 'text-[#ff7a00]' : 'text-slate-400'}`} />
+                <Icon className={`w-4 h-4 ${isActive ? 'text-[#d97706]' : 'text-slate-400'}`} />
                 <span>{tab.label}</span>
                 {tab.badge !== null && (
                   <span className={`text-[10px] px-1.5 py-0.2 rounded-full font-bold ${

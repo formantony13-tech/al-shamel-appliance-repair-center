@@ -38,8 +38,8 @@ export const Hero: React.FC<HeroProps> = ({ onOpenBooking, settings }) => {
   return (
     <section id="hero" className="relative overflow-hidden bg-gradient-to-b from-[#f8fafc] via-slate-50 to-[#eef4f9] pt-8 pb-16 lg:pt-12 lg:pb-20">
       {/* Background Subtle Elements */}
-      <div className="absolute top-0 right-0 -mr-20 -mt-20 w-96 h-96 rounded-full bg-[#ff7a00]/5 blur-3xl pointer-events-none" />
-      <div className="absolute bottom-0 left-0 -ml-20 -mb-20 w-96 h-96 rounded-full bg-[#0e3a5e]/5 blur-3xl pointer-events-none" />
+      <div className="absolute top-0 right-0 -mr-20 -mt-20 w-96 h-96 rounded-full bg-[#d97706]/5 blur-3xl pointer-events-none" />
+      <div className="absolute bottom-0 left-0 -ml-20 -mb-20 w-96 h-96 rounded-full bg-[#123b4a]/5 blur-3xl pointer-events-none" />
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-12 items-center">
@@ -48,18 +48,18 @@ export const Hero: React.FC<HeroProps> = ({ onOpenBooking, settings }) => {
           <div className="lg:col-span-7 text-right">
             
             {/* Top Badge: Experience & Speed */}
-            <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-[#0e3a5e]/10 text-[#0e3a5e] text-xs sm:text-sm font-black mb-4 border border-[#0e3a5e]/15">
-              <span className="flex h-2.5 w-2.5 rounded-full bg-[#ff7a00] animate-ping"></span>
+            <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-[#123b4a]/10 text-[#123b4a] text-xs sm:text-sm font-black mb-4 border border-[#123b4a]/15">
+              <span className="flex h-2.5 w-2.5 rounded-full bg-[#d97706] animate-ping"></span>
               <span>{heroBadge}</span>
             </div>
 
             {/* Main Headline */}
-            <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-[2.9rem] font-black text-[#0e3a5e] leading-[1.25] tracking-tight">
+            <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-[2.9rem] font-black text-[#123b4a] leading-[1.25] tracking-tight">
               {heroHeadlineHighlight ? (
                 <>
                   مهما كانت المشكلة في
                   <br />
-                  <span className="text-[#ff7a00] inline-block mt-1">{heroHeadlineHighlight}</span>
+                  <span className="text-[#d97706] inline-block mt-1">{heroHeadlineHighlight}</span>
                   <br />
                   صعبة.. إحنا هنحلها لك فوراً! ⚙️
                 </>
@@ -75,8 +75,8 @@ export const Hero: React.FC<HeroProps> = ({ onOpenBooking, settings }) => {
 
             {/* Fast Problem Ticker Grid */}
             <div className="mt-5 p-4 rounded-2xl bg-white border border-slate-200/90 shadow-sm">
-              <div className="flex items-center gap-2 text-xs font-black text-[#0e3a5e] mb-2.5">
-                <AlertCircle className="w-4 h-4 text-[#ff7a00]" />
+              <div className="flex items-center gap-2 text-xs font-black text-[#123b4a] mb-2.5">
+                <AlertCircle className="w-4 h-4 text-[#d97706]" />
                 <span>أشهر الأعطال التي نقوم بحلها بنفس اليوم:</span>
               </div>
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 text-xs font-bold text-slate-700">
@@ -102,22 +102,22 @@ export const Hero: React.FC<HeroProps> = ({ onOpenBooking, settings }) => {
             {/* 3 Core Highlights */}
             <div className="mt-6 grid grid-cols-1 sm:grid-cols-3 gap-3">
               <div className="flex items-center gap-3 p-3 rounded-2xl bg-white border border-slate-200/80 shadow-sm">
-                <div className="w-10 h-10 rounded-xl bg-orange-50 text-[#ff7a00] flex items-center justify-center shrink-0">
+                <div className="w-10 h-10 rounded-xl bg-orange-50 text-[#d97706] flex items-center justify-center shrink-0">
                   <Clock className="w-5 h-5" />
                 </div>
                 <div>
                   <h4 className="text-[11px] font-bold text-slate-500">سرعة الاستجابة</h4>
-                  <p className="text-xs sm:text-sm font-black text-[#0e3a5e]">زيارة خلال 24 ساعة</p>
+                  <p className="text-xs sm:text-sm font-black text-[#123b4a]">زيارة خلال 24 ساعة</p>
                 </div>
               </div>
 
               <div className="flex items-center gap-3 p-3 rounded-2xl bg-white border border-slate-200/80 shadow-sm">
-                <div className="w-10 h-10 rounded-xl bg-blue-50 text-[#0e3a5e] flex items-center justify-center shrink-0">
+                <div className="w-10 h-10 rounded-xl bg-blue-50 text-[#123b4a] flex items-center justify-center shrink-0">
                   <ShieldCheck className="w-5 h-5" />
                 </div>
                 <div>
                   <h4 className="text-[11px] font-bold text-slate-500">قطع أصلية</h4>
-                  <p className="text-xs sm:text-sm font-black text-[#0e3a5e]">أصلية 100% + ضمان</p>
+                  <p className="text-xs sm:text-sm font-black text-[#123b4a]">أصلية 100% + ضمان</p>
                 </div>
               </div>
 
@@ -127,7 +127,7 @@ export const Hero: React.FC<HeroProps> = ({ onOpenBooking, settings }) => {
                 </div>
                 <div>
                   <h4 className="text-[11px] font-bold text-slate-500">خبرة هندسية</h4>
-                  <p className="text-xs sm:text-sm font-black text-[#0e3a5e]">+{yearsExp} سنة خبرة</p>
+                  <p className="text-xs sm:text-sm font-black text-[#123b4a]">+{yearsExp} سنة خبرة</p>
                 </div>
               </div>
             </div>
@@ -150,9 +150,9 @@ export const Hero: React.FC<HeroProps> = ({ onOpenBooking, settings }) => {
               <a
                 href={`tel:+${phone1}`}
                 id="hero-call-btn-1"
-                className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-5 py-3.5 rounded-2xl text-sm sm:text-base font-black text-white bg-[#0e3a5e] hover:bg-[#123f66] shadow-lg shadow-[#0e3a5e]/20 hover:shadow-xl transition-all transform active:scale-95"
+                className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-5 py-3.5 rounded-2xl text-sm sm:text-base font-black text-white bg-[#123b4a] hover:bg-[#174c5d] shadow-lg shadow-[#123b4a]/20 hover:shadow-xl transition-all transform active:scale-95"
               >
-                <Phone className="w-5 h-5 text-[#ff7a00] shrink-0" />
+                <Phone className="w-5 h-5 text-[#d97706] shrink-0" />
                 <span className="font-mono whitespace-nowrap" dir="ltr">{phone1Display}</span>
               </a>
 
@@ -160,7 +160,7 @@ export const Hero: React.FC<HeroProps> = ({ onOpenBooking, settings }) => {
               <a
                 href={`tel:+${phone2}`}
                 id="hero-call-btn-2"
-                className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-4 py-3 rounded-2xl text-xs sm:text-sm font-bold text-slate-700 bg-white border border-slate-200 hover:border-[#0e3a5e] hover:text-[#0e3a5e] transition-colors"
+                className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-4 py-3 rounded-2xl text-xs sm:text-sm font-bold text-slate-700 bg-white border border-slate-200 hover:border-[#123b4a] hover:text-[#123b4a] transition-colors"
                 title="خط الاتصال الثاني"
               >
                 <Phone className="w-4 h-4 text-emerald-600 shrink-0" />
@@ -173,7 +173,7 @@ export const Hero: React.FC<HeroProps> = ({ onOpenBooking, settings }) => {
                 type="button"
                 onClick={onOpenBooking}
                 id="hero-book-btn"
-                className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-5 py-3.5 rounded-2xl text-xs sm:text-sm font-black text-[#ff7a00] bg-orange-50 border border-orange-200 hover:bg-[#ff7a00] hover:text-white transition-all shadow-sm"
+                className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-5 py-3.5 rounded-2xl text-xs sm:text-sm font-black text-[#d97706] bg-orange-50 border border-orange-200 hover:bg-[#d97706] hover:text-white transition-all shadow-sm"
               >
                 <Sparkles className="w-4 h-4 shrink-0" />
                 <span className="whitespace-nowrap">طلب حجز زيارة فورية</span>
@@ -202,8 +202,8 @@ export const Hero: React.FC<HeroProps> = ({ onOpenBooking, settings }) => {
                   decoding="async"
                   className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
                 />
-                <div className="absolute inset-0 bg-gradient-to-t from-[#0e3a5e]/95 via-[#0e3a5e]/30 to-transparent flex flex-col justify-end p-3.5 sm:p-4 text-white">
-                  <span className="text-[10px] sm:text-xs font-black text-[#ff7a00] bg-black/50 backdrop-blur-sm px-2 py-0.5 rounded-md w-fit mb-1">
+                <div className="absolute inset-0 bg-gradient-to-t from-[#123b4a]/95 via-[#123b4a]/30 to-transparent flex flex-col justify-end p-3.5 sm:p-4 text-white">
+                  <span className="text-[10px] sm:text-xs font-black text-[#d97706] bg-black/50 backdrop-blur-sm px-2 py-0.5 rounded-md w-fit mb-1">
                     ديب فريزر ألاسكا وكريازي
                   </span>
                   <h3 className="text-xs sm:text-sm font-black leading-snug">شحن فريون وتغيير مواتير دانفوس</h3>
@@ -221,8 +221,8 @@ export const Hero: React.FC<HeroProps> = ({ onOpenBooking, settings }) => {
                   decoding="async"
                   className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
                 />
-                <div className="absolute inset-0 bg-gradient-to-t from-[#0e3a5e]/95 via-[#0e3a5e]/30 to-transparent flex flex-col justify-end p-3.5 sm:p-4 text-white">
-                  <span className="text-[10px] sm:text-xs font-black text-[#ff7a00] bg-black/50 backdrop-blur-sm px-2 py-0.5 rounded-md w-fit mb-1">
+                <div className="absolute inset-0 bg-gradient-to-t from-[#123b4a]/95 via-[#123b4a]/30 to-transparent flex flex-col justify-end p-3.5 sm:p-4 text-white">
+                  <span className="text-[10px] sm:text-xs font-black text-[#d97706] bg-black/50 backdrop-blur-sm px-2 py-0.5 rounded-md w-fit mb-1">
                     ثلاجات نوفروست وبابين
                   </span>
                   <h3 className="text-xs sm:text-sm font-black leading-snug">تجديد دوكو وعلاج بارومة وشحن</h3>
@@ -240,8 +240,8 @@ export const Hero: React.FC<HeroProps> = ({ onOpenBooking, settings }) => {
                   decoding="async"
                   className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
                 />
-                <div className="absolute inset-0 bg-gradient-to-t from-[#0e3a5e]/95 via-[#0e3a5e]/30 to-transparent flex flex-col justify-end p-3.5 sm:p-4 text-white">
-                  <span className="text-[10px] sm:text-xs font-black text-[#ff7a00] bg-black/50 backdrop-blur-sm px-2 py-0.5 rounded-md w-fit mb-1">
+                <div className="absolute inset-0 bg-gradient-to-t from-[#123b4a]/95 via-[#123b4a]/30 to-transparent flex flex-col justify-end p-3.5 sm:p-4 text-white">
+                  <span className="text-[10px] sm:text-xs font-black text-[#d97706] bg-black/50 backdrop-blur-sm px-2 py-0.5 rounded-md w-fit mb-1">
                     غسالات سامسونج وزانوسي
                   </span>
                   <h3 className="text-xs sm:text-sm font-black leading-snug">صوت العصر • رولمان بلي • شاسيه</h3>
@@ -259,8 +259,8 @@ export const Hero: React.FC<HeroProps> = ({ onOpenBooking, settings }) => {
                   decoding="async"
                   className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
                 />
-                <div className="absolute inset-0 bg-gradient-to-t from-[#0e3a5e]/95 via-[#0e3a5e]/30 to-transparent flex flex-col justify-end p-3.5 sm:p-4 text-white">
-                  <span className="text-[10px] sm:text-xs font-black text-[#ff7a00] bg-black/50 backdrop-blur-sm px-2 py-0.5 rounded-md w-fit mb-1">
+                <div className="absolute inset-0 bg-gradient-to-t from-[#123b4a]/95 via-[#123b4a]/30 to-transparent flex flex-col justify-end p-3.5 sm:p-4 text-white">
+                  <span className="text-[10px] sm:text-xs font-black text-[#d97706] bg-black/50 backdrop-blur-sm px-2 py-0.5 rounded-md w-fit mb-1">
                     غسالات وبوتاجازات
                   </span>
                   <h3 className="text-xs sm:text-sm font-black leading-snug">طلمبات طرد • جيربوكس • قطع أصلية</h3>
@@ -270,16 +270,16 @@ export const Hero: React.FC<HeroProps> = ({ onOpenBooking, settings }) => {
 
             {/* Floating Rating Badge */}
             <div className="absolute -bottom-4 right-1/2 translate-x-1/2 sm:translate-x-0 sm:right-4 bg-white/95 backdrop-blur-md rounded-2xl p-3.5 sm:p-4 shadow-xl border border-slate-200/80 flex items-center gap-3">
-              <div className="w-12 h-12 rounded-xl bg-[#0e3a5e] text-white flex items-center justify-center font-black text-lg shadow-sm">
+              <div className="w-12 h-12 rounded-xl bg-[#123b4a] text-white flex items-center justify-center font-black text-lg shadow-sm">
                 4.9
               </div>
               <div className="text-right">
-                <div className="flex items-center gap-1 text-[#ff7a00]">
+                <div className="flex items-center gap-1 text-[#d97706]">
                   {[...Array(5)].map((_, i) => (
-                    <Star key={i} className="w-3.5 h-3.5 fill-[#ff7a00]" />
+                    <Star key={i} className="w-3.5 h-3.5 fill-[#d97706]" />
                   ))}
                 </div>
-                <p className="text-xs font-black text-[#0e3a5e] mt-1">{centerName}</p>
+                <p className="text-xs font-black text-[#123b4a] mt-1">{centerName}</p>
                 <p className="text-[10px] text-slate-500 font-bold">خبرة +{yearsExp} سنة بأبو المطامير</p>
               </div>
             </div>
@@ -291,12 +291,12 @@ export const Hero: React.FC<HeroProps> = ({ onOpenBooking, settings }) => {
         <div className="mt-14 lg:mt-18 pt-8 border-t border-slate-200/80">
           <div className="grid grid-cols-2 md:grid-cols-4 gap-4 sm:gap-6 text-center">
             <div className="p-4 rounded-2xl bg-white/70 backdrop-blur-sm border border-slate-100 shadow-sm">
-              <div className="text-2xl sm:text-3xl lg:text-4xl font-black text-[#0e3a5e]">+{yearsExp} سنة</div>
+              <div className="text-2xl sm:text-3xl lg:text-4xl font-black text-[#123b4a]">+{yearsExp} سنة</div>
               <div className="text-xs sm:text-sm font-bold text-slate-600 mt-1">خبرة فنية متوارثة</div>
             </div>
 
             <div className="p-4 rounded-2xl bg-white/70 backdrop-blur-sm border border-slate-100 shadow-sm">
-              <div className="text-2xl sm:text-3xl lg:text-4xl font-black text-[#ff7a00]">100%</div>
+              <div className="text-2xl sm:text-3xl lg:text-4xl font-black text-[#d97706]">100%</div>
               <div className="text-xs sm:text-sm font-bold text-slate-600 mt-1">قطع غيار أصلية ومضمونة</div>
             </div>
 
@@ -306,7 +306,7 @@ export const Hero: React.FC<HeroProps> = ({ onOpenBooking, settings }) => {
             </div>
 
             <div className="p-4 rounded-2xl bg-white/70 backdrop-blur-sm border border-slate-100 shadow-sm">
-              <div className="text-2xl sm:text-3xl lg:text-4xl font-black text-[#0e3a5e]">24 ساعة</div>
+              <div className="text-2xl sm:text-3xl lg:text-4xl font-black text-[#123b4a]">24 ساعة</div>
               <div className="text-xs sm:text-sm font-bold text-slate-600 mt-1">خدمة واستقبال واتساب</div>
             </div>
           </div>

@@ -209,7 +209,7 @@ export const AdminRepairsTab: React.FC<AdminRepairsTabProps> = ({
             placeholder="بحث في بطاقات وأوامر الصيانة..."
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
-            className="w-full pl-4 pr-9 py-2 rounded-xl border border-slate-200 text-xs font-semibold focus:border-[#0e3a5e] outline-none"
+            className="w-full pl-4 pr-9 py-2 rounded-xl border border-slate-200 text-xs font-semibold focus:border-[#123b4a] outline-none"
           />
           <Search className="w-4 h-4 text-slate-400 absolute top-2.5 right-3" />
         </div>
@@ -220,7 +220,7 @@ export const AdminRepairsTab: React.FC<AdminRepairsTabProps> = ({
             resetForm();
             setIsModalOpen(true);
           }}
-          className="w-full sm:w-auto px-4 py-2.5 rounded-xl bg-[#0e3a5e] hover:bg-[#123f66] text-white text-xs font-black flex items-center justify-center gap-2 cursor-pointer shadow transition-all"
+          className="w-full sm:w-auto px-4 py-2.5 rounded-xl bg-[#123b4a] hover:bg-[#174c5d] text-white text-xs font-black flex items-center justify-center gap-2 cursor-pointer shadow transition-all"
         >
           <Plus className="w-4 h-4" />
           <span>إنشاء بطاقة صيانة فنية جديدة</span>
@@ -232,11 +232,11 @@ export const AdminRepairsTab: React.FC<AdminRepairsTabProps> = ({
         {filteredJobs.map((job) => (
           <div
             key={job.id}
-            className="bg-white p-5 rounded-2xl border border-slate-200 shadow-sm hover:border-[#0e3a5e] transition-all flex flex-col justify-between"
+            className="bg-white p-5 rounded-2xl border border-slate-200 shadow-sm hover:border-[#123b4a] transition-all flex flex-col justify-between"
           >
             <div>
               <div className="flex items-center justify-between mb-2">
-                <span className="font-mono text-xs font-black text-[#0e3a5e] bg-blue-50 px-2 py-0.5 rounded">
+                <span className="font-mono text-xs font-black text-[#123b4a] bg-blue-50 px-2 py-0.5 rounded">
                   {job.id}
                 </span>
                 <span className={`text-[10px] font-black px-2 py-0.5 rounded-md ${
@@ -257,7 +257,7 @@ export const AdminRepairsTab: React.FC<AdminRepairsTabProps> = ({
                 )}
                 <div className="flex items-center justify-between pt-1 border-t border-slate-200 text-slate-800 font-bold">
                   <span>إجمالي التكلفة:</span>
-                  <span className="font-mono font-black text-[#ff7a00]">{job.totalCost || 0} ج.م</span>
+                  <span className="font-mono font-black text-[#d97706]">{job.totalCost || 0} ج.م</span>
                 </div>
               </div>
             </div>
@@ -299,7 +299,7 @@ export const AdminRepairsTab: React.FC<AdminRepairsTabProps> = ({
           <div className="bg-white rounded-3xl shadow-2xl max-w-2xl w-full p-6 text-right border border-slate-200 max-h-[90vh] overflow-y-auto">
             <div className="flex items-center justify-between border-b border-slate-100 pb-3 mb-4">
               <h3 className="text-base font-black text-slate-900 flex items-center gap-2">
-                <Wrench className="w-5 h-5 text-[#ff7a00]" />
+                <Wrench className="w-5 h-5 text-[#d97706]" />
                 <span>{editingJobId ? 'تعديل بطاقة الصيانة الفنية' : 'إنشاء بطاقة صيانة فنية جديدة'}</span>
               </h3>
               <button 
@@ -517,7 +517,7 @@ export const AdminRepairsTab: React.FC<AdminRepairsTabProps> = ({
                 </button>
                 <button
                   type="submit"
-                  className="px-6 py-2 rounded-xl bg-[#0e3a5e] text-white font-black hover:bg-[#123f66] shadow cursor-pointer"
+                  className="px-6 py-2 rounded-xl bg-[#123b4a] text-white font-black hover:bg-[#174c5d] shadow cursor-pointer"
                 >
                   حفظ بطاقة الصيانة ✅
                 </button>

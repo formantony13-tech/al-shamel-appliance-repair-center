@@ -38,7 +38,7 @@ export const AdminReviewsTab: React.FC<AdminReviewsTabProps> = ({
             placeholder="بحث في آراء العملاء..."
             value={search}
             onChange={(e) => setSearch(e.target.value)}
-            className="w-full pl-4 pr-9 py-2 rounded-xl border border-slate-200 text-xs font-semibold focus:border-[#0e3a5e] outline-none"
+            className="w-full pl-4 pr-9 py-2 rounded-xl border border-slate-200 text-xs font-semibold focus:border-[#123b4a] outline-none"
           />
           <Search className="w-4 h-4 text-slate-400 absolute top-2.5 right-3" />
         </div>
@@ -49,7 +49,7 @@ export const AdminReviewsTab: React.FC<AdminReviewsTabProps> = ({
             <button
               type="button"
               onClick={() => setFilter('ALL')}
-              className={`px-3 py-1.5 rounded-lg transition-colors ${filter === 'ALL' ? 'bg-white shadow text-[#0e3a5e]' : 'text-slate-600'}`}
+              className={`px-3 py-1.5 rounded-lg transition-colors ${filter === 'ALL' ? 'bg-white shadow text-[#123b4a]' : 'text-slate-600'}`}
             >
               الكل ({reviews.length})
             </button>
@@ -76,12 +76,12 @@ export const AdminReviewsTab: React.FC<AdminReviewsTabProps> = ({
         {filteredReviews.map((r) => (
           <div
             key={r.id}
-            className="bg-white p-5 rounded-2xl border border-slate-200 shadow-sm hover:border-[#0e3a5e] transition-all flex flex-col justify-between"
+            className="bg-white p-5 rounded-2xl border border-slate-200 shadow-sm hover:border-[#123b4a] transition-all flex flex-col justify-between"
           >
             <div>
               <div className="flex items-center justify-between mb-3">
                 <div className="flex items-center gap-2">
-                  <div className="w-8 h-8 rounded-full bg-[#0e3a5e] text-white flex items-center justify-center font-black text-xs">
+                  <div className="w-8 h-8 rounded-full bg-[#123b4a] text-white flex items-center justify-center font-black text-xs">
                     {r.avatarLetter || r.name.charAt(0)}
                   </div>
                   <div>
@@ -103,7 +103,7 @@ export const AdminReviewsTab: React.FC<AdminReviewsTabProps> = ({
                 {[...Array(5)].map((_, i) => (
                   <Star
                     key={i}
-                    className={`w-3.5 h-3.5 ${i < r.rating ? 'text-[#ff7a00] fill-[#ff7a00]' : 'text-slate-200'}`}
+                    className={`w-3.5 h-3.5 ${i < r.rating ? 'text-[#d97706] fill-[#d97706]' : 'text-slate-200'}`}
                   />
                 ))}
                 <span className="text-[11px] font-bold text-slate-500 mr-1.5">({r.deviceType})</span>

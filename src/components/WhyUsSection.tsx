@@ -34,13 +34,13 @@ export const WhyUsSection: React.FC<WhyUsSectionProps> = ({ settings }) => {
       icon: Clock,
       title: 'مهندس عندك خلال 24 ساعة',
       desc: 'في خلال 24 ساعة بيكون عندك مهندس وفني متخصص بيصلح لك العطل في منزلك أينما كنت بمحافظات البحيرة، الغربية، والشرقية والمراكز المجاورة.',
-      color: 'bg-blue-50 text-[#0e3a5e]'
+      color: 'bg-blue-50 text-[#123b4a]'
     },
     {
       icon: ShieldCheck,
       title: 'قطع غيار أصلية 100%',
       desc: 'نوفر قطع غيار أصلية مستوردة بالكامل (مواتير دانفوس، رولمان بلي ياباني، كارتات ديجيتال أصلية) مع الضمان.',
-      color: 'bg-orange-50 text-[#ff7a00]'
+      color: 'bg-orange-50 text-[#d97706]'
     },
     {
       icon: FileText,
@@ -65,16 +65,16 @@ export const WhyUsSection: React.FC<WhyUsSectionProps> = ({ settings }) => {
   return (
     <section id="why-us" className="py-16 lg:py-24 bg-slate-50 relative overflow-hidden">
       {/* Background accents */}
-      <div className="absolute top-1/2 left-0 w-80 h-80 bg-[#0e3a5e]/5 rounded-full blur-3xl pointer-events-none"></div>
+      <div className="absolute top-1/2 left-0 w-80 h-80 bg-[#123b4a]/5 rounded-full blur-3xl pointer-events-none"></div>
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         
         {/* Header */}
         <div className="text-center max-w-3xl mx-auto mb-14">
-          <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-[#0e3a5e]/10 text-[#0e3a5e] text-xs font-black uppercase tracking-wider mb-3">
+          <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-[#123b4a]/10 text-[#123b4a] text-xs font-black uppercase tracking-wider mb-3">
             لماذا {centerName}؟
           </div>
-          <h2 className="text-2xl sm:text-3xl lg:text-4xl font-black text-[#0e3a5e] leading-tight">
+          <h2 className="text-2xl sm:text-3xl lg:text-4xl font-black text-[#123b4a] leading-tight">
             صيانة مضمونة تصنع الفرق بفروعنا في البحيرة، الغربية، والشرقية
           </h2>
           <p className="mt-4 text-sm sm:text-base text-slate-600 font-semibold leading-relaxed">
@@ -89,12 +89,12 @@ export const WhyUsSection: React.FC<WhyUsSectionProps> = ({ settings }) => {
             return (
               <div
                 key={index}
-                className="rounded-3xl bg-white border border-slate-200/80 p-6 sm:p-7 shadow-sm hover:shadow-md hover:border-[#ff7a00]/30 transition-all duration-300 group"
+                className="rounded-3xl bg-white border border-slate-200/80 p-6 sm:p-7 shadow-sm hover:shadow-md hover:border-[#d97706]/30 transition-all duration-300 group"
               >
                 <div className={`w-14 h-14 rounded-2xl ${point.color} flex items-center justify-center mb-5 shadow-sm group-hover:scale-110 transition-transform`}>
                   <Icon className="w-7 h-7" />
                 </div>
-                <h3 className="text-lg font-black text-[#0e3a5e] leading-snug">
+                <h3 className="text-lg font-black text-[#123b4a] leading-snug">
                   {point.title}
                 </h3>
                 <p className="mt-2.5 text-xs sm:text-sm text-slate-600 font-semibold leading-relaxed">
@@ -106,18 +106,18 @@ export const WhyUsSection: React.FC<WhyUsSectionProps> = ({ settings }) => {
         </div>
 
         {/* Center Guarantee Card */}
-        <div className="mt-14 rounded-3xl bg-white border-2 border-[#0e3a5e]/10 p-6 sm:p-8 shadow-md">
+        <div className="mt-14 rounded-3xl bg-white border-2 border-[#123b4a]/10 p-6 sm:p-8 shadow-md">
           <div className="flex flex-col md:flex-row items-center justify-between gap-6">
             <div className="flex items-center gap-4 text-right">
-              <div className="w-16 h-16 rounded-2xl bg-gradient-to-br from-[#0e3a5e] to-[#123f66] flex items-center justify-center text-white shrink-0 shadow-md">
-                <Award className="w-9 h-9 text-[#ff7a00]" />
+              <div className="w-16 h-16 rounded-2xl bg-gradient-to-br from-[#123b4a] to-[#174c5d] flex items-center justify-center text-white shrink-0 shadow-md">
+                <Award className="w-9 h-9 text-[#d97706]" />
               </div>
               <div>
-                <div className="inline-flex items-center gap-1.5 text-xs font-black text-[#ff7a00] mb-1">
+                <div className="inline-flex items-center gap-1.5 text-xs font-black text-[#d97706] mb-1">
                   <Sparkles className="w-3.5 h-3.5" />
                   شعارنا وعهدنا معكم
                 </div>
-                <h4 className="text-base sm:text-lg font-black text-[#0e3a5e]">
+                <h4 className="text-base sm:text-lg font-black text-[#123b4a]">
                   {CENTER_NAME} - ثقة وخبرة أكثر من {YEARS_EXPERIENCE} سنة
                 </h4>
                 <p className="text-xs sm:text-sm text-slate-600 font-semibold mt-1 max-w-2xl leading-relaxed">

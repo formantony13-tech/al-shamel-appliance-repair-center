@@ -73,9 +73,9 @@ export const AdminPricingTab: React.FC = () => {
   return (
     <div className="space-y-6">
       {/* Banner */}
-      <div className="bg-gradient-to-r from-[#0e3a5e] to-[#123f66] text-white p-6 rounded-2xl shadow-sm flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+      <div className="bg-gradient-to-r from-[#123b4a] to-[#174c5d] text-white p-6 rounded-2xl shadow-sm flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
         <div>
-          <div className="flex items-center gap-2 text-[#ff7a00] font-black text-xs mb-1">
+          <div className="flex items-center gap-2 text-[#d97706] font-black text-xs mb-1">
             <DollarSign className="w-4 h-4" />
             <span>الدليل الاسترشادي للأسعار المعتمدة</span>
           </div>
@@ -96,14 +96,14 @@ export const AdminPricingTab: React.FC = () => {
         {DEFAULT_PRICING_TABLE.map((item, idx) => (
           <div
             key={idx}
-            className="bg-white p-5 rounded-2xl border border-slate-200 shadow-sm hover:border-[#ff7a00]/40 transition-all flex flex-col justify-between"
+            className="bg-white p-5 rounded-2xl border border-slate-200 shadow-sm hover:border-[#d97706]/40 transition-all flex flex-col justify-between"
           >
             <div>
               <div className="flex items-center justify-between mb-2">
                 <span className="text-[11px] font-black px-2.5 py-0.5 rounded-md bg-slate-100 text-slate-700">
                   {item.category}
                 </span>
-                <span className="text-xs font-black text-[#0e3a5e] font-mono">
+                <span className="text-xs font-black text-[#123b4a] font-mono">
                   {item.estimatedPrice}
                 </span>
               </div>

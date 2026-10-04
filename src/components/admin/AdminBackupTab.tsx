@@ -88,9 +88,9 @@ export const AdminBackupTab: React.FC<AdminBackupTabProps> = ({
   return (
     <div className="space-y-6">
       {/* Header Banner */}
-      <div className="bg-gradient-to-r from-[#0e3a5e] to-[#164e7c] text-white p-6 rounded-2xl shadow-sm flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+      <div className="bg-gradient-to-r from-[#123b4a] to-[#164e7c] text-white p-6 rounded-2xl shadow-sm flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
         <div>
-          <div className="flex items-center gap-2 text-[#ff7a00] font-black text-xs mb-1">
+          <div className="flex items-center gap-2 text-[#d97706] font-black text-xs mb-1">
             <Database className="w-4 h-4" />
             <span>إدارة النسخ الاحتياطي والأمان</span>
           </div>
@@ -104,7 +104,7 @@ export const AdminBackupTab: React.FC<AdminBackupTabProps> = ({
           <button
             type="button"
             onClick={handleExportJSON}
-            className="px-4 py-2.5 rounded-xl bg-[#ff7a00] hover:bg-[#e06c00] text-white font-black text-xs flex items-center gap-2 shadow-lg transition-transform active:scale-95 cursor-pointer"
+            className="px-4 py-2.5 rounded-xl bg-[#d97706] hover:bg-[#e06c00] text-white font-black text-xs flex items-center gap-2 shadow-lg transition-transform active:scale-95 cursor-pointer"
           >
             <Download className="w-4 h-4" />
             <span>تصدير نسخة احتياطية الآن</span>
@@ -116,7 +116,7 @@ export const AdminBackupTab: React.FC<AdminBackupTabProps> = ({
       <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
         <div className="bg-white p-4 rounded-2xl border border-slate-200 shadow-sm text-center">
           <span className="text-[11px] font-bold text-slate-400 block">طلبات الحجز</span>
-          <span className="text-2xl font-black text-[#0e3a5e] font-mono">{bookings.length}</span>
+          <span className="text-2xl font-black text-[#123b4a] font-mono">{bookings.length}</span>
         </div>
         <div className="bg-white p-4 rounded-2xl border border-slate-200 shadow-sm text-center">
           <span className="text-[11px] font-bold text-slate-400 block">أوامر الصيانة</span>
@@ -198,7 +198,7 @@ export const AdminBackupTab: React.FC<AdminBackupTabProps> = ({
             type="button"
             onClick={() => fileInputRef.current?.click()}
             disabled={isImporting}
-            className="w-full py-3 rounded-xl bg-[#0e3a5e] hover:bg-[#123f66] text-white font-black text-xs transition-colors flex items-center justify-center gap-2 cursor-pointer shadow disabled:opacity-50"
+            className="w-full py-3 rounded-xl bg-[#123b4a] hover:bg-[#174c5d] text-white font-black text-xs transition-colors flex items-center justify-center gap-2 cursor-pointer shadow disabled:opacity-50"
           >
             {isImporting ? (
               <>

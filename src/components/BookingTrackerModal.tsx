@@ -142,11 +142,11 @@ export const BookingTrackerModal: React.FC<BookingTrackerModalProps> = ({
 
         {/* Header */}
         <div className="flex items-center gap-3 mb-6">
-          <div className="w-12 h-12 rounded-2xl bg-gradient-to-br from-[#0e3a5e] to-[#123f66] text-[#ff7a00] flex items-center justify-center shadow-md">
+          <div className="w-12 h-12 rounded-2xl bg-gradient-to-br from-[#123b4a] to-[#174c5d] text-[#d97706] flex items-center justify-center shadow-md">
             <Search className="w-6 h-6" />
           </div>
           <div>
-            <h3 className="text-xl sm:text-2xl font-black text-[#0e3a5e]">
+            <h3 className="text-xl sm:text-2xl font-black text-[#123b4a]">
               متابعة حالة طلب الصيانة
             </h3>
             <p className="text-xs text-slate-500 font-semibold mt-0.5">
@@ -167,7 +167,7 @@ export const BookingTrackerModal: React.FC<BookingTrackerModalProps> = ({
                 placeholder="مثال: BK-2026-10294"
                 value={bookingIdInput}
                 onChange={(e) => setBookingIdInput(e.target.value)}
-                className="w-full px-4 py-3 pl-10 rounded-2xl border-2 border-slate-200 focus:border-[#0e3a5e] focus:outline-none text-sm font-bold text-slate-800 uppercase"
+                className="w-full px-4 py-3 pl-10 rounded-2xl border-2 border-slate-200 focus:border-[#123b4a] focus:outline-none text-sm font-bold text-slate-800 uppercase"
                 required
               />
               <Search className="w-5 h-5 text-slate-400 absolute left-3 top-3.5" />
@@ -187,7 +187,7 @@ export const BookingTrackerModal: React.FC<BookingTrackerModalProps> = ({
                 placeholder="مثال: 7455"
                 value={phoneLast4Input}
                 onChange={(e) => setPhoneLast4Input(e.target.value.replace(/\D/g, ''))}
-                className="w-full px-4 py-3 pl-10 rounded-2xl border-2 border-slate-200 focus:border-[#0e3a5e] focus:outline-none text-sm font-mono font-bold text-slate-800 text-left tracking-widest"
+                className="w-full px-4 py-3 pl-10 rounded-2xl border-2 border-slate-200 focus:border-[#123b4a] focus:outline-none text-sm font-mono font-bold text-slate-800 text-left tracking-widest"
                 required
               />
               <Lock className="w-4 h-4 text-slate-400 absolute left-3 top-3.5" />
@@ -197,7 +197,7 @@ export const BookingTrackerModal: React.FC<BookingTrackerModalProps> = ({
           <button
             type="submit"
             disabled={isLoading}
-            className="w-full py-3.5 rounded-2xl bg-[#0e3a5e] hover:bg-[#123f66] text-white text-sm font-black transition-all disabled:opacity-50 flex items-center justify-center gap-2 shadow-md"
+            className="w-full py-3.5 rounded-2xl bg-[#123b4a] hover:bg-[#174c5d] text-white text-sm font-black transition-all disabled:opacity-50 flex items-center justify-center gap-2 shadow-md"
           >
             {isLoading ? (
               <span>جاري التحقق والاستعلام...</span>
@@ -259,7 +259,7 @@ export const BookingTrackerModal: React.FC<BookingTrackerModalProps> = ({
             <div className="p-5 rounded-2xl bg-white border-2 border-slate-100 shadow-sm space-y-3">
               <div className="flex items-center justify-between border-b border-slate-100 pb-2.5">
                 <span className="text-xs text-slate-400 font-bold">كود الحجز المعتمد:</span>
-                <span className="text-sm font-black font-mono text-[#0e3a5e]">{trackingRecord.id}</span>
+                <span className="text-sm font-black font-mono text-[#123b4a]">{trackingRecord.id}</span>
               </div>
               <div className="flex items-center justify-between border-b border-slate-100 pb-2.5">
                 <span className="text-xs text-slate-400 font-bold">نوع الجهاز والماركة:</span>
@@ -300,9 +300,9 @@ export const BookingTrackerModal: React.FC<BookingTrackerModalProps> = ({
                 </a>
                 <a
                   href={`tel:+${PHONE_NUMBER_1}`}
-                  className="py-3 px-4 rounded-xl bg-[#0e3a5e] hover:bg-[#123f66] text-white font-black text-xs flex items-center justify-center gap-2 transition-colors"
+                  className="py-3 px-4 rounded-xl bg-[#123b4a] hover:bg-[#174c5d] text-white font-black text-xs flex items-center justify-center gap-2 transition-colors"
                 >
-                  <Phone className="w-4 h-4 text-[#ff7a00]" />
+                  <Phone className="w-4 h-4 text-[#d97706]" />
                   <span>اتصال: {DISPLAY_PHONE_1}</span>
                 </a>
               </div>
@@ -318,9 +318,9 @@ export const BookingTrackerModal: React.FC<BookingTrackerModalProps> = ({
             <div className="mt-4 flex justify-center gap-3">
               <a
                 href={`tel:+${PHONE_NUMBER_1}`}
-                className="px-4 py-2 rounded-xl bg-[#0e3a5e] text-white text-xs font-bold flex items-center gap-1.5"
+                className="px-4 py-2 rounded-xl bg-[#123b4a] text-white text-xs font-bold flex items-center gap-1.5"
               >
-                <Phone className="w-3.5 h-3.5 text-[#ff7a00]" />
+                <Phone className="w-3.5 h-3.5 text-[#d97706]" />
                 اتصال: {DISPLAY_PHONE_1}
               </a>
             </div>

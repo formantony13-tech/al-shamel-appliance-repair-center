@@ -41,10 +41,12 @@ export const ReviewsSection: React.FC<ReviewsSectionProps> = ({
   const [rating, setRating] = useState(5);
   const [comment, setComment] = useState('');
   const [reviewImage, setReviewImage] = useState('');
+  const [showAllReviews, setShowAllReviews] = useState(false);
 
   // Calculate average rating
   const totalRating = reviews.reduce((acc, curr) => acc + curr.rating, 0);
   const avgRating = reviews.length > 0 ? (totalRating / reviews.length).toFixed(1) : '5.0';
+  const visibleReviews = showAllReviews ? reviews : reviews.slice(0, 6);
 
   // Handle Photo upload for review
   const handleReviewPhoto = async (file: File) => {
@@ -92,8 +94,8 @@ export const ReviewsSection: React.FC<ReviewsSectionProps> = ({
   const getAvatarBg = (name: string) => {
     const colors = [
       'bg-blue-600',
-      'bg-[#0e3a5e]',
-      'bg-[#ff7a00]',
+      'bg-[#123b4a]',
+      'bg-[#d97706]',
       'bg-emerald-600',
       'bg-indigo-600',
       'bg-cyan-600'
@@ -110,12 +112,12 @@ export const ReviewsSection: React.FC<ReviewsSectionProps> = ({
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         
         {/* Top Summary Block */}
-        <div className="rounded-3xl bg-gradient-to-br from-[#0e3a5e] to-[#123f66] text-white p-8 sm:p-10 shadow-xl mb-12">
+        <div className="rounded-3xl bg-gradient-to-br from-[#123b4a] to-[#174c5d] text-white p-8 sm:p-10 shadow-xl mb-12">
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
             
             {/* Rating summary */}
             <div className="lg:col-span-8 text-right">
-              <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/10 text-[#ff7a00] text-xs font-black mb-3">
+              <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/10 text-[#d97706] text-xs font-black mb-3">
                 <Sparkles className="w-3.5 h-3.5" />
                 آراء وتقييمات العملاء الحقيقية
               </div>
@@ -131,9 +133,9 @@ export const ReviewsSection: React.FC<ReviewsSectionProps> = ({
                 <div className="flex items-center gap-2">
                   <span className="text-4xl sm:text-5xl font-black text-white">{avgRating}</span>
                   <div className="flex flex-col">
-                    <div className="flex items-center gap-1 text-[#ff7a00]">
+                    <div className="flex items-center gap-1 text-[#d97706]">
                       {[...Array(5)].map((_, i) => (
-                        <Star key={i} className="w-5 h-5 fill-[#ff7a00]" />
+                        <Star key={i} className="w-5 h-5 fill-[#d97706]" />
                       ))}
                     </div>
                     <span className="text-xs text-slate-300 font-bold mt-1">
@@ -157,7 +159,7 @@ export const ReviewsSection: React.FC<ReviewsSectionProps> = ({
                 type="button"
                 id="add-review-top-btn"
                 onClick={() => setIsAddModalOpen(true)}
-                className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-6 py-4 rounded-2xl bg-[#ff7a00] hover:bg-[#e66e00] text-white font-extrabold text-sm shadow-lg shadow-[#ff7a00]/30 transition-all transform active:scale-95"
+                className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-6 py-4 rounded-2xl bg-[#d97706] hover:bg-[#b45309] text-white font-extrabold text-sm shadow-lg shadow-[#d97706]/30 transition-all transform active:scale-95"
               >
                 <MessageSquarePlus className="w-5 h-5" />
                 <span>✍️ اكتب رأيك وأرفق صورة جهازك</span>
@@ -169,7 +171,7 @@ export const ReviewsSection: React.FC<ReviewsSectionProps> = ({
 
         {/* Reviews Grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {reviews.map((review) => {
+          {visibleReviews.map((review) => {
             const avatarBg = getAvatarBg(review.name);
             return (
               <div
@@ -204,14 +206,14 @@ export const ReviewsSection: React.FC<ReviewsSectionProps> = ({
                       
                       <div className="text-right">
                         <div className="flex items-center gap-1.5">
-                          <h4 className="text-sm font-extrabold text-[#0e3a5e] leading-none">
+                          <h4 className="text-sm font-extrabold text-[#123b4a] leading-none">
                             {review.name}
                           </h4>
                           {review.verified && (
                             <CheckCircle2 className="w-3.5 h-3.5 text-emerald-500" title="عميل موثق" />
                           )}
                         </div>
-                        <span className="text-[11px] font-bold text-[#ff7a00] block mt-1">
+                        <span className="text-[11px] font-bold text-[#d97706] block mt-1">
                           صيانة: {review.deviceType}
                         </span>
                       </div>
@@ -219,12 +221,12 @@ export const ReviewsSection: React.FC<ReviewsSectionProps> = ({
                   </div>
 
                   {/* Stars Rating */}
-                  <div className="flex items-center gap-1 text-[#ff7a00] mb-3">
+                  <div className="flex items-center gap-1 text-[#d97706] mb-3">
                     {[...Array(5)].map((_, i) => (
                       <Star
                         key={i}
                         className={`w-4 h-4 ${
-                          i < review.rating ? 'fill-[#ff7a00]' : 'text-slate-200'
+                          i < review.rating ? 'fill-[#d97706]' : 'text-slate-200'
                         }`}
                       />
                     ))}
@@ -271,14 +273,26 @@ export const ReviewsSection: React.FC<ReviewsSectionProps> = ({
           })}
         </div>
 
+        {reviews.length > 6 && (
+          <div className="mt-8 text-center">
+            <button
+              type="button"
+              onClick={() => setShowAllReviews((current) => !current)}
+              className="inline-flex items-center justify-center px-5 py-2.5 rounded-xl border border-[#123b4a]/20 bg-white text-[#123b4a] hover:bg-[#123b4a] hover:text-white text-xs font-black transition-colors"
+            >
+              {showAllReviews ? 'عرض عدد أقل' : `عرض كل التقييمات (${reviews.length})`}
+            </button>
+          </div>
+        )}
+
         {/* Bottom CTA button */}
         <div className="mt-12 text-center">
           <button
             type="button"
             onClick={() => setIsAddModalOpen(true)}
-            className="inline-flex items-center gap-2 px-8 py-3.5 rounded-2xl bg-white hover:bg-slate-100 text-[#0e3a5e] border-2 border-slate-200 hover:border-[#ff7a00] font-black text-sm shadow-sm transition-all"
+            className="inline-flex items-center gap-2 px-8 py-3.5 rounded-2xl bg-white hover:bg-slate-100 text-[#123b4a] border-2 border-slate-200 hover:border-[#d97706] font-black text-sm shadow-sm transition-all"
           >
-            <MessageSquarePlus className="w-4 h-4 text-[#ff7a00]" />
+            <MessageSquarePlus className="w-4 h-4 text-[#d97706]" />
             <span>شاركنا تجربتك ورأيك مع صورة لجهازك</span>
           </button>
         </div>
@@ -305,11 +319,11 @@ export const ReviewsSection: React.FC<ReviewsSectionProps> = ({
               </button>
 
               <div className="text-right mb-6">
-                <div className="inline-flex items-center gap-1.5 text-xs font-black text-[#ff7a00] mb-1">
-                  <Star className="w-4 h-4 fill-[#ff7a00]" />
+                <div className="inline-flex items-center gap-1.5 text-xs font-black text-[#d97706] mb-1">
+                  <Star className="w-4 h-4 fill-[#d97706]" />
                   تقييم الخدمة
                 </div>
-                <h3 className="text-xl font-black text-[#0e3a5e]">أضف رأيك وتجربتك معنا</h3>
+                <h3 className="text-xl font-black text-[#123b4a]">أضف رأيك وتجربتك معنا</h3>
                 <p className="text-xs text-slate-500 font-semibold mt-1">
                   رأيك يهمنا ويساعد أهالي أبو المطامير في التعرف على جودة خدماتنا
                 </p>
@@ -327,7 +341,7 @@ export const ReviewsSection: React.FC<ReviewsSectionProps> = ({
                     placeholder="مثال: أحمد محمود"
                     value={name}
                     onChange={(e) => setName(e.target.value)}
-                    className="w-full px-4 py-2.5 rounded-xl border border-slate-200 bg-slate-50 text-sm font-semibold focus:bg-white focus:outline-none focus:border-[#0e3a5e]"
+                    className="w-full px-4 py-2.5 rounded-xl border border-slate-200 bg-slate-50 text-sm font-semibold focus:bg-white focus:outline-none focus:border-[#123b4a]"
                   />
                 </div>
 
@@ -339,7 +353,7 @@ export const ReviewsSection: React.FC<ReviewsSectionProps> = ({
                   <select
                     value={deviceType}
                     onChange={(e) => setDeviceType(e.target.value)}
-                    className="w-full px-4 py-2.5 rounded-xl border border-slate-200 bg-slate-50 text-sm font-bold text-slate-800 focus:bg-white focus:outline-none focus:border-[#0e3a5e]"
+                    className="w-full px-4 py-2.5 rounded-xl border border-slate-200 bg-slate-50 text-sm font-bold text-slate-800 focus:bg-white focus:outline-none focus:border-[#123b4a]"
                   >
                     <option value="ديب فريزر صندوق أفقي">ديب فريزر صندوق أفقي</option>
                     <option value="ديب فريزر رأسي أدراج">ديب فريزر رأسي أدراج</option>
@@ -370,7 +384,7 @@ export const ReviewsSection: React.FC<ReviewsSectionProps> = ({
                           <Star
                             className={`w-7 h-7 ${
                               star <= rating
-                                ? 'fill-[#ff7a00] text-[#ff7a00]'
+                                ? 'fill-[#d97706] text-[#d97706]'
                                 : 'text-slate-300'
                             }`}
                           />
@@ -398,7 +412,7 @@ export const ReviewsSection: React.FC<ReviewsSectionProps> = ({
                     placeholder="اكتب تفاصيل تجربتك مع الفني وسرعة الوصول ودقة الإصلاح وقطع الغيار..."
                     value={comment}
                     onChange={(e) => setComment(e.target.value)}
-                    className="w-full px-4 py-2.5 rounded-xl border border-slate-200 bg-slate-50 text-sm font-semibold focus:bg-white focus:outline-none focus:border-[#0e3a5e]"
+                    className="w-full px-4 py-2.5 rounded-xl border border-slate-200 bg-slate-50 text-sm font-semibold focus:bg-white focus:outline-none focus:border-[#123b4a]"
                   />
                 </div>
 
@@ -420,8 +434,8 @@ export const ReviewsSection: React.FC<ReviewsSectionProps> = ({
                       </button>
                     </div>
                   ) : (
-                    <label className="border-2 border-dashed border-slate-300 hover:border-[#0e3a5e] rounded-2xl p-4 flex flex-col items-center justify-center cursor-pointer bg-slate-50 hover:bg-slate-100 transition-colors">
-                      <Upload className="w-6 h-6 text-[#ff7a00] mb-1" />
+                    <label className="border-2 border-dashed border-slate-300 hover:border-[#123b4a] rounded-2xl p-4 flex flex-col items-center justify-center cursor-pointer bg-slate-50 hover:bg-slate-100 transition-colors">
+                      <Upload className="w-6 h-6 text-[#d97706] mb-1" />
                       <span className="text-xs font-bold text-slate-600">اختر صورة لجهازك من الهاتف أو الكمبيوتر</span>
                       <input
                         type="file"
@@ -448,7 +462,7 @@ export const ReviewsSection: React.FC<ReviewsSectionProps> = ({
                   </button>
                   <button
                     type="submit"
-                    className="px-6 py-2.5 rounded-xl bg-[#ff7a00] hover:bg-[#e66e00] text-white text-xs font-black shadow-md transition-all active:scale-95"
+                    className="px-6 py-2.5 rounded-xl bg-[#d97706] hover:bg-[#b45309] text-white text-xs font-black shadow-md transition-all active:scale-95"
                   >
                     نشر التقييم فوراً
                   </button>

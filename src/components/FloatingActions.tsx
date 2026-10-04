@@ -103,7 +103,7 @@ _أبو المطامير - محافظة البحيرة_`;
           <button
             type="button"
             onClick={scrollToTop}
-            className="w-10 h-10 sm:w-11 sm:h-11 rounded-full bg-[#0e3a5e] text-white flex items-center justify-center shadow-lg hover:bg-[#123f66] transition-all transform hover:scale-110 active:scale-95 border border-white/20"
+            className="w-10 h-10 sm:w-11 sm:h-11 rounded-full bg-[#123b4a] text-white flex items-center justify-center shadow-lg hover:bg-[#174c5d] transition-all transform hover:scale-110 active:scale-95 border border-white/20"
             aria-label="الصعود لأعلى الصفحة"
             title="العودة لأعلى"
           >
@@ -115,13 +115,13 @@ _أبو المطامير - محافظة البحيرة_`;
         <button
           type="button"
           onClick={() => setIsChatModalOpen(true)}
-          className="group relative flex items-center gap-2 px-3.5 py-2.5 rounded-full bg-[#0e3a5e] hover:bg-[#123f66] text-white text-xs font-black shadow-xl border border-white/20 transition-all transform hover:scale-105 active:scale-95"
+          className="group relative flex items-center gap-2 px-3.5 py-2.5 rounded-full bg-[#123b4a] hover:bg-[#174c5d] text-white text-xs font-black shadow-xl border border-white/20 transition-all transform hover:scale-105 active:scale-95"
           title="تحدث مع مهندس الصيانة فوراً"
         >
           <div className="w-2.5 h-2.5 rounded-full bg-emerald-400 animate-pulse"></div>
           <span className="hidden sm:inline">استشارة وصور العطل</span>
           <span className="sm:hidden">استشارة</span>
-          <Wrench className="w-4 h-4 text-[#ff7a00]" />
+          <Wrench className="w-4 h-4 text-[#d97706]" />
         </button>
 
         {/* Master Contact Trigger with Popup Menu */}
@@ -133,8 +133,8 @@ _أبو المطامير - محافظة البحيرة_`;
               onClick={(e) => e.stopPropagation()}
             >
               <div className="flex items-center justify-between px-2 pb-1 border-b border-slate-100">
-                <span className="text-[11px] font-black text-[#0e3a5e] flex items-center gap-1">
-                  <Sparkles className="w-3.5 h-3.5 text-[#ff7a00]" />
+                <span className="text-[11px] font-black text-[#123b4a] flex items-center gap-1">
+                  <Sparkles className="w-3.5 h-3.5 text-[#d97706]" />
                   تواصل فوري (24 ساعة):
                 </span>
                 <button
@@ -187,18 +187,18 @@ _أبو المطامير - محافظة البحيرة_`;
               {/* Phone Call Option 1 */}
               <a
                 href={`tel:+${phone1}`}
-                className="flex items-center justify-between p-2.5 rounded-2xl bg-blue-50 hover:bg-blue-100 border border-blue-200 text-[#0e3a5e] transition-all"
+                className="flex items-center justify-between p-2.5 rounded-2xl bg-blue-50 hover:bg-blue-100 border border-blue-200 text-[#123b4a] transition-all"
               >
                 <div className="flex items-center gap-2">
-                  <div className="w-8 h-8 rounded-xl bg-[#0e3a5e] text-white flex items-center justify-center shrink-0">
-                    <Phone className="w-4 h-4 text-[#ff7a00]" />
+                  <div className="w-8 h-8 rounded-xl bg-[#123b4a] text-white flex items-center justify-center shrink-0">
+                    <Phone className="w-4 h-4 text-[#d97706]" />
                   </div>
                   <div>
                     <div className="text-xs font-black">اتصال بالخط الأساسي</div>
                     <div className="text-[10px] text-slate-600 font-mono" dir="ltr">{phone1Display}</div>
                   </div>
                 </div>
-                <span className="text-[10px] font-bold bg-[#0e3a5e] text-white px-2 py-0.5 rounded-lg">مكالمة</span>
+                <span className="text-[10px] font-bold bg-[#123b4a] text-white px-2 py-0.5 rounded-lg">مكالمة</span>
               </a>
 
               {/* Phone Call Option 2 */}
@@ -239,7 +239,7 @@ _أبو المطامير - محافظة البحيرة_`;
             )}
 
             {/* Notification dot */}
-            <span className="absolute top-0 right-0 w-4 h-4 rounded-full bg-[#ff7a00] border-2 border-white flex items-center justify-center text-[8px] font-black text-white">
+            <span className="absolute top-0 right-0 w-4 h-4 rounded-full bg-[#d97706] border-2 border-white flex items-center justify-center text-[8px] font-black text-white">
               2
             </span>
           </button>
@@ -268,11 +268,11 @@ _أبو المطامير - محافظة البحيرة_`;
 
             {/* Header */}
             <div className="mb-6">
-              <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-[#ff7a00]/10 text-[#ff7a00] text-xs font-black mb-2">
+              <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-[#d97706]/10 text-[#d97706] text-xs font-black mb-2">
                 <Sparkles className="w-3.5 h-3.5" />
                 استشارة وتواصل فوري
               </div>
-              <h3 className="text-xl sm:text-2xl font-black text-[#0e3a5e]">
+              <h3 className="text-xl sm:text-2xl font-black text-[#123b4a]">
                 تحدث مع فني {CENTER_NAME}
               </h3>
               <p className="text-xs text-slate-500 font-semibold mt-1">
@@ -297,7 +297,7 @@ _أبو المطامير - محافظة البحيرة_`;
                         : 'border-slate-200 bg-slate-50 hover:bg-slate-100'
                     }`}
                   >
-                    <span className="text-xs font-black text-[#0e3a5e]">الرقم الأساسي</span>
+                    <span className="text-xs font-black text-[#123b4a]">الرقم الأساسي</span>
                     <span className="text-[11px] font-mono font-bold text-emerald-700" dir="ltr">{DISPLAY_PHONE_1}</span>
                   </button>
 
@@ -310,7 +310,7 @@ _أبو المطامير - محافظة البحيرة_`;
                         : 'border-slate-200 bg-slate-50 hover:bg-slate-100'
                     }`}
                   >
-                    <span className="text-xs font-black text-[#0e3a5e]">الرقم الثاني</span>
+                    <span className="text-xs font-black text-[#123b4a]">الرقم الثاني</span>
                     <span className="text-[11px] font-mono font-bold text-emerald-700" dir="ltr">{DISPLAY_PHONE_2}</span>
                   </button>
                 </div>
@@ -327,7 +327,7 @@ _أبو المطامير - محافظة البحيرة_`;
                     placeholder="مثال: أحمد عبد الله"
                     value={chatName}
                     onChange={(e) => setChatName(e.target.value)}
-                    className="w-full px-3.5 py-2.5 rounded-xl border border-slate-200 bg-slate-50 text-xs sm:text-sm font-semibold focus:bg-white focus:outline-none focus:border-[#0e3a5e]"
+                    className="w-full px-3.5 py-2.5 rounded-xl border border-slate-200 bg-slate-50 text-xs sm:text-sm font-semibold focus:bg-white focus:outline-none focus:border-[#123b4a]"
                   />
                 </div>
 
@@ -338,7 +338,7 @@ _أبو المطامير - محافظة البحيرة_`;
                   <select
                     value={chatDevice}
                     onChange={(e) => setChatDevice(e.target.value)}
-                    className="w-full px-3.5 py-2.5 rounded-xl border border-slate-200 bg-slate-50 text-xs sm:text-sm font-bold text-slate-800 focus:bg-white focus:outline-none focus:border-[#0e3a5e]"
+                    className="w-full px-3.5 py-2.5 rounded-xl border border-slate-200 bg-slate-50 text-xs sm:text-sm font-bold text-slate-800 focus:bg-white focus:outline-none focus:border-[#123b4a]"
                   >
                     <option value="ديب فريزر">ديب فريزر</option>
                     <option value="ثلاجة نوفروست">ثلاجة نوفروست</option>
@@ -361,7 +361,7 @@ _أبو المطامير - محافظة البحيرة_`;
                   placeholder="مثال: الديب فريزر فصل تبريد / الغسالة بتعمل صوت في العصر..."
                   value={chatProblem}
                   onChange={(e) => setChatProblem(e.target.value)}
-                  className="w-full px-3.5 py-2.5 rounded-xl border border-slate-200 bg-slate-50 text-xs sm:text-sm font-semibold focus:bg-white focus:outline-none focus:border-[#0e3a5e]"
+                  className="w-full px-3.5 py-2.5 rounded-xl border border-slate-200 bg-slate-50 text-xs sm:text-sm font-semibold focus:bg-white focus:outline-none focus:border-[#123b4a]"
                 />
               </div>
 
@@ -382,8 +382,8 @@ _أبو المطامير - محافظة البحيرة_`;
                     </button>
                   </div>
                 ) : (
-                  <label className="border border-dashed border-slate-300 hover:border-[#0e3a5e] rounded-xl p-3 flex items-center justify-center gap-2 cursor-pointer bg-slate-50 hover:bg-slate-100 transition-colors">
-                    <Upload className="w-4 h-4 text-[#ff7a00]" />
+                  <label className="border border-dashed border-slate-300 hover:border-[#123b4a] rounded-xl p-3 flex items-center justify-center gap-2 cursor-pointer bg-slate-50 hover:bg-slate-100 transition-colors">
+                    <Upload className="w-4 h-4 text-[#d97706]" />
                     <span className="text-xs font-bold text-slate-600">اختر صورة للجهاز من هاتفك أو الكمبيوتر</span>
                     <input
                       type="file"

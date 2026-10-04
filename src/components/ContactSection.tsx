@@ -50,10 +50,10 @@ export const ContactSection: React.FC<ContactSectionProps> = ({ settings }) => {
         
         {/* Section Header */}
         <div className="text-center max-w-3xl mx-auto mb-14">
-          <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-[#0e3a5e]/10 text-[#0e3a5e] text-xs font-black uppercase tracking-wider mb-3">
+          <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-[#123b4a]/10 text-[#123b4a] text-xs font-black uppercase tracking-wider mb-3">
             تواصل مع {centerName}
           </div>
-          <h2 className="text-2xl sm:text-3xl lg:text-4xl font-black text-[#0e3a5e] leading-tight">
+          <h2 className="text-2xl sm:text-3xl lg:text-4xl font-black text-[#123b4a] leading-tight">
             موجودون دائماً لخدمتكم بمحافظات البحيرة، الغربية، والشرقية
           </h2>
           <p className="mt-4 text-sm sm:text-base text-slate-600 font-semibold leading-relaxed">
@@ -65,18 +65,18 @@ export const ContactSection: React.FC<ContactSectionProps> = ({ settings }) => {
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6 sm:gap-8 mb-12">
           
           {/* Card 1: Direct Call */}
-          <div className="rounded-3xl bg-white border border-slate-200 p-6 sm:p-8 shadow-sm hover:shadow-lg hover:border-[#0e3a5e]/40 transition-all flex flex-col justify-between text-right">
+          <div className="rounded-3xl bg-white border border-slate-200 p-6 sm:p-8 shadow-sm hover:shadow-lg hover:border-[#123b4a]/40 transition-all flex flex-col justify-between text-right">
             <div>
-              <div className="w-14 h-14 rounded-2xl bg-blue-50 text-[#0e3a5e] flex items-center justify-center mb-5 shadow-sm">
+              <div className="w-14 h-14 rounded-2xl bg-blue-50 text-[#123b4a] flex items-center justify-center mb-5 shadow-sm">
                 <Phone className="w-7 h-7" />
               </div>
-              <h3 className="text-lg font-black text-[#0e3a5e]">أرقام الاتصال الهاتفي المباشر</h3>
+              <h3 className="text-lg font-black text-[#123b4a]">أرقام الاتصال الهاتفي المباشر</h3>
               <p className="mt-2 text-xs sm:text-sm text-slate-600 font-semibold leading-relaxed">
                 تحدث مع مهندسي الصيانة مباشرة لحجز زيارة فورية بالمنزل.
               </p>
               
               <div className="mt-4 space-y-2">
-                <div className="p-2.5 rounded-xl bg-slate-50 border border-slate-100 font-mono text-sm sm:text-base font-black text-[#0e3a5e] text-center" dir="ltr">
+                <div className="p-2.5 rounded-xl bg-slate-50 border border-slate-100 font-mono text-sm sm:text-base font-black text-[#123b4a] text-center" dir="ltr">
                   <span className="text-xs font-bold text-slate-500 block mb-0.5 font-sans">الرقم الأساسي:</span>
                   {phone1Display}
                 </div>
@@ -89,9 +89,9 @@ export const ContactSection: React.FC<ContactSectionProps> = ({ settings }) => {
             <div className="mt-6 grid grid-cols-2 gap-2">
               <a
                 href={`tel:+${phone1}`}
-                className="py-3 rounded-xl bg-[#0e3a5e] hover:bg-[#123f66] text-white font-black text-xs flex items-center justify-center gap-1.5 shadow-sm transition-all"
+                className="py-3 rounded-xl bg-[#123b4a] hover:bg-[#174c5d] text-white font-black text-xs flex items-center justify-center gap-1.5 shadow-sm transition-all"
               >
-                <Phone className="w-3.5 h-3.5 text-[#ff7a00]" />
+                <Phone className="w-3.5 h-3.5 text-[#d97706]" />
                 <span>اتصل 1</span>
               </a>
               <a
@@ -110,7 +110,7 @@ export const ContactSection: React.FC<ContactSectionProps> = ({ settings }) => {
               <div className="w-14 h-14 rounded-2xl bg-emerald-50 text-[#25D366] flex items-center justify-center mb-5 shadow-sm">
                 <MessageSquare className="w-7 h-7" />
               </div>
-              <h3 className="text-lg font-black text-[#0e3a5e]">محادثة واستشارة واتساب</h3>
+              <h3 className="text-lg font-black text-[#123b4a]">محادثة واستشارة واتساب</h3>
               <p className="mt-2 text-xs sm:text-sm text-slate-600 font-semibold leading-relaxed">
                 أرسل صورة الجهاز أو صوت العطل لتشخيصه وتحديد الموعد فوراً.
               </p>
@@ -135,7 +135,7 @@ export const ContactSection: React.FC<ContactSectionProps> = ({ settings }) => {
               <div className="w-14 h-14 rounded-2xl bg-blue-50 text-[#1877F2] flex items-center justify-center mb-5 shadow-sm">
                 <Facebook className="w-7 h-7" />
               </div>
-              <h3 className="text-lg font-black text-[#0e3a5e]">صفحة وجروب الفيسبوك</h3>
+              <h3 className="text-lg font-black text-[#123b4a]">صفحة وجروب الفيسبوك</h3>
               <p className="mt-2 text-xs sm:text-sm text-slate-600 font-semibold leading-relaxed">
                 انضم لصفحتنا وجروبنا لمتابعة منشورات الصيانة وفيديوهات الإصلاح العملية.
               </p>
@@ -186,9 +186,9 @@ export const ContactSection: React.FC<ContactSectionProps> = ({ settings }) => {
           <div className="lg:col-span-8 rounded-3xl bg-white border border-slate-200 overflow-hidden shadow-sm p-4 flex flex-col justify-between">
             <div className="flex items-center justify-between mb-3 px-2">
               <div className="flex items-center gap-2 text-right">
-                <MapPin className="w-5 h-5 text-[#ff7a00]" />
+                <MapPin className="w-5 h-5 text-[#d97706]" />
                 <div>
-                  <h4 className="text-sm font-black text-[#0e3a5e]">نطاق التغطية والفروع (البحيرة • الغربية • الشرقية)</h4>
+                  <h4 className="text-sm font-black text-[#123b4a]">نطاق التغطية والفروع (البحيرة • الغربية • الشرقية)</h4>
                   <p className="text-xs text-slate-500 font-semibold">{location}</p>
                 </div>
               </div>
@@ -196,9 +196,9 @@ export const ContactSection: React.FC<ContactSectionProps> = ({ settings }) => {
                 href={mapsLink}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-slate-100 hover:bg-slate-200 text-xs font-black text-[#0e3a5e] transition-colors"
+                className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-slate-100 hover:bg-slate-200 text-xs font-black text-[#123b4a] transition-colors"
               >
-                <Navigation className="w-3.5 h-3.5 text-[#ff7a00]" />
+                <Navigation className="w-3.5 h-3.5 text-[#d97706]" />
                 <span>فتح في خرائط جوجل</span>
               </a>
             </div>
@@ -227,14 +227,14 @@ export const ContactSection: React.FC<ContactSectionProps> = ({ settings }) => {
                   <Clock className="w-6 h-6" />
                 </div>
                 <div>
-                  <h4 className="text-base font-black text-[#0e3a5e]">مواعيد العمل واستقبال البلاغات</h4>
+                  <h4 className="text-base font-black text-[#123b4a]">مواعيد العمل واستقبال البلاغات</h4>
                   <p className="text-xs text-slate-500 font-semibold">خدمة صيانة منزلية فورية</p>
                 </div>
               </div>
 
               <div className="space-y-3 text-xs sm:text-sm font-bold text-slate-700">
                 <div className="flex items-center justify-between p-3 rounded-xl bg-slate-50 border border-slate-100">
-                  <span className="font-black text-[#0e3a5e]">طوال أيام الأسبوع:</span>
+                  <span className="font-black text-[#123b4a]">طوال أيام الأسبوع:</span>
                   <span className="font-mono">8:00 ص - 11:00 م</span>
                 </div>
 
@@ -249,9 +249,9 @@ export const ContactSection: React.FC<ContactSectionProps> = ({ settings }) => {
 
               <div className="mt-6 pt-5 border-t border-slate-100">
                 <span className="text-xs font-bold text-slate-400 block mb-1">المركز:</span>
-                <p className="text-sm font-black text-[#0e3a5e]">{centerName}</p>
+                <p className="text-sm font-black text-[#123b4a]">{centerName}</p>
                 <p className="text-xs text-slate-600 font-bold mt-0.5 flex items-center gap-1">
-                  <Award className="w-3.5 h-3.5 text-[#ff7a00]" />
+                  <Award className="w-3.5 h-3.5 text-[#d97706]" />
                   خبرة أكثر من {yearsExp} سنة في مجال الصيانة
                 </p>
               </div>
@@ -260,9 +260,9 @@ export const ContactSection: React.FC<ContactSectionProps> = ({ settings }) => {
             <div className="mt-6">
               <a
                 href={`tel:+${phone1}`}
-                className="w-full py-3 rounded-xl bg-[#0e3a5e] hover:bg-[#123f66] text-white font-black text-xs sm:text-sm flex items-center justify-center gap-2 transition-colors"
+                className="w-full py-3 rounded-xl bg-[#123b4a] hover:bg-[#174c5d] text-white font-black text-xs sm:text-sm flex items-center justify-center gap-2 transition-colors"
               >
-                <Phone className="w-4 h-4 text-[#ff7a00]" />
+                <Phone className="w-4 h-4 text-[#d97706]" />
                 <span>اتصال فوري الآن</span>
               </a>
             </div>

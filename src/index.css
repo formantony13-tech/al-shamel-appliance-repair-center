@@ -41,21 +41,52 @@
   max-width: 100vw;
 }
 
-/* Wide desktop presentation: use the available horizontal space without
-   changing the comfortable single-column flow on phones and tablets. */
+/* Unified visual system: calm deep teal + muted copper, with compact section rhythm. */
+:root {
+  --brand-ink: #123b4a;
+  --brand-ink-strong: #174c5d;
+  --brand-copper: #d97706;
+  --brand-copper-dark: #b45309;
+  --page-bg: #f5f8fa;
+}
+
+body {
+  background: var(--page-bg);
+}
+
+/* Wide desktop presentation: use the available horizontal space and avoid
+   making visitors scroll through unnecessary vertical whitespace. */
 @media (min-width: 1280px) {
+  #quick-nav-bar {
+    display: none;
+  }
+
   .max-w-7xl {
     max-width: 90rem;
   }
 
-  section.py-16 {
-    padding-top: 3.5rem;
-    padding-bottom: 3.5rem;
+  main > section.py-16 {
+    padding-top: 3.25rem !important;
+    padding-bottom: 3.25rem !important;
   }
 
-  section.py-16.lg\:py-24 {
-    padding-top: 4.5rem;
-    padding-bottom: 4.5rem;
+  main > section.py-16.lg\:py-24 {
+    padding-top: 4rem !important;
+    padding-bottom: 4rem !important;
+  }
+
+  #quick-nav-items {
+    justify-content: center;
+    overflow-x: visible;
+  }
+
+  #quick-nav-items > a {
+    padding-inline: 0.75rem;
+  }
+
+  #primary-nav {
+    flex-shrink: 1;
+    white-space: nowrap;
   }
 }
 

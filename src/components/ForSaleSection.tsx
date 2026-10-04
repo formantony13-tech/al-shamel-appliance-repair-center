@@ -35,6 +35,7 @@ export const ForSaleSection: React.FC<ForSaleSectionProps> = ({ settings }) => {
   const [selectedCategory, setSelectedCategory] = useState<ForSaleCategory>('الكل');
   const [selectedItem, setSelectedItem] = useState<ApplianceForSale | null>(null);
   const [loading, setLoading] = useState<boolean>(true);
+  const [showAllItems, setShowAllItems] = useState(false);
 
   useEffect(() => {
     async function loadItems() {
@@ -55,6 +56,9 @@ export const ForSaleSection: React.FC<ForSaleSectionProps> = ({ settings }) => {
     if (selectedCategory === 'الكل') return true;
     return item.category === selectedCategory;
   });
+  const visibleItems = selectedCategory === 'الكل' && !showAllItems
+    ? filteredItems.slice(0, 3)
+    : filteredItems;
 
   const getStatusBadge = (status: ApplianceForSale['status']) => {
     switch (status) {
@@ -132,7 +136,10 @@ export const ForSaleSection: React.FC<ForSaleSectionProps> = ({ settings }) => {
             <button
               key={cat.value}
               id={`for-sale-filter-${cat.value}`}
-              onClick={() => setSelectedCategory(cat.value)}
+              onClick={() => {
+                setSelectedCategory(cat.value);
+                setShowAllItems(false);
+              }}
               className={`px-5 py-2.5 rounded-xl font-bold text-sm transition-all duration-200 whitespace-nowrap cursor-pointer flex items-center gap-2 ${
                 selectedCategory === cat.value
                   ? 'bg-slate-900 text-white shadow-md shadow-slate-900/10'
@@ -178,9 +185,10 @@ export const ForSaleSection: React.FC<ForSaleSectionProps> = ({ settings }) => {
             </a>
           </div>
         ) : (
-          /* Items Grid */
+          <>
+          {/* Items Grid */}
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {filteredItems.map(item => {
+            {visibleItems.map(item => {
               const discountPercent = item.originalPrice 
                 ? Math.round(((item.originalPrice - item.price) / item.originalPrice) * 100)
                 : null;
@@ -310,6 +318,19 @@ export const ForSaleSection: React.FC<ForSaleSectionProps> = ({ settings }) => {
               );
             })}
           </div>
+
+          {selectedCategory === 'الكل' && filteredItems.length > 3 && (
+            <div className="mt-8 text-center">
+              <button
+                type="button"
+                onClick={() => setShowAllItems((current) => !current)}
+                className="inline-flex items-center justify-center px-5 py-2.5 rounded-xl border border-slate-300 bg-white text-slate-700 hover:bg-slate-900 hover:text-white text-xs font-black transition-colors"
+              >
+                {showAllItems ? 'عرض عدد أقل' : `عرض كل الأجهزة (${filteredItems.length})`}
+              </button>
+            </div>
+          )}
+          </>
         )}
 
         {/* Bottom Banner */}

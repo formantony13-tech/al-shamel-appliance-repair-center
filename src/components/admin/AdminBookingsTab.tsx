@@ -95,7 +95,7 @@ export const AdminBookingsTab: React.FC<AdminBookingsTabProps> = ({
             placeholder="بحث بالاسم، كود الحجز، الهاتف، أو الجهاز..."
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
-            className="w-full pl-4 pr-9 py-2 rounded-xl border border-slate-200 text-xs font-semibold focus:border-[#0e3a5e] outline-none"
+            className="w-full pl-4 pr-9 py-2 rounded-xl border border-slate-200 text-xs font-semibold focus:border-[#123b4a] outline-none"
           />
           <Search className="w-4 h-4 text-slate-400 absolute top-2.5 right-3" />
         </div>
@@ -125,11 +125,11 @@ export const AdminBookingsTab: React.FC<AdminBookingsTabProps> = ({
         {filteredBookings.map((b) => (
           <div
             key={b.id}
-            className="bg-white p-5 rounded-2xl border border-slate-200 shadow-sm hover:border-[#0e3a5e] transition-all flex flex-col justify-between"
+            className="bg-white p-5 rounded-2xl border border-slate-200 shadow-sm hover:border-[#123b4a] transition-all flex flex-col justify-between"
           >
             <div>
               <div className="flex items-center justify-between mb-2">
-                <span className="font-mono text-xs font-black text-[#0e3a5e] bg-[#0e3a5e]/5 px-2 py-1 rounded-md">
+                <span className="font-mono text-xs font-black text-[#123b4a] bg-[#123b4a]/5 px-2 py-1 rounded-md">
                   {b.id}
                 </span>
                 {getStatusBadge(b.status)}
@@ -147,7 +147,7 @@ export const AdminBookingsTab: React.FC<AdminBookingsTabProps> = ({
                   <span className="line-clamp-1">{b.address}</span>
                 </div>
                 <div className="flex items-center gap-2 font-bold text-slate-800">
-                  <Wrench className="w-3.5 h-3.5 text-[#ff7a00] shrink-0" />
+                  <Wrench className="w-3.5 h-3.5 text-[#d97706] shrink-0" />
                   <span>{b.deviceType} {b.brand ? `(${b.brand})` : ''}</span>
                 </div>
               </div>
@@ -179,7 +179,7 @@ export const AdminBookingsTab: React.FC<AdminBookingsTabProps> = ({
                 <button
                   type="button"
                   onClick={() => onOpenCreateRepairJob(b)}
-                  className="p-1.5 rounded-lg text-[#0e3a5e] hover:bg-blue-50 transition-colors cursor-pointer"
+                  className="p-1.5 rounded-lg text-[#123b4a] hover:bg-blue-50 transition-colors cursor-pointer"
                   title="تحويل لأمر صيانة فني"
                 >
                   <Wrench className="w-4 h-4" />
@@ -212,7 +212,7 @@ export const AdminBookingsTab: React.FC<AdminBookingsTabProps> = ({
             <div className="flex items-center justify-between border-b border-slate-100 pb-3 mb-4">
               <div>
                 <span className="font-mono text-xs font-bold text-slate-400">كود الحجز:</span>
-                <span className="font-mono text-sm font-black text-[#0e3a5e] mr-1">{selectedBooking.id}</span>
+                <span className="font-mono text-sm font-black text-[#123b4a] mr-1">{selectedBooking.id}</span>
               </div>
               <button 
                 onClick={() => setSelectedBooking(null)} 
@@ -231,7 +231,7 @@ export const AdminBookingsTab: React.FC<AdminBookingsTabProps> = ({
               <div className="flex items-center justify-between">
                 <span className="font-bold text-slate-500">رقم الهاتف:</span>
                 <div className="flex items-center gap-2">
-                  <span className="font-mono font-bold text-[#0e3a5e]">{selectedBooking.phoneNumber}</span>
+                  <span className="font-mono font-bold text-[#123b4a]">{selectedBooking.phoneNumber}</span>
                   <a 
                     href={`tel:${selectedBooking.phoneNumber}`}
                     className="p-1 rounded bg-slate-100 text-slate-700 hover:bg-slate-200"
@@ -314,7 +314,7 @@ export const AdminBookingsTab: React.FC<AdminBookingsTabProps> = ({
                     onOpenCreateRepairJob(selectedBooking);
                     setSelectedBooking(null);
                   }}
-                  className="p-2.5 rounded-xl bg-[#0e3a5e] hover:bg-[#123f66] text-white font-black text-xs flex items-center justify-center gap-1.5 cursor-pointer shadow"
+                  className="p-2.5 rounded-xl bg-[#123b4a] hover:bg-[#174c5d] text-white font-black text-xs flex items-center justify-center gap-1.5 cursor-pointer shadow"
                 >
                   <Wrench className="w-4 h-4" />
                   <span>فتح أمر صيانة فني</span>

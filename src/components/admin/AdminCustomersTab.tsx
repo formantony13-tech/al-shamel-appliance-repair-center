@@ -100,7 +100,7 @@ export const AdminCustomersTab: React.FC<AdminCustomersTabProps> = ({
             placeholder="بحث في سجل العملاء بالاسم أو الهاتف أو المنطقة..."
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
-            className="w-full pl-4 pr-9 py-2 rounded-xl border border-slate-200 text-xs font-semibold focus:border-[#0e3a5e] outline-none"
+            className="w-full pl-4 pr-9 py-2 rounded-xl border border-slate-200 text-xs font-semibold focus:border-[#123b4a] outline-none"
           />
           <Search className="w-4 h-4 text-slate-400 absolute top-2.5 right-3" />
         </div>
@@ -108,7 +108,7 @@ export const AdminCustomersTab: React.FC<AdminCustomersTabProps> = ({
         <button
           type="button"
           onClick={handleOpenAdd}
-          className="w-full sm:w-auto px-4 py-2.5 rounded-xl bg-[#0e3a5e] hover:bg-[#123f66] text-white text-xs font-black flex items-center justify-center gap-2 cursor-pointer shadow transition-all"
+          className="w-full sm:w-auto px-4 py-2.5 rounded-xl bg-[#123b4a] hover:bg-[#174c5d] text-white text-xs font-black flex items-center justify-center gap-2 cursor-pointer shadow transition-all"
         >
           <Plus className="w-4 h-4" />
           <span>إضافة عميل جديد لسجل CRM</span>
@@ -120,12 +120,12 @@ export const AdminCustomersTab: React.FC<AdminCustomersTabProps> = ({
         {filteredCustomers.map((c) => (
           <div
             key={c.id}
-            className="bg-white p-5 rounded-2xl border border-slate-200 shadow-sm hover:border-[#0e3a5e] transition-all flex flex-col justify-between"
+            className="bg-white p-5 rounded-2xl border border-slate-200 shadow-sm hover:border-[#123b4a] transition-all flex flex-col justify-between"
           >
             <div>
               <div className="flex items-center justify-between mb-2">
                 <span className="font-bold text-xs text-slate-500">{c.area || 'عميل مسجل'}</span>
-                <span className="font-mono text-[11px] font-black px-2 py-0.5 rounded-md bg-blue-50 text-[#0e3a5e]">
+                <span className="font-mono text-[11px] font-black px-2 py-0.5 rounded-md bg-blue-50 text-[#123b4a]">
                   {c.totalBookings || 1} حجز
                 </span>
               </div>
@@ -133,7 +133,7 @@ export const AdminCustomersTab: React.FC<AdminCustomersTabProps> = ({
               <h4 className="text-sm font-black text-slate-900 mb-1">{c.name}</h4>
 
               <div className="space-y-1.5 text-xs text-slate-600 mb-3">
-                <div className="flex items-center gap-2 font-mono font-bold text-[#0e3a5e]">
+                <div className="flex items-center gap-2 font-mono font-bold text-[#123b4a]">
                   <Phone className="w-3.5 h-3.5 text-slate-400 shrink-0" />
                   <span>{c.phone}</span>
                 </div>
@@ -194,7 +194,7 @@ export const AdminCustomersTab: React.FC<AdminCustomersTabProps> = ({
           <div className="bg-white rounded-3xl shadow-2xl max-w-md w-full p-6 text-right border border-slate-200">
             <div className="flex items-center justify-between border-b border-slate-100 pb-3 mb-4">
               <h3 className="text-sm font-black text-slate-900 flex items-center gap-2">
-                <Users className="w-4 h-4 text-[#ff7a00]" />
+                <Users className="w-4 h-4 text-[#d97706]" />
                 <span>{editingCustomer ? 'تعديل بيانات العميل' : 'إضافة عميل جديد'}</span>
               </h3>
               <button 
@@ -271,7 +271,7 @@ export const AdminCustomersTab: React.FC<AdminCustomersTabProps> = ({
                 </button>
                 <button
                   type="submit"
-                  className="px-6 py-2 rounded-xl bg-[#0e3a5e] text-white font-black hover:bg-[#123f66] shadow"
+                  className="px-6 py-2 rounded-xl bg-[#123b4a] text-white font-black hover:bg-[#174c5d] shadow"
                 >
                   حفظ العميل ✅
                 </button>

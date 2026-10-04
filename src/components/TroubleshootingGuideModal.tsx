@@ -1,13 +1,13 @@
 import React, { useState } from 'react';
-import { 
-  X, 
-  HelpCircle, 
-  AlertTriangle, 
-  CheckCircle2, 
-  Wrench, 
-  ArrowRight, 
-  Phone, 
-  Flame, 
+import {
+  X,
+  HelpCircle,
+  AlertTriangle,
+  CheckCircle2,
+  Wrench,
+  ArrowRight,
+  Phone,
+  Flame,
   Sparkles,
   ShieldAlert,
   ChevronDown
@@ -161,7 +161,7 @@ export const TroubleshootingGuideModal: React.FC<TroubleshootingGuideModalProps>
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-950/80 backdrop-blur-md animate-fadeIn text-right" dir="rtl">
       <div className="bg-white rounded-3xl max-w-2xl w-full p-6 sm:p-8 shadow-2xl border border-slate-100 relative max-h-[90vh] overflow-y-auto">
-        
+
         {/* Close Button */}
         <button
           onClick={onClose}
@@ -173,11 +173,11 @@ export const TroubleshootingGuideModal: React.FC<TroubleshootingGuideModalProps>
 
         {/* Header */}
         <div className="flex items-center gap-3 mb-6">
-          <div className="w-12 h-12 rounded-2xl bg-gradient-to-br from-[#0e3a5e] to-[#123f66] text-[#ff7a00] flex items-center justify-center shadow-md">
+          <div className="w-12 h-12 rounded-2xl bg-gradient-to-br from-[#123b4a] to-[#174c5d] text-[#d97706] flex items-center justify-center shadow-md">
             <HelpCircle className="w-6 h-6" />
           </div>
           <div>
-            <h3 className="text-xl sm:text-2xl font-black text-[#0e3a5e]">
+            <h3 className="text-xl sm:text-2xl font-black text-[#123b4a]">
               دليل تشخيص وفحص الأعطال السريع
             </h3>
             <p className="text-xs text-slate-500 font-semibold mt-0.5">
@@ -197,7 +197,7 @@ export const TroubleshootingGuideModal: React.FC<TroubleshootingGuideModalProps>
               }}
               className={`p-3 rounded-2xl text-xs font-black transition-all flex flex-col items-center gap-1.5 border text-center ${
                 activeCategoryIndex === idx
-                  ? 'bg-[#0e3a5e] text-white border-[#0e3a5e] shadow-md shadow-[#0e3a5e]/20'
+                  ? 'bg-[#123b4a] text-white border-[#123b4a] shadow-md shadow-[#123b4a]/20'
                   : 'bg-slate-50 text-slate-700 border-slate-200 hover:bg-slate-100'
               }`}
             >
@@ -217,11 +217,11 @@ export const TroubleshootingGuideModal: React.FC<TroubleshootingGuideModalProps>
             const isExpanded = expandedFaultId === fault.id;
 
             return (
-              <div 
+              <div
                 key={fault.id}
                 className={`rounded-2xl border transition-all overflow-hidden ${
-                  isExpanded 
-                    ? 'border-[#0e3a5e] bg-slate-50/50 shadow-sm' 
+                  isExpanded
+                    ? 'border-[#123b4a] bg-slate-50/50 shadow-sm'
                     : 'border-slate-200 bg-white hover:border-slate-300'
                 }`}
               >
@@ -239,13 +239,13 @@ export const TroubleshootingGuideModal: React.FC<TroubleshootingGuideModalProps>
                       {fault.symptom}
                     </span>
                   </div>
-                  <ChevronDown className={`w-4 h-4 text-slate-400 transition-transform ${isExpanded ? 'rotate-180 text-[#0e3a5e]' : ''}`} />
+                  <ChevronDown className={`w-4 h-4 text-slate-400 transition-transform ${isExpanded ? 'rotate-180 text-[#123b4a]' : ''}`} />
                 </button>
 
                 {isExpanded && (
                   <div className="px-4 pb-4 pt-1 border-t border-slate-200/60 space-y-3 animate-fadeIn text-xs">
                     <div>
-                      <span className="font-black text-[#0e3a5e] block mb-1">الأسباب الهندسية المحتملة للعطل:</span>
+                      <span className="font-black text-[#123b4a] block mb-1">الأسباب الهندسية المحتملة للعطل:</span>
                       <ul className="list-disc list-inside space-y-1 text-slate-600 font-semibold pr-1">
                         {fault.causes.map((c, i) => (
                           <li key={i}>{c}</li>
@@ -267,9 +267,9 @@ export const TroubleshootingGuideModal: React.FC<TroubleshootingGuideModalProps>
                       <button
                         type="button"
                         onClick={() => handleBookThisFault(fault)}
-                        className="w-full sm:w-auto px-5 py-2.5 rounded-xl bg-[#0e3a5e] hover:bg-[#123f66] text-white font-black text-xs flex items-center justify-center gap-2 shadow-sm transition-all"
+                        className="w-full sm:w-auto px-5 py-2.5 rounded-xl bg-[#123b4a] hover:bg-[#174c5d] text-white font-black text-xs flex items-center justify-center gap-2 shadow-sm transition-all"
                       >
-                        <Wrench className="w-3.5 h-3.5 text-[#ff7a00]" />
+                        <Wrench className="w-3.5 h-3.5 text-[#d97706]" />
                         <span>احجز فني صيانة لهذا العطل فوراً</span>
                       </button>
 
@@ -277,7 +277,7 @@ export const TroubleshootingGuideModal: React.FC<TroubleshootingGuideModalProps>
                         href={`tel:+${PHONE_NUMBER_1}`}
                         className="w-full sm:w-auto px-4 py-2.5 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold text-xs flex items-center justify-center gap-1.5"
                       >
-                        <Phone className="w-3.5 h-3.5 text-[#0e3a5e]" />
+                        <Phone className="w-3.5 h-3.5 text-[#123b4a]" />
                         <span>استشارة هاتفية سريعة</span>
                       </a>
                     </div>
@@ -289,14 +289,14 @@ export const TroubleshootingGuideModal: React.FC<TroubleshootingGuideModalProps>
         </div>
 
         {/* Emergency Call Banner */}
-        <div className="p-4 rounded-2xl bg-gradient-to-r from-[#0e3a5e] to-[#123f66] text-white flex flex-col sm:flex-row items-center justify-between gap-3 text-xs shadow-md">
+        <div className="p-4 rounded-2xl bg-gradient-to-r from-[#123b4a] to-[#174c5d] text-white flex flex-col sm:flex-row items-center justify-between gap-3 text-xs shadow-md">
           <div className="text-center sm:text-right">
-            <span className="font-black text-[#ff7a00] block text-sm">لديك حالة طوارئ خاصة أو عطل غير مذكور؟</span>
+            <span className="font-black text-[#d97706] block text-sm">لديك حالة طوارئ خاصة أو عطل غير مذكور؟</span>
             <span className="text-slate-200 font-semibold">تواصل مباشرة مع المهندس المناوب بأبو المطامير على مدار الساعة</span>
           </div>
           <a
             href={`tel:+${PHONE_NUMBER_1}`}
-            className="px-4 py-2 rounded-xl bg-[#ff7a00] hover:bg-[#e06c00] text-white font-black text-xs shrink-0 flex items-center gap-1.5 transition-colors"
+            className="px-4 py-2 rounded-xl bg-[#d97706] hover:bg-[#e06c00] text-white font-black text-xs shrink-0 flex items-center gap-1.5 transition-colors"
           >
             <Phone className="w-3.5 h-3.5" />
             <span>اتصل الآن: {DISPLAY_PHONE_1}</span>

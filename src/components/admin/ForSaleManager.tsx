@@ -446,8 +446,8 @@ export const ForSaleManager: React.FC<ForSaleManagerProps> = ({
       <div className="bg-white rounded-3xl border border-slate-200 p-6 sm:p-7 shadow-xs space-y-6">
         <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
           <div className="flex items-center gap-3.5">
-            <div className="p-3.5 rounded-2xl bg-gradient-to-br from-[#0e3a5e] to-[#123f66] text-white shadow-md shadow-[#0e3a5e]/20">
-              <ShoppingBag className="w-7 h-7 text-[#ff7a00]" />
+            <div className="p-3.5 rounded-2xl bg-gradient-to-br from-[#123b4a] to-[#174c5d] text-white shadow-md shadow-[#123b4a]/20">
+              <ShoppingBag className="w-7 h-7 text-[#d97706]" />
             </div>
             <div>
               <div className="flex items-center gap-2">
@@ -480,9 +480,9 @@ export const ForSaleManager: React.FC<ForSaleManagerProps> = ({
               id="admin-add-for-sale-item-btn"
               type="button"
               onClick={handleOpenAddModal}
-              className="flex-1 md:flex-none flex items-center justify-center gap-2 px-6 py-3 rounded-2xl bg-[#0e3a5e] hover:bg-[#123f66] text-white font-black text-xs sm:text-sm shadow-lg shadow-[#0e3a5e]/20 transition-all cursor-pointer"
+              className="flex-1 md:flex-none flex items-center justify-center gap-2 px-6 py-3 rounded-2xl bg-[#123b4a] hover:bg-[#174c5d] text-white font-black text-xs sm:text-sm shadow-lg shadow-[#123b4a]/20 transition-all cursor-pointer"
             >
-              <Plus className="w-4 h-4 text-[#ff7a00]" />
+              <Plus className="w-4 h-4 text-[#d97706]" />
               <span>إضافة جهاز جديد للبيع</span>
             </button>
           </div>
@@ -522,12 +522,12 @@ export const ForSaleManager: React.FC<ForSaleManagerProps> = ({
             <div className="text-xl font-black text-slate-700 mt-2 font-mono">{soldCount} جهاز</div>
           </div>
 
-          <div className="col-span-2 sm:col-span-1 p-4 rounded-2xl bg-[#0e3a5e]/5 border border-[#0e3a5e]/15 flex flex-col justify-between">
-            <span className="text-[11px] font-bold text-[#0e3a5e] flex items-center gap-1.5">
-              <DollarSign className="w-3.5 h-3.5 text-[#ff7a00]" />
+          <div className="col-span-2 sm:col-span-1 p-4 rounded-2xl bg-[#123b4a]/5 border border-[#123b4a]/15 flex flex-col justify-between">
+            <span className="text-[11px] font-bold text-[#123b4a] flex items-center gap-1.5">
+              <DollarSign className="w-3.5 h-3.5 text-[#d97706]" />
               <span>قيمة المخزون المتاح</span>
             </span>
-            <div className="text-lg font-black text-[#0e3a5e] mt-2 font-mono">
+            <div className="text-lg font-black text-[#123b4a] mt-2 font-mono">
               {totalValue.toLocaleString()} <span className="text-xs font-bold">ج.م</span>
             </div>
           </div>
@@ -545,7 +545,7 @@ export const ForSaleManager: React.FC<ForSaleManagerProps> = ({
               placeholder="بحث باسم الجهاز، الماركة (توشيبا، كريازي، إل جي...)، الموديل، المواصفات..."
               value={searchTerm}
               onChange={e => setSearchTerm(e.target.value)}
-              className="w-full pr-10 pl-4 py-2.5 text-xs sm:text-sm bg-slate-50 border border-slate-200 rounded-xl focus:bg-white focus:border-[#0e3a5e] focus:outline-hidden transition-all"
+              className="w-full pr-10 pl-4 py-2.5 text-xs sm:text-sm bg-slate-50 border border-slate-200 rounded-xl focus:bg-white focus:border-[#123b4a] focus:outline-hidden transition-all"
             />
             {searchTerm && (
               <button
@@ -650,7 +650,7 @@ export const ForSaleManager: React.FC<ForSaleManagerProps> = ({
                 onClick={() => setFilterCategory(cat)}
                 className={`px-3 py-1 rounded-xl text-xs font-bold shrink-0 transition-all cursor-pointer flex items-center gap-1.5 ${
                   isSelected
-                    ? 'bg-[#0e3a5e] text-white shadow-xs'
+                    ? 'bg-[#123b4a] text-white shadow-xs'
                     : 'bg-slate-100 text-slate-600 hover:bg-slate-200'
                 }`}
               >
@@ -667,7 +667,7 @@ export const ForSaleManager: React.FC<ForSaleManagerProps> = ({
       {/* 3. ITEMS LISTING (GRID OR TABLE) */}
       {loading ? (
         <div className="bg-white rounded-3xl border border-slate-200 p-16 text-center space-y-4">
-          <div className="w-10 h-10 border-3 border-[#0e3a5e] border-t-transparent rounded-full animate-spin mx-auto"></div>
+          <div className="w-10 h-10 border-3 border-[#123b4a] border-t-transparent rounded-full animate-spin mx-auto"></div>
           <p className="text-sm font-black text-slate-700">جاري تحميل الأجهزة من قاعدة البيانات السحابية...</p>
         </div>
       ) : filteredItems.length === 0 ? (
@@ -679,7 +679,7 @@ export const ForSaleManager: React.FC<ForSaleManagerProps> = ({
           </p>
           <button
             onClick={handleOpenAddModal}
-            className="px-6 py-2.5 rounded-xl bg-[#0e3a5e] text-white font-bold text-xs hover:bg-[#123f66] transition-colors cursor-pointer"
+            className="px-6 py-2.5 rounded-xl bg-[#123b4a] text-white font-bold text-xs hover:bg-[#174c5d] transition-colors cursor-pointer"
           >
             إضافة جهاز جديد الآن
           </button>
@@ -710,7 +710,7 @@ export const ForSaleManager: React.FC<ForSaleManagerProps> = ({
                     />
 
                     {/* Category pill */}
-                    <span className="absolute top-3 right-3 px-3 py-1 rounded-xl bg-[#0e3a5e]/90 text-white text-xs font-black backdrop-blur-md shadow-md">
+                    <span className="absolute top-3 right-3 px-3 py-1 rounded-xl bg-[#123b4a]/90 text-white text-xs font-black backdrop-blur-md shadow-md">
                       {item.category}
                     </span>
 
@@ -753,7 +753,7 @@ export const ForSaleManager: React.FC<ForSaleManagerProps> = ({
                     {/* Price Block */}
                     <div className="p-3 rounded-2xl bg-amber-50/60 border border-amber-200/60 flex items-center justify-between">
                       <div>
-                        <div className="text-lg font-black text-[#0e3a5e] font-mono">
+                        <div className="text-lg font-black text-[#123b4a] font-mono">
                           {item.price.toLocaleString()} <span className="text-xs font-bold">ج.م</span>
                         </div>
                         {hasDiscount && (
@@ -776,7 +776,7 @@ export const ForSaleManager: React.FC<ForSaleManagerProps> = ({
                       <ul className="space-y-1 text-xs text-slate-600 pt-1">
                         {item.specs.slice(0, 2).map((sp, i) => (
                           <li key={i} className="flex items-start gap-1.5 text-[11px] font-medium line-clamp-1">
-                            <span className="w-1.5 h-1.5 rounded-full bg-[#ff7a00] shrink-0 mt-1.5"></span>
+                            <span className="w-1.5 h-1.5 rounded-full bg-[#d97706] shrink-0 mt-1.5"></span>
                             <span>{sp}</span>
                           </li>
                         ))}
@@ -912,7 +912,7 @@ export const ForSaleManager: React.FC<ForSaleManagerProps> = ({
                       <span className="text-[10px] text-slate-400">{item.brand}</span>
                     </td>
                     <td className="p-4">
-                      <div className="font-black text-[#0e3a5e] font-mono">{item.price.toLocaleString()} ج.م</div>
+                      <div className="font-black text-[#123b4a] font-mono">{item.price.toLocaleString()} ج.م</div>
                       {item.originalPrice && (
                         <div className="text-[10px] text-slate-400 line-through font-mono">{item.originalPrice.toLocaleString()} ج.م</div>
                       )}
@@ -970,7 +970,7 @@ export const ForSaleManager: React.FC<ForSaleManagerProps> = ({
             {/* Header */}
             <div className="flex items-center justify-between pb-4 mb-6 border-b border-slate-100">
               <div className="flex items-center gap-3">
-                <div className="p-2.5 rounded-2xl bg-[#0e3a5e]/10 text-[#0e3a5e]">
+                <div className="p-2.5 rounded-2xl bg-[#123b4a]/10 text-[#123b4a]">
                   <ShoppingBag className="w-6 h-6" />
                 </div>
                 <div>
@@ -1012,7 +1012,7 @@ export const ForSaleManager: React.FC<ForSaleManagerProps> = ({
                     placeholder="مثال: ثلاجة شارب 18 قدم نوفروست ديجيتال بالكرتونة بحالة الفابريكا"
                     value={formData.title}
                     onChange={e => setFormData({ ...formData, title: e.target.value })}
-                    className="w-full px-4 py-2.5 text-xs sm:text-sm bg-slate-50 border border-slate-200 rounded-xl focus:bg-white focus:border-[#0e3a5e] focus:outline-hidden font-semibold"
+                    className="w-full px-4 py-2.5 text-xs sm:text-sm bg-slate-50 border border-slate-200 rounded-xl focus:bg-white focus:border-[#123b4a] focus:outline-hidden font-semibold"
                   />
                 </div>
 
@@ -1022,7 +1022,7 @@ export const ForSaleManager: React.FC<ForSaleManagerProps> = ({
                   <select
                     value={formData.category}
                     onChange={e => setFormData({ ...formData, category: e.target.value as any })}
-                    className="w-full px-4 py-2.5 text-xs sm:text-sm bg-slate-50 border border-slate-200 rounded-xl focus:bg-white focus:border-[#0e3a5e] focus:outline-hidden font-semibold"
+                    className="w-full px-4 py-2.5 text-xs sm:text-sm bg-slate-50 border border-slate-200 rounded-xl focus:bg-white focus:border-[#123b4a] focus:outline-hidden font-semibold"
                   >
                     <option value="ثلاجات">ثلاجات</option>
                     <option value="غسالات">غسالات</option>
@@ -1044,7 +1044,7 @@ export const ForSaleManager: React.FC<ForSaleManagerProps> = ({
                     placeholder="مثال: توشيبا، شارب، كريازي، زانوسي"
                     value={formData.brand}
                     onChange={e => setFormData({ ...formData, brand: e.target.value })}
-                    className="w-full px-4 py-2.5 text-xs sm:text-sm bg-slate-50 border border-slate-200 rounded-xl focus:bg-white focus:border-[#0e3a5e] focus:outline-hidden font-semibold"
+                    className="w-full px-4 py-2.5 text-xs sm:text-sm bg-slate-50 border border-slate-200 rounded-xl focus:bg-white focus:border-[#123b4a] focus:outline-hidden font-semibold"
                   />
                 </div>
 
@@ -1056,7 +1056,7 @@ export const ForSaleManager: React.FC<ForSaleManagerProps> = ({
                     placeholder="مثال: SJ-58C / 18 قدم / 7 كيلو"
                     value={formData.model}
                     onChange={e => setFormData({ ...formData, model: e.target.value })}
-                    className="w-full px-4 py-2.5 text-xs sm:text-sm bg-slate-50 border border-slate-200 rounded-xl focus:bg-white focus:border-[#0e3a5e] focus:outline-hidden font-semibold"
+                    className="w-full px-4 py-2.5 text-xs sm:text-sm bg-slate-50 border border-slate-200 rounded-xl focus:bg-white focus:border-[#123b4a] focus:outline-hidden font-semibold"
                   />
                 </div>
 
@@ -1072,7 +1072,7 @@ export const ForSaleManager: React.FC<ForSaleManagerProps> = ({
                     placeholder="مثال: 8500"
                     value={formData.price}
                     onChange={e => setFormData({ ...formData, price: e.target.value })}
-                    className="w-full px-4 py-2.5 text-xs sm:text-sm bg-slate-50 border border-slate-200 rounded-xl focus:bg-white focus:border-[#0e3a5e] focus:outline-hidden font-black text-[#0e3a5e]"
+                    className="w-full px-4 py-2.5 text-xs sm:text-sm bg-slate-50 border border-slate-200 rounded-xl focus:bg-white focus:border-[#123b4a] focus:outline-hidden font-black text-[#123b4a]"
                   />
                 </div>
 
@@ -1085,7 +1085,7 @@ export const ForSaleManager: React.FC<ForSaleManagerProps> = ({
                     placeholder="مثال: 10500"
                     value={formData.originalPrice}
                     onChange={e => setFormData({ ...formData, originalPrice: e.target.value })}
-                    className="w-full px-4 py-2.5 text-xs sm:text-sm bg-slate-50 border border-slate-200 rounded-xl focus:bg-white focus:border-[#0e3a5e] focus:outline-hidden font-semibold text-slate-500"
+                    className="w-full px-4 py-2.5 text-xs sm:text-sm bg-slate-50 border border-slate-200 rounded-xl focus:bg-white focus:border-[#123b4a] focus:outline-hidden font-semibold text-slate-500"
                   />
                 </div>
 
@@ -1095,7 +1095,7 @@ export const ForSaleManager: React.FC<ForSaleManagerProps> = ({
                   <select
                     value={formData.status}
                     onChange={e => setFormData({ ...formData, status: e.target.value as ForSaleStatus })}
-                    className="w-full px-4 py-2.5 text-xs sm:text-sm bg-slate-50 border border-slate-200 rounded-xl focus:bg-white focus:border-[#0e3a5e] focus:outline-hidden font-semibold"
+                    className="w-full px-4 py-2.5 text-xs sm:text-sm bg-slate-50 border border-slate-200 rounded-xl focus:bg-white focus:border-[#123b4a] focus:outline-hidden font-semibold"
                   >
                     <option value="AVAILABLE">🟢 متاح وجاهز للبيع</option>
                     <option value="RESERVED">🟡 محجوز مؤقتاً</option>
@@ -1111,7 +1111,7 @@ export const ForSaleManager: React.FC<ForSaleManagerProps> = ({
                     placeholder="مثال: مجددة بحالة الزيرو (Refurbished) / استعمال خفيف كسر زيرو"
                     value={formData.condition}
                     onChange={e => setFormData({ ...formData, condition: e.target.value })}
-                    className="w-full px-4 py-2.5 text-xs bg-slate-50 border border-slate-200 rounded-xl focus:bg-white focus:border-[#0e3a5e] focus:outline-hidden font-semibold"
+                    className="w-full px-4 py-2.5 text-xs bg-slate-50 border border-slate-200 rounded-xl focus:bg-white focus:border-[#123b4a] focus:outline-hidden font-semibold"
                   />
                 </div>
 
@@ -1123,7 +1123,7 @@ export const ForSaleManager: React.FC<ForSaleManagerProps> = ({
                     placeholder="مثال: ضمان 6 شهور شامل ومعتمد"
                     value={formData.warranty}
                     onChange={e => setFormData({ ...formData, warranty: e.target.value })}
-                    className="w-full px-4 py-2.5 text-xs bg-slate-50 border border-slate-200 rounded-xl focus:bg-white focus:border-[#0e3a5e] focus:outline-hidden font-semibold"
+                    className="w-full px-4 py-2.5 text-xs bg-slate-50 border border-slate-200 rounded-xl focus:bg-white focus:border-[#123b4a] focus:outline-hidden font-semibold"
                   />
                 </div>
 
@@ -1135,7 +1135,7 @@ export const ForSaleManager: React.FC<ForSaleManagerProps> = ({
                     placeholder="فرع أبو المطامير / متاح التوصيل للمنازل بالبحيرة والإسكندرية"
                     value={formData.location}
                     onChange={e => setFormData({ ...formData, location: e.target.value })}
-                    className="w-full px-4 py-2.5 text-xs bg-slate-50 border border-slate-200 rounded-xl focus:bg-white focus:border-[#0e3a5e] focus:outline-hidden font-semibold"
+                    className="w-full px-4 py-2.5 text-xs bg-slate-50 border border-slate-200 rounded-xl focus:bg-white focus:border-[#123b4a] focus:outline-hidden font-semibold"
                   />
                 </div>
 
@@ -1149,7 +1149,7 @@ export const ForSaleManager: React.FC<ForSaleManagerProps> = ({
                     placeholder="شحن فريون أصلي وفحص كامل للدائرة&#10;موتور أصلي بحالة الفابريكا&#10;سعة ممتازة وموفرة في الكهرباء"
                     value={formData.specsText}
                     onChange={e => setFormData({ ...formData, specsText: e.target.value })}
-                    className="w-full px-4 py-2.5 text-xs bg-slate-50 border border-slate-200 rounded-xl focus:bg-white focus:border-[#0e3a5e] focus:outline-hidden font-semibold"
+                    className="w-full px-4 py-2.5 text-xs bg-slate-50 border border-slate-200 rounded-xl focus:bg-white focus:border-[#123b4a] focus:outline-hidden font-semibold"
                   />
                 </div>
 
@@ -1161,7 +1161,7 @@ export const ForSaleManager: React.FC<ForSaleManagerProps> = ({
                     placeholder="تم فحص وتجربة الجهاز لمدة 48 ساعة متواصلة في ورشة المركز للتأكد من كفاءة التبريد والعزل الحراري..."
                     value={formData.description}
                     onChange={e => setFormData({ ...formData, description: e.target.value })}
-                    className="w-full px-4 py-2.5 text-xs bg-slate-50 border border-slate-200 rounded-xl focus:bg-white focus:border-[#0e3a5e] focus:outline-hidden font-semibold"
+                    className="w-full px-4 py-2.5 text-xs bg-slate-50 border border-slate-200 rounded-xl focus:bg-white focus:border-[#123b4a] focus:outline-hidden font-semibold"
                   />
                 </div>
 
@@ -1172,7 +1172,7 @@ export const ForSaleManager: React.FC<ForSaleManagerProps> = ({
                     id="form-featured-checkbox"
                     checked={formData.featured}
                     onChange={e => setFormData({ ...formData, featured: e.target.checked })}
-                    className="w-4 h-4 text-[#0e3a5e] rounded border-slate-300 focus:ring-[#0e3a5e]"
+                    className="w-4 h-4 text-[#123b4a] rounded border-slate-300 focus:ring-[#123b4a]"
                   />
                   <label htmlFor="form-featured-checkbox" className="font-bold text-slate-800 text-xs cursor-pointer flex items-center gap-1.5">
                     <Star className="w-3.5 h-3.5 text-amber-500 fill-amber-500" />
@@ -1184,7 +1184,7 @@ export const ForSaleManager: React.FC<ForSaleManagerProps> = ({
                 <div className="sm:col-span-2 lg:col-span-3 bg-slate-50 p-4 rounded-2xl border border-slate-200 space-y-3">
                   <div className="flex items-center justify-between">
                     <label className="font-black text-slate-800 flex items-center gap-2">
-                      <ImageIcon className="w-4 h-4 text-[#0e3a5e]" />
+                      <ImageIcon className="w-4 h-4 text-[#123b4a]" />
                       <span>الصورة الأساسية للجهاز (الرفع والضغط الآمن) <span className="text-rose-500">*</span></span>
                     </label>
                     <span className="text-[11px] font-bold text-slate-500">رفع وضغط تلقائي</span>
@@ -1224,12 +1224,12 @@ export const ForSaleManager: React.FC<ForSaleManagerProps> = ({
                       >
                         {uploadingMainImage ? (
                           <>
-                            <div className="w-4 h-4 border-2 border-[#0e3a5e] border-t-transparent rounded-full animate-spin"></div>
+                            <div className="w-4 h-4 border-2 border-[#123b4a] border-t-transparent rounded-full animate-spin"></div>
                             <span>جاري الرفع السحابي إلى الرفع والضغط الآمن...</span>
                           </>
                         ) : (
                           <>
-                            <Upload className="w-4 h-4 text-[#0e3a5e]" />
+                            <Upload className="w-4 h-4 text-[#123b4a]" />
                             <span>اختر الصورة الأساسية للرفع من جهازك</span>
                           </>
                         )}
@@ -1291,10 +1291,10 @@ export const ForSaleManager: React.FC<ForSaleManagerProps> = ({
                       type="button"
                       disabled={uploadingGalleryImage}
                       onClick={() => galleryFileInputRef.current?.click()}
-                      className="w-20 h-20 rounded-2xl border-2 border-dashed border-slate-300 hover:border-[#0e3a5e] bg-white text-slate-500 hover:text-[#0e3a5e] flex flex-col items-center justify-center gap-1 transition-colors cursor-pointer disabled:opacity-50"
+                      className="w-20 h-20 rounded-2xl border-2 border-dashed border-slate-300 hover:border-[#123b4a] bg-white text-slate-500 hover:text-[#123b4a] flex flex-col items-center justify-center gap-1 transition-colors cursor-pointer disabled:opacity-50"
                     >
                       {uploadingGalleryImage ? (
-                        <div className="w-4 h-4 border-2 border-[#0e3a5e] border-t-transparent rounded-full animate-spin"></div>
+                        <div className="w-4 h-4 border-2 border-[#123b4a] border-t-transparent rounded-full animate-spin"></div>
                       ) : (
                         <>
                           <Plus className="w-5 h-5" />
@@ -1319,9 +1319,9 @@ export const ForSaleManager: React.FC<ForSaleManagerProps> = ({
                 <button
                   type="submit"
                   disabled={saving || uploadingMainImage || uploadingGalleryImage}
-                  className="flex items-center gap-2 px-6 py-2.5 rounded-xl bg-[#0e3a5e] hover:bg-[#123f66] text-white font-black text-xs shadow-lg shadow-[#0e3a5e]/20 transition-all cursor-pointer disabled:opacity-50"
+                  className="flex items-center gap-2 px-6 py-2.5 rounded-xl bg-[#123b4a] hover:bg-[#174c5d] text-white font-black text-xs shadow-lg shadow-[#123b4a]/20 transition-all cursor-pointer disabled:opacity-50"
                 >
-                  <Save className="w-4 h-4 text-[#ff7a00]" />
+                  <Save className="w-4 h-4 text-[#d97706]" />
                   <span>{saving ? 'جاري الحفظ في السحابة...' : editingItem ? 'حفظ التعديلات' : 'نشر الجهاز في المعروضات'}</span>
                 </button>
               </div>
@@ -1370,7 +1370,7 @@ export const ForSaleManager: React.FC<ForSaleManagerProps> = ({
                     key={i}
                     onClick={() => setPreviewActiveImgIdx(i)}
                     className={`w-14 h-14 rounded-xl overflow-hidden border-2 shrink-0 transition-all ${
-                      previewActiveImgIdx === i ? 'border-[#ff7a00] scale-105' : 'border-transparent opacity-60'
+                      previewActiveImgIdx === i ? 'border-[#d97706] scale-105' : 'border-transparent opacity-60'
                     }`}
                   >
                     <img src={img} alt="thumb" referrerPolicy="no-referrer" className="w-full h-full object-cover" />
@@ -1382,7 +1382,7 @@ export const ForSaleManager: React.FC<ForSaleManagerProps> = ({
             {/* Body */}
             <div className="p-6 space-y-4 text-xs">
               <div className="flex items-center justify-between">
-                <span className="text-xs font-bold text-[#0e3a5e] bg-[#0e3a5e]/10 px-3 py-1 rounded-xl">
+                <span className="text-xs font-bold text-[#123b4a] bg-[#123b4a]/10 px-3 py-1 rounded-xl">
                   {previewItem.category} • {previewItem.brand}
                 </span>
                 <span className="font-mono text-slate-400 font-bold">{previewItem.id}</span>
@@ -1393,7 +1393,7 @@ export const ForSaleManager: React.FC<ForSaleManagerProps> = ({
               <div className="p-4 rounded-2xl bg-amber-50/70 border border-amber-200/80 flex items-center justify-between">
                 <div>
                   <span className="text-[10px] text-slate-500 font-bold block mb-0.5">السعر المطلوب:</span>
-                  <div className="text-2xl font-black text-[#0e3a5e] font-mono">
+                  <div className="text-2xl font-black text-[#123b4a] font-mono">
                     {previewItem.price.toLocaleString()} <span className="text-xs font-bold">ج.م</span>
                   </div>
                 </div>
@@ -1431,7 +1431,7 @@ export const ForSaleManager: React.FC<ForSaleManagerProps> = ({
 
               {previewItem.location && (
                 <div className="flex items-center gap-2 text-slate-600 font-semibold text-[11px]">
-                  <Truck className="w-4 h-4 text-[#ff7a00]" />
+                  <Truck className="w-4 h-4 text-[#d97706]" />
                   <span>{previewItem.location}</span>
                 </div>
               )}

@@ -25,7 +25,7 @@ export const ServicesSection: React.FC<ServicesSectionProps> = ({ onSelectServic
       title: 'صيانة ثلاجات نوفروست وديفروست',
       category: 'ثلاجات',
       icon: Wind,
-      color: 'from-blue-600 to-[#0e3a5e]',
+      color: 'from-blue-600 to-[#123b4a]',
       accentBg: 'bg-blue-50 text-blue-600',
       badge: 'خدمة سريعة في بيتك',
       description: 'حلول جذرية لجميع مشاكل التبريد وتسريب الفريون وتراكم الثلج لكافة الماركات (شارب، توشيبا، كريازي، بيكو، سامسونج، إل جي، زانوسي).',
@@ -42,7 +42,7 @@ export const ServicesSection: React.FC<ServicesSectionProps> = ({ onSelectServic
       title: 'صيانة ديب فريزر (صندوق ورأسي أدراج)',
       category: 'ديب فريزر',
       icon: Zap,
-      color: 'from-cyan-600 to-[#0e3a5e]',
+      color: 'from-cyan-600 to-[#123b4a]',
       accentBg: 'bg-cyan-50 text-cyan-600',
       badge: 'تجميد فوري مضمون',
       description: 'فحص وإصلاح مواتير وكارتات الديب فريزر الصندوق والأدراج، شحن فريون عالي النقاوة، وضبط التجميد الفائق حتى -24 درجة.',
@@ -59,7 +59,7 @@ export const ServicesSection: React.FC<ServicesSectionProps> = ({ onSelectServic
       title: 'صيانة غسالات أوتوماتيك وفوق أوتوماتيك',
       category: 'غسالات',
       icon: Disc,
-      color: 'from-emerald-600 to-[#0e3a5e]',
+      color: 'from-emerald-600 to-[#123b4a]',
       accentBg: 'bg-emerald-50 text-emerald-600',
       badge: 'قطع غيار أصلية 100%',
       description: 'صيانة فورية شاملة للميكانيكا والكهرباء والكارتات وتغيير رولمان البلي الأصلي في المنزل دون نقل الغسالة.',
@@ -93,7 +93,7 @@ export const ServicesSection: React.FC<ServicesSectionProps> = ({ onSelectServic
       title: 'صيانة وغسيل وشحن فريون تكييفات',
       category: 'تكييفات',
       icon: Wind,
-      color: 'from-sky-600 to-[#0e3a5e]',
+      color: 'from-sky-600 to-[#123b4a]',
       accentBg: 'bg-sky-50 text-sky-600',
       badge: 'تبريد أقصى كفاءة',
       description: 'غسيل كيميائي للوحدات الداخلية والخارجية، كشف تسريب الفريون، شحن فريون أصلي، وإصلاح كارتات ومراوح التبريد.',
@@ -130,10 +130,10 @@ export const ServicesSection: React.FC<ServicesSectionProps> = ({ onSelectServic
         
         {/* Section Header */}
         <div className="text-center max-w-3xl mx-auto mb-14">
-          <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-[#ff7a00]/10 text-[#ff7a00] text-xs font-black uppercase tracking-wider mb-3">
+          <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-[#d97706]/10 text-[#d97706] text-xs font-black uppercase tracking-wider mb-3">
             خدمات مركز قطب للحل السريع
           </div>
-          <h2 className="text-2xl sm:text-3xl lg:text-4xl font-black text-[#0e3a5e] leading-tight">
+          <h2 className="text-2xl sm:text-3xl lg:text-4xl font-black text-[#123b4a] leading-tight">
             صيانة شاملة لجميع الأجهزة بقطع غيار أصلية 100%
           </h2>
           <p className="mt-4 text-sm sm:text-base text-slate-600 font-semibold leading-relaxed">
@@ -149,7 +149,7 @@ export const ServicesSection: React.FC<ServicesSectionProps> = ({ onSelectServic
               <div
                 key={service.id}
                 id={`service-card-${service.id}`}
-                className="group relative rounded-3xl bg-slate-50 border border-slate-200/90 p-6 hover:bg-white hover:border-[#ff7a00]/40 hover:shadow-xl transition-all duration-300 flex flex-col justify-between"
+                className="group relative rounded-3xl bg-slate-50 border border-slate-200/90 p-6 hover:bg-white hover:border-[#d97706]/40 hover:shadow-xl transition-all duration-300 flex flex-col justify-between"
               >
                 <div>
                   {/* Service Icon & Badge */}
@@ -157,13 +157,13 @@ export const ServicesSection: React.FC<ServicesSectionProps> = ({ onSelectServic
                     <div className={`w-14 h-14 rounded-2xl ${service.accentBg} flex items-center justify-center shadow-sm group-hover:scale-110 transition-transform`}>
                       <Icon className="w-7 h-7" />
                     </div>
-                    <span className="text-[11px] font-black text-[#0e3a5e] bg-white border border-slate-200 px-3 py-1 rounded-full shadow-xs">
+                    <span className="text-[11px] font-black text-[#123b4a] bg-white border border-slate-200 px-3 py-1 rounded-full shadow-xs">
                       {service.badge}
                     </span>
                   </div>
 
                   {/* Title & Desc */}
-                  <h3 className="text-lg sm:text-xl font-black text-[#0e3a5e] group-hover:text-[#ff7a00] transition-colors leading-snug">
+                  <h3 className="text-lg sm:text-xl font-black text-[#123b4a] group-hover:text-[#d97706] transition-colors leading-snug">
                     {service.title}
                   </h3>
                   <p className="mt-2 text-xs sm:text-sm text-slate-600 leading-relaxed font-semibold">
@@ -173,7 +173,7 @@ export const ServicesSection: React.FC<ServicesSectionProps> = ({ onSelectServic
                   {/* Common Problems Box */}
                   <div className="mt-5 pt-4 border-t border-slate-200/80">
                     <h4 className="text-xs font-bold text-slate-500 mb-2.5 flex items-center gap-1.5">
-                      <AlertCircle className="w-3.5 h-3.5 text-[#ff7a00]" />
+                      <AlertCircle className="w-3.5 h-3.5 text-[#d97706]" />
                       أشهر المشاكل التي نحلها فوراً:
                     </h4>
                     <ul className="space-y-2">
@@ -201,7 +201,7 @@ export const ServicesSection: React.FC<ServicesSectionProps> = ({ onSelectServic
                   <button
                     type="button"
                     onClick={() => onSelectService(service.category)}
-                    className="w-full inline-flex items-center justify-center gap-2 py-3 px-4 rounded-xl text-xs font-black text-[#0e3a5e] bg-white group-hover:bg-[#0e3a5e] group-hover:text-white border border-slate-200 group-hover:border-[#0e3a5e] shadow-sm transition-all"
+                    className="w-full inline-flex items-center justify-center gap-2 py-3 px-4 rounded-xl text-xs font-black text-[#123b4a] bg-white group-hover:bg-[#123b4a] group-hover:text-white border border-slate-200 group-hover:border-[#123b4a] shadow-sm transition-all"
                   >
                     <span>طلب مهندس صيانة لهذا الجهاز</span>
                     <ArrowLeft className="w-4 h-4" />
@@ -213,9 +213,9 @@ export const ServicesSection: React.FC<ServicesSectionProps> = ({ onSelectServic
         </div>
 
         {/* Bottom Banner */}
-        <div className="mt-12 p-6 sm:p-8 rounded-3xl bg-gradient-to-r from-[#0e3a5e] via-[#123f66] to-[#0e3a5e] text-white flex flex-col sm:flex-row items-center justify-between gap-6 shadow-xl text-right">
+        <div className="mt-12 p-6 sm:p-8 rounded-3xl bg-gradient-to-r from-[#123b4a] via-[#174c5d] to-[#123b4a] text-white flex flex-col sm:flex-row items-center justify-between gap-6 shadow-xl text-right">
           <div>
-            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#ff7a00]/20 text-[#ff7a00] text-xs font-black mb-2">
+            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#d97706]/20 text-[#d97706] text-xs font-black mb-2">
               خدمة واتساب وهاتف 24 ساعة
             </div>
             <h3 className="text-lg sm:text-2xl font-black">مهما كانت مشكلة جهازك صعبة.. مع {CENTER_NAME} الحل مضمون!</h3>
@@ -226,7 +226,7 @@ export const ServicesSection: React.FC<ServicesSectionProps> = ({ onSelectServic
           <div className="flex items-center gap-3 shrink-0">
             <a
               href={`tel:+${PHONE_NUMBER_1}`}
-              className="px-6 py-3.5 rounded-xl bg-[#ff7a00] hover:bg-[#e66e00] text-white font-black text-sm shadow-md transition-all active:scale-95 flex items-center gap-2"
+              className="px-6 py-3.5 rounded-xl bg-[#d97706] hover:bg-[#b45309] text-white font-black text-sm shadow-md transition-all active:scale-95 flex items-center gap-2"
             >
               <span>اتصل بنا الآن</span>
             </a>

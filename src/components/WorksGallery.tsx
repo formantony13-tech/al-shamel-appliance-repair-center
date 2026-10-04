@@ -32,6 +32,7 @@ export const WorksGallery: React.FC<WorksGalleryProps> = ({
   const [selectedCategory, setSelectedCategory] = useState<ApplianceCategory>('الكل');
   const [activeModalWork, setActiveModalWork] = useState<RepairWork | null>(null);
   const [showBeforeTab, setShowBeforeTab] = useState(false);
+  const [showAllWorks, setShowAllWorks] = useState(false);
 
   // Categories list including 'ديب فريزر'
   const categories: ApplianceCategory[] = ['الكل', 'غسالات', 'ثلاجات', 'ديب فريزر', 'تكييفات', 'بوتاجازات'];
@@ -40,6 +41,9 @@ export const WorksGallery: React.FC<WorksGalleryProps> = ({
   const filteredWorks = selectedCategory === 'الكل'
     ? works
     : works.filter((w) => w.category === selectedCategory);
+  const visibleWorks = selectedCategory === 'الكل' && !showAllWorks
+    ? filteredWorks.slice(0, 6)
+    : filteredWorks;
 
   return (
     <section id="works" className="py-16 lg:py-24 bg-white">
@@ -48,11 +52,11 @@ export const WorksGallery: React.FC<WorksGalleryProps> = ({
         {/* Section Header */}
         <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-10">
           <div>
-            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#ff7a00]/10 text-[#ff7a00] text-xs font-black uppercase tracking-wider mb-3">
+            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#d97706]/10 text-[#d97706] text-xs font-black uppercase tracking-wider mb-3">
               <Camera className="w-3.5 h-3.5" />
               أعمالنا الحقيقية على أرض الواقع
             </div>
-            <h2 className="text-2xl sm:text-3xl lg:text-4xl font-black text-[#0e3a5e] leading-tight">
+            <h2 className="text-2xl sm:text-3xl lg:text-4xl font-black text-[#123b4a] leading-tight">
               معرض عمليات صيانة {CENTER_NAME}
             </h2>
             <p className="mt-3 text-sm sm:text-base text-slate-600 font-semibold max-w-2xl leading-relaxed">
@@ -68,10 +72,13 @@ export const WorksGallery: React.FC<WorksGalleryProps> = ({
               key={cat}
               type="button"
               id={`tab-work-${cat}`}
-              onClick={() => setSelectedCategory(cat)}
+              onClick={() => {
+                setSelectedCategory(cat);
+                setShowAllWorks(false);
+              }}
               className={`px-5 py-2.5 rounded-2xl text-xs sm:text-sm font-black whitespace-nowrap transition-all ${
                 selectedCategory === cat
-                  ? 'bg-[#0e3a5e] text-white shadow-md shadow-[#0e3a5e]/20 scale-105'
+                  ? 'bg-[#123b4a] text-white shadow-md shadow-[#123b4a]/20 scale-105'
                   : 'bg-slate-100 text-slate-700 hover:bg-slate-200'
               }`}
             >
@@ -89,11 +96,11 @@ export const WorksGallery: React.FC<WorksGalleryProps> = ({
           </div>
         ) : (
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8">
-            {filteredWorks.map((work) => (
+            {visibleWorks.map((work) => (
               <div
                 key={work.id}
                 id={`work-item-${work.id}`}
-                className="group relative rounded-3xl bg-slate-50 border border-slate-200/90 overflow-hidden shadow-sm hover:shadow-xl hover:border-[#ff7a00]/40 transition-all duration-300 flex flex-col justify-between"
+                className="group relative rounded-3xl bg-slate-50 border border-slate-200/90 overflow-hidden shadow-sm hover:shadow-xl hover:border-[#d97706]/40 transition-all duration-300 flex flex-col justify-between"
               >
                 {/* Work Image Banner */}
                 <div 
@@ -118,11 +125,11 @@ export const WorksGallery: React.FC<WorksGalleryProps> = ({
 
                   {/* Top Badges */}
                   <div className="absolute top-3 right-3 flex items-center gap-1.5">
-                    <span className="text-[11px] font-black bg-[#0e3a5e]/90 text-white backdrop-blur-sm px-3 py-1 rounded-xl shadow-sm">
+                    <span className="text-[11px] font-black bg-[#123b4a]/90 text-white backdrop-blur-sm px-3 py-1 rounded-xl shadow-sm">
                       {work.category}
                     </span>
                     {work.brand && (
-                      <span className="text-[10px] font-bold bg-black/60 text-[#ff7a00] backdrop-blur-sm px-2 py-1 rounded-xl">
+                      <span className="text-[10px] font-bold bg-black/60 text-[#d97706] backdrop-blur-sm px-2 py-1 rounded-xl">
                         {work.brand}
                       </span>
                     )}
@@ -140,10 +147,10 @@ export const WorksGallery: React.FC<WorksGalleryProps> = ({
 
                   {/* Bottom Image Info */}
                   <div className="absolute bottom-3 right-3 left-3 text-white text-right">
-                    <span className="text-[11px] text-[#ff7a00] font-bold block mb-0.5">
+                    <span className="text-[11px] text-[#d97706] font-bold block mb-0.5">
                       {work.deviceType}
                     </span>
-                    <h3 className="text-sm font-black leading-snug line-clamp-1 group-hover:text-[#ff7a00] transition-colors">
+                    <h3 className="text-sm font-black leading-snug line-clamp-1 group-hover:text-[#d97706] transition-colors">
                       {work.title}
                     </h3>
                   </div>
@@ -190,7 +197,7 @@ export const WorksGallery: React.FC<WorksGalleryProps> = ({
                           setActiveModalWork(work);
                           setShowBeforeTab(false);
                         }}
-                        className="inline-flex items-center gap-1 text-[#ff7a00] hover:text-[#0e3a5e] font-black transition-colors"
+                        className="inline-flex items-center gap-1 text-[#d97706] hover:text-[#123b4a] font-black transition-colors"
                       >
                         <span>عرض التفاصيل</span>
                         <ExternalLink className="w-3.5 h-3.5" />
@@ -200,6 +207,18 @@ export const WorksGallery: React.FC<WorksGalleryProps> = ({
                 </div>
               </div>
             ))}
+          </div>
+        )}
+
+        {selectedCategory === 'الكل' && filteredWorks.length > 6 && (
+          <div className="mt-8 text-center">
+            <button
+              type="button"
+              onClick={() => setShowAllWorks((current) => !current)}
+              className="inline-flex items-center justify-center px-5 py-2.5 rounded-xl border border-[#123b4a]/20 bg-[#123b4a]/5 text-[#123b4a] hover:bg-[#123b4a] hover:text-white text-xs font-black transition-colors"
+            >
+              {showAllWorks ? 'عرض عدد أقل' : `عرض كل الأعمال (${filteredWorks.length})`}
+            </button>
           </div>
         )}
 
@@ -226,11 +245,11 @@ export const WorksGallery: React.FC<WorksGalleryProps> = ({
 
               {/* Header */}
               <div className="flex items-center gap-2 mb-2">
-                <span className="text-xs font-black bg-[#0e3a5e] text-white px-3 py-1 rounded-lg">
+                <span className="text-xs font-black bg-[#123b4a] text-white px-3 py-1 rounded-lg">
                   {activeModalWork.category}
                 </span>
                 {activeModalWork.brand && (
-                  <span className="text-xs font-bold bg-[#ff7a00]/10 text-[#ff7a00] px-2.5 py-1 rounded-lg">
+                  <span className="text-xs font-bold bg-[#d97706]/10 text-[#d97706] px-2.5 py-1 rounded-lg">
                     {activeModalWork.brand}
                   </span>
                 )}
@@ -239,7 +258,7 @@ export const WorksGallery: React.FC<WorksGalleryProps> = ({
                 </span>
               </div>
 
-              <h3 className="text-lg sm:text-xl font-black text-[#0e3a5e] leading-snug">
+              <h3 className="text-lg sm:text-xl font-black text-[#123b4a] leading-snug">
                 {activeModalWork.title}
               </h3>
               <p className="text-xs sm:text-sm font-bold text-slate-500 mt-1">
@@ -264,7 +283,7 @@ export const WorksGallery: React.FC<WorksGalleryProps> = ({
                       type="button"
                       onClick={() => setShowBeforeTab(false)}
                       className={`px-3 py-1 rounded-lg text-xs font-bold transition-colors ${
-                        !showBeforeTab ? 'bg-[#ff7a00] text-white' : 'text-white/80 hover:text-white'
+                        !showBeforeTab ? 'bg-[#d97706] text-white' : 'text-white/80 hover:text-white'
                       }`}
                     >
                       بعد الصيانة والتجديد
@@ -308,12 +327,12 @@ export const WorksGallery: React.FC<WorksGalleryProps> = ({
                 {activeModalWork.partsReplaced && activeModalWork.partsReplaced.length > 0 && (
                   <div>
                     <h4 className="text-xs font-black text-slate-600 mb-2 flex items-center gap-1">
-                      <Wrench className="w-3.5 h-3.5 text-[#0e3a5e]" />
+                      <Wrench className="w-3.5 h-3.5 text-[#123b4a]" />
                       قطع الغيار الأصلية المستخدمة:
                     </h4>
                     <div className="flex flex-wrap gap-2">
                       {activeModalWork.partsReplaced.map((part, i) => (
-                        <span key={i} className="text-xs font-bold bg-slate-100 text-[#0e3a5e] px-3 py-1 rounded-xl border border-slate-200">
+                        <span key={i} className="text-xs font-bold bg-slate-100 text-[#123b4a] px-3 py-1 rounded-xl border border-slate-200">
                           {part}
                         </span>
                       ))}

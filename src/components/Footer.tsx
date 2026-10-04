@@ -45,9 +45,9 @@ export const Footer: React.FC<FooterProps> = ({ onOpenAdmin, settings }) => {
   const fb2 = settings?.facebookPage2 || FACEBOOK_PAGE_2;
 
   return (
-    <footer id="footer" className="bg-[#0e3a5e] text-white pt-16 pb-12 border-t border-white/10 relative overflow-hidden text-right" dir="rtl">
+    <footer id="footer" className="bg-[#123b4a] text-white pt-16 pb-12 border-t border-white/10 relative overflow-hidden text-right" dir="rtl">
       {/* Subtle Glow */}
-      <div className="absolute top-0 right-1/4 w-96 h-96 bg-[#ff7a00]/5 rounded-full blur-3xl pointer-events-none" />
+      <div className="absolute top-0 right-1/4 w-96 h-96 bg-[#d97706]/5 rounded-full blur-3xl pointer-events-none" />
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         
@@ -57,12 +57,12 @@ export const Footer: React.FC<FooterProps> = ({ onOpenAdmin, settings }) => {
           {/* Column 1: Brand & Slogan */}
           <div className="space-y-4">
             <div className="flex items-center gap-3">
-              <div className="w-12 h-12 rounded-2xl bg-[#ff7a00] text-white flex items-center justify-center shadow-lg shadow-[#ff7a00]/20 font-black">
+              <div className="w-12 h-12 rounded-2xl bg-[#d97706] text-white flex items-center justify-center shadow-lg shadow-[#d97706]/20 font-black">
                 <Wrench className="w-6 h-6" />
               </div>
               <div>
                 <h3 className="text-xl font-black tracking-tight">{centerName}</h3>
-                <span className="text-xs text-[#ff7a00] font-bold">فروع: البحيرة • الغربية • الشرقية</span>
+                <span className="text-xs text-[#d97706] font-bold">فروع: البحيرة • الغربية • الشرقية</span>
               </div>
             </div>
 
@@ -73,7 +73,7 @@ export const Footer: React.FC<FooterProps> = ({ onOpenAdmin, settings }) => {
             {/* Badges */}
             <div className="flex flex-wrap gap-2 pt-1">
               <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-white/10 text-slate-200 text-[11px] font-bold">
-                <ShieldCheck className="w-3.5 h-3.5 text-[#ff7a00]" />
+                <ShieldCheck className="w-3.5 h-3.5 text-[#d97706]" />
                 ضمان معتمد
               </span>
               <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-white/10 text-slate-200 text-[11px] font-bold">
@@ -85,43 +85,43 @@ export const Footer: React.FC<FooterProps> = ({ onOpenAdmin, settings }) => {
 
           {/* Column 2: Quick Links */}
           <div className="space-y-4">
-            <h4 className="text-sm font-black text-[#ff7a00] uppercase tracking-wider">
+            <h4 className="text-sm font-black text-[#d97706] uppercase tracking-wider">
               خدمات الصيانة المنزلية
             </h4>
             <ul className="space-y-2.5 text-xs sm:text-sm text-slate-300 font-semibold">
               <li>
-                <a href="#services" className="hover:text-[#ff7a00] transition-colors flex items-center gap-1.5">
-                  <ChevronLeft className="w-3.5 h-3.5 text-[#ff7a00]" />
+                <a href="#services" className="hover:text-[#d97706] transition-colors flex items-center gap-1.5">
+                  <ChevronLeft className="w-3.5 h-3.5 text-[#d97706]" />
                   <span>صيانة الديب فريزر (صندوق وأدراج)</span>
                 </a>
               </li>
               <li>
-                <a href="#services" className="hover:text-[#ff7a00] transition-colors flex items-center gap-1.5">
-                  <ChevronLeft className="w-3.5 h-3.5 text-[#ff7a00]" />
+                <a href="#services" className="hover:text-[#d97706] transition-colors flex items-center gap-1.5">
+                  <ChevronLeft className="w-3.5 h-3.5 text-[#d97706]" />
                   <span>صيانة الثلاجات النوفروست والديفروست</span>
                 </a>
               </li>
               <li>
-                <a href="#services" className="hover:text-[#ff7a00] transition-colors flex items-center gap-1.5">
-                  <ChevronLeft className="w-3.5 h-3.5 text-[#ff7a00]" />
+                <a href="#services" className="hover:text-[#d97706] transition-colors flex items-center gap-1.5">
+                  <ChevronLeft className="w-3.5 h-3.5 text-[#d97706]" />
                   <span>صيانة الغسالات الأوتوماتيك وفوق أوتوماتيك</span>
                 </a>
               </li>
               <li>
-                <a href="#services" className="hover:text-[#ff7a00] transition-colors flex items-center gap-1.5">
-                  <ChevronLeft className="w-3.5 h-3.5 text-[#ff7a00]" />
+                <a href="#services" className="hover:text-[#d97706] transition-colors flex items-center gap-1.5">
+                  <ChevronLeft className="w-3.5 h-3.5 text-[#d97706]" />
                   <span>سمكرة ودوكو وعلاج بارومة الأجهزة</span>
                 </a>
               </li>
               <li>
-                <a href="#for-sale-section" className="hover:text-[#ff7a00] transition-colors flex items-center gap-1.5 font-bold text-amber-400">
-                  <ChevronLeft className="w-3.5 h-3.5 text-[#ff7a00]" />
+                <a href="#for-sale-section" className="hover:text-[#d97706] transition-colors flex items-center gap-1.5 font-bold text-amber-400">
+                  <ChevronLeft className="w-3.5 h-3.5 text-[#d97706]" />
                   <span>سوق الأجهزة المجددة للبيع بالضمان</span>
                 </a>
               </li>
               <li>
-                <a href="#services" className="hover:text-[#ff7a00] transition-colors flex items-center gap-1.5">
-                  <ChevronLeft className="w-3.5 h-3.5 text-[#ff7a00]" />
+                <a href="#services" className="hover:text-[#d97706] transition-colors flex items-center gap-1.5">
+                  <ChevronLeft className="w-3.5 h-3.5 text-[#d97706]" />
                   <span>صيانة التكييفات والبوتاجازات</span>
                 </a>
               </li>
@@ -130,13 +130,13 @@ export const Footer: React.FC<FooterProps> = ({ onOpenAdmin, settings }) => {
 
           {/* Column 3: Contact Details */}
           <div className="space-y-4">
-            <h4 className="text-sm font-black text-[#ff7a00] uppercase tracking-wider">
+            <h4 className="text-sm font-black text-[#d97706] uppercase tracking-wider">
               أرقام التواصل والورشة
             </h4>
             <div className="space-y-3 text-xs sm:text-sm text-slate-300">
               <div>
                 <span className="text-[11px] text-slate-400 block font-bold">الخط الأساسي:</span>
-                <a href={`tel:+${phone1}`} className="font-mono font-black text-white hover:text-[#ff7a00] text-sm block" dir="ltr">
+                <a href={`tel:+${phone1}`} className="font-mono font-black text-white hover:text-[#d97706] text-sm block" dir="ltr">
                   {phone1Display}
                 </a>
               </div>
@@ -155,7 +155,7 @@ export const Footer: React.FC<FooterProps> = ({ onOpenAdmin, settings }) => {
 
           {/* Column 4: Social & Admin */}
           <div className="space-y-4">
-            <h4 className="text-sm font-black text-[#ff7a00] uppercase tracking-wider">
+            <h4 className="text-sm font-black text-[#d97706] uppercase tracking-wider">
               متابعة المركز والإدارة
             </h4>
             <p className="text-xs text-slate-300 font-semibold leading-relaxed">
@@ -191,7 +191,7 @@ export const Footer: React.FC<FooterProps> = ({ onOpenAdmin, settings }) => {
                 onClick={onOpenAdmin}
                 className="inline-flex items-center gap-2 text-xs font-black text-slate-400 hover:text-white transition-colors bg-black/20 px-3 py-1.5 rounded-lg border border-white/5"
               >
-                <Lock className="w-3.5 h-3.5 text-[#ff7a00]" />
+                <Lock className="w-3.5 h-3.5 text-[#d97706]" />
                 <span>دخول الإدارة ولوحة التحكم السحابية</span>
               </button>
             </div>
@@ -203,7 +203,7 @@ export const Footer: React.FC<FooterProps> = ({ onOpenAdmin, settings }) => {
         {/* Developer Credit & Appreciation Banner */}
         <div className="my-8 p-4 sm:p-5 rounded-2xl bg-white/5 border border-white/10 backdrop-blur-xs flex flex-col md:flex-row items-center justify-between gap-4">
           <div className="flex items-center gap-3 text-right">
-            <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-[#ff7a00] to-amber-600 text-white flex items-center justify-center font-black shadow-md shrink-0">
+            <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-[#d97706] to-amber-600 text-white flex items-center justify-center font-black shadow-md shrink-0">
               ⚡
             </div>
             <div>
@@ -227,7 +227,7 @@ export const Footer: React.FC<FooterProps> = ({ onOpenAdmin, settings }) => {
               className="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-xl bg-white/10 hover:bg-white/20 text-white font-black text-xs transition-colors border border-white/10"
               title="اتصال بالمهندس صبحي"
             >
-              <Phone className="w-3.5 h-3.5 text-[#ff7a00]" />
+              <Phone className="w-3.5 h-3.5 text-[#d97706]" />
               <span>هاتف:</span>
               <span className="font-mono font-bold" dir="ltr">01098502227</span>
             </a>
@@ -250,7 +250,7 @@ export const Footer: React.FC<FooterProps> = ({ onOpenAdmin, settings }) => {
           <div>
             <p>© {new Date().getFullYear()} {centerName} — جميع الحقوق محفوظة. أبو المطامير، محافظة البحيرة.</p>
             <p className="text-[11px] text-slate-400 font-normal mt-1">
-              تصميم وتطوير: <strong className="text-slate-200">م/ صبحي</strong> (هاتف: <a href="tel:01098502227" className="text-[#ff7a00] hover:underline font-mono" dir="ltr">01098502227</a>)
+              تصميم وتطوير: <strong className="text-slate-200">م/ صبحي</strong> (هاتف: <a href="tel:01098502227" className="text-[#d97706] hover:underline font-mono" dir="ltr">01098502227</a>)
             </p>
           </div>
           <div className="flex items-center gap-4">

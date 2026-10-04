@@ -73,7 +73,7 @@ export const AdminCustomizationTab: React.FC<AdminCustomizationTabProps> = ({
       <div className="bg-white p-5 rounded-2xl border border-slate-200 shadow-sm flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
         <div>
           <h3 className="text-base font-black text-slate-900 flex items-center gap-2">
-            <Sliders className="w-5 h-5 text-[#ff7a00]" />
+            <Sliders className="w-5 h-5 text-[#d97706]" />
             <span>تخصيص محتوى الموقع بالكامل (الصور، الأرقام، العناوين، والإعدادات)</span>
           </h3>
           <p className="text-xs text-slate-500 font-semibold mt-1">
@@ -85,9 +85,9 @@ export const AdminCustomizationTab: React.FC<AdminCustomizationTabProps> = ({
           <button
             type="submit"
             disabled={isSaving}
-            className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-[#0e3a5e] hover:bg-[#123f66] text-white font-black text-xs shadow-lg shadow-[#0e3a5e]/20 transition-all cursor-pointer disabled:opacity-50"
+            className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-[#123b4a] hover:bg-[#174c5d] text-white font-black text-xs shadow-lg shadow-[#123b4a]/20 transition-all cursor-pointer disabled:opacity-50"
           >
-            <Save className="w-4 h-4 text-[#ff7a00]" />
+            <Save className="w-4 h-4 text-[#d97706]" />
             <span>{isSaving ? 'جاري الحفظ...' : 'حفظ ونشر التعديلات فوراً'}</span>
           </button>
         </div>
@@ -96,7 +96,7 @@ export const AdminCustomizationTab: React.FC<AdminCustomizationTabProps> = ({
       {/* Grid 1: Basic Identity & Headline */}
       <div className="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm space-y-5">
         <h4 className="text-sm font-black text-slate-900 flex items-center gap-2 border-b border-slate-100 pb-3">
-          <Globe className="w-4 h-4 text-[#0e3a5e]" />
+          <Globe className="w-4 h-4 text-[#123b4a]" />
           <span>1. الهوية الأساسية والعناوين الرئيسية</span>
         </h4>
 
@@ -109,7 +109,7 @@ export const AdminCustomizationTab: React.FC<AdminCustomizationTabProps> = ({
               value={form.centerName}
               onChange={(e) => setForm({ ...form, centerName: e.target.value })}
               placeholder="مثال: مركز قطب للحل السريع"
-              className="w-full p-3 rounded-xl border border-slate-200 outline-none focus:border-[#0e3a5e] font-semibold"
+              className="w-full p-3 rounded-xl border border-slate-200 outline-none focus:border-[#123b4a] font-semibold"
             />
           </div>
 
@@ -121,7 +121,7 @@ export const AdminCustomizationTab: React.FC<AdminCustomizationTabProps> = ({
               value={form.centerSlogan}
               onChange={(e) => setForm({ ...form, centerSlogan: e.target.value })}
               placeholder="مثال: صيانة منزلية فورية بقطع غيار أصلية وضمان معتمد"
-              className="w-full p-3 rounded-xl border border-slate-200 outline-none focus:border-[#0e3a5e] font-semibold"
+              className="w-full p-3 rounded-xl border border-slate-200 outline-none focus:border-[#123b4a] font-semibold"
             />
           </div>
 
@@ -134,7 +134,7 @@ export const AdminCustomizationTab: React.FC<AdminCustomizationTabProps> = ({
               max={60}
               value={form.yearsExperience}
               onChange={(e) => setForm({ ...form, yearsExperience: String(parseInt(e.target.value, 10) || 20) })}
-              className="w-full p-3 rounded-xl border border-slate-200 outline-none focus:border-[#0e3a5e] font-semibold"
+              className="w-full p-3 rounded-xl border border-slate-200 outline-none focus:border-[#123b4a] font-semibold"
             />
           </div>
 
@@ -146,7 +146,7 @@ export const AdminCustomizationTab: React.FC<AdminCustomizationTabProps> = ({
               value={form.operatingHours}
               onChange={(e) => setForm({ ...form, operatingHours: e.target.value })}
               placeholder="مثال: يومياً من 8 صباحاً حتى 11 مساءً (طوارئ 24 ساعة)"
-              className="w-full p-3 rounded-xl border border-slate-200 outline-none focus:border-[#0e3a5e] font-semibold"
+              className="w-full p-3 rounded-xl border border-slate-200 outline-none focus:border-[#123b4a] font-semibold"
             />
           </div>
         </div>
@@ -159,7 +159,7 @@ export const AdminCustomizationTab: React.FC<AdminCustomizationTabProps> = ({
               value={form.heroHeadline || ''}
               onChange={(e) => setForm({ ...form, heroHeadline: e.target.value })}
               placeholder="مركز قطب للحل السريع — صيانة منزلية متخصصة"
-              className="w-full p-3 rounded-xl border border-slate-200 outline-none focus:border-[#0e3a5e] font-semibold"
+              className="w-full p-3 rounded-xl border border-slate-200 outline-none focus:border-[#123b4a] font-semibold"
             />
           </div>
 
@@ -170,7 +170,7 @@ export const AdminCustomizationTab: React.FC<AdminCustomizationTabProps> = ({
               value={form.heroSubheadline || ''}
               onChange={(e) => setForm({ ...form, heroSubheadline: e.target.value })}
               placeholder="نصلك فوراً أينما كنت في أبو المطامير وقرى البحيرة..."
-              className="w-full p-3 rounded-xl border border-slate-200 outline-none focus:border-[#0e3a5e] font-semibold"
+              className="w-full p-3 rounded-xl border border-slate-200 outline-none focus:border-[#123b4a] font-semibold"
             />
           </div>
         </div>
@@ -201,7 +201,7 @@ export const AdminCustomizationTab: React.FC<AdminCustomizationTabProps> = ({
                 value={form.phone1}
                 onChange={(e) => setForm({ ...form, phone1: e.target.value })}
                 placeholder="مثال: 201021469149"
-                className="w-full p-2.5 rounded-xl border border-slate-200 bg-white outline-none focus:border-[#0e3a5e] font-mono text-left"
+                className="w-full p-2.5 rounded-xl border border-slate-200 bg-white outline-none focus:border-[#123b4a] font-mono text-left"
                 dir="ltr"
               />
             </div>
@@ -214,7 +214,7 @@ export const AdminCustomizationTab: React.FC<AdminCustomizationTabProps> = ({
                 value={form.phone1Display}
                 onChange={(e) => setForm({ ...form, phone1Display: e.target.value })}
                 placeholder="مثال: 01021469149"
-                className="w-full p-2.5 rounded-xl border border-slate-200 bg-white outline-none focus:border-[#0e3a5e] font-mono text-left"
+                className="w-full p-2.5 rounded-xl border border-slate-200 bg-white outline-none focus:border-[#123b4a] font-mono text-left"
                 dir="ltr"
               />
             </div>
@@ -237,7 +237,7 @@ export const AdminCustomizationTab: React.FC<AdminCustomizationTabProps> = ({
                 value={form.phone2}
                 onChange={(e) => setForm({ ...form, phone2: e.target.value })}
                 placeholder="مثال: 201111664188"
-                className="w-full p-2.5 rounded-xl border border-slate-200 bg-white outline-none focus:border-[#0e3a5e] font-mono text-left"
+                className="w-full p-2.5 rounded-xl border border-slate-200 bg-white outline-none focus:border-[#123b4a] font-mono text-left"
                 dir="ltr"
               />
             </div>
@@ -250,7 +250,7 @@ export const AdminCustomizationTab: React.FC<AdminCustomizationTabProps> = ({
                 value={form.phone2Display}
                 onChange={(e) => setForm({ ...form, phone2Display: e.target.value })}
                 placeholder="مثال: 01111664188"
-                className="w-full p-2.5 rounded-xl border border-slate-200 bg-white outline-none focus:border-[#0e3a5e] font-mono text-left"
+                className="w-full p-2.5 rounded-xl border border-slate-200 bg-white outline-none focus:border-[#123b4a] font-mono text-left"
                 dir="ltr"
               />
             </div>
@@ -261,7 +261,7 @@ export const AdminCustomizationTab: React.FC<AdminCustomizationTabProps> = ({
       {/* Grid 3: Hero Banner & Images Customization */}
       <div className="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm space-y-5">
         <h4 className="text-sm font-black text-slate-900 flex items-center gap-2 border-b border-slate-100 pb-3">
-          <Palette className="w-4 h-4 text-[#ff7a00]" />
+          <Palette className="w-4 h-4 text-[#d97706]" />
           <span>3. صورة الواجهة الرئيسية (Hero Banner Image)</span>
         </h4>
 
@@ -294,8 +294,8 @@ export const AdminCustomizationTab: React.FC<AdminCustomizationTabProps> = ({
           <div className="lg:col-span-2 space-y-4">
             <div>
               <label className="font-bold text-slate-700 block mb-1.5">رفع صورة جديدة من جهازك مباشرة</label>
-              <div className="border-2 border-dashed border-slate-300 hover:border-[#0e3a5e] rounded-2xl p-4 text-center bg-slate-50 transition-colors">
-                <Upload className="w-8 h-8 text-[#0e3a5e] mx-auto mb-2" />
+              <div className="border-2 border-dashed border-slate-300 hover:border-[#123b4a] rounded-2xl p-4 text-center bg-slate-50 transition-colors">
+                <Upload className="w-8 h-8 text-[#123b4a] mx-auto mb-2" />
                 <p className="text-xs font-bold text-slate-700 mb-1">
                   {isUploadingHeroImg ? 'جاري معالجة ورفع الصورة...' : 'اضغط لاختيار صورة من جهازك'}
                 </p>
@@ -308,7 +308,7 @@ export const AdminCustomizationTab: React.FC<AdminCustomizationTabProps> = ({
                     const file = e.target.files?.[0];
                     if (file) handleHeroBannerUpload(file);
                   }}
-                  className="mt-3 block w-full text-xs text-slate-500 file:mr-4 file:py-2 file:px-4 file:rounded-xl file:border-0 file:text-xs file:font-black file:bg-[#0e3a5e] file:text-white hover:file:bg-[#123f66] cursor-pointer"
+                  className="mt-3 block w-full text-xs text-slate-500 file:mr-4 file:py-2 file:px-4 file:rounded-xl file:border-0 file:text-xs file:font-black file:bg-[#123b4a] file:text-white hover:file:bg-[#174c5d] cursor-pointer"
                 />
               </div>
             </div>
@@ -320,7 +320,7 @@ export const AdminCustomizationTab: React.FC<AdminCustomizationTabProps> = ({
                 value={form.heroBannerImage || ''}
                 onChange={(e) => setForm({ ...form, heroBannerImage: e.target.value })}
                 placeholder="https://example.com/image.jpg"
-                className="w-full p-2.5 rounded-xl border border-slate-200 bg-white outline-none focus:border-[#0e3a5e] font-mono text-left text-xs"
+                className="w-full p-2.5 rounded-xl border border-slate-200 bg-white outline-none focus:border-[#123b4a] font-mono text-left text-xs"
                 dir="ltr"
               />
             </div>
@@ -345,7 +345,7 @@ export const AdminCustomizationTab: React.FC<AdminCustomizationTabProps> = ({
               value={form.locationName}
               onChange={(e) => setForm({ ...form, locationName: e.target.value })}
               placeholder="مثال: أبو المطامير - بجوار مسجد الرحمة - محافظة البحيرة"
-              className="w-full p-2.5 rounded-xl border border-slate-200 outline-none focus:border-[#0e3a5e] font-semibold"
+              className="w-full p-2.5 rounded-xl border border-slate-200 outline-none focus:border-[#123b4a] font-semibold"
             />
           </div>
 
@@ -356,7 +356,7 @@ export const AdminCustomizationTab: React.FC<AdminCustomizationTabProps> = ({
               value={form.googleMapsLink || ''}
               onChange={(e) => setForm({ ...form, googleMapsLink: e.target.value })}
               placeholder="https://maps.google.com/?q=..."
-              className="w-full p-2.5 rounded-xl border border-slate-200 outline-none focus:border-[#0e3a5e] font-mono text-left"
+              className="w-full p-2.5 rounded-xl border border-slate-200 outline-none focus:border-[#123b4a] font-mono text-left"
               dir="ltr"
             />
           </div>
@@ -375,7 +375,7 @@ export const AdminCustomizationTab: React.FC<AdminCustomizationTabProps> = ({
               type="url"
               value={form.facebookPage1}
               onChange={(e) => setForm({ ...form, facebookPage1: e.target.value })}
-              className="w-full p-2.5 rounded-xl border border-slate-200 outline-none focus:border-[#0e3a5e] font-mono text-left"
+              className="w-full p-2.5 rounded-xl border border-slate-200 outline-none focus:border-[#123b4a] font-mono text-left"
               dir="ltr"
             />
           </div>
@@ -386,7 +386,7 @@ export const AdminCustomizationTab: React.FC<AdminCustomizationTabProps> = ({
               type="url"
               value={form.facebookPage2}
               onChange={(e) => setForm({ ...form, facebookPage2: e.target.value })}
-              className="w-full p-2.5 rounded-xl border border-slate-200 outline-none focus:border-[#0e3a5e] font-mono text-left"
+              className="w-full p-2.5 rounded-xl border border-slate-200 outline-none focus:border-[#123b4a] font-mono text-left"
               dir="ltr"
             />
           </div>
@@ -400,7 +400,7 @@ export const AdminCustomizationTab: React.FC<AdminCustomizationTabProps> = ({
                 id="emergencyAlertToggle"
                 checked={form.emergencyAlertEnabled || false}
                 onChange={(e) => setForm({ ...form, emergencyAlertEnabled: e.target.checked })}
-                className="w-4 h-4 rounded text-[#0e3a5e] focus:ring-[#0e3a5e] cursor-pointer"
+                className="w-4 h-4 rounded text-[#123b4a] focus:ring-[#123b4a] cursor-pointer"
               />
             </div>
             {form.emergencyAlertEnabled && (
