@@ -16,9 +16,10 @@ import { CENTER_NAME, PHONE_NUMBER_1, DISPLAY_PHONE_1 } from '../config';
 
 interface ServicesSectionProps {
   onSelectService: (serviceName: string) => void;
+  onOpenService?: (serviceId: string) => void;
 }
 
-export const ServicesSection: React.FC<ServicesSectionProps> = ({ onSelectService }) => {
+export const ServicesSection: React.FC<ServicesSectionProps> = ({ onSelectService, onOpenService }) => {
   const services = [
     {
       id: 'refrigerators',
@@ -196,16 +197,28 @@ export const ServicesSection: React.FC<ServicesSectionProps> = ({ onSelectServic
                   </div>
                 </div>
 
-                {/* Card Action Button */}
+                {/* Card Actions */}
                 <div className="mt-6 pt-4 border-t border-slate-200/80">
-                  <button
-                    type="button"
-                    onClick={() => onSelectService(service.category)}
-                    className="w-full inline-flex items-center justify-center gap-2 py-3 px-4 rounded-xl text-xs font-black text-[#123b4a] bg-white group-hover:bg-[#123b4a] group-hover:text-white border border-slate-200 group-hover:border-[#123b4a] shadow-sm transition-all"
-                  >
-                    <span>طلب مهندس صيانة لهذا الجهاز</span>
-                    <ArrowLeft className="w-4 h-4" />
-                  </button>
+                  <div className="grid grid-cols-1 gap-2 sm:grid-cols-2">
+                    {onOpenService && (
+                      <button
+                        type="button"
+                        onClick={() => onOpenService(service.id)}
+                        className="inline-flex items-center justify-center gap-1.5 rounded-xl border border-[#123b4a]/20 bg-[#123b4a]/5 px-3 py-2.5 text-xs font-black text-[#123b4a] transition-colors hover:bg-[#123b4a] hover:text-white"
+                      >
+                        <span>تفاصيل الخدمة</span>
+                        <ArrowLeft className="h-3.5 w-3.5" />
+                      </button>
+                    )}
+                    <button
+                      type="button"
+                      onClick={() => onSelectService(service.category)}
+                      className="inline-flex items-center justify-center gap-2 rounded-xl bg-white px-3 py-2.5 text-xs font-black text-[#123b4a] shadow-sm ring-1 ring-slate-200 transition-all hover:bg-[#123b4a] hover:text-white"
+                    >
+                      <span>احجز فنيًا</span>
+                      <ArrowLeft className="h-3.5 w-3.5" />
+                    </button>
+                  </div>
                 </div>
               </div>
             );

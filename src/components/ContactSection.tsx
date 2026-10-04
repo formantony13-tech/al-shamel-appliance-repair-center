@@ -29,9 +29,10 @@ import { AppSystemSettings } from '../types';
 
 interface ContactSectionProps {
   settings?: AppSystemSettings;
+  onOpenArea?: (areaId: string) => void;
 }
 
-export const ContactSection: React.FC<ContactSectionProps> = ({ settings }) => {
+export const ContactSection: React.FC<ContactSectionProps> = ({ settings, onOpenArea }) => {
   const centerName = settings?.centerName || CENTER_NAME;
   const centerSlogan = settings?.centerSlogan || CENTER_SLOGAN;
   const phone1 = settings?.phone1 || PHONE_NUMBER_1;
@@ -178,6 +179,29 @@ export const ContactSection: React.FC<ContactSectionProps> = ({ settings }) => {
           </div>
 
         </div>
+
+        {onOpenArea && (
+          <div className="mb-12 rounded-3xl border border-[#123b4a]/10 bg-white p-5 shadow-sm sm:p-6">
+            <div className="mb-4 flex flex-wrap items-center justify-between gap-3">
+              <div>
+                <h3 className="text-base font-black text-[#123b4a]">اختر صفحة منطقتك</h3>
+                <p className="mt-1 text-xs font-semibold text-slate-500">معلومات الخدمة والمناطق التي نصل إليها في كل محافظة</p>
+              </div>
+              <MapPin className="h-5 w-5 text-[#d97706]" />
+            </div>
+            <div className="grid gap-2 sm:grid-cols-3">
+              {[
+                { id: 'beheira', label: 'صيانة أجهزة البحيرة' },
+                { id: 'gharbia', label: 'صيانة أجهزة الغربية' },
+                { id: 'sharqia', label: 'صيانة أجهزة الشرقية' },
+              ].map((area) => (
+                <button key={area.id} type="button" onClick={() => onOpenArea(area.id)} className="rounded-xl bg-slate-50 px-3 py-3 text-xs font-black text-[#123b4a] ring-1 ring-slate-200 transition hover:bg-[#123b4a] hover:text-white">
+                  {area.label}
+                </button>
+              ))}
+            </div>
+          </div>
+        )}
 
         {/* Map and Working Hours Container */}
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-stretch">

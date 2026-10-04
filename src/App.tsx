@@ -15,6 +15,8 @@ const AdminDashboard = lazy(() => import('./components/AdminDashboard').then((mo
 import { BookingTrackerModal } from './components/BookingTrackerModal';
 import { WarrantyCertificateModal } from './components/WarrantyCertificateModal';
 import { TroubleshootingGuideModal } from './components/TroubleshootingGuideModal';
+import { LandingDetailPage } from './components/LandingDetailPage';
+import { getAreaLandingPage, getServiceLandingPage } from './data/landingPages';
 
 import { RepairWork, CustomerReview, ToastNotification, BookingRecord, AppSystemSettings } from './types';
 import { 
@@ -55,6 +57,16 @@ export default function App() {
 
   // Toast notifications queue
   const [toasts, setToasts] = useState<ToastNotification[]>([]);
+  const [hashRoute, setHashRoute] = useState(() => window.location.hash);
+
+  useEffect(() => {
+    const handleHashChange = () => {
+      setHashRoute(window.location.hash);
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    };
+    window.addEventListener('hashchange', handleHashChange);
+    return () => window.removeEventListener('hashchange', handleHashChange);
+  }, []);
 
   // Load from Central Firestore Database on Startup
   useEffect(() => {
@@ -182,6 +194,37 @@ export default function App() {
     }
   };
 
+  const openServicePage = (serviceId: string) => {
+    window.location.hash = `#/service/${serviceId}`;
+  };
+
+  const openAreaPage = (areaId: string) => {
+    window.location.hash = `#/area/${areaId}`;
+  };
+
+  const serviceRoute = hashRoute.match(/^#\/service\/([^/]+)$/);
+  const areaRoute = hashRoute.match(/^#\/area\/([^/]+)$/);
+  const detailPage = serviceRoute
+    ? getServiceLandingPage(serviceRoute[1])
+    : areaRoute
+      ? getAreaLandingPage(areaRoute[1])
+      : undefined;
+
+  if (detailPage) {
+    return (
+      <LandingDetailPage
+        page={detailPage}
+        settings={settings}
+        onBook={() => {
+          window.location.hash = '';
+          window.setTimeout(() => {
+            document.getElementById('booking')?.scrollIntoView({ behavior: 'smooth' });
+          }, 60);
+        }}
+      />
+    );
+  }
+
   return (
     <div className="min-h-screen flex flex-col bg-[#f8fafc] text-[#1e293b]">
       {/* Sticky Header with Integrated Horizontal Quick Navigation */}
@@ -199,7 +242,7 @@ export default function App() {
         <Hero onOpenBooking={handleOpenBooking} settings={settings} />
 
         {/* 2. Services Section */}
-        <ServicesSection onSelectService={handleSelectService} />
+        <ServicesSection onSelectService={handleSelectService} onOpenService={openServicePage} />
 
         {/* 3. Why Us Section */}
         <WhyUsSection settings={settings} />
@@ -236,7 +279,7 @@ export default function App() {
         />
 
         {/* 7. Contact & Location Section */}
-        <ContactSection settings={settings} />
+        <ContactSection settings={settings} onOpenArea={openAreaPage} />
       </main>
 
       {/* Footer & Admin Link */}
