@@ -125,7 +125,7 @@ export const ReviewsSection: React.FC<ReviewsSectionProps> = ({
                 ماذا يقول أهالي أبو المطامير عن خدماتنا؟
               </h2>
               <p className="mt-2 text-xs sm:text-sm text-slate-300 font-semibold max-w-xl">
-                تقييمات وتجارب حقيقية مع صور أجهزة تم إصلاحها وضمانها بالكامل.
+                تجارب وآراء عملاء المركز مع صور لأعمال صيانة منشورة حسب المتاح.
               </p>
 
               {/* Big Stars and Count */}
@@ -148,7 +148,7 @@ export const ReviewsSection: React.FC<ReviewsSectionProps> = ({
 
                 <div className="flex items-center gap-2 text-xs font-bold text-emerald-400 bg-white/10 px-3 py-1.5 rounded-xl border border-white/10">
                   <ShieldCheck className="w-4 h-4" />
-                  <span>جميع الآراء حقيقية 100% مع ضمان معتمد</span>
+                  <span>آراء عملاء المركز وتفاصيل الخدمة والضمان حسب الحالة</span>
                 </div>
               </div>
             </div>

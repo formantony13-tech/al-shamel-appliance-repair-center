@@ -21,7 +21,7 @@ export const INITIAL_SETTINGS: AppSystemSettings = {
   phone2Display: '01010965540',
   whatsappNumber: '201026663706',
   locationName: 'نخدم محافظة البحيرة بالكامل، وننسق الزيارات للمحافظات المجاورة حسب المنطقة',
-  yearsExperience: '30+',
+  yearsExperience: '30',
   operatingHours: 'الزيارات المنزلية 8 ص–11 م • الخط الساخن والواتساب 24 ساعة',
   googleMapsLink: 'https://maps.app.goo.gl/oKTLj5erUH9ox3Kt5',
   facebookPage: 'https://www.facebook.com/share/19Jhvhxgr5/',
@@ -33,7 +33,7 @@ export const INITIAL_SETTINGS: AppSystemSettings = {
   heroBannerImage: 'https://images.unsplash.com/photo-1581092160607-ee22621dd758?auto=format&fit=crop&w=1200&q=80',
   warrantyDurationDefault: '6 شهور ضمان معتمد',
   maintenancePriceStart: 'الكشف مجاني عند إتمام الصيانة',
-  emergencyNotice: 'طوارئ الصيانة والزيارات المنزلية الفورية متاحة 24/7 في كافة المراكز والقرى'
+  emergencyNotice: 'الخط الساخن والواتساب متاحان 24 ساعة، والزيارات المنزلية من 8 صباحاً حتى 11 مساءً حسب المنطقة'
 };
 
 

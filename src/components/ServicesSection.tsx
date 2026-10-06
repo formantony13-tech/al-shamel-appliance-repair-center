@@ -138,7 +138,7 @@ export const ServicesSection: React.FC<ServicesSectionProps> = ({ onSelectServic
             صيانة شاملة لجميع الأجهزة بقطع غيار أصلية 100%
           </h2>
           <p className="mt-4 text-sm sm:text-base text-slate-600 font-semibold leading-relaxed">
-            مهندسون وفنيون على أعلى مستوى من الكفاءة والأمانة يصلونك لباب منزلك خلال 24 ساعة بمحافظات البحيرة، الغربية، والشرقية
+            نخدم محافظة البحيرة بالكامل، وننسق الزيارات للمحافظات المجاورة حسب المنطقة والموعد المتاح
           </p>
         </div>
 

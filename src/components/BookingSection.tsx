@@ -400,7 +400,7 @@ ${formData.issueDescription.trim()}
                       احجز مهندس صيانة لمنزلك الآن
                     </h2>
                     <p className="mt-2 text-xs sm:text-sm text-slate-600 font-semibold leading-relaxed">
-                      يتم تسجيل طلبك مباشرة في قاعدة بيانات المركز للتحرك خلال 24 ساعة بمحافظات البحيرة، الغربية، والشرقية وكافة القرى والمراكز.
+                      يتم تسجيل طلبك مباشرة في قاعدة بيانات المركز لتنسيق الزيارة خلال 24 ساعة حسب المنطقة والموعد المتاح داخل البحيرة والمناطق المجاورة.
                     </p>
                   </div>
 
@@ -712,7 +712,7 @@ ${formData.issueDescription.trim()}
             <div className="rounded-3xl bg-[#123b4a] p-6 text-white shadow-xl">
               <div className="mb-4 flex items-center gap-3">
                 <div className="flex h-11 w-11 items-center justify-center rounded-2xl bg-white/10 text-[#d97706]"><Phone className="h-5 w-5" /></div>
-                <div><h3 className="text-base font-black">تواصل سريع مع {CENTER_NAME}</h3><p className="text-xs font-semibold text-slate-300">استجابة خلال 24 ساعة</p></div>
+                <div><h3 className="text-base font-black">تواصل سريع مع {CENTER_NAME}</h3><p className="text-xs font-semibold text-slate-300">الزيارات 8 ص–11 م • الرد على الهاتف والواتساب 24 ساعة</p></div>
               </div>
               <a href={`tel:+${PHONE_NUMBER_1}`} className="block rounded-2xl bg-white/10 p-3 text-center text-xl font-black text-[#d97706] font-mono" dir="ltr">{DISPLAY_PHONE_1}</a>
               <div className="mt-4 rounded-2xl bg-white/10 p-4 text-right">

@@ -1,6 +1,6 @@
 import React from 'react';
 import { Award, Clock, ShieldCheck, Wrench } from 'lucide-react';
-import { CENTER_NAME, YEARS_EXPERIENCE } from '../config';
+import { CENTER_NAME, YEARS_EXPERIENCE, normalizeYearsExperience } from '../config';
 import { AppSystemSettings } from '../types';
 
 interface WhyUsSectionProps {
@@ -9,7 +9,7 @@ interface WhyUsSectionProps {
 
 export const WhyUsSection: React.FC<WhyUsSectionProps> = ({ settings }) => {
   const centerName = settings?.centerName || CENTER_NAME;
-  const yearsExp = settings?.yearsExperience || YEARS_EXPERIENCE;
+  const yearsExp = normalizeYearsExperience(settings?.yearsExperience || YEARS_EXPERIENCE);
   const points = [
     { icon: Award, title: `خبرة +${yearsExp} سنة`, text: 'تشخيص عملي وإصلاح واضح قبل التنفيذ', color: 'bg-amber-50 text-amber-600' },
     { icon: Clock, title: 'زيارة خلال 24 ساعة', text: 'تنسيق موعد مناسب في نطاق خدمتنا', color: 'bg-blue-50 text-[#123b4a]' },

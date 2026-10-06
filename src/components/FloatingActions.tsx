@@ -111,19 +111,6 @@ _أبو المطامير - محافظة البحيرة_`;
           </button>
         )}
 
-        {/* Quick Chat / Consultation Modal Launcher */}
-        <button
-          type="button"
-          onClick={() => setIsChatModalOpen(true)}
-          className="group relative flex items-center gap-2 px-3.5 py-2.5 rounded-full bg-[#123b4a] hover:bg-[#174c5d] text-white text-xs font-black shadow-xl border border-white/20 transition-all transform hover:scale-105 active:scale-95"
-          title="تحدث مع مهندس الصيانة فوراً"
-        >
-          <div className="w-2.5 h-2.5 rounded-full bg-emerald-400 animate-pulse"></div>
-          <span className="hidden sm:inline">استشارة وصور العطل</span>
-          <span className="sm:hidden">استشارة</span>
-          <Wrench className="w-4 h-4 text-[#d97706]" />
-        </button>
-
         {/* Master Contact Trigger with Popup Menu */}
         <div className="relative">
           {/* Expanded Menu */}
@@ -145,6 +132,15 @@ _أبو المطامير - محافظة البحيرة_`;
                   <X className="w-4 h-4" />
                 </button>
               </div>
+
+              <button
+                type="button"
+                onClick={() => { setIsMenuOpen(false); setIsChatModalOpen(true); }}
+                className="flex items-center justify-between rounded-2xl border border-[#123b4a]/15 bg-[#123b4a]/5 p-2.5 text-right text-[#123b4a] transition-all hover:bg-[#123b4a]/10"
+              >
+                <span className="flex items-center gap-2 text-xs font-black"><Wrench className="h-4 w-4 text-[#d97706]" />استشارة وإرسال صورة العطل</span>
+                <span className="text-[10px] font-bold text-slate-500">فتح النموذج</span>
+              </button>
 
               {/* WhatsApp Option 1 */}
               <a

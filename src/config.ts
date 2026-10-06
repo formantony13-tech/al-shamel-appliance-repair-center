@@ -34,6 +34,9 @@ export const DISPLAY_PHONE: string = DISPLAY_PHONE_1;
 export const CENTER_NAME: string = INITIAL_SETTINGS.centerName;
 export const CENTER_SLOGAN: string = INITIAL_SETTINGS.centerSlogan;
 export const YEARS_EXPERIENCE: string = INITIAL_SETTINGS.yearsExperience;
+export function normalizeYearsExperience(value?: string | null): string {
+  return (value || YEARS_EXPERIENCE).replace(/\+/g, '').trim();
+}
 export const OWNER_NAME: string = "مركز قطب";
 export const LOCATION_NAME: string = INITIAL_SETTINGS.locationName;
 export const BRANCHES_LIST: { id: string; name: string; areas: string }[] = [

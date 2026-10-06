@@ -24,6 +24,7 @@ import {
   CENTER_SLOGAN,
   YEARS_EXPERIENCE,
   LOCATION_NAME
+  ,normalizeYearsExperience
 } from '../config';
 import { AppSystemSettings } from '../types';
 
@@ -39,7 +40,7 @@ export const ContactSection: React.FC<ContactSectionProps> = ({ settings, onOpen
   const phone1Display = settings?.phone1Display || DISPLAY_PHONE_1;
   const phone2 = settings?.phone2 || PHONE_NUMBER_2;
   const phone2Display = settings?.phone2Display || DISPLAY_PHONE_2;
-  const yearsExp = settings?.yearsExperience || YEARS_EXPERIENCE;
+  const yearsExp = normalizeYearsExperience(settings?.yearsExperience || YEARS_EXPERIENCE);
   const location = settings?.locationName || LOCATION_NAME;
   const fb1 = settings?.facebookPage1 || FACEBOOK_PAGE_1;
   const fb2 = settings?.facebookPage2 || FACEBOOK_PAGE_2;

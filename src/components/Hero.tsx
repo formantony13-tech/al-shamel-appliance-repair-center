@@ -1,12 +1,13 @@
 import React from 'react';
-import { Phone, MessageSquare, Clock, ShieldCheck, CheckCircle2, Star, Sparkles, Award, Wrench, AlertCircle } from 'lucide-react';
+import { Phone, MessageSquare, Clock, ShieldCheck, CheckCircle2, Star, Sparkles, Award, Wrench, AlertCircle, Snowflake, Droplets, Volume2, Hammer } from 'lucide-react';
 import { 
   DISPLAY_PHONE_1, 
   PHONE_NUMBER_1, 
   CENTER_NAME, 
   CENTER_SLOGAN, 
   YEARS_EXPERIENCE, 
-  LOCATION_NAME 
+  LOCATION_NAME,
+  normalizeYearsExperience
 } from '../config';
 import { AppSystemSettings } from '../types';
 import realAlaskaFreezer from '../assets/images/real_alaska_freezer_1788256277335.webp';
@@ -23,10 +24,10 @@ export const Hero: React.FC<HeroProps> = ({ onOpenBooking, settings }) => {
   const centerName = settings?.centerName || CENTER_NAME;
   const phone1 = settings?.phone1 || PHONE_NUMBER_1;
   const phone1Display = settings?.phone1Display || DISPLAY_PHONE_1;
-  const yearsExp = settings?.yearsExperience || YEARS_EXPERIENCE;
+  const yearsExp = normalizeYearsExperience(settings?.yearsExperience || YEARS_EXPERIENCE);
   const location = settings?.locationName || LOCATION_NAME;
   const heroBadge = settings?.heroBadge || `مركز قطب • خبرة مهندسينا تتجاوز ${yearsExp} عاماً | أبو المطامير والبحيرة`;
-  const heroHeadline = settings?.heroHeadline || 'مهما كانت المشكلة في الأجهزة المنزلية صعبة.. إحنا هنحلها لك فوراً! ⚙️';
+  const heroHeadline = settings?.heroHeadline || 'مهما كانت المشكلة في الأجهزة المنزلية صعبة.. إحنا هنحلها لك فوراً!';
   const heroHeadlineHighlight = settings?.heroHeadlineHighlight || 'الثلاجة، الغسالة، أو الديب فريزر';
   const heroSubheadline = settings?.heroSubheadline || 'نخدم محافظة البحيرة بالكامل، ونوفر زيارات للمحافظات المجاورة حسب المنطقة، مع قطع غيار أصلية وتفاصيل ضمان مكتوبة قبل الإصلاح.';
   const heroBannerImage = settings?.heroBannerImage || realAlaskaFreezer;
@@ -77,19 +78,19 @@ export const Hero: React.FC<HeroProps> = ({ onOpenBooking, settings }) => {
               </div>
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 text-xs font-bold text-slate-700">
                 <div className="flex items-center gap-1.5 bg-slate-50 p-2 rounded-xl border border-slate-100">
-                  <span className="text-blue-500">❄️</span>
+                  <Snowflake className="h-4 w-4 shrink-0 text-blue-500" aria-hidden="true" />
                   <span>الديب فريزر فصل أو ما عادش بيجمد</span>
                 </div>
                 <div className="flex items-center gap-1.5 bg-slate-50 p-2 rounded-xl border border-slate-100">
-                  <span className="text-emerald-500">💦</span>
+                  <Droplets className="h-4 w-4 shrink-0 text-emerald-500" aria-hidden="true" />
                   <span>الثلاجة بتجمع ثلج ومش بتبرد أو بتنزل ميه</span>
                 </div>
                 <div className="flex items-center gap-1.5 bg-slate-50 p-2 rounded-xl border border-slate-100">
-                  <span className="text-amber-500">🔊</span>
+                  <Volume2 className="h-4 w-4 shrink-0 text-amber-500" aria-hidden="true" />
                   <span>الغسالة بتعصر بصوت مزعج أو مش بتطرد ميه</span>
                 </div>
                 <div className="flex items-center gap-1.5 bg-slate-50 p-2 rounded-xl border border-slate-100">
-                  <span className="text-rose-500">🛠️</span>
+                  <Hammer className="h-4 w-4 shrink-0 text-rose-500" aria-hidden="true" />
                   <span>علاج وسمكرة البرومة والدوكو للأجهزة</span>
                 </div>
               </div>
