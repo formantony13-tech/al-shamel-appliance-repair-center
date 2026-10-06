@@ -54,6 +54,39 @@ body {
   background: var(--page-bg);
 }
 
+/* Desktop-only compact rhythm: preserve the mobile layout while using the
+   available width on larger screens. The sections already use responsive
+   Grid/Flex layouts; this layer removes excessive vertical breathing room. */
+@media (min-width: 992px) {
+  main > section#hero,
+  main > section#services,
+  main > section#works,
+  main > section#booking,
+  main > section#contact {
+    padding-top: 3.5rem !important;
+    padding-bottom: 3.5rem !important;
+  }
+
+  main > section#hero {
+    padding-top: 2.5rem !important;
+  }
+
+  main > section#services > div > div:first-child,
+  main > section#works > div > div:first-child,
+  main > section#contact > div > div:first-child {
+    margin-bottom: 2rem !important;
+  }
+
+  main > section#works .no-scrollbar {
+    margin-bottom: 1.25rem !important;
+    padding-bottom: 0.25rem !important;
+  }
+
+  main > section#contact > div > div:nth-child(2) {
+    margin-bottom: 2rem !important;
+  }
+}
+
 /* Wide desktop presentation: use the available horizontal space and avoid
    making visitors scroll through unnecessary vertical whitespace. */
 @media (min-width: 1280px) {
