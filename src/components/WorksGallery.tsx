@@ -42,7 +42,7 @@ export const WorksGallery: React.FC<WorksGalleryProps> = ({
     ? works
     : works.filter((w) => w.category === selectedCategory);
   const visibleWorks = selectedCategory === 'الكل' && !showAllWorks
-    ? filteredWorks.slice(0, 6)
+    ? filteredWorks.slice(0, 3)
     : filteredWorks;
 
   return (
@@ -210,7 +210,7 @@ export const WorksGallery: React.FC<WorksGalleryProps> = ({
           </div>
         )}
 
-        {selectedCategory === 'الكل' && filteredWorks.length > 6 && (
+        {selectedCategory === 'الكل' && filteredWorks.length > 3 && (
           <div className="mt-8 text-center">
             <button
               type="button"

@@ -22,8 +22,6 @@ import {
 import { 
   DISPLAY_PHONE_1, 
   PHONE_NUMBER_1, 
-  DISPLAY_PHONE_2, 
-  PHONE_NUMBER_2, 
   CENTER_NAME, 
   YEARS_EXPERIENCE 
 } from '../config';
@@ -51,8 +49,6 @@ export const Header: React.FC<HeaderProps> = ({
   const centerName = settings?.centerName || CENTER_NAME;
   const phone1 = settings?.phone1 || PHONE_NUMBER_1;
   const phone1Display = settings?.phone1Display || DISPLAY_PHONE_1;
-  const phone2 = settings?.phone2 || PHONE_NUMBER_2;
-  const phone2Display = settings?.phone2Display || DISPLAY_PHONE_2;
   const yearsExp = settings?.yearsExperience || YEARS_EXPERIENCE;
 
   useEffect(() => {
@@ -172,20 +168,6 @@ export const Header: React.FC<HeaderProps> = ({
 
           {/* Developer Credit & Fast Contact */}
           <div className="flex items-center gap-2 sm:gap-4 text-[11px]">
-            {/* Developer Credit Badge */}
-            <div className="hidden md:flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-white/10 text-slate-200 border border-white/10">
-              <span className="text-amber-400 font-black">مطور الموقع:</span>
-              <span className="font-bold text-white">م/ صبحي</span>
-              <a 
-                href="tel:01098502227" 
-                className="font-mono text-[#d97706] hover:underline font-bold"
-                dir="ltr"
-                title="اتصال بالمهندس صبحي"
-              >
-                01098502227
-              </a>
-            </div>
-
             {/* Hotline 1 */}
             <a
               href={`tel:+${phone1}`}
@@ -198,15 +180,6 @@ export const Header: React.FC<HeaderProps> = ({
             </a>
             <span className="text-white/40">|</span>
             {/* Hotline 2 */}
-            <a
-              href={`tel:+${phone2}`}
-              className="hidden sm:flex items-center gap-1 text-slate-200 hover:text-white font-bold transition-colors"
-              dir="ltr"
-              title="اتصال بالرقم الثاني"
-            >
-              <Phone className="w-3.5 h-3.5 text-[#25D366]" />
-              <span>{phone2Display}</span>
-            </a>
           </div>
 
         </div>
@@ -336,7 +309,9 @@ export const Header: React.FC<HeaderProps> = ({
                 id="mobile-menu-toggle"
                 onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
                 className="xl:hidden p-1.5 rounded-lg text-slate-700 hover:bg-slate-100 transition-colors"
-                aria-label="فتح القائمة"
+                aria-label={mobileMenuOpen ? 'إغلاق القائمة' : 'فتح القائمة'}
+                aria-expanded={mobileMenuOpen}
+                aria-controls="mobile-menu-drawer"
               >
                 {mobileMenuOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
               </button>
@@ -463,13 +438,6 @@ export const Header: React.FC<HeaderProps> = ({
                 اتصال هاتفي ({phone1Display})
               </a>
               <a
-                href={`tel:+${phone2}`}
-                className="flex items-center justify-center gap-2 w-full py-2.5 rounded-xl bg-slate-800 text-white font-bold text-sm"
-              >
-                <Phone className="w-4 h-4 text-[#25D366]" />
-                خط الصيانة الثاني ({phone2Display})
-              </a>
-              <a
                 href={`https://wa.me/${phone1}?text=مرحباً، أود حجز مهندس صيانة من ${encodeURIComponent(centerName)}`}
                 target="_blank"
                 rel="noopener noreferrer"
@@ -479,13 +447,8 @@ export const Header: React.FC<HeaderProps> = ({
                 تواصل عبر واتساب (24 ساعة)
               </a>
 
-              {/* Developer Credit Mobile */}
-              <div className="mt-2 pt-2 border-t border-slate-100 text-center text-xs text-slate-500">
-                <span>تصميم وتطوير: </span>
-                <strong className="text-slate-800">المهندس صبحي</strong>
-                <a href="tel:01098502227" className="block text-[#d97706] font-mono font-bold mt-0.5">
-                  01098502227
-                </a>
+              <div className="mt-2 border-t border-slate-100 pt-2 text-center text-[11px] text-slate-400">
+                تصميم وتطوير: م/ صبحي
               </div>
             </div>
           </div>

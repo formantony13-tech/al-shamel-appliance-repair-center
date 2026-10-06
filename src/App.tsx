@@ -17,6 +17,7 @@ import { WarrantyCertificateModal } from './components/WarrantyCertificateModal'
 import { TroubleshootingGuideModal } from './components/TroubleshootingGuideModal';
 import { LandingDetailPage } from './components/LandingDetailPage';
 import { getAreaLandingPage, getServiceLandingPage } from './data/landingPages';
+import { ShoppingBag, ArrowLeft } from 'lucide-react';
 
 import { RepairWork, CustomerReview, ToastNotification, BookingRecord, AppSystemSettings } from './types';
 import { 
@@ -58,10 +59,16 @@ export default function App() {
   // Toast notifications queue
   const [toasts, setToasts] = useState<ToastNotification[]>([]);
   const [hashRoute, setHashRoute] = useState(() => window.location.hash);
+  const [isSaleExpanded, setIsSaleExpanded] = useState(false);
 
   useEffect(() => {
     const handleHashChange = () => {
-      setHashRoute(window.location.hash);
+      const nextHash = window.location.hash;
+      setHashRoute(nextHash);
+      if (nextHash === '#for-sale-section') {
+        setIsSaleExpanded(true);
+        window.setTimeout(() => document.getElementById('for-sale-section')?.scrollIntoView({ behavior: 'smooth' }), 60);
+      }
       window.scrollTo({ top: 0, behavior: 'smooth' });
     };
     window.addEventListener('hashchange', handleHashChange);
@@ -202,6 +209,11 @@ export default function App() {
     window.location.hash = `#/area/${areaId}`;
   };
 
+  const revealSaleSection = () => {
+    setIsSaleExpanded(true);
+    window.setTimeout(() => document.getElementById('for-sale-section')?.scrollIntoView({ behavior: 'smooth', block: 'start' }), 60);
+  };
+
   const serviceRoute = hashRoute.match(/^#\/service\/([^/]+)$/);
   const areaRoute = hashRoute.match(/^#\/area\/([^/]+)$/);
   const detailPage = serviceRoute
@@ -257,7 +269,19 @@ export default function App() {
         />
 
         {/* 5. For Sale Marketplace Section */}
-        <ForSaleSection settings={settings} />
+        {isSaleExpanded ? (
+          <ForSaleSection settings={settings} />
+        ) : (
+          <section id="sale-promo" className="bg-slate-50 px-4 py-6 sm:px-6 lg:px-8">
+            <div className="mx-auto flex max-w-7xl flex-col items-center justify-between gap-4 rounded-2xl border border-emerald-200 bg-white p-5 text-center shadow-sm sm:flex-row sm:text-right">
+              <div className="flex items-center gap-3">
+                <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-emerald-50 text-emerald-700"><ShoppingBag className="h-5 w-5" /></span>
+                <div><h2 className="text-base font-black text-[#123b4a]">أجهزة مجددة للبيع بالضمان</h2><p className="mt-1 text-xs font-semibold text-slate-500">معروضات محدودة ومفحوصة من المركز</p></div>
+              </div>
+              <button type="button" onClick={revealSaleSection} className="inline-flex items-center gap-2 rounded-xl bg-emerald-700 px-4 py-2.5 text-xs font-black text-white transition hover:bg-emerald-800 active:scale-95"><span>شاهد الأجهزة المتاحة</span><ArrowLeft className="h-4 w-4" /></button>
+            </div>
+          </section>
+        )}
 
         {/* 6. Reviews Section (Connected to Central Firestore) */}
         <ReviewsSection

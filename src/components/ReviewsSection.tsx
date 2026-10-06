@@ -46,7 +46,7 @@ export const ReviewsSection: React.FC<ReviewsSectionProps> = ({
   // Calculate average rating
   const totalRating = reviews.reduce((acc, curr) => acc + curr.rating, 0);
   const avgRating = reviews.length > 0 ? (totalRating / reviews.length).toFixed(1) : '5.0';
-  const visibleReviews = showAllReviews ? reviews : reviews.slice(0, 6);
+  const visibleReviews = showAllReviews ? reviews : reviews.slice(0, 3);
 
   // Handle Photo upload for review
   const handleReviewPhoto = async (file: File) => {

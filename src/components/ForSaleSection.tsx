@@ -305,7 +305,7 @@ export const ForSaleSection: React.FC<ForSaleSectionProps> = ({ settings }) => {
 
                         <a
                           id={`for-sale-call-${item.id}`}
-                          href={`tel:${settings.phone1}`}
+                          href={`tel:+${settings.phone1}`}
                           className="flex items-center justify-center gap-1.5 py-2.5 px-3 rounded-xl bg-slate-900 hover:bg-slate-800 text-white font-bold text-xs transition-colors shadow-sm cursor-pointer"
                         >
                           <PhoneCall className="w-3.5 h-3.5" />
@@ -352,7 +352,7 @@ export const ForSaleSection: React.FC<ForSaleSectionProps> = ({ settings }) => {
               <span>استفسر عن التثمين والاستبدال</span>
             </a>
             <a
-              href={`tel:${settings.phone1}`}
+              href={`tel:+${settings.phone1}`}
               className="px-6 py-3 rounded-xl bg-white/10 hover:bg-white/20 text-white font-bold text-sm border border-white/20 transition-all flex items-center gap-2 cursor-pointer"
             >
               <PhoneCall className="w-4 h-4" />
@@ -466,7 +466,7 @@ export const ForSaleSection: React.FC<ForSaleSectionProps> = ({ settings }) => {
                   </a>
 
                   <a
-                    href={`tel:${settings.phone1}`}
+                    href={`tel:+${settings.phone1}`}
                     className="flex-1 sm:flex-none px-6 py-3 rounded-xl bg-slate-900 hover:bg-slate-800 text-white font-bold text-sm transition-all flex items-center justify-center gap-2 cursor-pointer"
                   >
                     <PhoneCall className="w-4 h-4" />

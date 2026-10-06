@@ -221,28 +221,7 @@ export const Footer: React.FC<FooterProps> = ({ onOpenAdmin, settings }) => {
             </div>
           </div>
 
-          <div className="flex items-center gap-2">
-            <a
-              href="tel:01098502227"
-              className="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-xl bg-white/10 hover:bg-white/20 text-white font-black text-xs transition-colors border border-white/10"
-              title="اتصال بالمهندس صبحي"
-            >
-              <Phone className="w-3.5 h-3.5 text-[#d97706]" />
-              <span>هاتف:</span>
-              <span className="font-mono font-bold" dir="ltr">01098502227</span>
-            </a>
-
-            <a
-              href="https://wa.me/201098502227?text=مرحباً%20مهندس%20صبحي%D8%8C%20تواصلت%20معك%20بخصوص%20تطوير%20المواقع%20والبرمجة"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-xl bg-[#25D366] hover:bg-[#20ba59] text-white font-black text-xs transition-all shadow-md shadow-[#25D366]/20"
-              title="تواصل مع المهندس صبحي عبر واتساب"
-            >
-              <MessageSquare className="w-3.5 h-3.5" />
-              <span>واتساب المهندس صبحي</span>
-            </a>
-          </div>
+          <span className="text-xs font-bold text-slate-300">تصميم وتطوير: م/ صبحي</span>
         </div>
 
         {/* Bottom Bar */}
@@ -250,7 +229,7 @@ export const Footer: React.FC<FooterProps> = ({ onOpenAdmin, settings }) => {
           <div>
             <p>© {new Date().getFullYear()} {centerName} — جميع الحقوق محفوظة. أبو المطامير، محافظة البحيرة.</p>
             <p className="text-[11px] text-slate-400 font-normal mt-1">
-              تصميم وتطوير: <strong className="text-slate-200">م/ صبحي</strong> (هاتف: <a href="tel:01098502227" className="text-[#d97706] hover:underline font-mono" dir="ltr">01098502227</a>)
+              تصميم وتطوير: <strong className="text-slate-200">م/ صبحي</strong>
             </p>
           </div>
           <div className="flex items-center gap-4">

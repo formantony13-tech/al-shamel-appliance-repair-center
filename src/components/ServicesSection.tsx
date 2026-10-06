@@ -171,29 +171,9 @@ export const ServicesSection: React.FC<ServicesSectionProps> = ({ onSelectServic
                     {service.description}
                   </p>
 
-                  {/* Common Problems Box */}
-                  <div className="mt-5 pt-4 border-t border-slate-200/80">
-                    <h4 className="text-xs font-bold text-slate-500 mb-2.5 flex items-center gap-1.5">
-                      <AlertCircle className="w-3.5 h-3.5 text-[#d97706]" />
-                      أشهر المشاكل التي نحلها فوراً:
-                    </h4>
-                    <ul className="space-y-2">
-                      {service.commonProblems.map((problem, idx) => (
-                        <li key={idx} className="text-xs text-slate-700 font-bold flex items-start gap-2">
-                          <CheckCircle className="w-3.5 h-3.5 text-emerald-500 shrink-0 mt-0.5" />
-                          <span>{problem}</span>
-                        </li>
-                      ))}
-                    </ul>
-                  </div>
-
-                  {/* Brands supported */}
-                  <div className="mt-4 flex flex-wrap gap-1.5">
-                    {service.brands.map((brand) => (
-                      <span key={brand} className="text-[10px] font-bold text-slate-500 bg-white px-2 py-0.5 rounded-md border border-slate-200">
-                        {brand}
-                      </span>
-                    ))}
+                  <div className="mt-4 flex items-center gap-2 border-t border-slate-200/80 pt-3 text-[11px] font-bold text-slate-500">
+                    <CheckCircle className="h-3.5 w-3.5 shrink-0 text-emerald-500" />
+                    خدمة منزلية وقطع غيار أصلية حسب الحالة
                   </div>
                 </div>
 

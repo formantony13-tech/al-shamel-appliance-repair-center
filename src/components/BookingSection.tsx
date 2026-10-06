@@ -708,96 +708,17 @@ ${formData.issueDescription.trim()}
           </div>
 
           {/* Side Info Column (Left in RTL) */}
-          <div className="lg:col-span-5 space-y-6">
-            
-            {/* Direct Call Box with Both Numbers */}
-            <div className="rounded-3xl bg-[#123b4a] text-white p-7 shadow-xl relative overflow-hidden">
-              <div className="absolute top-0 left-0 w-32 h-32 bg-[#d97706]/10 rounded-full blur-2xl pointer-events-none"></div>
-              
-              <div className="flex items-center gap-3 mb-4">
-                <div className="w-12 h-12 rounded-2xl bg-white/10 flex items-center justify-center text-[#d97706]">
-                  <Phone className="w-6 h-6" />
-                </div>
-                <div>
-                  <h3 className="text-base sm:text-lg font-black">{CENTER_NAME}</h3>
-                  <p className="text-xs text-slate-300 font-semibold">استجابة سريعة على مدار 24 ساعة</p>
-                </div>
+          <div className="lg:col-span-5">
+            <div className="rounded-3xl bg-[#123b4a] p-6 text-white shadow-xl">
+              <div className="mb-4 flex items-center gap-3">
+                <div className="flex h-11 w-11 items-center justify-center rounded-2xl bg-white/10 text-[#d97706]"><Phone className="h-5 w-5" /></div>
+                <div><h3 className="text-base font-black">تواصل سريع مع {CENTER_NAME}</h3><p className="text-xs font-semibold text-slate-300">استجابة خلال 24 ساعة</p></div>
               </div>
-
-              {/* Number 1 */}
-              <div className="mt-4 p-3.5 rounded-2xl bg-white/10 border border-white/15 text-center">
-                <span className="text-[11px] font-bold text-slate-300 block mb-1">الخط الأساسي (واتساب وهاتف):</span>
-                <a
-                  href={`tel:+${PHONE_NUMBER_1}`}
-                  className="text-xl sm:text-2xl font-black text-[#d97706] hover:text-white transition-colors block font-mono"
-                  dir="ltr"
-                >
-                  {DISPLAY_PHONE_1}
-                </a>
-              </div>
-
-              {/* Number 2 */}
-              <div className="mt-3 p-3.5 rounded-2xl bg-white/10 border border-white/15 text-center">
-                <span className="text-[11px] font-bold text-slate-300 block mb-1">الخط الثاني للصيانة:</span>
-                <a
-                  href={`tel:+${PHONE_NUMBER_2}`}
-                  className="text-xl sm:text-2xl font-black text-emerald-400 hover:text-white transition-colors block font-mono"
-                  dir="ltr"
-                >
-                  {DISPLAY_PHONE_2}
-                </a>
-              </div>
-
-              <div className="mt-4 grid grid-cols-2 gap-2">
-                <a
-                  href={`tel:+${PHONE_NUMBER_1}`}
-                  className="py-3 rounded-xl bg-[#d97706] hover:bg-[#b45309] text-white font-black text-xs flex items-center justify-center gap-1.5 transition-colors"
-                >
-                  <Phone className="w-4 h-4" />
-                  <span>اتصال رقم 1</span>
-                </a>
-                <a
-                  href={`tel:+${PHONE_NUMBER_2}`}
-                  className="py-3 rounded-xl bg-white text-[#123b4a] font-black text-xs flex items-center justify-center gap-1.5 hover:bg-slate-100 transition-colors"
-                >
-                  <Phone className="w-4 h-4 text-emerald-600" />
-                  <span>اتصال رقم 2</span>
-                </a>
-              </div>
-            </div>
-
-            {/* Service Guarantees Card */}
-            <div className="rounded-3xl bg-slate-50 border border-slate-200 p-6 space-y-4">
-              <h4 className="text-sm font-black text-[#123b4a] flex items-center gap-2">
-                <ShieldCheck className="w-4 h-4 text-[#d97706]" />
-                مميزات الصيانة مع مركز قطب:
-              </h4>
-
-              <ul className="space-y-3 text-xs sm:text-sm font-bold text-slate-700">
-                <li className="flex items-start gap-2.5">
-                  <CheckCircle2 className="w-4 h-4 text-emerald-600 shrink-0 mt-0.5" />
-                  <span>وصول المهندس المختص لمنزلك خلال 24 ساعة بأبو المطامير.</span>
-                </li>
-                <li className="flex items-start gap-2.5">
-                  <CheckCircle2 className="w-4 h-4 text-emerald-600 shrink-0 mt-0.5" />
-                  <span>قطع غيار أصلية 100% مستوردة مع شهادة ضمان معتمدة.</span>
-                </li>
-                <li className="flex items-start gap-2.5">
-                  <CheckCircle2 className="w-4 h-4 text-emerald-600 shrink-0 mt-0.5" />
-                  <span>خبرة هندسية أكثر من {YEARS_EXPERIENCE} سنة في تشخيص الأعطال بدقة.</span>
-                </li>
-                <li className="flex items-start gap-2.5">
-                  <CheckCircle2 className="w-4 h-4 text-emerald-600 shrink-0 mt-0.5" />
-                  <span>إصلاح فوري بالمنزل لمعظم الأعطال دون الحاجة لنقل الجهاز.</span>
-                </li>
-              </ul>
-            </div>
-
-            {/* Service Area Card */}
-            <div className="rounded-3xl bg-slate-50 border border-slate-200 p-6">
-              <div className="flex items-center justify-between mb-2">
-                <h4 className="text-sm font-black text-[#123b4a] flex items-center gap-2">
-                  <MapPin className="w-4 h-4 text-[#d97706]" />
+              <a href={`tel:+${PHONE_NUMBER_1}`} className="block rounded-2xl bg-white/10 p-3 text-center text-xl font-black text-[#d97706] font-mono" dir="ltr">{DISPLAY_PHONE_1}</a>
+              <div className="mt-4 rounded-2xl bg-white/10 p-4 text-right">
+                <div className="flex items-center justify-between mb-2">
+                  <h4 className="flex items-center gap-2 text-sm font-black text-white">
+                    <MapPin className="w-4 h-4 text-[#d97706]" />
                   نطاق التغطية والخدمة:
                 </h4>
                 <a
@@ -809,7 +730,7 @@ ${formData.issueDescription.trim()}
                   الخريطة 📍
                 </a>
               </div>
-              <p className="text-xs sm:text-sm text-slate-600 font-semibold leading-relaxed">
+              <p className="text-xs font-semibold leading-relaxed text-slate-300">
                 مدينة أبو المطامير بالكامل، وقرى مركز أبو المطامير (جناكليس، النمرية، زاوية صقر، بيلوق، الحويحي، الشعراوي، كوم الفرج) وكافة مراكز محافظة البحيرة.
               </p>
             </div>
@@ -818,6 +739,7 @@ ${formData.issueDescription.trim()}
 
         </div>
 
+      </div>
       </div>
     </section>
   );

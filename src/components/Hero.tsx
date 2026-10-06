@@ -3,8 +3,6 @@ import { Phone, MessageSquare, Clock, ShieldCheck, CheckCircle2, Star, Sparkles,
 import { 
   DISPLAY_PHONE_1, 
   PHONE_NUMBER_1, 
-  DISPLAY_PHONE_2, 
-  PHONE_NUMBER_2, 
   CENTER_NAME, 
   CENTER_SLOGAN, 
   YEARS_EXPERIENCE, 
@@ -25,8 +23,6 @@ export const Hero: React.FC<HeroProps> = ({ onOpenBooking, settings }) => {
   const centerName = settings?.centerName || CENTER_NAME;
   const phone1 = settings?.phone1 || PHONE_NUMBER_1;
   const phone1Display = settings?.phone1Display || DISPLAY_PHONE_1;
-  const phone2 = settings?.phone2 || PHONE_NUMBER_2;
-  const phone2Display = settings?.phone2Display || DISPLAY_PHONE_2;
   const yearsExp = settings?.yearsExperience || YEARS_EXPERIENCE;
   const location = settings?.locationName || LOCATION_NAME;
   const heroBadge = settings?.heroBadge || `مركز قطب • خبرة أكثر من ${yearsExp} سنة | فروع البحيرة • الغربية • الشرقية`;
@@ -132,7 +128,7 @@ export const Hero: React.FC<HeroProps> = ({ onOpenBooking, settings }) => {
               </div>
             </div>
 
-            {/* 2 Primary Call To Action Buttons + Both Phones */}
+            {/* Primary Call To Action Buttons + One Phone */}
             <div className="mt-7 flex flex-col sm:flex-row flex-wrap items-stretch sm:items-center gap-2.5 sm:gap-3">
               {/* WhatsApp Button */}
               <a
@@ -154,18 +150,6 @@ export const Hero: React.FC<HeroProps> = ({ onOpenBooking, settings }) => {
               >
                 <Phone className="w-5 h-5 text-[#d97706] shrink-0" />
                 <span className="font-mono whitespace-nowrap" dir="ltr">{phone1Display}</span>
-              </a>
-
-              {/* Call Button 2 */}
-              <a
-                href={`tel:+${phone2}`}
-                id="hero-call-btn-2"
-                className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-4 py-3 rounded-2xl text-xs sm:text-sm font-bold text-slate-700 bg-white border border-slate-200 hover:border-[#123b4a] hover:text-[#123b4a] transition-colors"
-                title="خط الاتصال الثاني"
-              >
-                <Phone className="w-4 h-4 text-emerald-600 shrink-0" />
-                <span>الخط الثاني:</span>
-                <span className="font-mono whitespace-nowrap" dir="ltr">{phone2Display}</span>
               </a>
 
               {/* Instant Booking Form Button */}
@@ -305,10 +289,6 @@ export const Hero: React.FC<HeroProps> = ({ onOpenBooking, settings }) => {
               <div className="text-xs sm:text-sm font-bold text-slate-600 mt-1">وصول المهندس لمنزلك</div>
             </div>
 
-            <div className="p-4 rounded-2xl bg-white/70 backdrop-blur-sm border border-slate-100 shadow-sm">
-              <div className="text-2xl sm:text-3xl lg:text-4xl font-black text-[#123b4a]">24 ساعة</div>
-              <div className="text-xs sm:text-sm font-bold text-slate-600 mt-1">خدمة واستقبال واتساب</div>
-            </div>
           </div>
         </div>
 
