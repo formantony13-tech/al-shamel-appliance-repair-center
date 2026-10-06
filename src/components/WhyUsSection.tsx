@@ -13,7 +13,7 @@ export const WhyUsSection: React.FC<WhyUsSectionProps> = ({ settings }) => {
   const points = [
     { icon: Award, title: `خبرة +${yearsExp} سنة`, text: 'تشخيص عملي وإصلاح واضح قبل التنفيذ', color: 'bg-amber-50 text-amber-600' },
     { icon: Clock, title: 'زيارة خلال 24 ساعة', text: 'تنسيق موعد مناسب في نطاق خدمتنا', color: 'bg-blue-50 text-[#123b4a]' },
-    { icon: ShieldCheck, title: 'ضمان وقطع أصلية', text: 'تفاصيل الضمان مكتوبة بعد الإصلاح', color: 'bg-emerald-50 text-emerald-600' },
+    { icon: ShieldCheck, title: 'ضمان مكتوب', text: '3 أشهر على الإصلاح و6 أشهر على القطع حسب الحالة', color: 'bg-emerald-50 text-emerald-600' },
     { icon: Wrench, title: 'خدمة منزلية', text: 'إصلاح الجهاز في مكانك حسب الحالة', color: 'bg-rose-50 text-rose-600' },
   ];
 

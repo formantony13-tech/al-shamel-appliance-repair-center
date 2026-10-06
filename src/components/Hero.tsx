@@ -25,10 +25,10 @@ export const Hero: React.FC<HeroProps> = ({ onOpenBooking, settings }) => {
   const phone1Display = settings?.phone1Display || DISPLAY_PHONE_1;
   const yearsExp = settings?.yearsExperience || YEARS_EXPERIENCE;
   const location = settings?.locationName || LOCATION_NAME;
-  const heroBadge = settings?.heroBadge || `مركز قطب • خبرة أكثر من ${yearsExp} سنة | فروع البحيرة • الغربية • الشرقية`;
+  const heroBadge = settings?.heroBadge || `مركز قطب • خبرة مهندسينا تتجاوز ${yearsExp} عاماً | أبو المطامير والبحيرة`;
   const heroHeadline = settings?.heroHeadline || 'مهما كانت المشكلة في الأجهزة المنزلية صعبة.. إحنا هنحلها لك فوراً! ⚙️';
   const heroHeadlineHighlight = settings?.heroHeadlineHighlight || 'الثلاجة، الغسالة، أو الديب فريزر';
-  const heroSubheadline = settings?.heroSubheadline || 'في خلال 24 ساعة بيكون عندك أسطول صيانة وفني محترف يصلح لك العطل أينما كنت في محافظات البحيرة، الغربية، والشرقية مع قطع غيار أصلية 100% وضمان معتمد.';
+  const heroSubheadline = settings?.heroSubheadline || 'نخدم محافظة البحيرة بالكامل، ونوفر زيارات للمحافظات المجاورة حسب المنطقة، مع قطع غيار أصلية وتفاصيل ضمان مكتوبة قبل الإصلاح.';
   const heroBannerImage = settings?.heroBannerImage || realAlaskaFreezer;
 
   return (

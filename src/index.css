@@ -58,6 +58,10 @@ body {
    available width on larger screens. The sections already use responsive
    Grid/Flex layouts; this layer removes excessive vertical breathing room. */
 @media (min-width: 992px) {
+  .max-w-7xl {
+    max-width: 75rem !important;
+  }
+
   main > section#hero,
   main > section#services,
   main > section#works,
@@ -85,6 +89,17 @@ body {
   main > section#contact > div > div:nth-child(2) {
     margin-bottom: 2rem !important;
   }
+
+  main > section#services .grid.lg\:grid-cols-3,
+  main > section#works .grid.lg\:grid-cols-3,
+  main > section#reviews .grid.lg\:grid-cols-3,
+  main > section#contact .grid.md\:grid-cols-3 {
+    gap: 1.25rem !important;
+  }
+
+  main > section#services .group.rounded-3xl {
+    padding: 1.25rem !important;
+  }
 }
 
 /* Wide desktop presentation: use the available horizontal space and avoid
@@ -92,10 +107,6 @@ body {
 @media (min-width: 1280px) {
   #quick-nav-bar {
     display: none;
-  }
-
-  .max-w-7xl {
-    max-width: 90rem;
   }
 
   main > section.py-16 {

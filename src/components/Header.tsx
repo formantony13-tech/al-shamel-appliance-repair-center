@@ -22,6 +22,8 @@ import {
 import { 
   DISPLAY_PHONE_1, 
   PHONE_NUMBER_1, 
+  DISPLAY_PHONE_2,
+  PHONE_NUMBER_2,
   CENTER_NAME, 
   YEARS_EXPERIENCE 
 } from '../config';
@@ -49,6 +51,8 @@ export const Header: React.FC<HeaderProps> = ({
   const centerName = settings?.centerName || CENTER_NAME;
   const phone1 = settings?.phone1 || PHONE_NUMBER_1;
   const phone1Display = settings?.phone1Display || DISPLAY_PHONE_1;
+  const phone2 = settings?.phone2 || PHONE_NUMBER_2;
+  const phone2Display = settings?.phone2Display || DISPLAY_PHONE_2;
   const yearsExp = settings?.yearsExperience || YEARS_EXPERIENCE;
 
   useEffect(() => {
@@ -80,6 +84,7 @@ export const Header: React.FC<HeaderProps> = ({
     { name: 'أجهزة للبيع', href: '#for-sale-section' },
     { name: 'آراء العملاء', href: '#reviews' },
     { name: 'لماذا نحن؟', href: '#why-us' },
+    { name: 'الأسئلة الشائعة', href: '#faq' },
     { name: 'اتصل بنا', href: '#contact' },
   ];
 
@@ -123,6 +128,12 @@ export const Header: React.FC<HeaderProps> = ({
       icon: ShieldCheck,
     },
     {
+      id: 'faq',
+      href: '#faq',
+      label: 'الأسئلة الشائعة',
+      icon: HelpCircle,
+    },
+    {
       id: 'contact',
       href: '#contact',
       label: 'الفروع والاتصال',
@@ -158,7 +169,7 @@ export const Header: React.FC<HeaderProps> = ({
           <div className="flex items-center gap-3 sm:gap-4 text-slate-200">
             <span className="flex items-center gap-1 text-[11px] sm:text-xs">
               <Clock className="w-3.5 h-3.5 text-[#d97706]" />
-              {settings?.operatingHours || 'خدمة صيانة فورية 24 ساعة بأبو المطامير ومحافظة البحيرة'}
+              {settings?.operatingHours || 'الزيارات المنزلية 8 ص–11 م • الخط الساخن والواتساب 24 ساعة'}
             </span>
             <span className="hidden lg:inline-flex items-center gap-1 text-[11px] text-amber-300 font-bold">
               <Award className="w-3.5 h-3.5" />
@@ -179,7 +190,15 @@ export const Header: React.FC<HeaderProps> = ({
               <span>{phone1Display}</span>
             </a>
             <span className="text-white/40">|</span>
-            {/* Hotline 2 */}
+            <a
+              href={`tel:+${phone2}`}
+              className="hidden sm:flex items-center gap-1 text-slate-200 hover:text-white font-bold transition-colors"
+              dir="ltr"
+              title="اتصال بالرقم الثاني"
+            >
+              <Phone className="w-3.5 h-3.5 text-emerald-400" />
+              <span><span className="font-sans text-[10px] text-slate-400">اتصال:</span> {phone2Display}</span>
+            </a>
           </div>
 
         </div>
@@ -205,14 +224,14 @@ export const Header: React.FC<HeaderProps> = ({
               </div>
               <div className="flex flex-col min-w-0">
                 <div className="flex items-center gap-1.5">
-                  <span className="font-black text-sm sm:text-lg text-[#123b4a] leading-tight truncate">
+                  <span className="font-black text-sm sm:text-lg lg:text-xl text-[#123b4a] leading-tight lg:whitespace-nowrap">
                     {centerName}
                   </span>
                   <span className="hidden sm:inline-block px-2 py-0.5 rounded-md bg-amber-100 text-amber-900 text-[10px] font-black shrink-0">
                     +{yearsExp} سنة خبرة
                   </span>
                 </div>
-                <span className="text-[10px] sm:text-xs text-slate-500 font-semibold flex items-center gap-1 truncate">
+                <span className="text-[10px] sm:text-xs text-slate-500 font-semibold flex items-center gap-1 lg:whitespace-nowrap">
                   <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse shrink-0"></span>
                   <span className="truncate">صيانة معتمدة • قطع غيار أصلية</span>
                 </span>

@@ -55,10 +55,10 @@ export const ContactSection: React.FC<ContactSectionProps> = ({ settings, onOpen
             تواصل مع {centerName}
           </div>
           <h2 className="text-2xl sm:text-3xl lg:text-4xl font-black text-[#123b4a] leading-tight">
-            موجودون دائماً لخدمتكم بمحافظات البحيرة، الغربية، والشرقية
+            نخدم البحيرة وننسق الزيارات للمحافظات المجاورة
           </h2>
           <p className="mt-4 text-sm sm:text-base text-slate-600 font-semibold leading-relaxed">
-            {centerSlogan} — نسعد باستقبال اتصالاتكم ورسائلكم 24 ساعة لتقديم الدعم وحجز الزيارات الفورية
+            {centerSlogan} — الزيارات المنزلية من 8 صباحاً حتى 11 مساءً، والاتصال والواتساب متاحان 24 ساعة.
           </p>
         </div>
 
@@ -212,7 +212,7 @@ export const ContactSection: React.FC<ContactSectionProps> = ({ settings, onOpen
               <div className="flex items-center gap-2 text-right">
                 <MapPin className="w-5 h-5 text-[#d97706]" />
                 <div>
-                  <h4 className="text-sm font-black text-[#123b4a]">نطاق التغطية والفروع (البحيرة • الغربية • الشرقية)</h4>
+                  <h4 className="text-sm font-black text-[#123b4a]">نطاق التغطية والخدمة</h4>
                   <p className="text-xs text-slate-500 font-semibold">{location}</p>
                 </div>
               </div>

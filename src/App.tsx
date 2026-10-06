@@ -16,6 +16,7 @@ import { BookingTrackerModal } from './components/BookingTrackerModal';
 import { WarrantyCertificateModal } from './components/WarrantyCertificateModal';
 import { TroubleshootingGuideModal } from './components/TroubleshootingGuideModal';
 import { LandingDetailPage } from './components/LandingDetailPage';
+import { FAQSection } from './components/FAQSection';
 import { getAreaLandingPage, getServiceLandingPage } from './data/landingPages';
 import { ShoppingBag, ArrowLeft } from 'lucide-react';
 
@@ -292,7 +293,10 @@ export default function App() {
           onShowToast={showToast}
         />
 
-        {/* 6. Booking Form Section (With Central DB and Unique ID) */}
+        {/* 7. Frequently Asked Questions */}
+        <FAQSection />
+
+        {/* 8. Booking Form Section (With Central DB and Unique ID) */}
         <BookingSection
           initialDevice={selectedDeviceForBooking}
           initialIssue={selectedIssueForBooking}
@@ -302,7 +306,7 @@ export default function App() {
           onViewWarrantyCertificate={handleOpenWarrantyCertificate}
         />
 
-        {/* 7. Contact & Location Section */}
+        {/* 9. Contact & Location Section */}
         <ContactSection settings={settings} onOpenArea={openAreaPage} />
       </main>
 

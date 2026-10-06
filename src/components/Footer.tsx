@@ -62,19 +62,19 @@ export const Footer: React.FC<FooterProps> = ({ onOpenAdmin, settings }) => {
               </div>
               <div>
                 <h3 className="text-xl font-black tracking-tight">{centerName}</h3>
-                <span className="text-xs text-[#d97706] font-bold">فروع: البحيرة • الغربية • الشرقية</span>
+                <span className="text-xs text-[#d97706] font-bold">أبو المطامير والبحيرة • زيارات للمحافظات المجاورة حسب المنطقة</span>
               </div>
             </div>
 
             <p className="text-xs sm:text-sm text-slate-300 font-semibold leading-relaxed">
-              {centerSlogan} — خبرة تزيد عن {yearsExp} عاماً في صيانة الديب فريزر، الثلاجات، الغسالات الأوتوماتيك، وعلاج برومة وصاج الأجهزة بقطع غيار أصلية وضمان معتمد.
+              {centerSlogan} — بخبرة مهندسينا التي تتجاوز {yearsExp} عاماً، مع قطع غيار أصلية وتفاصيل ضمان مكتوبة قبل الإصلاح.
             </p>
 
             {/* Badges */}
             <div className="flex flex-wrap gap-2 pt-1">
               <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-white/10 text-slate-200 text-[11px] font-bold">
                 <ShieldCheck className="w-3.5 h-3.5 text-[#d97706]" />
-                ضمان معتمد
+                ضمان مكتوب حسب نوع الإصلاح
               </span>
               <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-white/10 text-slate-200 text-[11px] font-bold">
                 <Award className="w-3.5 h-3.5 text-emerald-400" />
