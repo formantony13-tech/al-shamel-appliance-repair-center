@@ -29,6 +29,7 @@ export default defineConfig(() => ({
     },
   },
   server: {
+    allowedHosts: ['.sg2.manus.computer'],
     // HMR is disabled in AI Studio via DISABLE_HMR env var.
     hmr: process.env.DISABLE_HMR !== 'true',
     // Disable file watching when DISABLE_HMR is true to save CPU during agent edits.

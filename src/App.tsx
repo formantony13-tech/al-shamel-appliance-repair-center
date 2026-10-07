@@ -17,6 +17,7 @@ import { WarrantyCertificateModal } from './components/WarrantyCertificateModal'
 import { TroubleshootingGuideModal } from './components/TroubleshootingGuideModal';
 import { LandingDetailPage } from './components/LandingDetailPage';
 import { FAQSection } from './components/FAQSection';
+import { MobileAppShell } from './components/MobileAppShell';
 import { getAreaLandingPage, getServiceLandingPage } from './data/landingPages';
 import { ShoppingBag, ArrowLeft } from 'lucide-react';
 
@@ -239,7 +240,26 @@ export default function App() {
   }
 
   return (
-    <div className="min-h-screen flex flex-col bg-[#f8fafc] text-[#1e293b]">
+    <>
+      <div className="md:hidden">
+        <MobileAppShell
+          settings={settings}
+          works={works}
+          reviews={reviews}
+          selectedDevice={selectedDeviceForBooking}
+          selectedIssue={selectedIssueForBooking}
+          onSelectService={handleSelectService}
+          onOpenService={openServicePage}
+          onAddReview={handleAddReview}
+          onDeleteReview={handleDeleteReview}
+          onShowToast={showToast}
+          onOpenTracker={() => setIsTrackerOpen(true)}
+          onOpenTroubleshooting={() => setIsTroubleshootingOpen(true)}
+          onViewWarrantyCertificate={handleOpenWarrantyCertificate}
+          onOpenAdmin={() => setIsAdminDashboardOpen(true)}
+        />
+      </div>
+      <div className="hidden min-h-screen flex-col bg-[#f8fafc] text-[#1e293b] md:flex">
       {/* Sticky Header with Integrated Horizontal Quick Navigation */}
       <Header 
         onOpenBooking={handleOpenBooking} 
@@ -319,6 +339,8 @@ export default function App() {
       {/* Floating Call & WhatsApp Buttons */}
       <FloatingActions settings={settings} />
 
+      </div>
+
       {/* Toast Notification Manager */}
       <Toast toasts={toasts} onDismiss={dismissToast} />
 
@@ -365,6 +387,6 @@ export default function App() {
         onClose={() => setIsTroubleshootingOpen(false)}
         onSelectIssueForBooking={handleSelectDiagnosticIssue}
       />
-    </div>
+    </>
   );
 }

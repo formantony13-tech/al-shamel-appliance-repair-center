@@ -134,6 +134,42 @@ body {
   }
 }
 
+/* Mobile app shell: compact cards and safe-area spacing. Desktop keeps the
+   original company homepage unchanged. */
+@media (max-width: 767px) {
+  .mobile-app-shell .app-card {
+    position: relative;
+    display: flex;
+    min-height: 7.25rem;
+    flex-direction: column;
+    justify-content: flex-end;
+    gap: 0.3rem;
+    overflow: hidden;
+    border: 1px solid rgba(148, 163, 184, 0.22);
+    border-radius: 1.35rem;
+    padding: 1rem;
+    box-shadow: 0 5px 16px rgba(15, 61, 94, 0.06);
+    text-align: right;
+  }
+
+  .mobile-app-shell .app-card-tall {
+    min-height: 9rem;
+  }
+
+  .mobile-app-shell .app-card strong {
+    color: var(--brand-ink);
+    font-size: 0.9rem;
+    font-weight: 900;
+  }
+
+  .mobile-app-shell .app-card span {
+    color: #64748b;
+    font-size: 0.68rem;
+    font-weight: 700;
+    line-height: 1.5;
+  }
+}
+
 /* Custom scrollbar */
 ::-webkit-scrollbar {
   width: 6px;
