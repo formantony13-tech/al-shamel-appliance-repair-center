@@ -6,6 +6,7 @@ import {
   CircleHelp,
   Home,
   MessageCircle,
+  Menu,
   Phone,
   LockKeyhole,
   Search,
@@ -13,6 +14,11 @@ import {
   ShoppingBag,
   Star,
   Wrench,
+  Wind,
+  Zap,
+  Disc,
+  Hammer,
+  Flame,
   X,
 } from 'lucide-react';
 import { ReviewsSection } from './ReviewsSection';
@@ -42,16 +48,19 @@ interface MobileAppShellProps {
 
 type MobilePanel = 'home' | 'services' | 'reviews' | 'sale' | 'contact' | 'booking' | 'faq';
 
-const serviceTabs = [
-  { id: 'washing', label: 'غسالات', icon: 'غ' },
-  { id: 'cooling', label: 'ثلاجات وفريزر', icon: 'ث' },
-  { id: 'other', label: 'تكييف وأفران', icon: 'ت' },
+const mobileServiceItems = [
+  { id: 'refrigerators', label: 'صيانة الثلاجات', icon: Wind },
+  { id: 'deep-freezers', label: 'الديب فريزر', icon: Zap },
+  { id: 'washing-machines', label: 'الغسالات', icon: Disc },
+  { id: 'baroma-renovation', label: 'علاج البرومة', icon: Hammer },
+  { id: 'air-conditioners', label: 'التكييفات', icon: Wind },
+  { id: 'cookers-heaters', label: 'البوتاجازات', icon: Flame },
 ];
 
 export const MobileAppShell: React.FC<MobileAppShellProps> = (props) => {
   const [panel, setPanel] = useState<MobilePanel>('home');
-  const [serviceTab, setServiceTab] = useState('washing');
   const [isSheetOpen, setIsSheetOpen] = useState(false);
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   const centerName = props.settings.centerName || CENTER_NAME;
   const phone = props.settings.phone1 || PHONE_NUMBER_1;
@@ -81,39 +90,17 @@ export const MobileAppShell: React.FC<MobileAppShellProps> = (props) => {
     faq: 'الأسئلة الشائعة',
   };
 
-  const serviceSummary: Record<string, { title: string; text: string; action: string }> = {
-    washing: { title: 'صيانة الغسالات', text: 'أعطال العصر والطرد والتسريب والكارتة ورولمان البلي، مع فحص الجهاز في المنزل حسب الحالة.', action: 'احجز فني غسالات' },
-    cooling: { title: 'الثلاجات والديب فريزر', text: 'ضعف التبريد، تسريب الفريون، تراكم الثلج، الكمبروسر وعلاج البرومة وتجديد الصاج.', action: 'احجز فني تبريد' },
-    other: { title: 'التكييفات والأفران', text: 'غسيل وشحن فريون التكييف، وصيانة البوتاجاز والسخان والفرن حسب نطاق الزيارة.', action: 'اطلب استشارة' },
-  };
-
   const renderPanelContent = () => {
     if (panel === 'services') {
-      const summary = serviceSummary[serviceTab];
       return (
         <div className="space-y-4">
-          <div className="grid grid-cols-3 gap-2 rounded-2xl bg-slate-100 p-1" role="tablist" aria-label="تصنيفات الخدمات">
-            {serviceTabs.map((tab) => (
-              <button
-                key={tab.id}
-                type="button"
-                role="tab"
-                aria-selected={serviceTab === tab.id}
-                onClick={() => setServiceTab(tab.id)}
-                className={`rounded-xl px-2 py-3 text-[11px] font-black transition ${serviceTab === tab.id ? 'bg-white text-[#123b4a] shadow-sm' : 'text-slate-500'}`}
-              >
-                <span className="mx-auto mb-1 flex h-7 w-7 items-center justify-center rounded-full bg-[#d97706]/10 text-[#d97706]">{tab.icon}</span>
-                {tab.label}
+          <div className="grid grid-cols-2 gap-3" aria-label="كل خدمات الصيانة">
+            {mobileServiceItems.map(({ id, label, icon: Icon }) => (
+              <button key={id} type="button" onClick={() => { closeSheet(); props.onOpenService(id); }} className="service-card flex min-h-28 flex-col items-center justify-center rounded-2xl border border-slate-200 bg-white p-3 text-center shadow-sm transition hover:border-[#d97706]/50 hover:bg-amber-50 active:scale-95">
+                <span className="mb-2 flex h-11 w-11 items-center justify-center rounded-2xl bg-[#123b4a]/10 text-[#123b4a]"><Icon className="h-6 w-6" /></span>
+                <span className="text-xs font-black leading-snug text-[#123b4a]">{label}</span>
               </button>
             ))}
-          </div>
-          <div className="rounded-3xl border border-slate-200 bg-gradient-to-br from-white to-slate-50 p-5 text-right shadow-sm">
-            <div className="mb-3 flex items-center gap-3">
-              <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-[#123b4a] text-white"><Wrench className="h-6 w-6 text-[#d97706]" /></div>
-              <h3 className="text-lg font-black text-[#123b4a]">{summary.title}</h3>
-            </div>
-            <p className="text-sm font-semibold leading-7 text-slate-600">{summary.text}</p>
-            <button type="button" onClick={() => { closeSheet(); props.onSelectService(summary.title); }} className="mt-5 flex w-full items-center justify-center gap-2 rounded-2xl bg-[#d97706] px-4 py-3 text-sm font-black text-white">{summary.action}<ChevronLeft className="h-4 w-4" /></button>
           </div>
           <button type="button" onClick={() => { closeSheet(); props.onOpenTroubleshooting(); }} className="flex w-full items-center justify-center gap-2 rounded-2xl border border-[#123b4a]/15 bg-[#123b4a]/5 px-4 py-3 text-sm font-black text-[#123b4a]"><CircleHelp className="h-4 w-4" />دليل فحص العطل قبل الحجز</button>
         </div>
@@ -135,13 +122,31 @@ export const MobileAppShell: React.FC<MobileAppShellProps> = (props) => {
             <h1 className="truncate text-lg font-black text-[#123b4a]">{centerName}</h1>
           </div>
           <div className="flex items-center gap-2">
+            <button type="button" onClick={() => setIsMenuOpen((open) => !open)} aria-label={isMenuOpen ? 'إغلاق القائمة' : 'فتح القائمة'} aria-expanded={isMenuOpen} className="flex h-9 w-9 items-center justify-center rounded-xl text-slate-500 transition hover:bg-slate-100 hover:text-[#123b4a]"><Menu className="h-5 w-5" /></button>
             <button type="button" onClick={props.onOpenAdmin} aria-label="دخول الإدارة" className="flex h-9 w-9 items-center justify-center rounded-xl text-slate-400 transition hover:bg-slate-100 hover:text-[#123b4a]"><LockKeyhole className="h-4 w-4" /></button>
+            <a href={`https://wa.me/${phone}?text=مرحباً، أود حجز مهندس صيانة من ${encodeURIComponent(centerName)}`} target="_blank" rel="noopener noreferrer" aria-label="واتساب" className="flex h-9 w-9 items-center justify-center rounded-xl bg-[#25D366] text-white shadow-sm"><MessageCircle className="h-4 w-4" /></a>
             <a href={`tel:+${phone}`} aria-label="اتصال سريع" className="flex h-11 w-11 shrink-0 items-center justify-center rounded-2xl bg-[#123b4a] text-white shadow-md"><Phone className="h-5 w-5 text-[#d97706]" /></a>
           </div>
         </div>
         <div className="mt-3 flex items-center justify-between rounded-2xl bg-slate-50 px-3 py-2 text-[11px] font-bold text-slate-600">
           <span>الزيارات 8 ص–11 م</span><span className="text-emerald-700">الرد 24 ساعة</span><span dir="ltr">{phoneDisplay}</span>
         </div>
+        <div className="mobile-quick-services mt-3 flex gap-2 overflow-x-auto pb-1" aria-label="الوصول السريع للخدمات">
+          {mobileServiceItems.map(({ id, label, icon: Icon }) => (
+            <button key={id} type="button" onClick={() => props.onOpenService(id)} className="flex min-w-[7rem] shrink-0 items-center justify-center gap-1.5 rounded-xl border border-slate-200 bg-white px-3 py-2 text-[11px] font-black text-[#123b4a] shadow-sm transition hover:border-[#d97706]/50 active:scale-95">
+              <Icon className="h-3.5 w-3.5 text-[#d97706]" />{label}
+            </button>
+          ))}
+        </div>
+        {isMenuOpen && (
+          <nav className="mobile-menu-drawer absolute inset-x-3 top-full z-40 mt-2 rounded-2xl border border-slate-200 bg-white p-3 shadow-xl" aria-label="القائمة الرئيسية">
+            <div className="grid grid-cols-2 gap-2">
+              {([['services', 'خدمات الصيانة'], ['booking', 'حجز زيارة'], ['reviews', 'آراء العملاء'], ['sale', 'أجهزة للبيع'], ['faq', 'الأسئلة الشائعة'], ['contact', 'اتصل بنا']] as const).map(([id, label]) => (
+                <button key={id} type="button" onClick={() => { setIsMenuOpen(false); openPanel(id); }} className="rounded-xl bg-slate-50 px-3 py-2.5 text-xs font-black text-[#123b4a] transition hover:bg-amber-50">{label}</button>
+              ))}
+            </div>
+          </nav>
+        )}
       </header>
 
       <main className="px-4 pt-4">

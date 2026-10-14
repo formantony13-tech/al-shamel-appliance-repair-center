@@ -138,69 +138,30 @@ export const ServicesSection: React.FC<ServicesSectionProps> = ({ onSelectServic
             صيانة شاملة لجميع الأجهزة بقطع غيار أصلية 100%
           </h2>
           <p className="mt-4 text-sm sm:text-base text-slate-600 font-semibold leading-relaxed">
-            نخدم محافظة البحيرة بالكامل، وننسق الزيارات للمحافظات المجاورة حسب المنطقة والموعد المتاح
+            مهندسون وفنيون على أعلى مستوى من الكفاءة والأمانة يصلونك لباب منزلك خلال 24 ساعة بمحافظات البحيرة، الغربية، والشرقية
           </p>
         </div>
 
         {/* 6 Services Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8">
+        <div className="services-grid grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3 md:gap-4">
           {services.map((service) => {
             const Icon = service.icon;
             return (
-              <div
+              <button
                 key={service.id}
                 id={`service-card-${service.id}`}
-                className="group relative rounded-3xl bg-slate-50 border border-slate-200/90 p-6 hover:bg-white hover:border-[#d97706]/40 hover:shadow-xl transition-all duration-300 flex flex-col justify-between"
+                type="button"
+                onClick={() => onOpenService?.(service.id)}
+                className="service-card group relative rounded-2xl bg-slate-50 border border-slate-200/90 p-4 md:p-5 hover:bg-white hover:border-[#d97706]/40 hover:shadow-lg transition-all duration-200 text-right"
+                aria-label={`فتح تفاصيل ${service.title}`}
               >
-                <div>
-                  {/* Service Icon & Badge */}
-                  <div className="flex items-center justify-between mb-5">
-                    <div className={`w-14 h-14 rounded-2xl ${service.accentBg} flex items-center justify-center shadow-sm group-hover:scale-110 transition-transform`}>
-                      <Icon className="w-7 h-7" />
-                    </div>
-                    <span className="text-[11px] font-black text-[#123b4a] bg-white border border-slate-200 px-3 py-1 rounded-full shadow-xs">
-                      {service.badge}
-                    </span>
-                  </div>
-
-                  {/* Title & Desc */}
-                  <h3 className="text-lg sm:text-xl font-black text-[#123b4a] group-hover:text-[#d97706] transition-colors leading-snug">
-                    {service.title}
-                  </h3>
-                  <p className="mt-2 text-xs sm:text-sm text-slate-600 leading-relaxed font-semibold">
-                    {service.description}
-                  </p>
-
-                  <div className="mt-4 flex items-center gap-2 border-t border-slate-200/80 pt-3 text-[11px] font-bold text-slate-500">
-                    <CheckCircle className="h-3.5 w-3.5 shrink-0 text-emerald-500" />
-                    خدمة منزلية وقطع غيار أصلية حسب الحالة
-                  </div>
-                </div>
-
-                {/* Card Actions */}
-                <div className="mt-6 pt-4 border-t border-slate-200/80">
-                  <div className="grid grid-cols-1 gap-2 sm:grid-cols-2">
-                    {onOpenService && (
-                      <button
-                        type="button"
-                        onClick={() => onOpenService(service.id)}
-                        className="inline-flex items-center justify-center gap-1.5 rounded-xl border border-[#123b4a]/20 bg-[#123b4a]/5 px-3 py-2.5 text-xs font-black text-[#123b4a] transition-colors hover:bg-[#123b4a] hover:text-white"
-                      >
-                        <span>تفاصيل الخدمة</span>
-                        <ArrowLeft className="h-3.5 w-3.5" />
-                      </button>
-                    )}
-                    <button
-                      type="button"
-                      onClick={() => onSelectService(service.category)}
-                      className="inline-flex items-center justify-center gap-2 rounded-xl bg-white px-3 py-2.5 text-xs font-black text-[#123b4a] shadow-sm ring-1 ring-slate-200 transition-all hover:bg-[#123b4a] hover:text-white"
-                    >
-                      <span>احجز فنيًا</span>
-                      <ArrowLeft className="h-3.5 w-3.5" />
-                    </button>
-                  </div>
-                </div>
-              </div>
+                <span className={`mx-auto flex h-12 w-12 items-center justify-center rounded-2xl ${service.accentBg} shadow-sm transition-transform group-hover:scale-105 md:h-14 md:w-14`}>
+                  <Icon className="h-6 w-6 md:h-7 md:w-7" />
+                </span>
+                <span className="mt-3 block text-center text-sm font-black leading-snug text-[#123b4a] group-hover:text-[#d97706] md:text-base">
+                  {service.title}
+                </span>
+              </button>
             );
           })}
         </div>

@@ -271,6 +271,7 @@ export const WorksGallery: React.FC<WorksGalleryProps> = ({
                   src={showBeforeTab && activeModalWork.beforeImage ? activeModalWork.beforeImage : activeModalWork.image}
                   alt={activeModalWork.title}
                   className="w-full h-full object-cover"
+                  loading="lazy"
                   onError={(e) => {
                     (e.target as HTMLImageElement).src = DEFAULT_FALLBACK_IMAGE;
                   }}

@@ -54,59 +54,62 @@ body {
   background: var(--page-bg);
 }
 
-/* Desktop-only compact rhythm: preserve the mobile layout while using the
-   available width on larger screens. The sections already use responsive
-   Grid/Flex layouts; this layer removes excessive vertical breathing room. */
-@media (min-width: 992px) {
-  .max-w-7xl {
-    max-width: 75rem !important;
+/* Responsive service grid: 2 columns mobile, 3 tablet, 4 desktop. */
+@media (min-width: 768px) and (max-width: 1024px) {
+  .services-grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
+  }
+}
+
+@media (min-width: 1025px) {
+  .services-grid {
+    grid-template-columns: repeat(4, minmax(0, 1fr)) !important;
+  }
+}
+
+.service-card {
+  min-height: 9rem;
+}
+
+/* Keep service shortcuts horizontally scrollable at every viewport width. */
+#quick-nav-items {
+  display: flex;
+  overflow-x: auto;
+  white-space: nowrap;
+  scroll-behavior: smooth;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none;
+}
+
+#quick-nav-items::-webkit-scrollbar {
+  display: none;
+}
+
+#quick-nav-items > a {
+  min-width: 7rem;
+  justify-content: center;
+}
+
+img {
+  max-width: 100%;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
   }
 
-  main > section#hero,
-  main > section#services,
-  main > section#works,
-  main > section#booking,
-  main > section#contact {
-    padding-top: 3.5rem !important;
-    padding-bottom: 3.5rem !important;
-  }
-
-  main > section#hero {
-    padding-top: 2.5rem !important;
-  }
-
-  main > section#services > div > div:first-child,
-  main > section#works > div > div:first-child,
-  main > section#contact > div > div:first-child {
-    margin-bottom: 2rem !important;
-  }
-
-  main > section#works .no-scrollbar {
-    margin-bottom: 1.25rem !important;
-    padding-bottom: 0.25rem !important;
-  }
-
-  main > section#contact > div > div:nth-child(2) {
-    margin-bottom: 2rem !important;
-  }
-
-  main > section#services .grid.lg\:grid-cols-3,
-  main > section#works .grid.lg\:grid-cols-3,
-  main > section#reviews .grid.lg\:grid-cols-3,
-  main > section#contact .grid.md\:grid-cols-3 {
-    gap: 1.25rem !important;
-  }
-
-  main > section#services .group.rounded-3xl {
-    padding: 1.25rem !important;
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
   }
 }
 
 /* Wide desktop presentation: use the available horizontal space and avoid
    making visitors scroll through unnecessary vertical whitespace. */
 @media (min-width: 1280px) {
-  #quick-nav-bar {
-    display: none;
+  .max-w-7xl {
+    max-width: 90rem;
   }
 
   main > section.py-16 {
@@ -119,11 +122,6 @@ body {
     padding-bottom: 4rem !important;
   }
 
-  #quick-nav-items {
-    justify-content: center;
-    overflow-x: visible;
-  }
-
   #quick-nav-items > a {
     padding-inline: 0.75rem;
   }
@@ -131,42 +129,6 @@ body {
   #primary-nav {
     flex-shrink: 1;
     white-space: nowrap;
-  }
-}
-
-/* Mobile app shell: compact cards and safe-area spacing. Desktop keeps the
-   original company homepage unchanged. */
-@media (max-width: 767px) {
-  .mobile-app-shell .app-card {
-    position: relative;
-    display: flex;
-    min-height: 7.25rem;
-    flex-direction: column;
-    justify-content: flex-end;
-    gap: 0.3rem;
-    overflow: hidden;
-    border: 1px solid rgba(148, 163, 184, 0.22);
-    border-radius: 1.35rem;
-    padding: 1rem;
-    box-shadow: 0 5px 16px rgba(15, 61, 94, 0.06);
-    text-align: right;
-  }
-
-  .mobile-app-shell .app-card-tall {
-    min-height: 9rem;
-  }
-
-  .mobile-app-shell .app-card strong {
-    color: var(--brand-ink);
-    font-size: 0.9rem;
-    font-weight: 900;
-  }
-
-  .mobile-app-shell .app-card span {
-    color: #64748b;
-    font-size: 0.68rem;
-    font-weight: 700;
-    line-height: 1.5;
   }
 }
 

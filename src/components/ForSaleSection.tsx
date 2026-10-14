@@ -373,6 +373,7 @@ export const ForSaleSection: React.FC<ForSaleSectionProps> = ({ settings }) => {
                 alt={selectedItem.title}
                 referrerPolicy="no-referrer"
                 className="w-full h-full object-cover"
+                loading="lazy"
               />
               <button
                 onClick={() => setSelectedItem(null)}

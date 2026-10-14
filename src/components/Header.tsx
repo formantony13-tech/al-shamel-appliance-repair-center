@@ -17,16 +17,18 @@ import {
   Sparkles,
   MapPin,
   Lock,
-  Tag
+  Tag,
+  Wind,
+  Zap,
+  Disc,
+  Hammer,
+  Flame
 } from 'lucide-react';
 import { 
   DISPLAY_PHONE_1, 
   PHONE_NUMBER_1, 
-  DISPLAY_PHONE_2,
-  PHONE_NUMBER_2,
   CENTER_NAME, 
-  YEARS_EXPERIENCE,
-  normalizeYearsExperience
+  YEARS_EXPERIENCE
 } from '../config';
 import { AppSystemSettings } from '../types';
 
@@ -52,9 +54,7 @@ export const Header: React.FC<HeaderProps> = ({
   const centerName = settings?.centerName || CENTER_NAME;
   const phone1 = settings?.phone1 || PHONE_NUMBER_1;
   const phone1Display = settings?.phone1Display || DISPLAY_PHONE_1;
-  const phone2 = settings?.phone2 || PHONE_NUMBER_2;
-  const phone2Display = settings?.phone2Display || DISPLAY_PHONE_2;
-  const yearsExp = normalizeYearsExperience(settings?.yearsExperience || YEARS_EXPERIENCE);
+  const yearsExp = settings?.yearsExperience || YEARS_EXPERIENCE;
 
   useEffect(() => {
     const handleScroll = () => {
@@ -85,61 +85,16 @@ export const Header: React.FC<HeaderProps> = ({
     { name: 'أجهزة للبيع', href: '#for-sale-section' },
     { name: 'آراء العملاء', href: '#reviews' },
     { name: 'لماذا نحن؟', href: '#why-us' },
-    { name: 'الأسئلة الشائعة', href: '#faq' },
     { name: 'اتصل بنا', href: '#contact' },
   ];
 
   const quickNavItems = [
-    {
-      id: 'services',
-      href: '#services',
-      label: 'الخدمات والأسعار',
-      icon: Wrench,
-      highlight: false,
-    },
-    {
-      id: 'works',
-      href: '#works',
-      label: 'معرض الأعمال والإنجازات',
-      icon: Camera,
-      badge: 'واقعي بالصور',
-      badgeColor: 'bg-blue-100 text-blue-800',
-    },
-    {
-      id: 'for-sale-section',
-      href: '#for-sale-section',
-      label: 'أجهزة معروضة للبيع',
-      icon: ShoppingBag,
-      badge: 'بالضمان',
-      badgeColor: 'bg-emerald-100 text-emerald-800',
-      isSpecial: true
-    },
-    {
-      id: 'reviews',
-      href: '#reviews',
-      label: 'تقييمات وآراء العملاء',
-      icon: Star,
-      badge: '5 نجوم',
-      badgeColor: 'bg-amber-100 text-amber-900',
-    },
-    {
-      id: 'why-us',
-      href: '#why-us',
-      label: 'مزايا المركز والضمان',
-      icon: ShieldCheck,
-    },
-    {
-      id: 'faq',
-      href: '#faq',
-      label: 'الأسئلة الشائعة',
-      icon: HelpCircle,
-    },
-    {
-      id: 'contact',
-      href: '#contact',
-      label: 'الفروع والاتصال',
-      icon: MapPin,
-    }
+    { id: 'refrigerators', href: '#/service/refrigerators', label: 'صيانة الثلاجات', icon: Wind },
+    { id: 'deep-freezers', href: '#/service/deep-freezers', label: 'الديب فريزر', icon: Zap },
+    { id: 'washing-machines', href: '#/service/washing-machines', label: 'الغسالات', icon: Disc },
+    { id: 'baroma-renovation', href: '#/service/baroma-renovation', label: 'علاج البرومة', icon: Hammer },
+    { id: 'air-conditioners', href: '#/service/air-conditioners', label: 'التكييفات', icon: Wind },
+    { id: 'cookers-heaters', href: '#/service/cookers-heaters', label: 'البوتاجازات', icon: Flame },
   ];
 
   return (
@@ -170,7 +125,7 @@ export const Header: React.FC<HeaderProps> = ({
           <div className="flex items-center gap-3 sm:gap-4 text-slate-200">
             <span className="flex items-center gap-1 text-[11px] sm:text-xs">
               <Clock className="w-3.5 h-3.5 text-[#d97706]" />
-              {settings?.operatingHours || 'الزيارات المنزلية 8 ص–11 م • الخط الساخن والواتساب 24 ساعة'}
+              {settings?.operatingHours || 'خدمة صيانة فورية 24 ساعة بأبو المطامير ومحافظة البحيرة'}
             </span>
             <span className="hidden lg:inline-flex items-center gap-1 text-[11px] text-amber-300 font-bold">
               <Award className="w-3.5 h-3.5" />
@@ -191,15 +146,7 @@ export const Header: React.FC<HeaderProps> = ({
               <span>{phone1Display}</span>
             </a>
             <span className="text-white/40">|</span>
-            <a
-              href={`tel:+${phone2}`}
-              className="hidden sm:flex items-center gap-1 text-slate-200 hover:text-white font-bold transition-colors"
-              dir="ltr"
-              title="اتصال بالرقم الثاني"
-            >
-              <Phone className="w-3.5 h-3.5 text-emerald-400" />
-              <span><span className="font-sans text-[10px] text-slate-400">اتصال:</span> {phone2Display}</span>
-            </a>
+            {/* Hotline 2 */}
           </div>
 
         </div>
@@ -225,14 +172,14 @@ export const Header: React.FC<HeaderProps> = ({
               </div>
               <div className="flex flex-col min-w-0">
                 <div className="flex items-center gap-1.5">
-                  <span className="font-black text-sm sm:text-lg lg:text-xl text-[#123b4a] leading-tight lg:whitespace-nowrap">
+                  <span className="font-black text-sm sm:text-lg text-[#123b4a] leading-tight truncate">
                     {centerName}
                   </span>
                   <span className="hidden sm:inline-block px-2 py-0.5 rounded-md bg-amber-100 text-amber-900 text-[10px] font-black shrink-0">
                     +{yearsExp} سنة خبرة
                   </span>
                 </div>
-                <span className="text-[10px] sm:text-xs text-slate-500 font-semibold flex items-center gap-1 lg:whitespace-nowrap">
+                <span className="text-[10px] sm:text-xs text-slate-500 font-semibold flex items-center gap-1 truncate">
                   <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse shrink-0"></span>
                   <span className="truncate">صيانة معتمدة • قطع غيار أصلية</span>
                 </span>
@@ -312,6 +259,18 @@ export const Header: React.FC<HeaderProps> = ({
                 <span className="font-mono">{phone1Display}</span>
               </a>
 
+              <a
+                href={`https://wa.me/${phone1}?text=مرحباً، أود حجز مهندس صيانة من ${encodeURIComponent(centerName)}`}
+                target="_blank"
+                rel="noopener noreferrer"
+                id="header-whatsapp-btn"
+                className="inline-flex items-center justify-center gap-1.5 rounded-xl bg-[#25D366] px-2.5 py-1.5 text-xs font-black text-white shadow-sm transition hover:bg-[#20ba59] active:scale-95 sm:px-3"
+                title="تواصل عبر واتساب"
+              >
+                <MessageSquare className="h-3.5 w-3.5" />
+                <span className="hidden sm:inline">واتساب</span>
+              </a>
+
               {/* Book Appointment CTA Button */}
               <button
                 type="button"
@@ -360,20 +319,11 @@ export const Header: React.FC<HeaderProps> = ({
                     href={item.href}
                     id={`quick-nav-${item.id}`}
                     className={`inline-flex items-center gap-1.5 px-2.5 sm:px-3 py-1 rounded-xl text-xs font-black transition-all shrink-0 whitespace-nowrap ${
-                      item.isSpecial
-                        ? 'bg-gradient-to-r from-[#123b4a] to-[#174c5d] text-white shadow-xs hover:shadow-md hover:scale-102'
-                        : isCurrent
-                        ? 'bg-[#123b4a] text-white shadow-xs'
-                        : 'bg-white hover:bg-slate-200/80 text-slate-700 border border-slate-200/80'
+                      isCurrent ? 'bg-[#123b4a] text-white shadow-xs' : 'bg-white hover:bg-slate-200/80 text-slate-700 border border-slate-200/80'
                     }`}
                   >
-                    <Icon className={`w-3.5 h-3.5 shrink-0 ${item.isSpecial ? 'text-[#d97706]' : isCurrent ? 'text-[#d97706]' : 'text-slate-500'}`} />
+                    <Icon className={`w-3.5 h-3.5 shrink-0 ${isCurrent ? 'text-[#d97706]' : 'text-slate-500'}`} />
                     <span>{item.label}</span>
-                    {item.badge && (
-                      <span className={`text-[9px] font-bold px-1.5 py-0.2 rounded-full ${item.badgeColor || 'bg-slate-100 text-slate-600'}`}>
-                        {item.badge}
-                      </span>
-                    )}
                   </a>
                 );
               })}
