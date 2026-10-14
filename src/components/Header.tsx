@@ -38,6 +38,7 @@ interface HeaderProps {
   onOpenTroubleshooting?: () => void;
   onOpenAdmin?: () => void;
   settings?: AppSystemSettings;
+  showQuickAccess?: boolean;
 }
 
 export const Header: React.FC<HeaderProps> = ({ 
@@ -45,7 +46,8 @@ export const Header: React.FC<HeaderProps> = ({
   onOpenTracker, 
   onOpenTroubleshooting, 
   onOpenAdmin,
-  settings 
+  settings,
+  showQuickAccess = true
 }) => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
@@ -79,13 +81,10 @@ export const Header: React.FC<HeaderProps> = ({
   }, []);
 
   const navLinks = [
-    { name: 'الرئيسية', href: '#hero' },
-    { name: 'خدمات الصيانة', href: '#services' },
-    { name: 'معرض الأجهزة', href: '#works' },
-    { name: 'أجهزة للبيع', href: '#for-sale-section' },
-    { name: 'آراء العملاء', href: '#reviews' },
-    { name: 'لماذا نحن؟', href: '#why-us' },
-    { name: 'اتصل بنا', href: '#contact' },
+    { name: 'الرئيسية', href: '#/' },
+    { name: 'خدمات الصيانة', href: '#/#services' },
+    { name: 'أعمالنا', href: '#/works' },
+    { name: 'آراء العملاء والتواصل', href: '#/reviews-contact' },
   ];
 
   const quickNavItems = [
@@ -166,7 +165,7 @@ export const Header: React.FC<HeaderProps> = ({
           <div className="flex items-center justify-between gap-2">
             
             {/* Logo */}
-            <a href="#hero" id="header-logo" className="flex items-center gap-2 sm:gap-3 group min-w-0">
+              <a href="#/" id="header-logo" className="flex items-center gap-2 sm:gap-3 group min-w-0">
               <div className="w-9 h-9 sm:w-11 sm:h-11 rounded-xl sm:rounded-2xl bg-gradient-to-br from-[#123b4a] to-[#174c5d] flex items-center justify-center text-white shadow-md group-hover:scale-105 transition-transform shrink-0">
                 <Wrench className="w-4 h-4 sm:w-6 sm:h-6 text-[#d97706]" />
               </div>
@@ -300,7 +299,7 @@ export const Header: React.FC<HeaderProps> = ({
         </div>
 
         {/* Integrated Horizontal Quick Navigation Bar (أزرار وصول سريع بالعرض لكل الأقسام) */}
-        <div id="quick-nav-bar" className="bg-slate-50/90 border-t border-slate-200/70 py-1.5 px-3 sm:px-6">
+        {showQuickAccess && <div id="quick-nav-bar" className="bg-slate-50/90 border-t border-slate-200/70 py-1.5 px-3 sm:px-6">
           <div className="max-w-7xl mx-auto flex items-center justify-between gap-2">
             
             <div id="quick-nav-items" className="flex items-center gap-1.5 sm:gap-2 overflow-x-auto scrollbar-none py-0.5 w-full">
@@ -342,7 +341,7 @@ export const Header: React.FC<HeaderProps> = ({
             </div>
 
           </div>
-        </div>
+        </div>}
 
         {/* Mobile Navigation Drawer */}
         {mobileMenuOpen && (

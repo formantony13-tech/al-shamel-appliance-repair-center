@@ -17,7 +17,6 @@ import { WarrantyCertificateModal } from './components/WarrantyCertificateModal'
 import { TroubleshootingGuideModal } from './components/TroubleshootingGuideModal';
 import { LandingDetailPage } from './components/LandingDetailPage';
 import { FAQSection } from './components/FAQSection';
-import { MobileAppShell } from './components/MobileAppShell';
 import { getAreaLandingPage, getServiceLandingPage } from './data/landingPages';
 import { ShoppingBag, ArrowLeft } from 'lucide-react';
 
@@ -70,6 +69,9 @@ export default function App() {
       if (nextHash === '#for-sale-section') {
         setIsSaleExpanded(true);
         window.setTimeout(() => document.getElementById('for-sale-section')?.scrollIntoView({ behavior: 'smooth' }), 60);
+      }
+      if (nextHash === '#/#services') {
+        window.setTimeout(() => document.getElementById('services')?.scrollIntoView({ behavior: 'smooth' }), 100);
       }
       window.scrollTo({ top: 0, behavior: 'smooth' });
     };
@@ -190,17 +192,13 @@ export default function App() {
   // Scroll to booking with pre-selected device
   const handleSelectService = (serviceCategory: string) => {
     setSelectedDeviceForBooking(serviceCategory);
-    const bookingSection = document.getElementById('booking');
-    if (bookingSection) {
-      bookingSection.scrollIntoView({ behavior: 'smooth' });
-    }
+    window.location.hash = '#/reviews-contact';
+    window.setTimeout(() => document.getElementById('booking')?.scrollIntoView({ behavior: 'smooth' }), 100);
   };
 
   const handleOpenBooking = () => {
-    const bookingSection = document.getElementById('booking');
-    if (bookingSection) {
-      bookingSection.scrollIntoView({ behavior: 'smooth' });
-    }
+    window.location.hash = '#/reviews-contact';
+    window.setTimeout(() => document.getElementById('booking')?.scrollIntoView({ behavior: 'smooth' }), 100);
   };
 
   const openServicePage = (serviceId: string) => {
@@ -218,6 +216,7 @@ export default function App() {
 
   const serviceRoute = hashRoute.match(/^#\/service\/([^/]+)$/);
   const areaRoute = hashRoute.match(/^#\/area\/([^/]+)$/);
+  const pageRoute = hashRoute === '#/works' ? 'works' : hashRoute === '#/reviews-contact' ? 'reviews-contact' : 'home';
   const detailPage = serviceRoute
     ? getServiceLandingPage(serviceRoute[1])
     : areaRoute
@@ -239,106 +238,53 @@ export default function App() {
     );
   }
 
+  const headerProps = {
+    onOpenBooking: handleOpenBooking,
+    onOpenTracker: () => setIsTrackerOpen(true),
+    onOpenTroubleshooting: () => setIsTroubleshootingOpen(true),
+    onOpenAdmin: () => setIsAdminDashboardOpen(true),
+    settings,
+  };
+
   return (
     <>
-      <div className="md:hidden">
-        <MobileAppShell
-          settings={settings}
-          works={works}
-          reviews={reviews}
-          selectedDevice={selectedDeviceForBooking}
-          selectedIssue={selectedIssueForBooking}
-          onSelectService={handleSelectService}
-          onOpenService={openServicePage}
-          onAddReview={handleAddReview}
-          onDeleteReview={handleDeleteReview}
-          onShowToast={showToast}
-          onOpenTracker={() => setIsTrackerOpen(true)}
-          onOpenTroubleshooting={() => setIsTroubleshootingOpen(true)}
-          onViewWarrantyCertificate={handleOpenWarrantyCertificate}
-          onOpenAdmin={() => setIsAdminDashboardOpen(true)}
-        />
-      </div>
-      <div className="hidden min-h-screen flex-col bg-[#f8fafc] text-[#1e293b] md:flex">
-      {/* Sticky Header with Integrated Horizontal Quick Navigation */}
-      <Header 
-        onOpenBooking={handleOpenBooking} 
-        onOpenTracker={() => setIsTrackerOpen(true)}
-        onOpenTroubleshooting={() => setIsTroubleshootingOpen(true)}
-        onOpenAdmin={() => setIsAdminDashboardOpen(true)}
-        settings={settings}
-      />
+      <div className="min-h-screen bg-[#f8fafc] text-[#1e293b]">
+        <Header {...headerProps} showQuickAccess={pageRoute === 'home'} />
+        <main className="min-h-[60vh]">
+          {pageRoute === 'home' && (
+            <>
+              <Hero onOpenBooking={handleOpenBooking} settings={settings} />
+              <ServicesSection onSelectService={handleSelectService} onOpenService={openServicePage} />
+              <WhyUsSection settings={settings} />
+              <section className="px-4 py-10 text-center sm:px-6 lg:px-8">
+                <a href="#/works" className="inline-flex items-center gap-2 rounded-xl bg-[#123b4a] px-6 py-3 text-sm font-black text-white shadow-md transition hover:bg-[#174c5d]">شاهد أعمالنا <ArrowLeft className="h-4 w-4" /></a>
+              </section>
+            </>
+          )}
 
-      {/* Main Single Page Content */}
-      <main className="flex-1">
-        {/* 1. Hero Section */}
-        <Hero onOpenBooking={handleOpenBooking} settings={settings} />
+          {pageRoute === 'works' && (
+            <WorksGallery works={works} onAddWork={handleAddWork} onDeleteWork={handleDeleteWork} isAdmin={false} onShowToast={showToast} />
+          )}
 
-        {/* 2. Services Section */}
-        <ServicesSection onSelectService={handleSelectService} onOpenService={openServicePage} />
-
-        {/* 3. Why Us Section */}
-        <WhyUsSection settings={settings} />
-
-        {/* 4. Works Gallery (Connected to Central Firestore) */}
-        <WorksGallery
-          works={works}
-          onAddWork={handleAddWork}
-          onDeleteWork={handleDeleteWork}
-          isAdmin={false}
-          onShowToast={showToast}
-        />
-
-        {/* 5. For Sale Marketplace Section */}
-        {isSaleExpanded ? (
-          <ForSaleSection settings={settings} />
-        ) : (
-          <section id="sale-promo" className="bg-slate-50 px-4 py-6 sm:px-6 lg:px-8">
-            <div className="mx-auto flex max-w-7xl flex-col items-center justify-between gap-4 rounded-2xl border border-emerald-200 bg-white p-5 text-center shadow-sm sm:flex-row sm:text-right">
-              <div className="flex items-center gap-3">
-                <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-emerald-50 text-emerald-700"><ShoppingBag className="h-5 w-5" /></span>
-                <div><h2 className="text-base font-black text-[#123b4a]">أجهزة مجددة للبيع بالضمان</h2><p className="mt-1 text-xs font-semibold text-slate-500">معروضات محدودة ومفحوصة من المركز</p></div>
-              </div>
-              <button type="button" onClick={revealSaleSection} className="inline-flex items-center gap-2 rounded-xl bg-emerald-700 px-4 py-2.5 text-xs font-black text-white transition hover:bg-emerald-800 active:scale-95"><span>شاهد الأجهزة المتاحة</span><ArrowLeft className="h-4 w-4" /></button>
-            </div>
-          </section>
-        )}
-
-        {/* 6. Reviews Section (Connected to Central Firestore) */}
-        <ReviewsSection
-          reviews={reviews}
-          onAddReview={handleAddReview}
-          onDeleteReview={handleDeleteReview}
-          isAdmin={false}
-          onShowToast={showToast}
-        />
-
-        {/* 7. Frequently Asked Questions */}
-        <FAQSection />
-
-        {/* 8. Booking Form Section (With Central DB and Unique ID) */}
-        <BookingSection
-          initialDevice={selectedDeviceForBooking}
-          initialIssue={selectedIssueForBooking}
-          onShowToast={showToast}
-          onOpenTracker={() => setIsTrackerOpen(true)}
-          onOpenTroubleshooting={() => setIsTroubleshootingOpen(true)}
-          onViewWarrantyCertificate={handleOpenWarrantyCertificate}
-        />
-
-        {/* 9. Contact & Location Section */}
-        <ContactSection settings={settings} onOpenArea={openAreaPage} />
-      </main>
-
-      {/* Footer & Admin Link */}
-      <Footer
-        onOpenAdmin={() => setIsAdminDashboardOpen(true)}
-        settings={settings}
-      />
-
-      {/* Floating Call & WhatsApp Buttons */}
-      <FloatingActions settings={settings} />
-
+          {pageRoute === 'reviews-contact' && (
+            <>
+              <ReviewsSection reviews={reviews} onAddReview={handleAddReview} onDeleteReview={handleDeleteReview} isAdmin={false} onShowToast={showToast} />
+              <FAQSection />
+              {isSaleExpanded ? <ForSaleSection settings={settings} /> : (
+                <section id="sale-promo" className="bg-slate-50 px-4 py-6 sm:px-6 lg:px-8">
+                  <div className="mx-auto flex max-w-7xl flex-col items-center justify-between gap-4 rounded-2xl border border-emerald-200 bg-white p-5 text-center shadow-sm sm:flex-row sm:text-right">
+                    <div className="flex items-center gap-3"><span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-emerald-50 text-emerald-700"><ShoppingBag className="h-5 w-5" /></span><div><h2 className="text-base font-black text-[#123b4a]">أجهزة مجددة للبيع بالضمان</h2><p className="mt-1 text-xs font-semibold text-slate-500">معروضات محدودة ومفحوصة من المركز</p></div></div>
+                    <button type="button" onClick={revealSaleSection} className="inline-flex items-center gap-2 rounded-xl bg-emerald-700 px-4 py-2.5 text-xs font-black text-white transition hover:bg-emerald-800">شاهد الأجهزة المتاحة <ArrowLeft className="h-4 w-4" /></button>
+                  </div>
+                </section>
+              )}
+              <BookingSection initialDevice={selectedDeviceForBooking} initialIssue={selectedIssueForBooking} onShowToast={showToast} onOpenTracker={() => setIsTrackerOpen(true)} onOpenTroubleshooting={() => setIsTroubleshootingOpen(true)} onViewWarrantyCertificate={handleOpenWarrantyCertificate} />
+              <ContactSection settings={settings} onOpenArea={openAreaPage} />
+            </>
+          )}
+        </main>
+        <Footer onOpenAdmin={() => setIsAdminDashboardOpen(true)} settings={settings} />
+        <FloatingActions settings={settings} />
       </div>
 
       {/* Toast Notification Manager */}
