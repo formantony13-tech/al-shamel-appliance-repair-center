@@ -88,7 +88,7 @@ export const WarrantyCertificateModal: React.FC<WarrantyCertificateModalProps> =
                 {CENTER_NAME}
               </h2>
               <p className="text-xs text-slate-600 font-bold mt-1">
-                المركز الهندسي المعتمد لصيانة الأجهزة المنزلية بأبو المطامير
+                مركز قطب لصيانة الأجهزة المنزلية في محافظة البحيرة
               </p>
               <p className="text-[11px] text-slate-500 font-semibold mt-0.5">
                 خدمة وصيانة: ديب فريزر • غسالات • ثلاجات • تكييفات • بوتاجازات

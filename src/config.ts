@@ -40,11 +40,9 @@ export function normalizeYearsExperience(value?: string | null): string {
 export const OWNER_NAME: string = "مركز قطب";
 export const LOCATION_NAME: string = INITIAL_SETTINGS.locationName;
 export const BRANCHES_LIST: { id: string; name: string; areas: string }[] = [
-  { id: 'beheira', name: 'محافظة البحيرة', areas: 'دمنهور، أبو المطامير، كفر الدوار، حوش عيسى، إيتاي البارود، كوم حمادة، الدلنجات، رشيد، أبو حمص، المحمودية، وادي النطرون وكافة القرى' },
-  { id: 'gharbia', name: 'محافظة الغربية', areas: 'طنطا، المحلة الكبرى، زفتى، كفر الزيات، سمنود، السنطة، بسيون، قطور وكافة القرى والمراكز' },
-  { id: 'sharqia', name: 'محافظة الشرقية', areas: 'الزقازيق، العاشر من رمضان، بلبيس، فاقوس، منيا القمح، أبو حماد، ههيا، الحسينية، ديرب نجم، كفر صقر وكافة القرى' }
+  { id: 'beheira', name: 'محافظة البحيرة', areas: 'محافظة البحيرة' },
 ];
-export const GOOGLE_MAPS_LINK: string = INITIAL_SETTINGS.googleMapsLink || "https://maps.app.goo.gl/oKTLj5erUH9ox3Kt5";
+export const GOOGLE_MAPS_LINK: string = INITIAL_SETTINGS.googleMapsLink || "https://www.google.com/maps/search/?api=1&query=Beheira+Governorate%2C+Egypt";
 
 export const FACEBOOK_PAGE: string = INITIAL_SETTINGS.facebookPage || "https://www.facebook.com/share/19Jhvhxgr5/";
 export const FACEBOOK_GROUP: string = INITIAL_SETTINGS.facebookGroup || "https://www.facebook.com/share/g/189yB2ww3f/";

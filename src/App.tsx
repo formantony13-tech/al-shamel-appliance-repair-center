@@ -18,7 +18,7 @@ import { TroubleshootingGuideModal } from './components/TroubleshootingGuideModa
 import { LandingDetailPage } from './components/LandingDetailPage';
 import { FAQSection } from './components/FAQSection';
 import { getAreaLandingPage, getServiceLandingPage } from './data/landingPages';
-import { ShoppingBag, ArrowLeft } from 'lucide-react';
+import { ArrowLeft } from 'lucide-react';
 
 import { RepairWork, CustomerReview, ToastNotification, BookingRecord, AppSystemSettings } from './types';
 import { 
@@ -32,16 +32,16 @@ import {
   fetchSystemSettings 
 } from './lib/dbService';
 import { testConnection } from './lib/firebase';
-import { INITIAL_WORKS, INITIAL_REVIEWS, INITIAL_SETTINGS } from './data/initialData';
+import { INITIAL_WORKS, INITIAL_SETTINGS } from './data/initialData';
 
 export default function App() {
   const [works, setWorks] = useState<RepairWork[]>(INITIAL_WORKS);
-  const [reviews, setReviews] = useState<CustomerReview[]>(INITIAL_REVIEWS);
+  const [reviews, setReviews] = useState<CustomerReview[]>([]);
   const [settings, setSettings] = useState<AppSystemSettings>(INITIAL_SETTINGS);
   const [isLoading, setIsLoading] = useState<boolean>(true);
 
   // Admin Dashboard Modal State
-  const [isAdminDashboardOpen, setIsAdminDashboardOpen] = useState<boolean>(false);
+  const [isAdminDashboardOpen, setIsAdminDashboardOpen] = useState<boolean>(() => window.location.hash === '#/admin');
 
   // Booking Tracker Modal State
   const [isTrackerOpen, setIsTrackerOpen] = useState<boolean>(false);
@@ -60,14 +60,13 @@ export default function App() {
   // Toast notifications queue
   const [toasts, setToasts] = useState<ToastNotification[]>([]);
   const [hashRoute, setHashRoute] = useState(() => window.location.hash);
-  const [isSaleExpanded, setIsSaleExpanded] = useState(false);
 
   useEffect(() => {
     const handleHashChange = () => {
       const nextHash = window.location.hash;
       setHashRoute(nextHash);
+      setIsAdminDashboardOpen(nextHash === '#/admin');
       if (nextHash === '#for-sale-section') {
-        setIsSaleExpanded(true);
         window.setTimeout(() => document.getElementById('for-sale-section')?.scrollIntoView({ behavior: 'smooth' }), 60);
       }
       if (nextHash === '#/#services') {
@@ -95,9 +94,7 @@ export default function App() {
         if (loadedWorks && loadedWorks.length > 0) {
           setWorks(loadedWorks);
         }
-        if (loadedReviews && loadedReviews.length > 0) {
-          setReviews(loadedReviews);
-        }
+        setReviews(loadedReviews || []);
         if (loadedSettings) {
           setSettings(loadedSettings);
         }
@@ -150,15 +147,8 @@ export default function App() {
   };
 
   // Add review handler (Persisted to Cloud Firestore)
-  const handleAddReview = async (newReviewData: Omit<CustomerReview, 'id' | 'avatarLetter'>) => {
-    try {
-      const created = await addCustomerReview(newReviewData);
-      setReviews((prev) => [created, ...prev]);
-      showToast('شكراً جزيلاً لتقييمك! تم حفظ رأيك في قاعدة البيانات ونشره بنجاح ⭐', 'success');
-    } catch (err) {
-      console.error(err);
-      showToast('حدث خطأ أثناء حفظ التقييم', 'error');
-    }
+  const handleAddReview = async (newReviewData: Omit<CustomerReview, 'id' | 'avatarLetter' | 'verified' | 'status' | 'createdAt'>) => {
+    await addCustomerReview(newReviewData);
   };
 
   // Delete review handler
@@ -209,9 +199,9 @@ export default function App() {
     window.location.hash = `#/area/${areaId}`;
   };
 
-  const revealSaleSection = () => {
-    setIsSaleExpanded(true);
-    window.setTimeout(() => document.getElementById('for-sale-section')?.scrollIntoView({ behavior: 'smooth', block: 'start' }), 60);
+  const closeAdminDashboard = () => {
+    setIsAdminDashboardOpen(false);
+    if (window.location.hash === '#/admin') window.location.hash = '#/';
   };
 
   const serviceRoute = hashRoute.match(/^#\/service\/([^/]+)$/);
@@ -242,20 +232,20 @@ export default function App() {
     onOpenBooking: handleOpenBooking,
     onOpenTracker: () => setIsTrackerOpen(true),
     onOpenTroubleshooting: () => setIsTroubleshootingOpen(true),
-    onOpenAdmin: () => setIsAdminDashboardOpen(true),
     settings,
   };
 
   return (
     <>
       <div className="min-h-screen bg-[#f8fafc] text-[#1e293b]">
-        <Header {...headerProps} showQuickAccess={pageRoute === 'home'} />
+        <Header {...headerProps} />
         <main className="min-h-[60vh]">
           {pageRoute === 'home' && (
             <>
               <Hero onOpenBooking={handleOpenBooking} settings={settings} />
               <ServicesSection onSelectService={handleSelectService} onOpenService={openServicePage} />
               <WhyUsSection settings={settings} />
+              <ForSaleSection settings={settings} />
               <section className="px-4 py-10 text-center sm:px-6 lg:px-8">
                 <a href="#/works" className="inline-flex items-center gap-2 rounded-xl bg-[#123b4a] px-6 py-3 text-sm font-black text-white shadow-md transition hover:bg-[#174c5d]">شاهد أعمالنا <ArrowLeft className="h-4 w-4" /></a>
               </section>
@@ -270,20 +260,12 @@ export default function App() {
             <>
               <ReviewsSection reviews={reviews} onAddReview={handleAddReview} onDeleteReview={handleDeleteReview} isAdmin={false} onShowToast={showToast} />
               <FAQSection />
-              {isSaleExpanded ? <ForSaleSection settings={settings} /> : (
-                <section id="sale-promo" className="bg-slate-50 px-4 py-6 sm:px-6 lg:px-8">
-                  <div className="mx-auto flex max-w-7xl flex-col items-center justify-between gap-4 rounded-2xl border border-emerald-200 bg-white p-5 text-center shadow-sm sm:flex-row sm:text-right">
-                    <div className="flex items-center gap-3"><span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-emerald-50 text-emerald-700"><ShoppingBag className="h-5 w-5" /></span><div><h2 className="text-base font-black text-[#123b4a]">أجهزة مجددة للبيع بالضمان</h2><p className="mt-1 text-xs font-semibold text-slate-500">معروضات محدودة ومفحوصة من المركز</p></div></div>
-                    <button type="button" onClick={revealSaleSection} className="inline-flex items-center gap-2 rounded-xl bg-emerald-700 px-4 py-2.5 text-xs font-black text-white transition hover:bg-emerald-800">شاهد الأجهزة المتاحة <ArrowLeft className="h-4 w-4" /></button>
-                  </div>
-                </section>
-              )}
               <BookingSection initialDevice={selectedDeviceForBooking} initialIssue={selectedIssueForBooking} onShowToast={showToast} onOpenTracker={() => setIsTrackerOpen(true)} onOpenTroubleshooting={() => setIsTroubleshootingOpen(true)} onViewWarrantyCertificate={handleOpenWarrantyCertificate} />
               <ContactSection settings={settings} onOpenArea={openAreaPage} />
             </>
           )}
         </main>
-        <Footer onOpenAdmin={() => setIsAdminDashboardOpen(true)} settings={settings} />
+        <Footer settings={settings} />
         <FloatingActions settings={settings} />
       </div>
 
@@ -303,7 +285,7 @@ export default function App() {
           }
         >
           <AdminDashboard
-            onClose={() => setIsAdminDashboardOpen(false)}
+            onClose={closeAdminDashboard}
             onShowToast={showToast}
             onViewWarrantyCertificate={handleOpenWarrantyCertificate}
             settings={settings}

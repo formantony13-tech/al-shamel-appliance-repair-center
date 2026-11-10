@@ -1,5 +1,5 @@
 import React from 'react';
-import { Phone, MessageSquare, Clock, ShieldCheck, CheckCircle2, Star, Sparkles, Award, Wrench, AlertCircle, Snowflake, Droplets, Volume2, Hammer } from 'lucide-react';
+import { Phone, MessageSquare, Clock, ShieldCheck, CheckCircle2, Award, Wrench, AlertCircle, Snowflake, Droplets, Volume2, Hammer, MapPin, CalendarDays } from 'lucide-react';
 import { 
   DISPLAY_PHONE_1, 
   PHONE_NUMBER_1, 
@@ -10,6 +10,7 @@ import {
   normalizeYearsExperience
 } from '../config';
 import { AppSystemSettings } from '../types';
+import { safePublicCopy, safeRegionCopy } from '../lib/publicCopy';
 import realAlaskaFreezer from '../assets/images/real_alaska_freezer_1788256277335.webp';
 import silverWasherRepair from '../assets/images/silver_washer_repair_1788256297679.webp';
 import samsungWasherAfter from '../assets/images/samsung_washer_after_1788256332451.webp';
@@ -25,19 +26,14 @@ export const Hero: React.FC<HeroProps> = ({ onOpenBooking, settings }) => {
   const phone1 = settings?.phone1 || PHONE_NUMBER_1;
   const phone1Display = settings?.phone1Display || DISPLAY_PHONE_1;
   const yearsExp = normalizeYearsExperience(settings?.yearsExperience || YEARS_EXPERIENCE);
-  const location = settings?.locationName || LOCATION_NAME;
-  const heroBadge = settings?.heroBadge || `مركز قطب • خبرة مهندسينا تتجاوز ${yearsExp} عاماً | أبو المطامير والبحيرة`;
-  const heroHeadline = settings?.heroHeadline || 'مهما كانت المشكلة في الأجهزة المنزلية صعبة.. إحنا هنحلها لك فوراً!';
-  const heroHeadlineHighlight = settings?.heroHeadlineHighlight || 'الثلاجة، الغسالة، أو الديب فريزر';
-  const heroSubheadline = settings?.heroSubheadline || 'نخدم محافظة البحيرة بالكامل، ونوفر زيارات للمحافظات المجاورة حسب المنطقة، مع قطع غيار أصلية وتفاصيل ضمان مكتوبة قبل الإصلاح.';
-  const heroBannerImage = settings?.heroBannerImage || realAlaskaFreezer;
+  const location = safeRegionCopy(settings?.locationName, LOCATION_NAME);
+  const heroBadge = safePublicCopy(settings?.heroBadge, `صيانة منزلية في محافظة البحيرة • خبرة ${yearsExp} سنة`);
+  const heroHeadline = safePublicCopy(settings?.heroHeadline, 'جهازك عطلان؟ نبدأ بفحص واضح');
+  const heroHeadlineHighlight = safePublicCopy(settings?.heroHeadlineHighlight, 'ونشرح لك الحل والتكلفة قبل الإصلاح');
+  const heroSubheadline = safePublicCopy(settings?.heroSubheadline, 'صيانة ثلاجات وغسالات وديب فريزر وأجهزة منزلية داخل محافظة البحيرة. تواصل معنا لمعرفة الموعد المتاح.');
 
   return (
-    <section id="hero" className="relative overflow-hidden bg-gradient-to-b from-[#f8fafc] via-slate-50 to-[#eef4f9] pt-8 pb-16 lg:pt-12 lg:pb-20">
-      {/* Background Subtle Elements */}
-      <div className="absolute top-0 right-0 -mr-20 -mt-20 w-96 h-96 rounded-full bg-[#d97706]/5 blur-3xl pointer-events-none" />
-      <div className="absolute bottom-0 left-0 -ml-20 -mb-20 w-96 h-96 rounded-full bg-[#123b4a]/5 blur-3xl pointer-events-none" />
-
+    <section id="hero" className="relative overflow-hidden bg-[#f8fafc] pt-8 pb-16 lg:pt-12 lg:pb-20">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-12 items-center">
           
@@ -46,23 +42,14 @@ export const Hero: React.FC<HeroProps> = ({ onOpenBooking, settings }) => {
             
             {/* Top Badge: Experience & Speed */}
             <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-[#123b4a]/10 text-[#123b4a] text-xs sm:text-sm font-black mb-4 border border-[#123b4a]/15">
-              <span className="flex h-2.5 w-2.5 rounded-full bg-[#d97706] animate-ping"></span>
+              <span className="flex h-2.5 w-2.5 rounded-full bg-[#d97706]"></span>
               <span>{heroBadge}</span>
             </div>
 
             {/* Main Headline */}
             <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-[2.9rem] font-black text-[#123b4a] leading-[1.25] tracking-tight">
-              {heroHeadlineHighlight ? (
-                <>
-                  مهما كانت المشكلة في
-                  <br />
-                  <span className="text-[#d97706] inline-block mt-1">{heroHeadlineHighlight}</span>
-                  <br />
-                  صعبة.. إحنا هنحلها لك فوراً! ⚙️
-                </>
-              ) : (
-                heroHeadline
-              )}
+              {heroHeadline}
+              {heroHeadlineHighlight && <><br /><span className="text-[#d97706] inline-block mt-1">{heroHeadlineHighlight}</span></>}
             </h1>
 
             {/* Slogan & Value Prop */}
@@ -74,7 +61,7 @@ export const Hero: React.FC<HeroProps> = ({ onOpenBooking, settings }) => {
             <div className="mt-5 p-4 rounded-2xl bg-white border border-slate-200/90 shadow-sm">
               <div className="flex items-center gap-2 text-xs font-black text-[#123b4a] mb-2.5">
                 <AlertCircle className="w-4 h-4 text-[#d97706]" />
-                <span>أشهر الأعطال التي نقوم بحلها بنفس اليوم:</span>
+                <span>أعطال بنساعدك في فحصها:</span>
               </div>
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 text-xs font-bold text-slate-700">
                 <div className="flex items-center gap-1.5 bg-slate-50 p-2 rounded-xl border border-slate-100">
@@ -103,8 +90,8 @@ export const Hero: React.FC<HeroProps> = ({ onOpenBooking, settings }) => {
                   <Clock className="w-5 h-5" />
                 </div>
                 <div>
-                  <h4 className="text-[11px] font-bold text-slate-500">سرعة الاستجابة</h4>
-                  <p className="text-xs sm:text-sm font-black text-[#123b4a]">زيارة خلال 24 ساعة</p>
+                  <h4 className="text-[11px] font-bold text-slate-500">تنسيق الزيارة</h4>
+                  <p className="text-xs sm:text-sm font-black text-[#123b4a]">موعد حسب منطقتك</p>
                 </div>
               </div>
 
@@ -113,8 +100,8 @@ export const Hero: React.FC<HeroProps> = ({ onOpenBooking, settings }) => {
                   <ShieldCheck className="w-5 h-5" />
                 </div>
                 <div>
-                  <h4 className="text-[11px] font-bold text-slate-500">قطع أصلية</h4>
-                  <p className="text-xs sm:text-sm font-black text-[#123b4a]">أصلية 100% + ضمان</p>
+                  <h4 className="text-[11px] font-bold text-slate-500">تفاصيل الإصلاح</h4>
+                  <p className="text-xs sm:text-sm font-black text-[#123b4a]">القطعة والضمان قبل التركيب</p>
                 </div>
               </div>
 
@@ -123,52 +110,53 @@ export const Hero: React.FC<HeroProps> = ({ onOpenBooking, settings }) => {
                   <Award className="w-5 h-5" />
                 </div>
                 <div>
-                  <h4 className="text-[11px] font-bold text-slate-500">خبرة هندسية</h4>
-                  <p className="text-xs sm:text-sm font-black text-[#123b4a]">+{yearsExp} سنة خبرة</p>
+                  <h4 className="text-[11px] font-bold text-slate-500">خبرة المركز</h4>
+                  <p className="text-xs sm:text-sm font-black text-[#123b4a]">{yearsExp} سنة في الصيانة</p>
                 </div>
               </div>
             </div>
 
             {/* Primary Call To Action Buttons + One Phone */}
             <div className="mt-7 flex flex-col sm:flex-row flex-wrap items-stretch sm:items-center gap-2.5 sm:gap-3">
+              {/* Primary booking action */}
+              <button
+                type="button"
+                onClick={onOpenBooking}
+                id="hero-book-btn"
+                className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-5 py-3.5 rounded-xl text-sm font-bold text-white bg-[#123b4a] hover:bg-[#174c5d] border border-[#123b4a] transition-colors active:scale-[0.98]"
+              >
+                <CalendarDays className="w-4 h-4 shrink-0" />
+                <span className="whitespace-nowrap">اطلب زيارة</span>
+              </button>
+
               {/* WhatsApp Button */}
               <a
-                href={`https://wa.me/${phone1}?text=مرحباً، أود حجز مهندس صيانة من ${encodeURIComponent(centerName)}`}
+                href={`https://wa.me/${phone1}?text=${encodeURIComponent(`السلام عليكم، عايز أستفسر عن صيانة جهاز منزلي لدى ${centerName}.`)}`}
                 target="_blank"
                 rel="noopener noreferrer"
                 id="hero-whatsapp-btn"
-                className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-5 py-3.5 rounded-2xl text-sm sm:text-base font-black text-white bg-[#25D366] hover:bg-[#20ba59] shadow-lg shadow-[#25D366]/25 hover:shadow-xl transition-all transform active:scale-95"
+                className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-5 py-3.5 rounded-xl text-sm font-bold text-emerald-800 bg-white hover:bg-emerald-50 border border-emerald-300 transition-colors active:scale-[0.98]"
               >
                 <MessageSquare className="w-5 h-5 shrink-0" />
-                <span className="whitespace-nowrap">واتساب 24 ساعة</span>
+                <span className="whitespace-nowrap">اسألنا على واتساب</span>
               </a>
 
               {/* Call Button 1 */}
               <a
                 href={`tel:+${phone1}`}
                 id="hero-call-btn-1"
-                className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-5 py-3.5 rounded-2xl text-sm sm:text-base font-black text-white bg-[#123b4a] hover:bg-[#174c5d] shadow-lg shadow-[#123b4a]/20 hover:shadow-xl transition-all transform active:scale-95"
+                className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-5 py-3.5 rounded-xl text-sm font-bold text-[#123b4a] bg-white hover:bg-slate-50 border border-slate-300 transition-colors active:scale-[0.98]"
               >
                 <Phone className="w-5 h-5 text-[#d97706] shrink-0" />
                 <span className="font-mono whitespace-nowrap" dir="ltr">{phone1Display}</span>
               </a>
 
-              {/* Instant Booking Form Button */}
-              <button
-                type="button"
-                onClick={onOpenBooking}
-                id="hero-book-btn"
-                className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-5 py-3.5 rounded-2xl text-xs sm:text-sm font-black text-[#d97706] bg-orange-50 border border-orange-200 hover:bg-[#d97706] hover:text-white transition-all shadow-sm"
-              >
-                <Sparkles className="w-4 h-4 shrink-0" />
-                <span className="whitespace-nowrap">طلب حجز زيارة فورية</span>
-              </button>
             </div>
 
             {/* Location & Trust note */}
             <div className="mt-5 flex items-center gap-2 text-xs font-bold text-slate-500">
               <CheckCircle2 className="w-4 h-4 text-emerald-500 shrink-0" />
-              <span>صيانة فورية ومضمونة تصنع الفرق • {location}</span>
+              <span>المواعيد تتأكد بعد التواصل • {location}</span>
             </div>
           </div>
 
@@ -248,49 +236,22 @@ export const Hero: React.FC<HeroProps> = ({ onOpenBooking, settings }) => {
                   <span className="text-[10px] sm:text-xs font-black text-[#d97706] bg-black/50 backdrop-blur-sm px-2 py-0.5 rounded-md w-fit mb-1">
                     غسالات وبوتاجازات
                   </span>
-                  <h3 className="text-xs sm:text-sm font-black leading-snug">طلمبات طرد • جيربوكس • قطع أصلية</h3>
+                  <h3 className="text-xs sm:text-sm font-black leading-snug">طلمبات طرد • جيربوكس • فحص وإصلاح</h3>
                 </div>
               </div>
             </div>
 
-            {/* Floating Rating Badge */}
-            <div className="absolute -bottom-4 right-1/2 translate-x-1/2 sm:translate-x-0 sm:right-4 bg-white/95 backdrop-blur-md rounded-2xl p-3.5 sm:p-4 shadow-xl border border-slate-200/80 flex items-center gap-3">
-              <div className="w-12 h-12 rounded-xl bg-[#123b4a] text-white flex items-center justify-center font-black text-lg shadow-sm">
-                4.9
+            <div className="absolute -bottom-4 right-1/2 translate-x-1/2 sm:translate-x-0 sm:right-4 bg-white rounded-2xl p-3.5 sm:p-4 shadow-lg border border-slate-200/80 flex items-center gap-3">
+              <div className="w-11 h-11 rounded-xl bg-[#123b4a] text-white flex items-center justify-center">
+                <MapPin className="w-5 h-5 text-[#d97706]" />
               </div>
               <div className="text-right">
-                <div className="flex items-center gap-1 text-[#d97706]">
-                  {[...Array(5)].map((_, i) => (
-                    <Star key={i} className="w-3.5 h-3.5 fill-[#d97706]" />
-                  ))}
-                </div>
-                <p className="text-xs font-black text-[#123b4a] mt-1">{centerName}</p>
-                <p className="text-[10px] text-slate-500 font-bold">خبرة +{yearsExp} سنة بأبو المطامير</p>
+                <p className="text-xs font-black text-[#123b4a]">{centerName}</p>
+                <p className="text-[10px] text-slate-500 font-bold">{location}</p>
               </div>
             </div>
           </div>
 
-        </div>
-
-        {/* Stats Bar */}
-        <div className="mt-14 lg:mt-18 pt-8 border-t border-slate-200/80">
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-4 sm:gap-6 text-center">
-            <div className="p-4 rounded-2xl bg-white/70 backdrop-blur-sm border border-slate-100 shadow-sm">
-              <div className="text-2xl sm:text-3xl lg:text-4xl font-black text-[#123b4a]">+{yearsExp} سنة</div>
-              <div className="text-xs sm:text-sm font-bold text-slate-600 mt-1">خبرة فنية متوارثة</div>
-            </div>
-
-            <div className="p-4 rounded-2xl bg-white/70 backdrop-blur-sm border border-slate-100 shadow-sm">
-              <div className="text-2xl sm:text-3xl lg:text-4xl font-black text-[#d97706]">100%</div>
-              <div className="text-xs sm:text-sm font-bold text-slate-600 mt-1">قطع غيار أصلية ومضمونة</div>
-            </div>
-
-            <div className="p-4 rounded-2xl bg-white/70 backdrop-blur-sm border border-slate-100 shadow-sm">
-              <div className="text-2xl sm:text-3xl lg:text-4xl font-black text-emerald-600">خلال 24 س</div>
-              <div className="text-xs sm:text-sm font-bold text-slate-600 mt-1">وصول المهندس لمنزلك</div>
-            </div>
-
-          </div>
         </div>
 
       </div>

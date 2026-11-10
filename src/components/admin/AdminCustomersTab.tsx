@@ -234,7 +234,7 @@ export const AdminCustomersTab: React.FC<AdminCustomersTabProps> = ({
                   type="text"
                   value={area}
                   onChange={(e) => setArea(e.target.value)}
-                  placeholder="مثال: البحيرة - أبو المطامير"
+                  placeholder="مثال: محافظة البحيرة"
                   className="w-full p-2.5 rounded-xl border border-slate-200 font-semibold"
                 />
               </div>

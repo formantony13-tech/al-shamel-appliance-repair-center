@@ -4,7 +4,6 @@ import {
   MessageSquarePlus, 
   Upload, 
   Trash2, 
-  CheckCircle2, 
   X, 
   Image as ImageIcon, 
   Quote,
@@ -19,7 +18,7 @@ import { processImageUpload } from '../lib/imageUtils';
 
 interface ReviewsSectionProps {
   reviews: CustomerReview[];
-  onAddReview: (review: Omit<CustomerReview, 'id' | 'avatarLetter'>) => void;
+  onAddReview: (review: Omit<CustomerReview, 'id' | 'avatarLetter' | 'verified' | 'status' | 'createdAt'>) => Promise<void>;
   onDeleteReview: (id: string) => void;
   isAdmin: boolean;
   onShowToast: (msg: string, type?: 'success' | 'error' | 'info') => void;
@@ -42,10 +41,11 @@ export const ReviewsSection: React.FC<ReviewsSectionProps> = ({
   const [comment, setComment] = useState('');
   const [reviewImage, setReviewImage] = useState('');
   const [showAllReviews, setShowAllReviews] = useState(false);
+  const [isSubmittingReview, setIsSubmittingReview] = useState(false);
 
   // Calculate average rating
   const totalRating = reviews.reduce((acc, curr) => acc + curr.rating, 0);
-  const avgRating = reviews.length > 0 ? (totalRating / reviews.length).toFixed(1) : '5.0';
+  const avgRating = reviews.length > 0 ? (totalRating / reviews.length).toFixed(1) : '—';
   const visibleReviews = showAllReviews ? reviews : reviews.slice(0, 3);
 
   // Handle Photo upload for review
@@ -60,7 +60,7 @@ export const ReviewsSection: React.FC<ReviewsSectionProps> = ({
     }
   };
 
-  const handleSubmitReview = (e: React.FormEvent) => {
+  const handleSubmitReview = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!name.trim() || name.trim().length < 2) {
       onShowToast('يرجى إدخال اسمك الكريم (حرفين على الأقل)', 'error');
@@ -73,21 +73,27 @@ export const ReviewsSection: React.FC<ReviewsSectionProps> = ({
 
     const todayStr = new Intl.DateTimeFormat('ar-EG', { dateStyle: 'medium' }).format(new Date());
 
-    onAddReview({
-      name: name.trim(),
-      deviceType,
-      rating,
-      comment: comment.trim(),
-      date: `${todayStr} - أبو المطامير`,
-      image: reviewImage || undefined
-    });
-
-    setIsAddModalOpen(false);
-    setName('');
-    setComment('');
-    setReviewImage('');
-    setRating(5);
-    onShowToast('شكراً لمشاركتنا رأيك! تم استلام تقييمك وسيظهر بعد مراجعة المشرف.', 'success');
+    setIsSubmittingReview(true);
+    try {
+      await onAddReview({
+        name: name.trim(),
+        deviceType,
+        rating,
+        comment: comment.trim(),
+        date: todayStr,
+        image: reviewImage || undefined
+      });
+      setIsAddModalOpen(false);
+      setName('');
+      setComment('');
+      setReviewImage('');
+      setRating(5);
+      onShowToast('وصلنا تقييمك. هنراجعه قبل ما يظهر على الموقع.', 'success');
+    } catch {
+      onShowToast('ما قدرناش نبعت تقييمك دلوقتي. جرّب تاني بعد شوية.', 'error');
+    } finally {
+      setIsSubmittingReview(false);
+    }
   };
 
   // Avatar color generator based on name
@@ -112,20 +118,20 @@ export const ReviewsSection: React.FC<ReviewsSectionProps> = ({
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         
         {/* Top Summary Block */}
-        <div className="rounded-3xl bg-gradient-to-br from-[#123b4a] to-[#174c5d] text-white p-8 sm:p-10 shadow-xl mb-12">
+        <div className="rounded-3xl bg-[#123b4a] text-white p-8 sm:p-10 shadow-lg mb-10">
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
             
             {/* Rating summary */}
             <div className="lg:col-span-8 text-right">
               <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/10 text-[#d97706] text-xs font-black mb-3">
                 <Sparkles className="w-3.5 h-3.5" />
-                آراء وتقييمات العملاء الحقيقية
+                آراء العملاء
               </div>
               <h2 className="text-2xl sm:text-3xl lg:text-4xl font-black leading-tight">
-                ماذا يقول أهالي أبو المطامير عن خدماتنا؟
+                تجاربكم تهمّنا
               </h2>
               <p className="mt-2 text-xs sm:text-sm text-slate-300 font-semibold max-w-xl">
-                تجارب وآراء عملاء المركز مع صور لأعمال صيانة منشورة حسب المتاح.
+                بننشر الآراء بعد مراجعتها. لو تعاملت معانا، شاركنا رأيك.
               </p>
 
               {/* Big Stars and Count */}
@@ -133,13 +139,13 @@ export const ReviewsSection: React.FC<ReviewsSectionProps> = ({
                 <div className="flex items-center gap-2">
                   <span className="text-4xl sm:text-5xl font-black text-white">{avgRating}</span>
                   <div className="flex flex-col">
-                    <div className="flex items-center gap-1 text-[#d97706]">
+                    {reviews.length > 0 && <div className="flex items-center gap-1 text-[#d97706]" aria-label={`متوسط التقييم ${avgRating} من 5`}>
                       {[...Array(5)].map((_, i) => (
-                        <Star key={i} className="w-5 h-5 fill-[#d97706]" />
+                        <Star key={i} className={`w-5 h-5 ${i < Math.round(Number(avgRating)) ? 'fill-[#d97706]' : 'text-white/30'}`} />
                       ))}
-                    </div>
+                    </div>}
                     <span className="text-xs text-slate-300 font-bold mt-1">
-                      تقييم عام ممتاز ({reviews.length} تقييم موثق)
+                      {reviews.length === 0 ? 'لا توجد تقييمات منشورة حتى الآن' : `${reviews.length} ${reviews.length === 1 ? 'تقييم منشور' : 'تقييمات منشورة'}`}
                     </span>
                   </div>
                 </div>
@@ -148,7 +154,7 @@ export const ReviewsSection: React.FC<ReviewsSectionProps> = ({
 
                 <div className="flex items-center gap-2 text-xs font-bold text-emerald-400 bg-white/10 px-3 py-1.5 rounded-xl border border-white/10">
                   <ShieldCheck className="w-4 h-4" />
-                  <span>آراء عملاء المركز وتفاصيل الخدمة والضمان حسب الحالة</span>
+                  <span>الآراء المنشورة راجعها فريق المركز قبل عرضها</span>
                 </div>
               </div>
             </div>
@@ -162,7 +168,7 @@ export const ReviewsSection: React.FC<ReviewsSectionProps> = ({
                 className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-6 py-4 rounded-2xl bg-[#d97706] hover:bg-[#b45309] text-white font-extrabold text-sm shadow-lg shadow-[#d97706]/30 transition-all transform active:scale-95"
               >
                 <MessageSquarePlus className="w-5 h-5" />
-                <span>✍️ اكتب رأيك وأرفق صورة جهازك</span>
+                <span>اكتب رأيك عن تجربة الصيانة</span>
               </button>
             </div>
 
@@ -170,7 +176,7 @@ export const ReviewsSection: React.FC<ReviewsSectionProps> = ({
         </div>
 
         {/* Reviews Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        {visibleReviews.length > 0 ? <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {visibleReviews.map((review) => {
             const avatarBg = getAvatarBg(review.name);
             return (
@@ -209,9 +215,6 @@ export const ReviewsSection: React.FC<ReviewsSectionProps> = ({
                           <h4 className="text-sm font-extrabold text-[#123b4a] leading-none">
                             {review.name}
                           </h4>
-                          {review.verified && (
-                            <CheckCircle2 className="w-3.5 h-3.5 text-emerald-500" title="عميل موثق" />
-                          )}
                         </div>
                         <span className="text-[11px] font-bold text-[#d97706] block mt-1">
                           صيانة: {review.deviceType}
@@ -264,16 +267,15 @@ export const ReviewsSection: React.FC<ReviewsSectionProps> = ({
                 {/* Footer Date */}
                 <div className="mt-4 pt-3 border-t border-slate-100 flex items-center justify-between text-[11px] font-semibold text-slate-400">
                   <span>{review.date}</span>
-                  <span className="text-emerald-600 bg-emerald-50 px-2 py-0.5 rounded-md font-bold">
-                    تمت الصيانة بنجاح
-                  </span>
                 </div>
               </div>
             );
           })}
-        </div>
+        </div> : <div className="rounded-2xl border border-dashed border-slate-300 bg-white px-6 py-10 text-center text-sm font-semibold leading-7 text-slate-600">
+          لسه ما عندناش تقييمات منشورة هنا. لو اتعاملت معانا، شاركنا رأيك.
+        </div>}
 
-        {reviews.length > 6 && (
+        {reviews.length > 3 && (
           <div className="mt-8 text-center">
             <button
               type="button"
@@ -293,7 +295,7 @@ export const ReviewsSection: React.FC<ReviewsSectionProps> = ({
             className="inline-flex items-center gap-2 px-8 py-3.5 rounded-2xl bg-white hover:bg-slate-100 text-[#123b4a] border-2 border-slate-200 hover:border-[#d97706] font-black text-sm shadow-sm transition-all"
           >
             <MessageSquarePlus className="w-4 h-4 text-[#d97706]" />
-            <span>شاركنا تجربتك ورأيك مع صورة لجهازك</span>
+            <span>اكتب رأيك — والصورة اختيارية</span>
           </button>
         </div>
 
@@ -325,7 +327,7 @@ export const ReviewsSection: React.FC<ReviewsSectionProps> = ({
                 </div>
                 <h3 className="text-xl font-black text-[#123b4a]">أضف رأيك وتجربتك معنا</h3>
                 <p className="text-xs text-slate-500 font-semibold mt-1">
-                  رأيك يهمنا ويساعد أهالي أبو المطامير في التعرف على جودة خدماتنا
+                  هنراجع رأيك قبل نشره. اختار الاسم أو اللقب الذي تحب ظهوره؛ وإرفاق الصورة اختياري.
                 </p>
               </div>
 
@@ -333,12 +335,12 @@ export const ReviewsSection: React.FC<ReviewsSectionProps> = ({
                 {/* Full Name */}
                 <div>
                   <label className="block text-xs font-extrabold text-slate-700 mb-1">
-                    الاسم بالكامل <span className="text-red-500">*</span>
+                    الاسم أو اللقب الذي توافق على ظهوره <span className="text-red-500">*</span>
                   </label>
                   <input
                     type="text"
                     required
-                    placeholder="مثال: أحمد محمود"
+                    placeholder="مثال: أحمد"
                     value={name}
                     onChange={(e) => setName(e.target.value)}
                     className="w-full px-4 py-2.5 rounded-xl border border-slate-200 bg-slate-50 text-sm font-semibold focus:bg-white focus:outline-none focus:border-[#123b4a]"
@@ -348,7 +350,7 @@ export const ReviewsSection: React.FC<ReviewsSectionProps> = ({
                 {/* Device Repaired */}
                 <div>
                   <label className="block text-xs font-extrabold text-slate-700 mb-1">
-                    نوع الجهاز الذي تمت صيانة <span className="text-red-500">*</span>
+                    نوع الجهاز الذي تمت صيانته <span className="text-red-500">*</span>
                   </label>
                   <select
                     value={deviceType}
@@ -404,12 +406,12 @@ export const ReviewsSection: React.FC<ReviewsSectionProps> = ({
                 {/* Comment Text */}
                 <div>
                   <label className="block text-xs font-extrabold text-slate-700 mb-1">
-                    رأيك في الخدمة والتعامل وسرعة الإصلاح <span className="text-red-500">*</span>
+                    رأيك في تجربة الصيانة والتعامل <span className="text-red-500">*</span>
                   </label>
                   <textarea
                     required
                     rows={3}
-                    placeholder="اكتب تفاصيل تجربتك مع الفني وسرعة الوصول ودقة الإصلاح وقطع الغيار..."
+                    placeholder="احكيلنا باختصار عن تجربتك مع الفحص والإصلاح والتعامل."
                     value={comment}
                     onChange={(e) => setComment(e.target.value)}
                     className="w-full px-4 py-2.5 rounded-xl border border-slate-200 bg-slate-50 text-sm font-semibold focus:bg-white focus:outline-none focus:border-[#123b4a]"
@@ -421,6 +423,7 @@ export const ReviewsSection: React.FC<ReviewsSectionProps> = ({
                   <label className="block text-xs font-extrabold text-slate-700 mb-1">
                     صورة الجهاز بعد الصيانة (اختياري)
                   </label>
+                  <p className="mb-2 text-[11px] font-medium leading-5 text-slate-500">لا ترفق صورة يظهر فيها أشخاص أو بيانات منزلية. إذا نُشر رأيك بعد المراجعة، قد تظهر الصورة معه.</p>
                   
                   {reviewImage ? (
                     <div className="relative aspect-[16/8] rounded-xl overflow-hidden border border-slate-200">
@@ -456,15 +459,17 @@ export const ReviewsSection: React.FC<ReviewsSectionProps> = ({
                   <button
                     type="button"
                     onClick={() => setIsAddModalOpen(false)}
+                    disabled={isSubmittingReview}
                     className="px-5 py-2.5 rounded-xl border border-slate-200 text-slate-600 text-xs font-bold hover:bg-slate-100 transition-colors"
                   >
                     إلغاء
                   </button>
                   <button
                     type="submit"
+                    disabled={isSubmittingReview}
                     className="px-6 py-2.5 rounded-xl bg-[#d97706] hover:bg-[#b45309] text-white text-xs font-black shadow-md transition-all active:scale-95"
                   >
-                    نشر التقييم فوراً
+                    {isSubmittingReview ? 'جارٍ الإرسال…' : 'إرسال الرأي للمراجعة'}
                   </button>
                 </div>
               </form>

@@ -1,29 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { 
-  Phone, 
-  Wrench, 
-  Menu, 
-  X, 
-  Calendar, 
-  ShieldCheck, 
-  Clock, 
-  MessageSquare, 
-  Award, 
-  Search, 
-  HelpCircle,
-  ShoppingBag,
-  Camera,
-  Star,
-  Sparkles,
-  MapPin,
-  Lock,
-  Tag,
-  Wind,
-  Zap,
-  Disc,
-  Hammer,
-  Flame
-} from 'lucide-react';
+import { Phone, Wrench, Menu, X, Calendar, ShieldCheck, MessageSquare, Search, HelpCircle } from 'lucide-react';
 import { 
   DISPLAY_PHONE_1, 
   PHONE_NUMBER_1, 
@@ -31,23 +7,20 @@ import {
   YEARS_EXPERIENCE
 } from '../config';
 import { AppSystemSettings } from '../types';
+import { safePublicCopy } from '../lib/publicCopy';
 
 interface HeaderProps {
   onOpenBooking: () => void;
   onOpenTracker?: () => void;
   onOpenTroubleshooting?: () => void;
-  onOpenAdmin?: () => void;
   settings?: AppSystemSettings;
-  showQuickAccess?: boolean;
 }
 
 export const Header: React.FC<HeaderProps> = ({ 
   onOpenBooking, 
   onOpenTracker, 
   onOpenTroubleshooting, 
-  onOpenAdmin,
-  settings,
-  showQuickAccess = true
+  settings
 }) => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
@@ -57,6 +30,7 @@ export const Header: React.FC<HeaderProps> = ({
   const phone1 = settings?.phone1 || PHONE_NUMBER_1;
   const phone1Display = settings?.phone1Display || DISPLAY_PHONE_1;
   const yearsExp = settings?.yearsExperience || YEARS_EXPERIENCE;
+  const emergencyAlertText = safePublicCopy(settings?.emergencyAlertText, '');
 
   useEffect(() => {
     const handleScroll = () => {
@@ -83,28 +57,21 @@ export const Header: React.FC<HeaderProps> = ({
   const navLinks = [
     { name: 'الرئيسية', href: '#/' },
     { name: 'خدمات الصيانة', href: '#/#services' },
+    { name: 'أجهزة للبيع', href: '#for-sale-section' },
     { name: 'أعمالنا', href: '#/works' },
-    { name: 'آراء العملاء والتواصل', href: '#/reviews-contact' },
+    { name: 'التواصل', href: '#/reviews-contact' },
   ];
 
-  const quickNavItems = [
-    { id: 'refrigerators', href: '#/service/refrigerators', label: 'صيانة الثلاجات', icon: Wind },
-    { id: 'deep-freezers', href: '#/service/deep-freezers', label: 'الديب فريزر', icon: Zap },
-    { id: 'washing-machines', href: '#/service/washing-machines', label: 'الغسالات', icon: Disc },
-    { id: 'baroma-renovation', href: '#/service/baroma-renovation', label: 'علاج البرومة', icon: Hammer },
-    { id: 'air-conditioners', href: '#/service/air-conditioners', label: 'التكييفات', icon: Wind },
-    { id: 'cookers-heaters', href: '#/service/cookers-heaters', label: 'البوتاجازات', icon: Flame },
-  ];
 
   return (
     <>
       {/* Top Notification / Emergency Alert Bar */}
-      {settings?.emergencyAlertEnabled && settings?.emergencyAlertText ? (
+      {settings?.emergencyAlertEnabled && emergencyAlertText ? (
         <div id="emergency-alert-bar" className="bg-gradient-to-r from-amber-600 to-[#d97706] text-white text-xs py-2 px-4 shadow-xs">
           <div className="max-w-7xl mx-auto flex items-center justify-between gap-2">
             <div className="flex items-center gap-2 font-bold animate-pulse">
               <ShieldCheck className="w-4 h-4" />
-              <span>{settings.emergencyAlertText}</span>
+              <span>{emergencyAlertText}</span>
             </div>
             <a
               href={`tel:+${phone1}`}
@@ -115,41 +82,6 @@ export const Header: React.FC<HeaderProps> = ({
           </div>
         </div>
       ) : null}
-
-      {/* Top Notification Bar & Developer Credit */}
-      <div id="top-bar" className="bg-[#123b4a] text-white text-xs py-1.5 px-3 sm:px-4 border-b border-white/10">
-        <div className="max-w-7xl mx-auto flex flex-wrap justify-between items-center gap-2">
-          
-          {/* Operating Hours & Experience */}
-          <div className="flex items-center gap-3 sm:gap-4 text-slate-200">
-            <span className="flex items-center gap-1 text-[11px] sm:text-xs">
-              <Clock className="w-3.5 h-3.5 text-[#d97706]" />
-              {settings?.operatingHours || 'خدمة صيانة فورية 24 ساعة بأبو المطامير ومحافظة البحيرة'}
-            </span>
-            <span className="hidden lg:inline-flex items-center gap-1 text-[11px] text-amber-300 font-bold">
-              <Award className="w-3.5 h-3.5" />
-              خبرة +{yearsExp} سنة في الصيانة والتجديد
-            </span>
-          </div>
-
-          {/* Developer Credit & Fast Contact */}
-          <div className="flex items-center gap-2 sm:gap-4 text-[11px]">
-            {/* Hotline 1 */}
-            <a
-              href={`tel:+${phone1}`}
-              className="flex items-center gap-1 text-[#d97706] hover:text-white font-bold transition-colors"
-              dir="ltr"
-              title="اتصال بالرقم الأساسي"
-            >
-              <Phone className="w-3.5 h-3.5" />
-              <span>{phone1Display}</span>
-            </a>
-            <span className="text-white/40">|</span>
-            {/* Hotline 2 */}
-          </div>
-
-        </div>
-      </div>
 
       {/* Main Sticky Header */}
       <header
@@ -180,13 +112,13 @@ export const Header: React.FC<HeaderProps> = ({
                 </div>
                 <span className="text-[10px] sm:text-xs text-slate-500 font-semibold flex items-center gap-1 truncate">
                   <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse shrink-0"></span>
-                  <span className="truncate">صيانة معتمدة • قطع غيار أصلية</span>
+                  <span className="truncate">صيانة منزلية • الضمان حسب نوع الإصلاح</span>
                 </span>
               </div>
             </a>
 
             {/* Desktop Full Navigation Links */}
-            <nav id="primary-nav" className="hidden xl:flex items-center gap-3 2xl:gap-5">
+            <nav id="primary-nav" className="hidden lg:flex items-center gap-2 xl:gap-4">
               {navLinks.map((link) => (
                 <a
                   key={link.name}
@@ -205,69 +137,15 @@ export const Header: React.FC<HeaderProps> = ({
 
             {/* Header Top Action Buttons */}
             <div className="flex items-center gap-1.5 sm:gap-2 shrink-0">
-              {/* Troubleshooting Button */}
-              {onOpenTroubleshooting && (
-                <button
-                  type="button"
-                  id="header-troubleshoot-btn"
-                  onClick={onOpenTroubleshooting}
-                  className="hidden md:inline-flex items-center gap-1 px-2.5 py-1.5 rounded-xl text-xs font-bold text-amber-900 bg-amber-50 hover:bg-amber-100 transition-colors border border-amber-200"
-                  title="دليل فحص وتشخيص الأعطال السريع"
-                >
-                  <HelpCircle className="w-3.5 h-3.5 text-[#d97706]" />
-                  <span className="hidden lg:inline">دليل الأعطال</span>
-                </button>
-              )}
-
-              {/* Safe Booking Tracker Button */}
-              {onOpenTracker && (
-                <button
-                  type="button"
-                  id="header-track-btn"
-                  onClick={onOpenTracker}
-                  className="hidden sm:inline-flex items-center gap-1 px-2.5 py-1.5 rounded-xl text-xs font-bold text-[#123b4a] bg-slate-100 hover:bg-slate-200 transition-colors border border-slate-200"
-                  title="متابعة حالة طلب الصيانة"
-                >
-                  <Search className="w-3.5 h-3.5 text-[#d97706]" />
-                  <span>متابعة الطلب</span>
-                </button>
-              )}
-
-              {/* Admin Panel Button */}
-              {onOpenAdmin && (
-                <button
-                  type="button"
-                  id="header-admin-btn"
-                  onClick={onOpenAdmin}
-                  className="hidden lg:inline-flex items-center gap-1 px-2.5 py-1.5 rounded-xl text-xs font-bold text-slate-700 bg-slate-100 hover:bg-slate-200 transition-colors border border-slate-200"
-                  title="دخول لوحة التحكم السحابية"
-                >
-                  <Lock className="w-3.5 h-3.5 text-[#d97706]" />
-                  <span>الإدارة</span>
-                </button>
-              )}
-
               {/* Hotline Call Button */}
               <a
                 href={`tel:+${phone1}`}
                 id="header-call-btn"
                 className="hidden sm:inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-bold text-[#123b4a] bg-slate-100 hover:bg-slate-200 transition-colors"
-                title="اتصال فوري"
+                title="اتصل بالمركز"
               >
                 <Phone className="w-3.5 h-3.5 text-[#d97706]" />
                 <span className="font-mono">{phone1Display}</span>
-              </a>
-
-              <a
-                href={`https://wa.me/${phone1}?text=مرحباً، أود حجز مهندس صيانة من ${encodeURIComponent(centerName)}`}
-                target="_blank"
-                rel="noopener noreferrer"
-                id="header-whatsapp-btn"
-                className="inline-flex items-center justify-center gap-1.5 rounded-xl bg-[#25D366] px-2.5 py-1.5 text-xs font-black text-white shadow-sm transition hover:bg-[#20ba59] active:scale-95 sm:px-3"
-                title="تواصل عبر واتساب"
-              >
-                <MessageSquare className="h-3.5 w-3.5" />
-                <span className="hidden sm:inline">واتساب</span>
               </a>
 
               {/* Book Appointment CTA Button */}
@@ -275,7 +153,7 @@ export const Header: React.FC<HeaderProps> = ({
                 type="button"
                 id="header-book-cta"
                 onClick={onOpenBooking}
-                className="inline-flex items-center gap-1.5 px-3 sm:px-4 py-1.5 sm:py-2 rounded-xl text-xs font-black text-white bg-gradient-to-r from-[#d97706] to-[#b45309] hover:from-[#b45309] hover:to-[#92400e] shadow-md shadow-[#d97706]/20 hover:shadow-lg hover:shadow-[#d97706]/30 transition-all transform active:scale-95 cursor-pointer"
+                className="inline-flex items-center gap-1.5 px-3 sm:px-4 py-1.5 sm:py-2 rounded-xl text-xs font-bold text-white bg-[#123b4a] hover:bg-[#174c5d] border border-[#123b4a] transition-colors active:scale-[0.98] cursor-pointer"
               >
                 <Calendar className="w-3.5 h-3.5 shrink-0" />
                 <span className="whitespace-nowrap">احجز صيانة</span>
@@ -286,7 +164,7 @@ export const Header: React.FC<HeaderProps> = ({
                 type="button"
                 id="mobile-menu-toggle"
                 onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-                className="xl:hidden p-1.5 rounded-lg text-slate-700 hover:bg-slate-100 transition-colors"
+                className="lg:hidden p-1.5 rounded-lg text-slate-700 hover:bg-slate-100 transition-colors"
                 aria-label={mobileMenuOpen ? 'إغلاق القائمة' : 'فتح القائمة'}
                 aria-expanded={mobileMenuOpen}
                 aria-controls="mobile-menu-drawer"
@@ -298,54 +176,9 @@ export const Header: React.FC<HeaderProps> = ({
           </div>
         </div>
 
-        {/* Integrated Horizontal Quick Navigation Bar (أزرار وصول سريع بالعرض لكل الأقسام) */}
-        {showQuickAccess && <div id="quick-nav-bar" className="bg-slate-50/90 border-t border-slate-200/70 py-1.5 px-3 sm:px-6">
-          <div className="max-w-7xl mx-auto flex items-center justify-between gap-2">
-            
-            <div id="quick-nav-items" className="flex items-center gap-1.5 sm:gap-2 overflow-x-auto scrollbar-none py-0.5 w-full">
-              <span className="hidden sm:inline-flex items-center gap-1 text-[11px] font-bold text-slate-400 shrink-0 pl-1">
-                <Sparkles className="w-3 h-3 text-[#d97706]" />
-                <span>الوصول السريع:</span>
-              </span>
-
-              {quickNavItems.map((item) => {
-                const Icon = item.icon;
-                const isCurrent = activeHash === item.href;
-
-                return (
-                  <a
-                    key={item.id}
-                    href={item.href}
-                    id={`quick-nav-${item.id}`}
-                    className={`inline-flex items-center gap-1.5 px-2.5 sm:px-3 py-1 rounded-xl text-xs font-black transition-all shrink-0 whitespace-nowrap ${
-                      isCurrent ? 'bg-[#123b4a] text-white shadow-xs' : 'bg-white hover:bg-slate-200/80 text-slate-700 border border-slate-200/80'
-                    }`}
-                  >
-                    <Icon className={`w-3.5 h-3.5 shrink-0 ${isCurrent ? 'text-[#d97706]' : 'text-slate-500'}`} />
-                    <span>{item.label}</span>
-                  </a>
-                );
-              })}
-
-              {/* Direct WhatsApp fast chat link */}
-              <a
-                href={`https://wa.me/${phone1}?text=مرحباً، أود الاستفسار عن خدمات الصيانة والأجهزة لدى ${encodeURIComponent(centerName)}`}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="hidden md:inline-flex items-center gap-1.5 px-2.5 py-1 rounded-xl text-xs font-bold bg-[#25D366]/10 hover:bg-[#25D366]/20 text-emerald-800 border border-emerald-300/40 shrink-0 whitespace-nowrap mr-auto transition-colors"
-                title="محادثة واتساب مباشرة"
-              >
-                <MessageSquare className="w-3.5 h-3.5 text-[#25D366]" />
-                <span>واتساب فوري</span>
-              </a>
-            </div>
-
-          </div>
-        </div>}
-
         {/* Mobile Navigation Drawer */}
         {mobileMenuOpen && (
-          <div id="mobile-menu-drawer" className="xl:hidden bg-white border-t border-slate-100 px-4 pt-3 pb-6 space-y-2 animate-fadeIn shadow-xl">
+          <div id="mobile-menu-drawer" className="lg:hidden bg-white border-t border-slate-100 px-4 pt-3 pb-6 space-y-2 animate-fadeIn shadow-xl">
             {navLinks.map((link) => (
               <a
                 key={link.name}
@@ -385,20 +218,6 @@ export const Header: React.FC<HeaderProps> = ({
                 </button>
               )}
 
-              {onOpenAdmin && (
-                <button
-                  type="button"
-                  onClick={() => {
-                    setMobileMenuOpen(false);
-                    onOpenAdmin();
-                  }}
-                  className="flex items-center justify-center gap-2 w-full py-2.5 rounded-xl bg-slate-800 text-white font-black text-sm transition-colors"
-                >
-                  <Lock className="w-4 h-4 text-[#d97706]" />
-                  <span>لوحة تحكم الإدارة السحابية</span>
-                </button>
-              )}
-
               <a
                 href={`tel:+${phone1}`}
                 className="flex items-center justify-center gap-2 w-full py-3 rounded-xl bg-[#123b4a] text-white font-bold text-sm"
@@ -407,17 +226,17 @@ export const Header: React.FC<HeaderProps> = ({
                 اتصال هاتفي ({phone1Display})
               </a>
               <a
-                href={`https://wa.me/${phone1}?text=مرحباً، أود حجز مهندس صيانة من ${encodeURIComponent(centerName)}`}
+                href={`https://wa.me/${phone1}?text=${encodeURIComponent(`السلام عليكم، عايز أستفسر عن صيانة جهاز منزلي لدى ${centerName}.`)}`}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="flex items-center justify-center gap-2 w-full py-3 rounded-xl bg-[#25D366] text-white font-bold text-sm"
               >
                 <MessageSquare className="w-4 h-4" />
-                تواصل عبر واتساب (24 ساعة)
+                تواصل عبر واتساب
               </a>
 
               <div className="mt-2 border-t border-slate-100 pt-2 text-center text-[11px] text-slate-400">
-                تصميم وتطوير: م/ صبحي
+                Developed by Eng. Sobhy
               </div>
             </div>
           </div>

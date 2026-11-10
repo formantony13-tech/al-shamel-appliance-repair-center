@@ -75,7 +75,7 @@ export const db: Firestore = firestoreInstance;
 
 // Initialize Auth
 export const auth = getAuth(app);
-void setPersistence(auth, browserLocalPersistence).catch((error) => {
+export const authPersistenceReady = setPersistence(auth, browserLocalPersistence).catch((error) => {
   console.warn('Could not enable local auth persistence:', error);
 });
 

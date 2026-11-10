@@ -265,10 +265,10 @@ export const AdminAdminsTab: React.FC<AdminAdminsTabProps> = ({
           <div>
             <h4 className="text-sm font-black text-slate-900 flex items-center gap-2">
               <ShieldCheck className="w-5 h-5 text-emerald-600" />
-              <span>الفحص الأمني المباشر وتدقيق قواعد الإنتاج (Production & Security Audit)</span>
+              <span>مراجعة إعدادات الأمان المنشورة</span>
             </h4>
             <p className="text-xs text-slate-500 mt-0.5">
-              اختبار فوري لكافة طبقات الحماية السحابية والتأكد من حظر المستخدم العادي من قراءة أو تعديل أي بيانات حساسة.
+              هذه الشاشة لا تختبر قواعد Firebase المنشورة. راجع القواعد داخل Firebase Console قبل الاعتماد على الحماية.
             </p>
           </div>
 
@@ -279,7 +279,7 @@ export const AdminAdminsTab: React.FC<AdminAdminsTabProps> = ({
             className="px-4 py-2.5 bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-xs rounded-xl shadow cursor-pointer transition-all flex items-center justify-center gap-2 shrink-0 disabled:opacity-50"
           >
             <ShieldCheck className="w-4 h-4" />
-            <span>{isRunningAudit ? 'جاري الفحص المباشر...' : 'تشغيل فحص الأمان الشامل الآن 🚀'}</span>
+            <span>{isRunningAudit ? 'جاري التحقق...' : 'عرض تذكير المراجعة'}</span>
           </button>
         </div>
 

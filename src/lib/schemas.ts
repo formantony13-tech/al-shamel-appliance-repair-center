@@ -77,7 +77,7 @@ export const CustomerSchema = z.object({
   name: z.string().min(3),
   phone: EgyptianPhoneSchema,
   address: z.string().min(3),
-  area: z.string().optional().default('أبو المطامير'),
+  area: z.string().optional().default('محافظة البحيرة'),
   notes: z.string().optional().default(''),
   totalBookings: z.number().nonnegative().default(1),
   totalSpent: z.number().nonnegative().default(0),

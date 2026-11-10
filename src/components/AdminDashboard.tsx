@@ -46,6 +46,7 @@ import {
 } from '../lib/dbService';
 import { 
   auth,
+  authPersistenceReady,
   signInWithEmailAndPassword,
   signInWithPopup,
   signInWithRedirect,
@@ -199,6 +200,7 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({
     setIsLoggingIn(true);
 
     try {
+      await authPersistenceReady;
       const email = loginEmail.trim();
       const password = loginPassword;
 
@@ -243,6 +245,7 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({
     const provider = new GoogleAuthProvider();
     provider.setCustomParameters({ prompt: 'select_account' });
     try {
+      await authPersistenceReady;
       const result = await signInWithPopup(auth, provider);
       const isMaster = isMasterAdminEmail(result.user.email);
       if (isMaster) await bootstrapMasterAdmin(result.user);
@@ -457,43 +460,9 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({
     await updatePassword(currentUser, newPassword);
   };
 
-  // Zero-Trust Security Audit
+  // This UI cannot verify which Firestore/Storage rules are deployed in the live Firebase project.
   const handleRunSecurityAudit = async () => {
-    setIsRunningAudit(true);
-    try {
-      await new Promise(r => setTimeout(r, 800));
-      setAuditReport([
-        {
-          name: 'قواعد حماية Firestore Security Rules',
-          category: 'قواعد البيانات',
-          passed: true,
-          details: 'تمنع قواعد Firestore القراءة العامة للحجوزات وبيانات العملاء والإصلاحات، وتسمح بها للمشرفين المصرح لهم فقط.'
-        },
-        {
-          name: 'التحقق من هوية المشرفين (Firebase Auth RBAC)',
-          category: 'الهوية والصلاحيات',
-          passed: true,
-          details: 'يتم التحقق من المشرفين عبر collection المشرفين المصرح لهم وحساب المالك المعتمد.'
-        },
-        {
-          name: 'قواعد حماية وسائط Firebase Storage',
-          category: 'الملفات والصور',
-          passed: true,
-          details: 'تتحقق القواعد من امتداد الصورة ونوعها وحجمها. صور الحجوزات العامة محدودة المسار والبيانات، بينما أصول الإدارة تتطلب جلسة مشرف.'
-        },
-        {
-          name: 'تشفير وحماية البيانات أثناء النقل (TLS / HTTPS)',
-          category: 'الشبكة',
-          passed: true,
-          details: 'جميع الاتصالات مشفرة ببروتوكولات TLS 1.3 المعتمدة من Google Cloud.'
-        }
-      ]);
-      onShowToast('اكتمل فحص إعدادات الأمان الأساسية بنجاح', 'success');
-    } catch {
-      onShowToast('تعذر إكمال الفحص الأمني', 'error');
-    } finally {
-      setIsRunningAudit(false);
-    }
+    onShowToast('لم يُجرَ فحص مباشر. راجع Firebase Console وتأكد من نشر قواعد Firestore وStorage واختبرها قبل الاعتماد عليها.', 'info');
   };
 
   // Backup Import Handler
@@ -535,10 +504,10 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({
           </div>
 
           <h2 className="text-2xl font-black text-slate-900 text-center">
-            بوابة الإدارة السحابية الموثقة
+            دخول إدارة المركز
           </h2>
           <p className="text-xs text-slate-500 font-semibold text-center mt-1 mb-6">
-            مركز قطب للصيانة - تسجيل الدخول الآمن (Firebase Auth)
+            للمستخدمين المصرح لهم فقط
           </p>
 
           {loginError && (
@@ -619,7 +588,7 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({
           <div className="mt-4 text-center">
             <p className="text-[11px] text-slate-400 font-semibold flex items-center justify-center gap-1">
               <ShieldCheck className="w-3.5 h-3.5 text-emerald-500" />
-              <span>محمي بتوثيق Firebase Authentication وقواعد Firestore الأمنية</span>
+              <span>صلاحية الدخول تُحدد بحسابك وإعدادات Firebase</span>
             </p>
           </div>
         </div>

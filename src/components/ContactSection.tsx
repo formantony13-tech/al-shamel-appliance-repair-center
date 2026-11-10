@@ -27,6 +27,7 @@ import {
   ,normalizeYearsExperience
 } from '../config';
 import { AppSystemSettings } from '../types';
+import { safePublicCopy, safeRegionCopy } from '../lib/publicCopy';
 
 interface ContactSectionProps {
   settings?: AppSystemSettings;
@@ -35,16 +36,16 @@ interface ContactSectionProps {
 
 export const ContactSection: React.FC<ContactSectionProps> = ({ settings, onOpenArea }) => {
   const centerName = settings?.centerName || CENTER_NAME;
-  const centerSlogan = settings?.centerSlogan || CENTER_SLOGAN;
+  const centerSlogan = safePublicCopy(settings?.centerSlogan || CENTER_SLOGAN, 'نشرح لك العطل والتكلفة والضمان قبل ما نبدأ.');
   const phone1 = settings?.phone1 || PHONE_NUMBER_1;
   const phone1Display = settings?.phone1Display || DISPLAY_PHONE_1;
   const phone2 = settings?.phone2 || PHONE_NUMBER_2;
   const phone2Display = settings?.phone2Display || DISPLAY_PHONE_2;
   const yearsExp = normalizeYearsExperience(settings?.yearsExperience || YEARS_EXPERIENCE);
-  const location = settings?.locationName || LOCATION_NAME;
+  const location = safeRegionCopy(settings?.locationName, LOCATION_NAME);
   const fb1 = settings?.facebookPage1 || FACEBOOK_PAGE_1;
   const fb2 = settings?.facebookPage2 || FACEBOOK_PAGE_2;
-  const mapsLink = settings?.googleMapsLink || GOOGLE_MAPS_LINK;
+  const mapsLink = GOOGLE_MAPS_LINK;
 
   return (
     <section id="contact" className="py-16 lg:py-24 bg-slate-50 relative">
@@ -53,13 +54,13 @@ export const ContactSection: React.FC<ContactSectionProps> = ({ settings, onOpen
         {/* Section Header */}
         <div className="text-center max-w-3xl mx-auto mb-14">
           <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-[#123b4a]/10 text-[#123b4a] text-xs font-black uppercase tracking-wider mb-3">
-            تواصل مع {centerName}
+            تواصل معنا
           </div>
           <h2 className="text-2xl sm:text-3xl lg:text-4xl font-black text-[#123b4a] leading-tight">
-            نخدم البحيرة وننسق الزيارات للمحافظات المجاورة
+            اسأل عن خدمة منطقتك واحجز موعدًا مناسبًا
           </h2>
           <p className="mt-4 text-sm sm:text-base text-slate-600 font-semibold leading-relaxed">
-            {centerSlogan} — الزيارات المنزلية من 8 صباحاً حتى 11 مساءً، والاتصال والواتساب متاحان 24 ساعة.
+            {centerSlogan} الزيارات المنزلية يوميًا من 8 صباحًا إلى 11 مساءً. تواصل معنا لمعرفة موعد الزيارة المناسب لمنطقتك.
           </p>
         </div>
 
@@ -74,7 +75,7 @@ export const ContactSection: React.FC<ContactSectionProps> = ({ settings, onOpen
               </div>
               <h3 className="text-lg font-black text-[#123b4a]">أرقام الاتصال الهاتفي المباشر</h3>
               <p className="mt-2 text-xs sm:text-sm text-slate-600 font-semibold leading-relaxed">
-                تحدث مع مهندسي الصيانة مباشرة لحجز زيارة فورية بالمنزل.
+                اتصل بينا واسأل عن نوع العطل والموعد المتاح في منطقتك.
               </p>
               
               <div className="mt-4 space-y-2">
@@ -114,14 +115,14 @@ export const ContactSection: React.FC<ContactSectionProps> = ({ settings, onOpen
               </div>
               <h3 className="text-lg font-black text-[#123b4a]">محادثة واستشارة واتساب</h3>
               <p className="mt-2 text-xs sm:text-sm text-slate-600 font-semibold leading-relaxed">
-                أرسل صورة الجهاز أو صوت العطل لتشخيصه وتحديد الموعد فوراً.
+                ابعت صورة أو وصف للعطل، وهنرد عليك بخطوة المتابعة المناسبة.
               </p>
               <div className="mt-4 p-4 rounded-xl bg-emerald-50 border border-emerald-100 font-black text-xs text-emerald-800 text-center">
-                متاحون 24 ساعة للرد على استفساراتكم
+                ساعات الزيارة: يوميًا من 8 صباحًا إلى 11 مساءً
               </div>
             </div>
             <a
-              href={`https://wa.me/${phone1}?text=مرحباً، أود استشارة وحجز مهندس صيانة من ${encodeURIComponent(centerName)}`}
+              href={`https://wa.me/${phone1}?text=${encodeURIComponent(`السلام عليكم، عايز أستفسر عن صيانة جهاز منزلي لدى ${centerName}.`)}`}
               target="_blank"
               rel="noopener noreferrer"
               className="mt-6 w-full py-3 rounded-xl bg-[#25D366] hover:bg-[#20ba59] text-white font-black text-xs sm:text-sm flex items-center justify-center gap-2 shadow-sm transition-all"
@@ -137,7 +138,7 @@ export const ContactSection: React.FC<ContactSectionProps> = ({ settings, onOpen
               <div className="w-14 h-14 rounded-2xl bg-blue-50 text-[#1877F2] flex items-center justify-center mb-5 shadow-sm">
                 <Facebook className="w-7 h-7" />
               </div>
-              <h3 className="text-lg font-black text-[#123b4a]">صفحة وجروب الفيسبوك</h3>
+                  <h3 className="text-lg font-black text-[#123b4a]">تابعنا على فيسبوك</h3>
               <p className="mt-2 text-xs sm:text-sm text-slate-600 font-semibold leading-relaxed">
                 انضم لصفحتنا وجروبنا لمتابعة منشورات الصيانة وفيديوهات الإصلاح العملية.
               </p>
@@ -185,16 +186,14 @@ export const ContactSection: React.FC<ContactSectionProps> = ({ settings, onOpen
           <div className="mb-12 rounded-3xl border border-[#123b4a]/10 bg-white p-5 shadow-sm sm:p-6">
             <div className="mb-4 flex flex-wrap items-center justify-between gap-3">
               <div>
-                <h3 className="text-base font-black text-[#123b4a]">اختر صفحة منطقتك</h3>
-                <p className="mt-1 text-xs font-semibold text-slate-500">معلومات الخدمة والمناطق التي نصل إليها في كل محافظة</p>
+                <h3 className="text-base font-black text-[#123b4a]">نطاق الخدمة</h3>
+                <p className="mt-1 text-xs font-semibold text-slate-500">تفاصيل الزيارات داخل محافظة البحيرة</p>
               </div>
               <MapPin className="h-5 w-5 text-[#d97706]" />
             </div>
-            <div className="grid gap-2 sm:grid-cols-3">
+            <div className="grid gap-2 sm:grid-cols-1">
               {[
-                { id: 'beheira', label: 'صيانة أجهزة البحيرة' },
-                { id: 'gharbia', label: 'صيانة أجهزة الغربية' },
-                { id: 'sharqia', label: 'صيانة أجهزة الشرقية' },
+                { id: 'beheira', label: 'عرض تفاصيل الخدمة في محافظة البحيرة' },
               ].map((area) => (
                 <button key={area.id} type="button" onClick={() => onOpenArea(area.id)} className="rounded-xl bg-slate-50 px-3 py-3 text-xs font-black text-[#123b4a] ring-1 ring-slate-200 transition hover:bg-[#123b4a] hover:text-white">
                   {area.label}
@@ -231,8 +230,8 @@ export const ContactSection: React.FC<ContactSectionProps> = ({ settings, onOpen
             {/* Google Maps Embed */}
             <div className="rounded-2xl overflow-hidden border border-slate-200 aspect-[16/9] w-full bg-slate-100 relative">
               <iframe
-                title={`موقع ${centerName} بأبو المطامير`}
-                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d54832.22857410427!2d30.134015699999996!3d30.9067332!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x1458e0a1b6a7a51d%3A0xb36b3bca782161f!2sAbu%20Al%20Matamir%2C%20Abu%20El%20Matamir%2C%20Beheira%20Governorate!5e0!3m2!1sen!2seg!4v1700000000000!5m2!1sen!2seg"
+                title={`محافظة البحيرة — نطاق خدمة ${centerName}`}
+                src="https://www.google.com/maps?q=Beheira+Governorate%2C+Egypt&output=embed"
                 width="100%"
                 height="100%"
                 style={{ border: 0 }}
@@ -253,7 +252,7 @@ export const ContactSection: React.FC<ContactSectionProps> = ({ settings, onOpen
                 </div>
                 <div>
                   <h4 className="text-base font-black text-[#123b4a]">مواعيد العمل واستقبال البلاغات</h4>
-                  <p className="text-xs text-slate-500 font-semibold">خدمة صيانة منزلية فورية</p>
+                <p className="text-xs text-slate-500 font-semibold">الزيارات حسب التغطية والمواعيد المتاحة</p>
                 </div>
               </div>
 
@@ -266,9 +265,9 @@ export const ContactSection: React.FC<ContactSectionProps> = ({ settings, onOpen
                 <div className="flex items-center justify-between p-3 rounded-xl bg-emerald-50 border border-emerald-100 text-emerald-800">
                   <span className="font-black flex items-center gap-1">
                     <CheckCircle2 className="w-4 h-4 text-emerald-600" />
-                    خدمة الطوارئ والواتساب:
+                    للاستفسار عبر الهاتف أو واتساب:
                   </span>
-                  <span className="font-black">24 ساعة</span>
+                  <span className="font-black">تواصل معنا</span>
                 </div>
               </div>
 
@@ -288,7 +287,7 @@ export const ContactSection: React.FC<ContactSectionProps> = ({ settings, onOpen
                 className="w-full py-3 rounded-xl bg-[#123b4a] hover:bg-[#174c5d] text-white font-black text-xs sm:text-sm flex items-center justify-center gap-2 transition-colors"
               >
                 <Phone className="w-4 h-4 text-[#d97706]" />
-                <span>اتصال فوري الآن</span>
+                <span>اتصل للاستفسار</span>
               </a>
             </div>
           </div>

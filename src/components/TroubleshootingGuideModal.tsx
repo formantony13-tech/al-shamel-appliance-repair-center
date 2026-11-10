@@ -292,7 +292,7 @@ export const TroubleshootingGuideModal: React.FC<TroubleshootingGuideModalProps>
         <div className="p-4 rounded-2xl bg-gradient-to-r from-[#123b4a] to-[#174c5d] text-white flex flex-col sm:flex-row items-center justify-between gap-3 text-xs shadow-md">
           <div className="text-center sm:text-right">
             <span className="font-black text-[#d97706] block text-sm">لديك حالة طوارئ خاصة أو عطل غير مذكور؟</span>
-            <span className="text-slate-200 font-semibold">تواصل مباشرة مع المهندس المناوب بأبو المطامير على مدار الساعة</span>
+            <span className="text-slate-200 font-semibold">تواصل مع المركز في محافظة البحيرة لمعرفة الخطوة المناسبة.</span>
           </div>
           <a
             href={`tel:+${PHONE_NUMBER_1}`}

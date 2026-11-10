@@ -16,6 +16,7 @@ import {
 } from 'lucide-react';
 import { ApplianceForSale, ForSaleCategory, AppSystemSettings } from '../types';
 import { fetchAllForSaleItems } from '../lib/dbService';
+import { safeRegionCopy } from '../lib/publicCopy';
 
 interface ForSaleSectionProps {
   settings: AppSystemSettings;
@@ -66,7 +67,7 @@ export const ForSaleSection: React.FC<ForSaleSectionProps> = ({ settings }) => {
         return (
           <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold bg-emerald-500/10 text-emerald-600 border border-emerald-500/20 shadow-sm">
             <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
-            متاح للشراء فوراً
+            متاح — أكد معنا قبل الشراء
           </span>
         );
       case 'RESERVED':
@@ -94,44 +95,26 @@ export const ForSaleSection: React.FC<ForSaleSectionProps> = ({ settings }) => {
   };
 
   return (
-    <section id="for-sale-section" className="py-20 bg-gradient-to-b from-slate-50 via-white to-slate-50 relative overflow-hidden border-t border-slate-200/80">
-      {/* Background Decorative Glow */}
-      <div className="absolute top-1/4 -right-40 w-96 h-96 bg-primary/5 rounded-full blur-3xl pointer-events-none"></div>
-      <div className="absolute bottom-1/4 -left-40 w-96 h-96 bg-emerald-500/5 rounded-full blur-3xl pointer-events-none"></div>
+    <section id="for-sale-section" className="py-16 sm:py-20 bg-slate-50 border-t border-slate-200/80">
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative">
         {/* Header */}
         <div className="text-center max-w-3xl mx-auto mb-14">
-          <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-primary/10 text-primary font-bold text-sm mb-4 border border-primary/20 shadow-sm">
+          <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-[#123b4a]/5 text-[#123b4a] font-bold text-sm mb-4 border border-[#123b4a]/15">
             <ShoppingBag className="w-4 h-4" />
-            <span>سوق الأجهزة المجددة بالضمان المعتمد</span>
+            <span>سوق الأجهزة</span>
           </div>
-          <h2 className="text-3xl sm:text-4xl font-black text-slate-900 leading-tight mb-4">
-            معروضات أجهزة منزلية بحالة الزيرو مع ضمان المركز
+          <h2 className="text-3xl sm:text-4xl font-black text-[#123b4a] leading-tight mb-4">
+            أجهزة للبيع
           </h2>
-          <p className="text-lg text-slate-600 leading-relaxed">
-            ثلاجات، غسالات، وديب فريزر مفحوصة بدقة من فنيين معتمدين، بقطع غيار أصلية وبأسعار تنافسية توفر لك أكثر من 50% مع ضمان رسمي وفاتورة معتمدة.
+          <p className="text-base text-slate-600 leading-relaxed">
+            كل إعلان يعرض صور الجهاز وحالته وسعره. تواصل معنا قبل الزيارة للتأكد من استمرار توفره.
           </p>
 
-          {/* Guarantee Highlights Bar */}
-          <div className="mt-8 grid grid-cols-1 sm:grid-cols-3 gap-3">
-            <div className="flex items-center justify-center gap-2 py-2.5 px-4 rounded-xl bg-white border border-slate-200/80 shadow-xs text-xs sm:text-sm font-semibold text-slate-700">
-              <ShieldCheck className="w-4 h-4 text-emerald-600" />
-              <span>ضمان شامل من 6 شهور إلى سنة</span>
-            </div>
-            <div className="flex items-center justify-center gap-2 py-2.5 px-4 rounded-xl bg-white border border-slate-200/80 shadow-xs text-xs sm:text-sm font-semibold text-slate-700">
-              <Sparkles className="w-4 h-4 text-primary" />
-              <span>فحص واختبار تبريد وتشغيل 48 ساعة</span>
-            </div>
-            <div className="flex items-center justify-center gap-2 py-2.5 px-4 rounded-xl bg-white border border-slate-200/80 shadow-xs text-xs sm:text-sm font-semibold text-slate-700">
-              <MapPin className="w-4 h-4 text-amber-600" />
-              <span>معاينة حقيقية وتوصيل للمنزل</span>
-            </div>
-          </div>
         </div>
 
         {/* Categories Filter Tabs */}
-        <div className="flex items-center justify-center gap-2 overflow-x-auto pb-4 mb-10 no-scrollbar">
+        {items.length > 0 && <div className="flex items-center justify-center gap-2 overflow-x-auto pb-4 mb-10 no-scrollbar">
           {CATEGORIES.map(cat => (
             <button
               key={cat.value}
@@ -142,7 +125,7 @@ export const ForSaleSection: React.FC<ForSaleSectionProps> = ({ settings }) => {
               }}
               className={`px-5 py-2.5 rounded-xl font-bold text-sm transition-all duration-200 whitespace-nowrap cursor-pointer flex items-center gap-2 ${
                 selectedCategory === cat.value
-                  ? 'bg-slate-900 text-white shadow-md shadow-slate-900/10'
+                  ? 'bg-[#123b4a] text-white shadow-sm'
                   : 'bg-white text-slate-600 hover:text-slate-900 hover:bg-slate-100 border border-slate-200/80'
               }`}
             >
@@ -150,7 +133,7 @@ export const ForSaleSection: React.FC<ForSaleSectionProps> = ({ settings }) => {
               <span>{cat.label}</span>
             </button>
           ))}
-        </div>
+        </div>}
 
         {/* Loading State */}
         {loading ? (
@@ -167,18 +150,20 @@ export const ForSaleSection: React.FC<ForSaleSectionProps> = ({ settings }) => {
         ) : filteredItems.length === 0 ? (
           /* Empty State */
           <div className="text-center py-16 bg-white rounded-3xl border border-dashed border-slate-300 p-8 max-w-lg mx-auto shadow-xs">
-            <div className="w-16 h-16 rounded-full bg-slate-100 flex items-center justify-center mx-auto mb-4 text-slate-400">
+            <div className="w-16 h-16 rounded-full bg-[#123b4a]/5 flex items-center justify-center mx-auto mb-4 text-[#123b4a]/50">
               <ShoppingBag className="w-8 h-8" />
             </div>
-            <h3 className="text-lg font-bold text-slate-800 mb-2">لا توجد أجهزة معروضة في هذا القسم حالياً</h3>
+            <h3 className="text-lg font-bold text-slate-800 mb-2">
+              {items.length === 0 ? 'مافيش أجهزة معروضة للبيع دلوقتي' : 'مافيش أجهزة من النوع ده معروضة حاليًا'}
+            </h3>
             <p className="text-sm text-slate-500 mb-6">
-              يتم تحديث المعروضات أسبوعياً. يمكنك التواصل معنا مباشرة لطلب مواصفات جهاز معين وسنوفر لك أفضل خيار مع الضمان.
+              تواصل معنا لو بتدور على جهاز بمواصفات معينة، واسأل عن المتاح قبل الزيارة.
             </p>
             <a
               href={`https://wa.me/${settings.whatsappNumber.replace(/[^0-9]/g, '')}?text=${encodeURIComponent('السلام عليكم، أرغب في الاستفسار عن الأجهزة المنزلية المتاحة للبيع لدى مركزكم.')}`}
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex items-center gap-2 px-6 py-2.5 rounded-xl bg-emerald-600 text-white font-bold text-sm hover:bg-emerald-700 shadow-md shadow-emerald-600/20 transition-all"
+              className="inline-flex items-center gap-2 px-6 py-2.5 rounded-xl bg-[#25D366] text-white font-bold text-sm hover:bg-[#20ba59] transition-colors"
             >
               <MessageSquare className="w-4 h-4" />
               <span>اسأل عن جهازك عبر واتساب</span>
@@ -334,26 +319,26 @@ export const ForSaleSection: React.FC<ForSaleSectionProps> = ({ settings }) => {
         )}
 
         {/* Bottom Banner */}
-        <div className="mt-16 bg-gradient-to-r from-slate-900 via-slate-800 to-slate-900 rounded-3xl p-8 sm:p-10 text-white shadow-xl flex flex-col md:flex-row items-center justify-between gap-6">
+        <div className="mt-12 bg-[#123b4a] rounded-3xl p-8 sm:p-10 text-white flex flex-col md:flex-row items-center justify-between gap-6">
           <div className="max-w-xl text-center md:text-right">
-            <h3 className="text-xl sm:text-2xl font-black mb-2">هل لديك جهاز قديم وترغب في استبداله أو بيعه؟</h3>
+            <h3 className="text-xl sm:text-2xl font-black mb-2">بتدور على جهاز بمواصفات معينة؟</h3>
             <p className="text-slate-300 text-sm leading-relaxed">
-              مركز قطب يقدم خدمة تثمين واستبدال الأجهزة المنزلية القديمة (ثلاجات، غسالات، فريزر) مع خصم قيمتها من صيانة جهازك أو استبدالها بجهاز مجدد بضمان.
+              ابعت لنا نوع الجهاز والمواصفات اللي تهمك، وهنقول لك لو توفر جهاز مناسب. السعر والحالة والضمان يتحددوا لكل جهاز على حدة.
             </p>
           </div>
           <div className="flex flex-wrap items-center gap-3">
             <a
-              href={`https://wa.me/${settings.whatsappNumber.replace(/[^0-9]/g, '')}?text=${encodeURIComponent('السلام عليكم، لدي جهاز قديم وأريد الاستفسار عن إمكانية بيعه أو استبداله لدى المركز.')}`}
+              href={`https://wa.me/${settings.whatsappNumber.replace(/[^0-9]/g, '')}?text=${encodeURIComponent('السلام عليكم، بدور على جهاز منزلي بالمواصفات التالية:')}`}
               target="_blank"
               rel="noopener noreferrer"
-              className="px-6 py-3 rounded-xl bg-emerald-500 hover:bg-emerald-600 text-white font-bold text-sm shadow-lg shadow-emerald-500/20 transition-all flex items-center gap-2 cursor-pointer"
+              className="px-6 py-3 rounded-xl bg-[#25D366] hover:bg-[#20ba59] text-white font-bold text-sm transition-colors flex items-center gap-2 cursor-pointer"
             >
               <MessageSquare className="w-4 h-4" />
-              <span>استفسر عن التثمين والاستبدال</span>
+              <span>أرسل مواصفات الجهاز</span>
             </a>
             <a
               href={`tel:+${settings.phone1}`}
-              className="px-6 py-3 rounded-xl bg-white/10 hover:bg-white/20 text-white font-bold text-sm border border-white/20 transition-all flex items-center gap-2 cursor-pointer"
+              className="px-6 py-3 rounded-xl bg-white text-[#123b4a] font-bold text-sm border border-white transition-colors flex items-center gap-2 cursor-pointer"
             >
               <PhoneCall className="w-4 h-4" />
               <span>{settings.phone1Display}</span>
@@ -439,7 +424,7 @@ export const ForSaleSection: React.FC<ForSaleSectionProps> = ({ settings }) => {
                     <MapPin className="w-5 h-5 text-amber-600 shrink-0" />
                     <div>
                       <span className="text-[11px] text-amber-800 font-bold block">موقع المعاينة والتوصيل</span>
-                      <span className="text-xs text-amber-950 font-semibold">{selectedItem.location}</span>
+                      <span className="text-xs text-amber-950 font-semibold">{safeRegionCopy(selectedItem.location)}</span>
                     </div>
                   </div>
                 )}
@@ -471,7 +456,7 @@ export const ForSaleSection: React.FC<ForSaleSectionProps> = ({ settings }) => {
                     className="flex-1 sm:flex-none px-6 py-3 rounded-xl bg-slate-900 hover:bg-slate-800 text-white font-bold text-sm transition-all flex items-center justify-center gap-2 cursor-pointer"
                   >
                     <PhoneCall className="w-4 h-4" />
-                    <span>اتصال فوري</span>
+                    <span>اتصل للاستفسار</span>
                   </a>
                 </div>
               </div>

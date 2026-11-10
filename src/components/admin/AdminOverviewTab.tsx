@@ -44,11 +44,9 @@ export const AdminOverviewTab: React.FC<AdminOverviewTabProps> = ({
 
   // Geographic Distribution
   const branchStats = {
-    beheira: bookings.filter(b => b.address.includes('بحيرة') || b.address.includes('مطامير') || b.address.includes('دمنهور') || b.address.includes('دوار')).length,
-    gharbia: bookings.filter(b => b.address.includes('غربية') || b.address.includes('طنطا') || b.address.includes('محلة') || b.address.includes('زيات') || b.address.includes('زفتى')).length,
-    sharqia: bookings.filter(b => b.address.includes('شرقية') || b.address.includes('زقازيق') || b.address.includes('عاشر') || b.address.includes('بلبيس') || b.address.includes('فاقوس')).length,
+    beheira: bookings.filter(b => (b.address || '').includes('البحيرة')).length,
   };
-  const otherAreaCount = Math.max(0, totalBookings - (branchStats.beheira + branchStats.gharbia + branchStats.sharqia));
+  const otherAreaCount = Math.max(0, totalBookings - branchStats.beheira);
 
   // Device Breakdown
   const deviceCounts: Record<string, number> = {};
@@ -115,7 +113,7 @@ export const AdminOverviewTab: React.FC<AdminOverviewTabProps> = ({
             <span className="text-[11px] font-bold text-slate-400">جهاز تم إصلاحه</span>
           </div>
           <div className="mt-2 text-[10px] text-emerald-700 font-bold">
-            نسبة الإنجاز: {totalBookings > 0 ? Math.round((completedJobs.length / totalBookings) * 100) : 100}%
+            نسبة الإنجاز: {totalBookings > 0 ? Math.round((completedJobs.length / totalBookings) * 100) : 0}%
           </div>
         </div>
 
@@ -171,45 +169,19 @@ export const AdminOverviewTab: React.FC<AdminOverviewTabProps> = ({
               <MapPin className="w-4 h-4 text-[#d97706]" />
               <span>التوزيع الجغرافي للطلبات</span>
             </h3>
-            <span className="text-[10px] font-bold text-slate-400">الفروع الثلاثة</span>
+            <span className="text-[10px] font-bold text-slate-400">محافظة البحيرة</span>
           </div>
 
           <div className="space-y-3 text-xs">
             <div>
               <div className="flex items-center justify-between font-bold text-slate-700 mb-1">
-                <span>محافظة البحيرة (دمنهور، أبو المطامير...)</span>
+                <span>محافظة البحيرة</span>
                 <span className="font-mono text-[#123b4a]">{branchStats.beheira} طلب</span>
               </div>
               <div className="w-full h-2 rounded-full bg-slate-100 overflow-hidden">
                 <div
                   className="h-full bg-[#123b4a] rounded-full"
-                  style={{ width: `${totalBookings > 0 ? (branchStats.beheira / totalBookings) * 100 : 33}%` }}
-                />
-              </div>
-            </div>
-
-            <div>
-              <div className="flex items-center justify-between font-bold text-slate-700 mb-1">
-                <span>محافظة الغربية (طنطا، المحلة، كفر الزيات...)</span>
-                <span className="font-mono text-[#d97706]">{branchStats.gharbia} طلب</span>
-              </div>
-              <div className="w-full h-2 rounded-full bg-slate-100 overflow-hidden">
-                <div
-                  className="h-full bg-[#d97706] rounded-full"
-                  style={{ width: `${totalBookings > 0 ? (branchStats.gharbia / totalBookings) * 100 : 33}%` }}
-                />
-              </div>
-            </div>
-
-            <div>
-              <div className="flex items-center justify-between font-bold text-slate-700 mb-1">
-                <span>محافظة الشرقية (الزقازيق، العاشر، بلبيس...)</span>
-                <span className="font-mono text-emerald-600">{branchStats.sharqia} طلب</span>
-              </div>
-              <div className="w-full h-2 rounded-full bg-slate-100 overflow-hidden">
-                <div
-                  className="h-full bg-emerald-600 rounded-full"
-                  style={{ width: `${totalBookings > 0 ? (branchStats.sharqia / totalBookings) * 100 : 33}%` }}
+                  style={{ width: `${totalBookings > 0 ? (branchStats.beheira / totalBookings) * 100 : 0}%` }}
                 />
               </div>
             </div>
@@ -217,7 +189,7 @@ export const AdminOverviewTab: React.FC<AdminOverviewTabProps> = ({
             {otherAreaCount > 0 && (
               <div>
                 <div className="flex items-center justify-between font-bold text-slate-700 mb-1">
-                  <span>مراكز وقرى ومناطق أخرى</span>
+                  <span>طلبات تحتاج مراجعة المنطقة</span>
                   <span className="font-mono text-slate-500">{otherAreaCount} طلب</span>
                 </div>
                 <div className="w-full h-2 rounded-full bg-slate-100 overflow-hidden">

@@ -179,14 +179,14 @@ export async function compressAndUploadImage(
       storagePath
     };
   } catch (err) {
-    // Firebase Storage is optional on the free Spark plan. Keep the workflow usable
-    // by storing the already-compressed JPEG data URL in Firestore as a fallback.
-    // The image has already been resized and compressed, so this is bounded and safe
-    // for the small public images used by the site.
-    console.warn('Firebase Storage unavailable; using compressed Firestore image fallback.', err);
-    return {
-      url: processed.dataUrl,
-      sizeBytes: processed.sizeBytes
-    };
+    // A Storage permission/configuration error must not masquerade as a successful upload.
+    // Only permit a small local/offline fallback; Firestore documents have a strict size limit.
+    const offline = typeof navigator !== 'undefined' && navigator.onLine === false;
+    const maxOfflineFallbackBytes = 350 * 1024;
+    if (offline && processed.sizeBytes <= maxOfflineFallbackBytes) {
+      console.warn('Firebase Storage unavailable while offline; using a small compressed image fallback.', err);
+      return { url: processed.dataUrl, sizeBytes: processed.sizeBytes };
+    }
+    throw err instanceof Error ? err : new Error('تعذر رفع الصورة إلى التخزين السحابي. تحقق من الاتصال وصلاحيات Firebase Storage.');
   }
 }

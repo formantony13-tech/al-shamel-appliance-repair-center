@@ -21,7 +21,6 @@ import {
   Award,
   HelpCircle
 } from 'lucide-react';
-import confetti from 'canvas-confetti';
 import { 
   PHONE_NUMBER_1, 
   DISPLAY_PHONE_1, 
@@ -63,7 +62,7 @@ export const BookingSection: React.FC<BookingSectionProps> = ({
     deviceType: initialDevice || 'ديب فريزر ألاسكا / كريازي',
     brand: '',
     issueDescription: initialIssue || '',
-    preferredTime: 'في خلال 24 ساعة (طوارئ اليوم)'
+    preferredTime: 'أقرب موعد متاح'
   });
   const [formRenderTime] = useState<number>(() => Date.now());
   const [honeypotValue, setHoneypotValue] = useState<string>('');
@@ -80,16 +79,15 @@ export const BookingSection: React.FC<BookingSectionProps> = ({
     }
   }, [initialDevice, initialIssue]);
 
-  const [selectedTargetNumber, setSelectedTargetNumber] = useState<'1' | '2'>('1');
+  const selectedTargetNumber: '1' | '2' = '1';
   const [appliancePhoto, setAppliancePhoto] = useState<string>('');
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [confirmedBooking, setConfirmedBooking] = useState<BookingRecord | null>(null);
   const [fallbackWhatsAppUrl, setFallbackWhatsAppUrl] = useState<string | null>(null);
 
   const popularBranches = [
-    'محافظة البحيرة (دمنهور، أبو المطامير، كفر الدوار...)',
-    'محافظة الغربية (طنطا، المحلة، كفر الزيات، زفتى...)',
-    'محافظة الشرقية (الزقازيق، العاشر من رمضان، بلبيس...)'
+    'محافظة البحيرة',
+    'منطقة أخرى داخل محافظة البحيرة'
   ];
 
   const quickDeviceSuggestions = [
@@ -106,7 +104,7 @@ export const BookingSection: React.FC<BookingSectionProps> = ({
   ];
 
   const timeOptions = [
-    'في خلال 24 ساعة (طوارئ اليوم)',
+    'أقرب موعد متاح',
     'اليوم في الفترة الصباحية (9ص - 2ظ)',
     'اليوم في الفترة المسائية (4ع - 10م)',
     'غداً صباحاً',
@@ -182,40 +180,13 @@ export const BookingSection: React.FC<BookingSectionProps> = ({
       // Record submission timestamp for spam limiter
       recordSubmission();
 
-      // Trigger Celebration Confetti
-      try {
-        confetti({
-          particleCount: 80,
-          spread: 70,
-          origin: { y: 0.6 }
-        });
-      } catch (err) {
-        // ignore
-      }
-
       setConfirmedBooking(savedBooking);
-      onShowToast(`تم تسجيل وتأكيد طلبك بنجاح! كود الحجز: ${savedBooking.id}`, 'success');
-
-      // 2. Open WhatsApp optionally
-      const targetPhone = selectedTargetNumber === '1' ? PHONE_NUMBER_1 : PHONE_NUMBER_2;
-      const message = `*طلب صيانة جديد من موقع مركز قطب للحل السريع* 🛠️⚙️
-━━━━━━━━━━━━━━━━━━
-📌 *كود الحجز:* ${savedBooking.id}
-👤 *الاسم:* ${savedBooking.fullName}
-📱 *رقم الموبايل:* ${savedBooking.phoneNumber}
-📍 *العنوان:* ${savedBooking.address}
-🔌 *الجهاز:* ${savedBooking.deviceType} ${savedBooking.brand ? `(${savedBooking.brand})` : ''}
-⏰ *الموعد المطلوب:* ${savedBooking.preferredTime}
-📝 *وصف العطل:*
-${savedBooking.issueDescription}
-━━━━━━━━━━━━━━━━━━
-_تم تسجيل الطلب في قاعدة بيانات المركز بأبو المطامير_`;
-
-      const whatsappUrl = `https://wa.me/${targetPhone}?text=${encodeURIComponent(message)}`;
-      
-      setTimeout(() => {
-        window.open(whatsappUrl, '_blank');
-      }, 500);
+      onShowToast(
+        savedBooking.syncState === 'SYNCED'
+          ? `وصل طلبك للمركز. احتفظ بكود المتابعة: ${savedBooking.id}`
+          : 'اتحفظ الطلب على جهازك، لكن لسه ما وصلش للمركز. ابعته على واتساب لتأكيد استلامه.',
+        savedBooking.syncState === 'SYNCED' ? 'success' : 'info'
+      );
 
     } catch (error: any) {
       console.error('Error creating booking:', error);
@@ -233,7 +204,7 @@ ${formData.issueDescription.trim()}
 ━━━━━━━━━━━━━━━━━━`;
       const fallbackUrl = `https://wa.me/${targetPhone}?text=${encodeURIComponent(fallbackMsg)}`;
       setFallbackWhatsAppUrl(fallbackUrl);
-      onShowToast(friendlyMsg || 'تعذر الاتصال بالسيرفر، اضغط على زر الواتساب بالأسفل لإرسال بياناتك فوراً للمهندس دون أي تأخير', 'error');
+      onShowToast(friendlyMsg || 'تعذر تسجيل الطلب الآن. تواصل معنا هاتفيًا أو عبر واتساب لإرساله، ثم تأكد من استلام المركز له.', 'error');
     } finally {
       setIsSubmitting(false);
     }
@@ -246,6 +217,12 @@ ${formData.issueDescription.trim()}
       onShowToast('تم نسخ كود الحجز إلى الحافظة', 'success');
     }
   };
+
+  const confirmedBookingWhatsAppUrl = confirmedBooking
+    ? `https://wa.me/${selectedTargetNumber === '1' ? PHONE_NUMBER_1 : PHONE_NUMBER_2}?text=${encodeURIComponent(
+        `مرحباً مركز قطب، أرسلت طلب صيانة من الموقع. كود الطلب: ${confirmedBooking.id}\nالاسم: ${confirmedBooking.fullName}\nرقم الهاتف: ${confirmedBooking.phoneNumber}\nالعنوان: ${confirmedBooking.address}\nالجهاز: ${confirmedBooking.deviceType}${confirmedBooking.brand ? ` (${confirmedBooking.brand})` : ''}\nالوقت المفضل: ${confirmedBooking.preferredTime}\nوصف العطل: ${confirmedBooking.issueDescription}`
+      )}`
+    : '#';
 
   return (
     <section id="booking" className="py-16 lg:py-24 bg-white relative">
@@ -260,19 +237,21 @@ ${formData.issueDescription.trim()}
               {confirmedBooking ? (
                 /* SUCCESS CONFIRMATION SCREEN */
                 <div className="text-center py-8 space-y-6 animate-fadeIn">
-                  <div className="w-20 h-20 rounded-full bg-emerald-100 text-emerald-600 flex items-center justify-center mx-auto shadow-inner">
-                    <CheckCircle className="w-10 h-10" />
+                  <div className={`w-20 h-20 rounded-full ${confirmedBooking.syncState === 'SYNCED' ? 'bg-emerald-100 text-emerald-600' : 'bg-amber-100 text-amber-700'} flex items-center justify-center mx-auto shadow-inner`}>
+                    {confirmedBooking.syncState === 'SYNCED' ? <CheckCircle className="w-10 h-10" /> : <AlertCircle className="w-10 h-10" />}
                   </div>
 
                   <div>
                     <span className="text-xs font-black text-emerald-600 bg-emerald-50 px-3.5 py-1 rounded-full border border-emerald-200">
-                      تم استلام وتوثيق طلبك بنجاح
+                      {confirmedBooking.syncState === 'SYNCED' ? 'وصل طلبك للمركز' : 'الطلب محفوظ على جهازك فقط'}
                     </span>
                     <h3 className="text-2xl sm:text-3xl font-black text-[#123b4a] mt-2">
-                      شكراً لك أستاذ {confirmedBooking.fullName}
+                      أهلاً يا {confirmedBooking.fullName}
                     </h3>
                     <p className="text-xs sm:text-sm text-slate-600 font-semibold mt-1">
-                      تم تسجيل الحجز في قاعدة بيانات المركز، وسيتواصل معك مهندس الصيانة في أقرب وقت.
+                      {confirmedBooking.syncState === 'SYNCED'
+                        ? 'استلمنا بياناتك. هنتواصل معاك لتأكيد موعد الزيارة.'
+                        : 'الطلب لسه ما وصلش للمركز. ابعته على واتساب من الزر أدناه، واحتفظ بكود المتابعة.'}
                     </p>
                   </div>
 
@@ -294,7 +273,7 @@ ${formData.issueDescription.trim()}
 
                   {confirmedBooking.syncState === 'PENDING_SYNC' && (
                     <div className="p-3.5 bg-amber-50 border border-amber-200 rounded-2xl text-xs text-amber-900 font-bold text-right">
-                      ⚠️ تم حفظ طلبك محلياً في هاتفك/جهازك لضعف شبكة الإنترنت، وسيتزامن تلقائياً مع السيرفر فور استقرار الاتصال. يمكنك تأكيد الموعد فوراً عبر زر الواتساب أدناه.
+                      ⚠️ ما قدرناش نأكد وصول الطلب للمركز. ما تعتبرش الموعد محجوزًا لحد ما يرد عليك الفريق؛ ابعت التفاصيل على واتساب أو اتصل بينا.
                     </div>
                   )}
 
@@ -311,13 +290,13 @@ ${formData.issueDescription.trim()}
                     )}
 
                     <a
-                      href={`https://wa.me/${selectedTargetNumber === '1' ? PHONE_NUMBER_1 : PHONE_NUMBER_2}?text=${encodeURIComponent(`مرحباً مركز قطب، أود متابعة طلب الصيانة كود (${confirmedBooking.id})`)}`}
+                      href={confirmedBookingWhatsAppUrl}
                       target="_blank"
                       rel="noopener noreferrer"
                       className="w-full sm:w-auto px-6 py-3.5 rounded-2xl bg-[#25D366] hover:bg-[#20ba59] text-white font-black text-sm flex items-center justify-center gap-2 shadow-md"
                     >
                       <MessageSquare className="w-4 h-4" />
-                      <span>متابعة فورية عبر واتساب</span>
+                      <span>{confirmedBooking.syncState === 'SYNCED' ? 'متابعة الطلب على واتساب' : 'إرسال بيانات الطلب على واتساب'}</span>
                     </a>
 
                     <button
@@ -327,11 +306,11 @@ ${formData.issueDescription.trim()}
                         setFormData({
                           fullName: '',
                           phoneNumber: '',
-                          address: 'أبو المطامير - البحيرة',
+                          address: 'محافظة البحيرة',
                           deviceType: 'ديب فريزر',
                           brand: '',
                           issueDescription: '',
-                          preferredTime: 'في خلال 24 ساعة (طوارئ اليوم)'
+                          preferredTime: 'أقرب موعد متاح'
                         });
                         setAppliancePhoto('');
                       }}
@@ -351,7 +330,7 @@ ${formData.issueDescription.trim()}
                         <span>تعذر إرسال الحجز للسيرفر السحابي</span>
                       </div>
                       <p className="text-xs text-amber-800 font-semibold leading-relaxed">
-                        لا تقلق! تم تجهيز بيانات حجزك بالكامل. اضغط على الزر التالي لإرسالها فوراً للمهندس المسؤول عبر الواتساب لتحديد الموعد فوراً:
+                        الطلب ما وصلش للمركز إلكترونيًا. اضغط الزر التالي لإرسال التفاصيل بنفسك عبر واتساب، وانتظر تأكيد الفريق للموعد:
                       </p>
                       <a
                         href={fallbackWhatsAppUrl}
@@ -369,7 +348,7 @@ ${formData.issueDescription.trim()}
                     <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2.5 mb-3">
                       <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-[#d97706]/10 text-[#d97706] text-xs font-black uppercase tracking-wider w-fit">
                         <Calendar className="w-3.5 h-3.5" />
-                        <span>حجز زيارة مهندس صيانة</span>
+                        <span>طلب زيارة صيانة</span>
                       </div>
 
                       <div className="flex flex-wrap items-center gap-2">
@@ -397,10 +376,10 @@ ${formData.issueDescription.trim()}
                       </div>
                     </div>
                     <h2 className="text-2xl sm:text-3xl font-black text-[#123b4a] leading-tight">
-                      احجز مهندس صيانة لمنزلك الآن
+                      اطلب زيارة صيانة
                     </h2>
                     <p className="mt-2 text-xs sm:text-sm text-slate-600 font-semibold leading-relaxed">
-                      يتم تسجيل طلبك مباشرة في قاعدة بيانات المركز لتنسيق الزيارة خلال 24 ساعة حسب المنطقة والموعد المتاح داخل البحيرة والمناطق المجاورة.
+                      اكتب بياناتك ومشكلة الجهاز، وفريق المركز هيتواصل معاك لتأكيد إمكانية الزيارة وموعدها حسب منطقتك.
                     </p>
                   </div>
 
@@ -419,60 +398,6 @@ ${formData.issueDescription.trim()}
                       />
                     </div>
                     
-                    {/* Number Selector */}
-                    <div>
-                      <label className="block text-xs font-black text-slate-700 mb-1.5">
-                        إرسال إشعار الحجز إلى: <span className="text-red-500">*</span>
-                      </label>
-                      <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                        <button
-                          type="button"
-                          onClick={() => setSelectedTargetNumber('1')}
-                          className={`p-3.5 rounded-2xl border text-right transition-all flex items-center justify-between ${
-                            selectedTargetNumber === '1'
-                              ? 'border-[#25D366] bg-emerald-50 ring-2 ring-[#25D366]/20'
-                              : 'border-slate-200 bg-white hover:bg-slate-100'
-                          }`}
-                        >
-                          <div className="flex items-center gap-2.5">
-                            <div className="w-8 h-8 rounded-xl bg-[#25D366] text-white flex items-center justify-center">
-                              <MessageSquare className="w-4 h-4" />
-                            </div>
-                            <div>
-                              <span className="text-xs font-black text-[#123b4a] block">الخط الأساسي</span>
-                              <span className="text-xs font-mono font-bold text-emerald-800" dir="ltr">{DISPLAY_PHONE_1}</span>
-                            </div>
-                          </div>
-                          <span className={`w-4 h-4 rounded-full border-2 flex items-center justify-center ${selectedTargetNumber === '1' ? 'border-[#25D366] bg-[#25D366]' : 'border-slate-300'}`}>
-                            {selectedTargetNumber === '1' && <span className="w-1.5 h-1.5 rounded-full bg-white"></span>}
-                          </span>
-                        </button>
-
-                        <button
-                          type="button"
-                          onClick={() => setSelectedTargetNumber('2')}
-                          className={`p-3.5 rounded-2xl border text-right transition-all flex items-center justify-between ${
-                            selectedTargetNumber === '2'
-                              ? 'border-[#25D366] bg-emerald-50 ring-2 ring-[#25D366]/20'
-                              : 'border-slate-200 bg-white hover:bg-slate-100'
-                          }`}
-                        >
-                          <div className="flex items-center gap-2.5">
-                            <div className="w-8 h-8 rounded-xl bg-slate-700 text-white flex items-center justify-center">
-                              <MessageCircle className="w-4 h-4 text-[#25D366]" />
-                            </div>
-                            <div>
-                              <span className="text-xs font-black text-[#123b4a] block">الخط الثاني</span>
-                              <span className="text-xs font-mono font-bold text-slate-800" dir="ltr">{DISPLAY_PHONE_2}</span>
-                            </div>
-                          </div>
-                          <span className={`w-4 h-4 rounded-full border-2 flex items-center justify-center ${selectedTargetNumber === '2' ? 'border-[#25D366] bg-[#25D366]' : 'border-slate-300'}`}>
-                            {selectedTargetNumber === '2' && <span className="w-1.5 h-1.5 rounded-full bg-white"></span>}
-                          </span>
-                        </button>
-                      </div>
-                    </div>
-
                     {/* Name & Phone */}
                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                       <div>
@@ -508,7 +433,7 @@ ${formData.issueDescription.trim()}
                     {/* Address & Branches */}
                     <div>
                       <label className="block text-xs font-black text-slate-700 mb-1.5">
-                        العنوان والمحافظة (البحيرة • الغربية • الشرقية) <span className="text-red-500">*</span>
+                        العنوان داخل محافظة البحيرة <span className="text-red-500">*</span>
                       </label>
                       <div className="relative">
                         <input
@@ -684,19 +609,19 @@ ${formData.issueDescription.trim()}
                         type="submit"
                         disabled={isSubmitting}
                         id="submit-booking-btn"
-                        className="w-full inline-flex items-center justify-center gap-3 py-4 px-6 rounded-2xl bg-gradient-to-r from-[#25D366] to-[#1ebe5a] hover:from-[#20ba59] hover:to-[#18a24c] text-white text-base font-black shadow-lg shadow-[#25D366]/25 hover:shadow-xl transition-all transform active:scale-95 disabled:opacity-50"
+                        className="w-full inline-flex items-center justify-center gap-3 py-4 px-6 rounded-2xl bg-[#d97706] hover:bg-[#b45309] text-white text-base font-black shadow-md shadow-[#d97706]/20 transition-all active:scale-95 disabled:opacity-50"
                       >
                         {isSubmitting ? (
-                          <span>جاري تسجيل الحجز وتوليد الكود...</span>
+                          <span>جارٍ إرسال طلبك…</span>
                         ) : (
                           <>
-                            <MessageSquare className="w-5 h-5" />
-                            <span>تأكيد الحجز وحفظه في قاعدة البيانات</span>
+                            <Calendar className="w-5 h-5" />
+                            <span>إرسال طلب الصيانة</span>
                           </>
                         )}
                       </button>
-                      <p className="text-[11px] font-semibold text-slate-500 text-center mt-2">
-                        🔒 يتم حفظ طلبك برقم موحد وتنبيه مهندس الصيانة فوراً
+                      <p className="text-[11px] font-semibold text-slate-500 text-center mt-2 leading-5">
+                        الموعد لا يتأكد بمجرد إرسال الطلب؛ سنتواصل معك لتأكيده. نستخدم بياناتك للتواصل بشأن هذا الطلب.
                       </p>
                     </div>
 
@@ -712,7 +637,7 @@ ${formData.issueDescription.trim()}
             <div className="rounded-3xl bg-[#123b4a] p-6 text-white shadow-xl">
               <div className="mb-4 flex items-center gap-3">
                 <div className="flex h-11 w-11 items-center justify-center rounded-2xl bg-white/10 text-[#d97706]"><Phone className="h-5 w-5" /></div>
-                <div><h3 className="text-base font-black">تواصل سريع مع {CENTER_NAME}</h3><p className="text-xs font-semibold text-slate-300">الزيارات 8 ص–11 م • الرد على الهاتف والواتساب 24 ساعة</p></div>
+                <div><h3 className="text-base font-black">تواصل مع {CENTER_NAME}</h3><p className="text-xs font-semibold text-slate-300">الزيارات يوميًا من 8 صباحًا إلى 11 مساءً</p></div>
               </div>
               <a href={`tel:+${PHONE_NUMBER_1}`} className="block rounded-2xl bg-white/10 p-3 text-center text-xl font-black text-[#d97706] font-mono" dir="ltr">{DISPLAY_PHONE_1}</a>
               <div className="mt-4 rounded-2xl bg-white/10 p-4 text-right">
@@ -727,11 +652,11 @@ ${formData.issueDescription.trim()}
                   rel="noopener noreferrer"
                   className="text-xs text-[#d97706] hover:underline font-bold"
                 >
-                  الخريطة 📍
+                  الخريطة
                 </a>
               </div>
               <p className="text-xs font-semibold leading-relaxed text-slate-300">
-                مدينة أبو المطامير بالكامل، وقرى مركز أبو المطامير (جناكليس، النمرية، زاوية صقر، بيلوق، الحويحي، الشعراوي، كوم الفرج) وكافة مراكز محافظة البحيرة.
+                  مركزنا في محافظة البحيرة. تغطية الزيارة تختلف حسب المنطقة، فاتصل بنا للتأكد قبل اختيار الموعد.
               </p>
             </div>
 

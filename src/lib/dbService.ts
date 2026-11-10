@@ -15,7 +15,7 @@ import {
   createSecondaryAuthUser
 } from './firebase';
 import { handleFirestoreError, OperationType } from './firebaseErrorHandler';
-import { INITIAL_WORKS, INITIAL_REVIEWS, INITIAL_SETTINGS, INITIAL_PRODUCTS_FOR_SALE } from '../data/initialData';
+import { INITIAL_SETTINGS } from '../data/initialData';
 import { 
   BookingRecord, 
   BookingTrackingRecord,
@@ -339,46 +339,7 @@ export async function deleteAdminUser(adminId: string): Promise<void> {
 // SEED INITIAL DATA IF DATABASE IS EMPTY
 // -------------------------------------------------------------
 export async function seedInitialDataIfNeeded(): Promise<void> {
-  try {
-    const localWorks = getLocalCache<RepairWork[]>(STORAGE_KEYS.WORKS, []);
-    if (localWorks.length === 0) {
-      setLocalCache(STORAGE_KEYS.WORKS, INITIAL_WORKS);
-    }
-    const localForSale = getLocalCache<ApplianceForSale[]>(STORAGE_KEYS.FOR_SALE, []);
-    if (localForSale.length === 0) {
-      setLocalCache(STORAGE_KEYS.FOR_SALE, INITIAL_PRODUCTS_FOR_SALE);
-    }
-    const localReviews = getLocalCache<CustomerReview[]>(STORAGE_KEYS.REVIEWS, []);
-    if (localReviews.length === 0) {
-      setLocalCache(STORAGE_KEYS.REVIEWS, INITIAL_REVIEWS);
-    }
-
-    // Only attempt remote seeding if an authenticated user is present
-    if (auth.currentUser) {
-      await withTimeout((async () => {
-        // Seed Works to Firestore
-        const worksSnapshot = await getDocs(collection(db, COLLECTIONS.WORKS));
-        if (worksSnapshot.empty) {
-          for (const work of INITIAL_WORKS) {
-            await setDoc(doc(db, COLLECTIONS.WORKS, work.id), {
-              ...work,
-              createdAt: new Date().toISOString()
-            }).catch(() => {});
-          }
-        }
-
-        // Seed For Sale Products to Firestore
-        const forSaleSnapshot = await getDocs(collection(db, COLLECTIONS.FOR_SALE));
-        if (forSaleSnapshot.empty) {
-          for (const item of INITIAL_PRODUCTS_FOR_SALE) {
-            await setDoc(doc(db, COLLECTIONS.FOR_SALE, item.id), item).catch(() => {});
-          }
-        }
-      })(), 3500, null);
-    }
-  } catch {
-    // Silently fall back to cached initial data
-  }
+  // Intentionally does not seed sample public reviews, inventory, or repair works.
 }
 
 // -------------------------------------------------------------
@@ -776,7 +737,7 @@ export async function syncCustomerFromBooking(booking: BookingRecord): Promise<C
       name: booking.fullName,
       phone: booking.phoneNumber,
       address: booking.address,
-      area: 'مركز أبو المطامير',
+      area: 'محافظة البحيرة',
       notes: '',
       totalBookings: 1,
       totalSpent: booking.estimatedCost || 0,
@@ -950,8 +911,13 @@ export async function deleteRepairJob(jobId: string): Promise<void> {
 // -------------------------------------------------------------
 // REPAIR WORKS SHOWCASE OPERATIONS (PUBLIC READ, ADMIN WRITE)
 // -------------------------------------------------------------
+const LEGACY_SAMPLE_WORK_IDS = new Set(['work-real-1', 'work-real-2', 'work-real-3', 'work-real-4', 'work-1', 'work-board', 'work-8', 'work-9']);
+const LEGACY_SAMPLE_REVIEW_IDS = new Set(['review-1', 'review-2', 'review-3', 'review-4', 'review-5']);
+const LEGACY_SAMPLE_SALE_IDS = new Set(['sale-001', 'sale-002', 'sale-003', 'sale-004', 'sale-005']);
+const omitLegacySampleWorks = (works: RepairWork[]) => works.filter((work) => !LEGACY_SAMPLE_WORK_IDS.has(work.id));
+
 export async function fetchAllWorks(): Promise<RepairWork[]> {
-  const local = getLocalCache<RepairWork[]>(STORAGE_KEYS.WORKS, INITIAL_WORKS);
+  const local = omitLegacySampleWorks(getLocalCache<RepairWork[]>(STORAGE_KEYS.WORKS, []));
 
   return withTimeout(
     (async () => {
@@ -959,7 +925,7 @@ export async function fetchAllWorks(): Promise<RepairWork[]> {
         const q = query(collection(db, COLLECTIONS.WORKS), orderBy('createdAt', 'desc'));
         const querySnapshot = await getDocs(q);
         if (!querySnapshot.empty) {
-          const works = querySnapshot.docs.map(doc => doc.data() as RepairWork);
+          const works = omitLegacySampleWorks(querySnapshot.docs.map(doc => doc.data() as RepairWork));
           setLocalCache(STORAGE_KEYS.WORKS, works);
           return works;
         }
@@ -984,7 +950,7 @@ export async function createRepairWork(workData: Omit<RepairWork, 'id' | 'create
 
   WorkSchema.parse(newWork);
 
-  const local = getLocalCache<RepairWork[]>(STORAGE_KEYS.WORKS, INITIAL_WORKS);
+  const local = getLocalCache<RepairWork[]>(STORAGE_KEYS.WORKS, []);
   setLocalCache(STORAGE_KEYS.WORKS, [newWork, ...local]);
 
   try {
@@ -997,7 +963,7 @@ export async function createRepairWork(workData: Omit<RepairWork, 'id' | 'create
 }
 
 export async function updateRepairWork(workId: string, updates: Partial<RepairWork>): Promise<void> {
-  const local = getLocalCache<RepairWork[]>(STORAGE_KEYS.WORKS, INITIAL_WORKS);
+  const local = getLocalCache<RepairWork[]>(STORAGE_KEYS.WORKS, []);
   const updated = local.map(w => w.id === workId ? { ...w, ...updates } : w);
   setLocalCache(STORAGE_KEYS.WORKS, updated);
 
@@ -1009,7 +975,7 @@ export async function updateRepairWork(workId: string, updates: Partial<RepairWo
 }
 
 export async function deleteRepairWork(workId: string): Promise<void> {
-  const local = getLocalCache<RepairWork[]>(STORAGE_KEYS.WORKS, INITIAL_WORKS);
+  const local = getLocalCache<RepairWork[]>(STORAGE_KEYS.WORKS, []);
   setLocalCache(STORAGE_KEYS.WORKS, local.filter(w => w.id !== workId));
 
   try {
@@ -1023,25 +989,22 @@ export async function deleteRepairWork(workId: string): Promise<void> {
 // FOR SALE MARKETPLACE OPERATIONS (PUBLIC READ, ADMIN WRITE)
 // -------------------------------------------------------------
 export async function fetchAllForSaleItems(): Promise<ApplianceForSale[]> {
-  const local = getLocalCache<ApplianceForSale[]>(STORAGE_KEYS.FOR_SALE, INITIAL_PRODUCTS_FOR_SALE);
-
   return withTimeout(
     (async () => {
       try {
         const q = query(collection(db, COLLECTIONS.FOR_SALE), orderBy('createdAt', 'desc'));
         const querySnapshot = await getDocs(q);
-        if (!querySnapshot.empty) {
-          const items = querySnapshot.docs.map(doc => doc.data() as ApplianceForSale);
-          setLocalCache(STORAGE_KEYS.FOR_SALE, items);
-          return items;
-        }
-        return local;
+        const items = querySnapshot.docs
+          .map(doc => doc.data() as ApplianceForSale)
+          .filter((item) => !LEGACY_SAMPLE_SALE_IDS.has(item.id));
+        setLocalCache(STORAGE_KEYS.FOR_SALE, items);
+        return items;
       } catch {
-        return local;
+        return [];
       }
     })(),
     3500,
-    local
+    []
   );
 }
 
@@ -1057,44 +1020,39 @@ export async function createForSaleItem(itemData: Omit<ApplianceForSale, 'id' | 
 
   ForSaleItemSchema.parse(newItem);
 
-  const local = getLocalCache<ApplianceForSale[]>(STORAGE_KEYS.FOR_SALE, INITIAL_PRODUCTS_FOR_SALE);
-  setLocalCache(STORAGE_KEYS.FOR_SALE, [newItem, ...local]);
-
-  try {
-    await setDoc(doc(db, COLLECTIONS.FOR_SALE, id), newItem);
-  } catch (error) {
+  await setDoc(doc(db, COLLECTIONS.FOR_SALE, id), newItem).catch((error) => {
     handleFirestoreError(error, OperationType.CREATE, `for_sale/${id}`);
-  }
+  });
+  const local = getLocalCache<ApplianceForSale[]>(STORAGE_KEYS.FOR_SALE, []);
+  setLocalCache(STORAGE_KEYS.FOR_SALE, [newItem, ...local]);
 
   return newItem;
 }
 
 export async function updateForSaleItem(itemId: string, updates: Partial<ApplianceForSale>): Promise<void> {
-  const local = getLocalCache<ApplianceForSale[]>(STORAGE_KEYS.FOR_SALE, INITIAL_PRODUCTS_FOR_SALE);
   const now = new Date().toISOString();
-  const updated = local.map(item => item.id === itemId ? { ...item, ...updates, updatedAt: now } : item);
-  setLocalCache(STORAGE_KEYS.FOR_SALE, updated);
-
   try {
     await updateDoc(doc(db, COLLECTIONS.FOR_SALE, itemId), { ...updates, updatedAt: now });
+    const local = getLocalCache<ApplianceForSale[]>(STORAGE_KEYS.FOR_SALE, []);
+    const updated = local.map(item => item.id === itemId ? { ...item, ...updates, updatedAt: now } : item);
+    setLocalCache(STORAGE_KEYS.FOR_SALE, updated);
   } catch (error) {
     handleFirestoreError(error, OperationType.UPDATE, `for_sale/${itemId}`);
   }
 }
 
 export async function deleteForSaleItem(itemId: string): Promise<void> {
-  const local = getLocalCache<ApplianceForSale[]>(STORAGE_KEYS.FOR_SALE, INITIAL_PRODUCTS_FOR_SALE);
-  setLocalCache(STORAGE_KEYS.FOR_SALE, local.filter(item => item.id !== itemId));
-
   try {
     await deleteDoc(doc(db, COLLECTIONS.FOR_SALE, itemId));
+    const local = getLocalCache<ApplianceForSale[]>(STORAGE_KEYS.FOR_SALE, []);
+    setLocalCache(STORAGE_KEYS.FOR_SALE, local.filter(item => item.id !== itemId));
   } catch (error) {
     handleFirestoreError(error, OperationType.DELETE, `for_sale/${itemId}`);
   }
 }
 
 export async function getForSaleItemById(itemId: string): Promise<ApplianceForSale | null> {
-  const local = getLocalCache<ApplianceForSale[]>(STORAGE_KEYS.FOR_SALE, INITIAL_PRODUCTS_FOR_SALE);
+  const local = getLocalCache<ApplianceForSale[]>(STORAGE_KEYS.FOR_SALE, []);
   const localFound = local.find(item => item.id === itemId);
   if (localFound) return localFound;
 
@@ -1113,7 +1071,8 @@ export async function getForSaleItemById(itemId: string): Promise<ApplianceForSa
 // REVIEWS & TESTIMONIALS (MODERATED)
 // -------------------------------------------------------------
 export async function fetchAllReviews(includePending = false): Promise<CustomerReview[]> {
-  const local = getLocalCache<CustomerReview[]>(STORAGE_KEYS.REVIEWS, INITIAL_REVIEWS);
+  const local = getLocalCache<CustomerReview[]>(STORAGE_KEYS.REVIEWS, [])
+    .filter((review) => includePending || !LEGACY_SAMPLE_REVIEW_IDS.has(review.id));
 
   return withTimeout(
     (async () => {
@@ -1128,6 +1087,7 @@ export async function fetchAllReviews(includePending = false): Promise<CustomerR
         if (!querySnapshot.empty) {
           const reviews = querySnapshot.docs
             .map(doc => doc.data() as CustomerReview)
+            .filter((review) => includePending || !LEGACY_SAMPLE_REVIEW_IDS.has(review.id))
             .sort((a, b) => String(b.createdAt || '').localeCompare(String(a.createdAt || '')));
           setLocalCache(STORAGE_KEYS.REVIEWS, reviews);
           if (includePending) {
@@ -1135,13 +1095,13 @@ export async function fetchAllReviews(includePending = false): Promise<CustomerR
           }
           return reviews;
         }
-        return includePending ? local : local.filter(r => r.status === 'APPROVED');
+        return includePending ? local.filter(r => r.status === 'APPROVED' || r.status === 'PENDING') : local.filter(r => r.status === 'APPROVED');
       } catch {
-        return includePending ? local : local.filter(r => r.status === 'APPROVED');
+        return includePending ? local.filter(r => r.status === 'APPROVED' || r.status === 'PENDING') : local.filter(r => r.status === 'APPROVED');
       }
     })(),
     3500,
-    includePending ? local : local.filter(r => r.status === 'APPROVED')
+    includePending ? local.filter(r => r.status === 'APPROVED' || r.status === 'PENDING') : local.filter(r => r.status === 'APPROVED')
   );
 }
 
@@ -1174,20 +1134,21 @@ export async function submitCustomerReview(data: {
 
   ReviewSchema.parse(newReview);
 
-  const local = getLocalCache<CustomerReview[]>(STORAGE_KEYS.REVIEWS, INITIAL_REVIEWS);
-  setLocalCache(STORAGE_KEYS.REVIEWS, [newReview, ...local]);
+  const local = getLocalCache<CustomerReview[]>(STORAGE_KEYS.REVIEWS, []);
 
   try {
     await setDoc(doc(db, COLLECTIONS.REVIEWS, reviewId), newReview);
   } catch (error) {
     console.error('Firestore review submission error:', error);
+    throw new Error('تعذر حفظ الرأي الآن. حاول مرة أخرى بعد قليل.');
   }
 
+  setLocalCache(STORAGE_KEYS.REVIEWS, [newReview, ...local]);
   return newReview;
 }
 
 export async function updateCustomerReviewStatus(reviewId: string, status: 'APPROVED' | 'REJECTED', verified?: boolean): Promise<void> {
-  const local = getLocalCache<CustomerReview[]>(STORAGE_KEYS.REVIEWS, INITIAL_REVIEWS);
+  const local = getLocalCache<CustomerReview[]>(STORAGE_KEYS.REVIEWS, []);
   const updated = local.map(r => {
     if (r.id === reviewId) {
       return {
@@ -1217,7 +1178,7 @@ export async function updateCustomerReviewStatus(reviewId: string, status: 'APPR
 }
 
 export async function deleteCustomerReview(reviewId: string): Promise<void> {
-  const local = getLocalCache<CustomerReview[]>(STORAGE_KEYS.REVIEWS, INITIAL_REVIEWS);
+  const local = getLocalCache<CustomerReview[]>(STORAGE_KEYS.REVIEWS, []);
   setLocalCache(STORAGE_KEYS.REVIEWS, local.filter(r => r.id !== reviewId));
 
   try {

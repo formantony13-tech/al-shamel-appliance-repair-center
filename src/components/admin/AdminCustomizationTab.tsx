@@ -12,7 +12,9 @@ import {
 } from 'lucide-react';
 import { AppSystemSettings } from '../../types';
 import { DEFAULT_SETTINGS } from '../../lib/dbService';
-import { processImageUpload } from '../../lib/imageUtils';
+import { compressAndUploadImage } from '../../lib/imageUtils';
+import { GOOGLE_MAPS_LINK } from '../../config';
+import { safeRegionCopy } from '../../lib/publicCopy';
 
 interface AdminCustomizationTabProps {
   settings?: AppSystemSettings;
@@ -25,13 +27,18 @@ export const AdminCustomizationTab: React.FC<AdminCustomizationTabProps> = ({
   onSaveSettings,
   onShowToast
 }) => {
-  const [form, setForm] = useState<AppSystemSettings>(settings || DEFAULT_SETTINGS);
+  const normalizeSettings = (value: AppSystemSettings): AppSystemSettings => ({
+    ...value,
+    locationName: safeRegionCopy(value.locationName),
+    googleMapsLink: GOOGLE_MAPS_LINK
+  });
+  const [form, setForm] = useState<AppSystemSettings>(() => normalizeSettings(settings || DEFAULT_SETTINGS));
   const [isSaving, setIsSaving] = useState(false);
   const [isUploadingHeroImg, setIsUploadingHeroImg] = useState(false);
 
   useEffect(() => {
     if (settings) {
-      setForm(settings);
+      setForm(normalizeSettings(settings));
     }
   }, [settings]);
 
@@ -52,9 +59,9 @@ export const AdminCustomizationTab: React.FC<AdminCustomizationTabProps> = ({
     if (!file) return;
     setIsUploadingHeroImg(true);
     try {
-      const processed = await processImageUpload(file, 1600, 900, 0.85);
-      setForm(prev => ({ ...prev, heroBannerImage: processed.dataUrl }));
-      onShowToast('تم تحسين ورفع صورة الواجهة بنجاح', 'success');
+      const upload = await compressAndUploadImage(file, 'settings', `hero_banner_${Date.now()}`);
+      setForm(prev => ({ ...prev, heroBannerImage: upload.url }));
+      onShowToast('تم تجهيز الصورة؛ اضغط حفظ التعديلات لنشرها على الموقع.', 'success');
     } catch (err: any) {
       onShowToast(err?.message || 'فشل معالجة الصورة', 'error');
     } finally {
@@ -169,7 +176,7 @@ export const AdminCustomizationTab: React.FC<AdminCustomizationTabProps> = ({
               rows={2}
               value={form.heroSubheadline || ''}
               onChange={(e) => setForm({ ...form, heroSubheadline: e.target.value })}
-              placeholder="نصلك فوراً أينما كنت في أبو المطامير وقرى البحيرة..."
+              placeholder="نقدم خدمات صيانة الأجهزة المنزلية في محافظة البحيرة..."
               className="w-full p-3 rounded-xl border border-slate-200 outline-none focus:border-[#123b4a] font-semibold"
             />
           </div>
@@ -344,13 +351,13 @@ export const AdminCustomizationTab: React.FC<AdminCustomizationTabProps> = ({
               required
               value={form.locationName}
               onChange={(e) => setForm({ ...form, locationName: e.target.value })}
-              placeholder="مثال: أبو المطامير - بجوار مسجد الرحمة - محافظة البحيرة"
+              placeholder="مثال: محافظة البحيرة"
               className="w-full p-2.5 rounded-xl border border-slate-200 outline-none focus:border-[#123b4a] font-semibold"
             />
           </div>
 
           <div>
-            <label className="font-bold text-slate-700 block mb-1">رابط موقع الورشة على Google Maps</label>
+            <label className="font-bold text-slate-700 block mb-1">خريطة محافظة البحيرة</label>
             <input
               type="url"
               value={form.googleMapsLink || ''}

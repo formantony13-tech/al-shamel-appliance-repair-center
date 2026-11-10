@@ -54,13 +54,13 @@ export const WorksGallery: React.FC<WorksGalleryProps> = ({
           <div>
             <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#d97706]/10 text-[#d97706] text-xs font-black uppercase tracking-wider mb-3">
               <Camera className="w-3.5 h-3.5" />
-              أعمالنا الحقيقية على أرض الواقع
+              أعمال الصيانة المسجلة
             </div>
             <h2 className="text-2xl sm:text-3xl lg:text-4xl font-black text-[#123b4a] leading-tight">
               معرض عمليات صيانة {CENTER_NAME}
             </h2>
             <p className="mt-3 text-sm sm:text-base text-slate-600 font-semibold max-w-2xl leading-relaxed">
-              شاهد صور حقيقية لعمليات صيانة الثلاجات، الديب فريزر، الغسالات، وعلاج البرومة لأهالي أبو المطامير
+              نماذج من أعمال صيانة الثلاجات والديب فريزر والغسالات وتجديد هياكل الأجهزة.
             </p>
           </div>
         </div>
@@ -329,7 +329,7 @@ export const WorksGallery: React.FC<WorksGalleryProps> = ({
                   <div>
                     <h4 className="text-xs font-black text-slate-600 mb-2 flex items-center gap-1">
                       <Wrench className="w-3.5 h-3.5 text-[#123b4a]" />
-                      قطع الغيار الأصلية المستخدمة:
+                      قطع الغيار المذكورة لهذا العمل:
                     </h4>
                     <div className="flex flex-wrap gap-2">
                       {activeModalWork.partsReplaced.map((part, i) => (
@@ -345,7 +345,7 @@ export const WorksGallery: React.FC<WorksGalleryProps> = ({
                 <div className="pt-2 flex flex-wrap items-center justify-between gap-3 p-3 rounded-2xl bg-slate-50 border border-slate-200 text-xs">
                   <div className="flex items-center gap-1.5 text-emerald-700 font-bold">
                     <ShieldCheck className="w-4 h-4" />
-                    <span>{activeModalWork.warranty || 'ضمان معتمد'}</span>
+                    <span>{activeModalWork.warranty || 'تفاصيل الضمان تُحدد حسب نوع الإصلاح والقطعة'}</span>
                   </div>
 
                   <a

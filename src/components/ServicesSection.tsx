@@ -28,13 +28,13 @@ export const ServicesSection: React.FC<ServicesSectionProps> = ({ onSelectServic
       icon: Wind,
       color: 'from-blue-600 to-[#123b4a]',
       accentBg: 'bg-blue-50 text-blue-600',
-      badge: 'خدمة سريعة في بيتك',
-      description: 'حلول جذرية لجميع مشاكل التبريد وتسريب الفريون وتراكم الثلج لكافة الماركات (شارب، توشيبا، كريازي، بيكو، سامسونج، إل جي، زانوسي).',
+      badge: 'فحص وإصلاح حسب الحالة',
+      description: 'لو الثلاجة مش بتبرد أو بتكوّن تلج أو بتنزل مياه، بنفحص سبب العطل ونوضح لك خيارات الإصلاح قبل ما نبدأ.',
       commonProblems: [
-        'الثلاجة بتجمع ثلج ومش بتبرد في الكابينة السفلية أو بتنزل ميه 💦',
-        'الثلاجة فصلت بدون سبب أو الموتور سخن وبيعمل تكة ولا يقوم',
-        'تسريب فريون وضعف التبريد أو تسليك مسار الصرف الساخن',
-        'علاج وتجديد البرومة والسمكرة وتغيير الجوانات الأصلية'
+        'ضعف التبريد أو تراكم الثلج في جزء من الثلاجة',
+        'مياه أسفل الجهاز أو صوت غير معتاد من الموتور',
+        'فحص تسريب التبريد ومجرى تصريف المياه',
+        'إصلاح الهيكل أو تغيير الجوان عند الحاجة'
       ],
       brands: ['Sharp', 'Toshiba', 'Kiriazi', 'Beko', 'Samsung', 'LG', 'Zanussi']
     },
@@ -45,13 +45,13 @@ export const ServicesSection: React.FC<ServicesSectionProps> = ({ onSelectServic
       icon: Zap,
       color: 'from-cyan-600 to-[#123b4a]',
       accentBg: 'bg-cyan-50 text-cyan-600',
-      badge: 'تجميد فوري مضمون',
-      description: 'فحص وإصلاح مواتير وكارتات الديب فريزر الصندوق والأدراج، شحن فريون عالي النقاوة، وضبط التجميد الفائق حتى -24 درجة.',
+      badge: 'للأجهزة الأفقية والرأسية',
+      description: 'نفحص الديب فريزر ومكونات التبريد والكهرباء، ونشرح العطل والقطع المطلوبة قبل تنفيذ الإصلاح.',
       commonProblems: [
-        'الديب فريزر فصل لوحده أو ما عادش بيجمد الأطعمة 🔧',
-        'تجميد الأدراج العلوية فقط وتوقف التبريد في الأدراج السفلية',
-        'تغيير كمبروسر دانفوس وسيكوب أصلي مع ضمان سنة كاملة',
-        'صيانة كارتة الديجيتال وحساسات التبريد ومروحة النوفروست'
+        'الجهاز لا يجمّد أو يفصل أثناء التشغيل',
+        'اختلاف التجميد بين الأدراج أو أجزاء الجهاز',
+        'فحص الموتور ودائرة التبريد عند ضعف الأداء',
+        'فحص الكارتة والحساسات والمروحة حسب العطل'
       ],
       brands: ['Kiriazi', 'Beko', 'Toshiba', 'Alaska', 'Fresh', 'White Whale', 'Passap']
     },
@@ -62,13 +62,13 @@ export const ServicesSection: React.FC<ServicesSectionProps> = ({ onSelectServic
       icon: Disc,
       color: 'from-emerald-600 to-[#123b4a]',
       accentBg: 'bg-emerald-50 text-emerald-600',
-      badge: 'قطع غيار أصلية 100%',
-      description: 'صيانة فورية شاملة للميكانيكا والكهرباء والكارتات وتغيير رولمان البلي الأصلي في المنزل دون نقل الغسالة.',
+      badge: 'فحص ميكانيكا وكهرباء',
+      description: 'بنحدد سبب العطل في الغسالة، ونوضح لك القطع المطلوبة وتكلفتها قبل أي تغيير أو إصلاح.',
       commonProblems: [
-        'الغسالة بتعصر بصوت مزعج عالي جداً أو بتهتز بقوة 🔧',
-        'الغسالة مش بتطرد ميه أو بتعلق في مرحلة الشطف والعصر',
-        'الغسالة بتسرب ميه من الأسفل أو من جوان الباب ⚒️',
-        'تغيير رولمان بلي ياباني أصلي، طلمبة طرد، ومساعدين اتزان'
+        'اهتزاز أو صوت مرتفع أثناء العصر',
+        'المياه لا تُصرف أو البرنامج يتوقف قبل نهايته',
+        'تسريب مياه من أسفل الغسالة أو حول الباب',
+        'فحص الطلمبة أو الرولمان بلي أو المساعدين حسب الحالة'
       ],
       brands: ['LG', 'Samsung', 'Zanussi', 'Toshiba', 'Beko', 'Fresh', 'Unionaire']
     },
@@ -79,12 +79,12 @@ export const ServicesSection: React.FC<ServicesSectionProps> = ({ onSelectServic
       icon: Hammer,
       color: 'from-amber-600 to-orange-600',
       accentBg: 'bg-amber-50 text-amber-600',
-      badge: 'إعادة الجهاز كالجديد',
-      description: 'تجديد هياكل وشاسيهات الغسالات والثلاجات والديب فريزر المتآكلة بسبب الصدأ والمياه مع ضمان سنتين ضد عودة البرومة.',
+      badge: 'تجديد الهيكل حسب الحالة',
+      description: 'نعالج الصدأ وتآكل الهيكل في الأجهزة القابلة للإصلاح، ونوضح نطاق الشغل والضمان قبل البدء.',
       commonProblems: [
         'تآكل الصاج السفلي وقواعد الغسالة أو الثلاجة بسبب الصدأ',
-        'قص الأجزاء المصابة وتركيب صاج مجلفن معالج ضد الرطوبة',
-        'دهان دوكو فرن مطابق للون المصنع الأصلي مع عزل كامل',
+        'تحديد الأجزاء التي تحتاج إلى إصلاح أو تغيير',
+        'تجديد الهيكل والدهان بما يناسب حالة الجهاز',
         'استعدال الأبواب وتغيير المفصلات وتثبيت القواعد بدقة'
       ],
       brands: ['تجديد شامل لجميع الماركات العالمية والمحلية']
@@ -96,8 +96,8 @@ export const ServicesSection: React.FC<ServicesSectionProps> = ({ onSelectServic
       icon: Wind,
       color: 'from-sky-600 to-[#123b4a]',
       accentBg: 'bg-sky-50 text-sky-600',
-      badge: 'تبريد أقصى كفاءة',
-      description: 'غسيل كيميائي للوحدات الداخلية والخارجية، كشف تسريب الفريون، شحن فريون أصلي، وإصلاح كارتات ومراوح التبريد.',
+      badge: 'تنظيف وصيانة',
+      description: 'نقدم تنظيفًا وفحصًا لأعطال التكييف، ونحدد الحاجة إلى إصلاح أو شحن بعد الكشف على الجهاز.',
       commonProblems: [
         'خروج هواء دافئ وضعف شديد في قوة التبريد',
         'تسقيط مياه من الوحدة الداخلية داخل الغرفة',
@@ -113,8 +113,8 @@ export const ServicesSection: React.FC<ServicesSectionProps> = ({ onSelectServic
       icon: Flame,
       color: 'from-orange-600 to-amber-600',
       accentBg: 'bg-orange-50 text-orange-600',
-      badge: 'أمان وسلامة 100%',
-      description: 'ضبط وتغيير فونيات الغاز الطبيعي والأنبوبة، تسليك المحابس بشحم حراري، وصيانة شمعات الإشعال الذاتي وحساسات أمان الفرن.',
+      badge: 'فحص فني قبل الإصلاح',
+      description: 'فحص أعطال الإشعال والشعلات والسخانات. ما نبدأش في إصلاح متعلق بالغاز قبل تقييم الحالة وإجراءات الأمان.',
       commonProblems: [
         'نار الشعلات ضعيفة أو تهبب الأواني بلون أسود',
         'نار الفرن تنطفئ بمجرد ترك المفتاح أو تسريب غاز',
@@ -132,13 +132,13 @@ export const ServicesSection: React.FC<ServicesSectionProps> = ({ onSelectServic
         {/* Section Header */}
         <div className="text-center max-w-3xl mx-auto mb-14">
           <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-[#d97706]/10 text-[#d97706] text-xs font-black uppercase tracking-wider mb-3">
-            خدمات مركز قطب للحل السريع
+            خدمات الصيانة المنزلية
           </div>
           <h2 className="text-2xl sm:text-3xl lg:text-4xl font-black text-[#123b4a] leading-tight">
-            صيانة شاملة لجميع الأجهزة بقطع غيار أصلية 100%
+            صيانة أجهزة منزلية في محافظة البحيرة
           </h2>
           <p className="mt-4 text-sm sm:text-base text-slate-600 font-semibold leading-relaxed">
-            مهندسون وفنيون على أعلى مستوى من الكفاءة والأمانة يصلونك لباب منزلك خلال 24 ساعة بمحافظات البحيرة، الغربية، والشرقية
+            بنوضح لك التشخيص والتكلفة والضمان قبل الإصلاح، وننسق الزيارة بعد التأكد من تغطية منطقتك.
           </p>
         </div>
 
@@ -170,11 +170,11 @@ export const ServicesSection: React.FC<ServicesSectionProps> = ({ onSelectServic
         <div className="mt-12 p-6 sm:p-8 rounded-3xl bg-gradient-to-r from-[#123b4a] via-[#174c5d] to-[#123b4a] text-white flex flex-col sm:flex-row items-center justify-between gap-6 shadow-xl text-right">
           <div>
             <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#d97706]/20 text-[#d97706] text-xs font-black mb-2">
-              خدمة واتساب وهاتف 24 ساعة
+              للحجز أو الاستفسار
             </div>
-            <h3 className="text-lg sm:text-2xl font-black">مهما كانت مشكلة جهازك صعبة.. مع {CENTER_NAME} الحل مضمون!</h3>
+            <h3 className="text-lg sm:text-2xl font-black">مش عارف تبدأ منين؟ احكيلنا إيه اللي حصل للجهاز.</h3>
             <p className="text-xs sm:text-sm text-slate-300 font-semibold mt-1">
-              تحدث مباشرة مع فريق الصيانة لشرح المشكلة وتحديد موعد زيارة الفني في نفس اليوم
+              اتصل بينا أو ابعت طلب صيانة، وهنوضحلك الخطوة المناسبة وننسق موعدًا حسب منطقتك.
             </p>
           </div>
           <div className="flex items-center gap-3 shrink-0">

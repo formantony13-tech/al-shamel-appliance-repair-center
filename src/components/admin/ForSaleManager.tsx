@@ -87,13 +87,13 @@ export const ForSaleManager: React.FC<ForSaleManagerProps> = ({
     price: '',
     originalPrice: '',
     status: 'AVAILABLE' as ForSaleStatus,
-    condition: 'مجددة بحالة الزيرو (Refurbished)',
+    condition: '',
     specsText: '',
-    warranty: 'ضمان 6 شهور شامل ومعتمد من مركز قطب',
+    warranty: '',
     image: '',
     additionalImages: [] as string[],
     description: '',
-    location: 'فرع أبو المطامير / متاح التوصيل والمعاينة المنزلية بالبحيرة والإسكندرية',
+    location: 'محافظة البحيرة — يُرجى تأكيد موقع المعاينة والتوصيل',
     featured: false
   });
 
@@ -131,13 +131,13 @@ export const ForSaleManager: React.FC<ForSaleManagerProps> = ({
       price: '',
       originalPrice: '',
       status: 'AVAILABLE',
-      condition: 'مجددة بحالة الزيرو (Refurbished)',
-      specsText: 'سعة ممتازة وموفرة لاستهلاك الكهرباء\nشحن فريون أصلي وفحص تبريد وتجميد 48 ساعة\nموتور بحالة الفابريكا مع ضمان مركز قطب\nصاج ودهان أصلي خالي من الصدمات والبارومة',
-      warranty: 'ضمان 6 شهور شامل ومعتمد من مركز قطب',
+      condition: '',
+      specsText: '',
+      warranty: '',
       image: '',
       additionalImages: [],
       description: '',
-      location: 'فرع أبو المطامير / متاح التوصيل والمعاينة المنزلية بالبحيرة والإسكندرية',
+      location: 'محافظة البحيرة — يُرجى تأكيد موقع المعاينة والتوصيل',
       featured: false
     });
     setErrorMsg(null);
@@ -154,13 +154,13 @@ export const ForSaleManager: React.FC<ForSaleManagerProps> = ({
       price: item.price.toString(),
       originalPrice: item.originalPrice ? item.originalPrice.toString() : '',
       status: item.status,
-      condition: item.condition || 'مجددة بحالة الزيرو',
+      condition: item.condition || '',
       specsText: (item.specs || []).join('\n'),
-      warranty: item.warranty || 'ضمان 6 شهور شامل ومعتمد',
+      warranty: item.warranty || '',
       image: item.image,
       additionalImages: item.additionalImages || [],
       description: item.description || '',
-      location: item.location || 'فرع أبو المطامير / متاح التوصيل للمنازل بالبحيرة والإسكندرية',
+      location: item.location || 'محافظة البحيرة — يُرجى تأكيد موقع المعاينة والتوصيل',
       featured: Boolean(item.featured)
     });
     setErrorMsg(null);
@@ -171,20 +171,20 @@ export const ForSaleManager: React.FC<ForSaleManagerProps> = ({
   const handleDuplicateItem = (item: ApplianceForSale) => {
     setEditingItem(null);
     setFormData({
-      title: `${item.title} (نسخة جديدة)`,
+      title: '',
       category: item.category,
       brand: item.brand,
       model: item.model || '',
       price: item.price.toString(),
       originalPrice: item.originalPrice ? item.originalPrice.toString() : '',
       status: 'AVAILABLE',
-      condition: item.condition,
-      specsText: (item.specs || []).join('\n'),
-      warranty: item.warranty,
-      image: item.image,
-      additionalImages: item.additionalImages || [],
-      description: item.description,
-      location: item.location || '',
+      condition: '',
+      specsText: '',
+      warranty: '',
+      image: '',
+      additionalImages: [],
+      description: '',
+      location: 'محافظة البحيرة',
       featured: false
     });
     setErrorMsg(null);
@@ -202,7 +202,7 @@ export const ForSaleManager: React.FC<ForSaleManagerProps> = ({
       setErrorMsg(null);
       const result = await compressAndUploadImage(file, 'for_sale', `item_main_${Date.now()}`);
       setFormData(prev => ({ ...prev, image: result.url }));
-      notify('تم رفع الصورة الأساسية وتخزينها سحابياً بنجاح', 'success');
+      notify(result.storagePath ? 'تم رفع الصورة؛ احفظ الإعلان لإضافتها إليه.' : 'تم تجهيز الصورة؛ احفظ الإعلان بعد عودة الاتصال.', 'success');
     } catch (err: any) {
       console.error('Image upload failed:', err);
       setErrorMsg(err?.message || 'فشل رفع الصورة الأساسية إلى الرفع والضغط الآمن');
@@ -225,7 +225,7 @@ export const ForSaleManager: React.FC<ForSaleManagerProps> = ({
         ...prev,
         additionalImages: [...prev.additionalImages, result.url]
       }));
-      notify('تمت إضافة الصورة الإضافية إلى المعرض السحابي', 'success');
+      notify(result.storagePath ? 'تم رفع الصورة؛ احفظ الإعلان لتحديث المعرض.' : 'تم تجهيز الصورة؛ احفظ الإعلان بعد عودة الاتصال.', 'success');
     } catch (err: any) {
       console.error('Gallery image upload failed:', err);
       setErrorMsg(err?.message || 'فشل رفع الصورة الإضافية');
@@ -247,11 +247,11 @@ export const ForSaleManager: React.FC<ForSaleManagerProps> = ({
     e.preventDefault();
     setErrorMsg(null);
 
-    if (!formData.title.trim()) {
-      setErrorMsg('يرجى كتابة عنوان جذاب للجهاز');
+    if (formData.title.trim().length < 5) {
+      setErrorMsg('اكتب اسم الجهاز بوضوح (5 أحرف على الأقل)');
       return;
     }
-    if (!formData.brand.trim()) {
+    if (formData.brand.trim().length < 2) {
       setErrorMsg('يرجى تحديد الماركة أو الشركة المصنعة');
       return;
     }
@@ -262,6 +262,18 @@ export const ForSaleManager: React.FC<ForSaleManagerProps> = ({
     }
     if (!formData.image.trim()) {
       setErrorMsg('يرجى رفع الصورة الأساسية للجهاز أو إدخال رابط معتمد');
+      return;
+    }
+    if (formData.condition.trim().length < 3) {
+      setErrorMsg('اكتب الحالة الفعلية للجهاز بعد فحصه');
+      return;
+    }
+    if (formData.warranty.trim().length < 3) {
+      setErrorMsg('اكتب تفاصيل الضمان الفعلية أو اكتب: بدون ضمان');
+      return;
+    }
+    if (formData.description.trim().length < 5) {
+      setErrorMsg('أضف وصفًا قصيرًا يوضح المعلومات المؤكدة عن الجهاز');
       return;
     }
 
@@ -1009,7 +1021,7 @@ export const ForSaleManager: React.FC<ForSaleManagerProps> = ({
                   <input
                     type="text"
                     required
-                    placeholder="مثال: ثلاجة شارب 18 قدم نوفروست ديجيتال بالكرتونة بحالة الفابريكا"
+                    placeholder="الماركة والنوع والسعة كما هي على بطاقة الجهاز"
                     value={formData.title}
                     onChange={e => setFormData({ ...formData, title: e.target.value })}
                     className="w-full px-4 py-2.5 text-xs sm:text-sm bg-slate-50 border border-slate-200 rounded-xl focus:bg-white focus:border-[#123b4a] focus:outline-hidden font-semibold"
@@ -1105,10 +1117,11 @@ export const ForSaleManager: React.FC<ForSaleManagerProps> = ({
 
                 {/* Condition */}
                 <div className="sm:col-span-2">
-                  <label className="block font-black text-slate-700 mb-1.5">حالة الجهاز الفعلية</label>
+                  <label className="block font-black text-slate-700 mb-1.5">حالة الجهاز الفعلية <span className="text-rose-500">*</span></label>
                   <input
                     type="text"
-                    placeholder="مثال: مجددة بحالة الزيرو (Refurbished) / استعمال خفيف كسر زيرو"
+                    required
+                    placeholder="اكتب وصفًا دقيقًا لحالة الجهاز بعد فحصه"
                     value={formData.condition}
                     onChange={e => setFormData({ ...formData, condition: e.target.value })}
                     className="w-full px-4 py-2.5 text-xs bg-slate-50 border border-slate-200 rounded-xl focus:bg-white focus:border-[#123b4a] focus:outline-hidden font-semibold"
@@ -1117,10 +1130,11 @@ export const ForSaleManager: React.FC<ForSaleManagerProps> = ({
 
                 {/* Warranty */}
                 <div>
-                  <label className="block font-black text-slate-700 mb-1.5">مدة وشهادة الضمان</label>
+                  <label className="block font-black text-slate-700 mb-1.5">الضمان <span className="text-rose-500">*</span></label>
                   <input
                     type="text"
-                    placeholder="مثال: ضمان 6 شهور شامل ومعتمد"
+                    required
+                    placeholder="اكتب المدة والشروط الفعلية، أو: بدون ضمان"
                     value={formData.warranty}
                     onChange={e => setFormData({ ...formData, warranty: e.target.value })}
                     className="w-full px-4 py-2.5 text-xs bg-slate-50 border border-slate-200 rounded-xl focus:bg-white focus:border-[#123b4a] focus:outline-hidden font-semibold"
@@ -1132,7 +1146,7 @@ export const ForSaleManager: React.FC<ForSaleManagerProps> = ({
                   <label className="block font-black text-slate-700 mb-1.5">مكان المعاينة والتوصيل</label>
                   <input
                     type="text"
-                    placeholder="فرع أبو المطامير / متاح التوصيل للمنازل بالبحيرة والإسكندرية"
+                    placeholder="محافظة البحيرة — يُرجى تأكيد موقع المعاينة والتوصيل"
                     value={formData.location}
                     onChange={e => setFormData({ ...formData, location: e.target.value })}
                     className="w-full px-4 py-2.5 text-xs bg-slate-50 border border-slate-200 rounded-xl focus:bg-white focus:border-[#123b4a] focus:outline-hidden font-semibold"
@@ -1146,7 +1160,7 @@ export const ForSaleManager: React.FC<ForSaleManagerProps> = ({
                   </label>
                   <textarea
                     rows={3}
-                    placeholder="شحن فريون أصلي وفحص كامل للدائرة&#10;موتور أصلي بحالة الفابريكا&#10;سعة ممتازة وموفرة في الكهرباء"
+                    placeholder="اذكر المواصفات التي تحققت منها فقط، سطر لكل مواصفة"
                     value={formData.specsText}
                     onChange={e => setFormData({ ...formData, specsText: e.target.value })}
                     className="w-full px-4 py-2.5 text-xs bg-slate-50 border border-slate-200 rounded-xl focus:bg-white focus:border-[#123b4a] focus:outline-hidden font-semibold"
@@ -1155,10 +1169,11 @@ export const ForSaleManager: React.FC<ForSaleManagerProps> = ({
 
                 {/* Full Description */}
                 <div className="sm:col-span-2 lg:col-span-3">
-                  <label className="block font-black text-slate-700 mb-1.5">تفاصيل إضافية / تقرير الفحص الفني</label>
+                  <label className="block font-black text-slate-700 mb-1.5">تفاصيل الجهاز <span className="text-rose-500">*</span></label>
                   <textarea
                     rows={2}
-                    placeholder="تم فحص وتجربة الجهاز لمدة 48 ساعة متواصلة في ورشة المركز للتأكد من كفاءة التبريد والعزل الحراري..."
+                    required
+                    placeholder="اكتب ما تم التحقق منه عن الجهاز وطريقة المعاينة"
                     value={formData.description}
                     onChange={e => setFormData({ ...formData, description: e.target.value })}
                     className="w-full px-4 py-2.5 text-xs bg-slate-50 border border-slate-200 rounded-xl focus:bg-white focus:border-[#123b4a] focus:outline-hidden font-semibold"
