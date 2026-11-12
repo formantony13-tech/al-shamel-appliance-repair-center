@@ -17,6 +17,8 @@ import {
 } from 'lucide-react';
 import { ApplianceForSale, ForSaleCategory, AppSystemSettings } from '../types';
 import { safeRegionCopy } from '../lib/publicCopy';
+import illustrativeWasher from '../assets/images/illustrative_washer.webp';
+import illustrativeFreezer from '../assets/images/illustrative_freezer.webp';
 
 interface ForSaleSectionProps {
   settings: AppSystemSettings;
@@ -29,6 +31,25 @@ const CATEGORIES: { label: string; value: ForSaleCategory }[] = [
   { label: 'ديب فريزر', value: 'ديب فريزر' },
   { label: 'بوتاجازات', value: 'بوتاجازات' },
   { label: 'تكييفات', value: 'تكييفات' }
+];
+
+const SHOWCASE_EXAMPLES = [
+  {
+    category: 'غسالات',
+    title: 'غسالة منزلية',
+    image: illustrativeWasher,
+    alt: 'صورة توضيحية لغسالة منزلية، وليست جهازًا للبيع',
+    sourceUrl: 'https://commons.wikimedia.org/wiki/File:Washing_Machine_Beko.jpg',
+    credit: 'zzpza · CC BY 2.0'
+  },
+  {
+    category: 'ديب فريزر',
+    title: 'ديب فريزر منزلي',
+    image: illustrativeFreezer,
+    alt: 'صورة توضيحية لديب فريزر منزلي، وليست جهازًا للبيع',
+    sourceUrl: 'https://commons.wikimedia.org/wiki/File:Freezer_1.jpg',
+    credit: 'Laura Stoinski · CC0'
+  }
 ];
 
 export const ForSaleSection: React.FC<ForSaleSectionProps> = ({ settings }) => {
@@ -349,6 +370,49 @@ export const ForSaleSection: React.FC<ForSaleSectionProps> = ({ settings }) => {
             </div>
           )}
           </>
+        )}
+
+        {!loading && inventorySource !== 'unavailable' && items.length === 0 && (
+          <div className="mt-12">
+            <div className="mx-auto mb-6 max-w-2xl text-center">
+              <span className="inline-flex rounded-full border border-[#123b4a]/15 bg-white px-3 py-1 text-xs font-bold text-[#123b4a]">
+                صور توضيحية فقط
+              </span>
+              <h3 className="mt-3 text-xl font-black text-[#123b4a]">شكل الإعلان عند توفر جهاز حقيقي</h3>
+              <p className="mt-2 text-sm leading-6 text-slate-600">
+                الصور التالية لأغراض العرض ولا تمثل أجهزة متاحة للبيع أو مخزونًا لدى المركز.
+              </p>
+            </div>
+            <div className="mx-auto grid max-w-4xl grid-cols-1 gap-6 sm:grid-cols-2">
+              {SHOWCASE_EXAMPLES.map((example) => (
+                <article key={example.category} className="overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-sm">
+                  <div className="relative aspect-[4/3] overflow-hidden bg-slate-100">
+                    <img
+                      src={example.image}
+                      alt={example.alt}
+                      className="h-full w-full object-cover"
+                      loading="lazy"
+                    />
+                    <span className="absolute right-3 top-3 rounded-full bg-slate-950/85 px-3 py-1.5 text-xs font-bold text-white">
+                      مثال بصري — ليس للبيع
+                    </span>
+                  </div>
+                  <div className="p-5">
+                    <p className="text-xs font-bold text-[#d97706]">{example.category}</p>
+                    <h4 className="mt-1 text-lg font-black text-slate-900">{example.title}</h4>
+                    <a
+                      href={example.sourceUrl}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="mt-3 inline-flex text-xs font-semibold text-slate-500 underline decoration-slate-300 underline-offset-4 hover:text-[#123b4a]"
+                    >
+                      مصدر الصورة: {example.credit} · حُجمت وحُولت إلى WebP
+                    </a>
+                  </div>
+                </article>
+              ))}
+            </div>
+          </div>
         )}
 
         {/* Bottom Banner */}
