@@ -101,31 +101,34 @@ function setLocalCache<T>(key: string, value: T): void {
   }
 }
 
-// Generate a collision-resistant public booking code. New codes do not expose
-// a short, guessable timestamp/random-number combination.
-export function generateBookingId(): string {
-  const year = new Date().getFullYear();
-  const timeEntropy = Date.now().toString(36).slice(-5).toUpperCase();
-  const bytes = new Uint8Array(6);
-  if (typeof globalThis.crypto?.getRandomValues === 'function') {
-    globalThis.crypto.getRandomValues(bytes);
-  } else {
-    bytes.forEach((_, index) => { bytes[index] = Math.floor(Math.random() * 256); });
-  }
-  const randomEntropy = Array.from(bytes, byte => byte.toString(36).padStart(2, '0')).join('').slice(0, 8).toUpperCase();
-  return `BK-${year}-${timeEntropy}-${randomEntropy}`;
+export function clearPrivateLocalCaches(): void {
+  const privateKeys = [
+    STORAGE_KEYS.BOOKINGS,
+    STORAGE_KEYS.BOOKING_TRACKING,
+    STORAGE_KEYS.REVIEWS,
+    STORAGE_KEYS.CUSTOMERS,
+    STORAGE_KEYS.REPAIRS,
+    STORAGE_KEYS.AUDIT_LOGS
+  ];
+  privateKeys.forEach((key) => {
+    try {
+      localStorage.removeItem(key);
+    } catch {
+      // A blocked browser storage API must not prevent logout.
+    }
+  });
 }
 
-async function hashPhoneLast4(phoneLast4: string): Promise<string> {
-  const value = new TextEncoder().encode(phoneLast4);
-  if (globalThis.crypto?.subtle) {
-    const digest = await globalThis.crypto.subtle.digest('SHA-256', value);
-    return Array.from(new Uint8Array(digest), byte => byte.toString(16).padStart(2, '0')).join('');
+// Generate an unguessable bearer token for the public tracking record.
+export function generateBookingId(): string {
+  const year = new Date().getFullYear();
+  const bytes = new Uint8Array(12);
+  if (typeof globalThis.crypto?.getRandomValues !== 'function') {
+    throw new Error('تعذر إنشاء كود متابعة آمن في هذا المتصفح. حدّث المتصفح وحاول مرة أخرى.');
   }
-  // Older environments should still produce a stable non-raw value.
-  let hash = 2166136261;
-  for (const byte of value) hash = Math.imul(hash ^ byte, 16777619);
-  return `${(hash >>> 0).toString(16).padStart(8, '0')}`.repeat(8);
+  globalThis.crypto.getRandomValues(bytes);
+  const randomToken = Array.from(bytes, byte => byte.toString(16).padStart(2, '0')).join('').toUpperCase();
+  return `BK-${year}-${randomToken}`;
 }
 
 // Generate Standardized Collision-Resistant Unique Repair Job Code, e.g. JOB-2026-739412
@@ -232,7 +235,7 @@ export async function fetchAllAuditLogs(): Promise<AuditLog[]> {
 export const MASTER_OWNER_EMAIL: string = MASTER_ADMIN_EMAIL;
 
 export async function checkIsAdmin(user: User | null): Promise<boolean> {
-  if (!user) return false;
+  if (!user || !user.emailVerified || !user.email) return false;
   if (user.email && isMasterAdminEmail(user.email)) return true;
 
   try {
@@ -249,7 +252,7 @@ export async function checkIsAdmin(user: User | null): Promise<boolean> {
 }
 
 export async function bootstrapMasterAdmin(user: User): Promise<void> {
-  if (!user || !user.email) return;
+  if (!user || !user.email || !user.emailVerified || !isMasterAdminEmail(user.email)) return;
 
   const adminData: AdminUser = {
     id: user.uid,
@@ -359,7 +362,6 @@ export async function createBooking(data: {
   const now = new Date().toISOString();
   const phoneValidation = validateEgyptianPhone(data.phoneNumber);
   const normalizedPhone = phoneValidation.isValid ? phoneValidation.normalized : data.phoneNumber.trim();
-  const phoneLast4Hash = await hashPhoneLast4(normalizedPhone.slice(-4));
 
   // 1. Full Private Booking Record (Admin Only Access)
   const newBooking: BookingRecord = {
@@ -388,7 +390,6 @@ export async function createBooking(data: {
     deviceType: data.deviceType.trim(),
     brand: data.brand?.trim() || '',
     preferredTime: data.preferredTime || 'صباحاً (9 ص - 2 ظ)',
-    phoneLast4Hash,
     hasWarranty: false,
     stage: 1,
     createdAt: now,
@@ -445,7 +446,6 @@ export async function syncPendingBookings(): Promise<number> {
         deviceType: booking.deviceType.trim(),
         brand: booking.brand?.trim() || '',
         preferredTime: booking.preferredTime || 'صباحاً (9 ص - 2 ظ)',
-        phoneLast4Hash: await hashPhoneLast4(booking.phoneNumber.slice(-4)),
         hasWarranty: false,
         stage: calculateStageFromStatus(booking.status),
         createdAt: booking.createdAt,
@@ -477,11 +477,10 @@ if (typeof window !== 'undefined') {
 /**
  * Safe Public Booking Tracker:
  * Queries the public-safe booking_tracking collection.
- * Requires bookingId + phoneLast4 for secondary verification.
+ * Access is protected by the unguessable booking bearer code; never include customer PII here.
  */
 export async function getBookingTracking(
-  bookingId: string, 
-  phoneLast4: string
+  bookingId: string
 ): Promise<{ success: boolean; data?: BookingTrackingRecord; error?: string }> {
   const cleanId = bookingId.trim().toUpperCase();
 
@@ -512,14 +511,6 @@ export async function getBookingTracking(
     };
   }
 
-  // Verification factor: check last 4 digits if provided
-  if (phoneLast4.trim().length !== 4 || await hashPhoneLast4(phoneLast4.trim()) !== found.phoneLast4Hash) {
-    return {
-      success: false,
-      error: 'عفواً، آخر 4 أرقام من الهاتف غير مطابقة لكود هذا الحجز لضمان الخصوصية'
-    };
-  }
-
   return {
     success: true,
     data: found
@@ -537,7 +528,7 @@ export async function fetchAllBookings(): Promise<BookingRecord[]> {
       null
     );
 
-    if (remoteDocs && remoteDocs.length > 0) {
+    if (remoteDocs !== null) {
       setLocalCache(STORAGE_KEYS.BOOKINGS, remoteDocs);
       return remoteDocs;
     }
@@ -988,24 +979,37 @@ export async function deleteRepairWork(workId: string): Promise<void> {
 // -------------------------------------------------------------
 // FOR SALE MARKETPLACE OPERATIONS (PUBLIC READ, ADMIN WRITE)
 // -------------------------------------------------------------
-export async function fetchAllForSaleItems(): Promise<ApplianceForSale[]> {
-  return withTimeout(
-    (async () => {
+export async function fetchForSaleItemsWithStatus(): Promise<{
+  items: ApplianceForSale[];
+  source: 'live' | 'cached' | 'unavailable';
+}> {
+  const cached = getLocalCache<ApplianceForSale[]>(STORAGE_KEYS.FOR_SALE, [])
+    .filter((item) => !LEGACY_SAMPLE_SALE_IDS.has(item.id));
+  const liveItems = await withTimeout(
+    (async (): Promise<ApplianceForSale[] | null> => {
       try {
         const q = query(collection(db, COLLECTIONS.FOR_SALE), orderBy('createdAt', 'desc'));
         const querySnapshot = await getDocs(q);
-        const items = querySnapshot.docs
+        return querySnapshot.docs
           .map(doc => doc.data() as ApplianceForSale)
           .filter((item) => !LEGACY_SAMPLE_SALE_IDS.has(item.id));
-        setLocalCache(STORAGE_KEYS.FOR_SALE, items);
-        return items;
       } catch {
-        return [];
+        return null;
       }
     })(),
     3500,
-    []
+    null
   );
+  if (liveItems === null) {
+    return { items: cached, source: cached.length > 0 ? 'cached' : 'unavailable' };
+  }
+  setLocalCache(STORAGE_KEYS.FOR_SALE, liveItems);
+  return { items: liveItems, source: 'live' };
+}
+
+export async function fetchAllForSaleItems(): Promise<ApplianceForSale[]> {
+  const result = await fetchForSaleItemsWithStatus();
+  return result.items;
 }
 
 export async function createForSaleItem(itemData: Omit<ApplianceForSale, 'id' | 'createdAt'>): Promise<ApplianceForSale> {
@@ -1084,18 +1088,12 @@ export async function fetchAllReviews(includePending = false): Promise<CustomerR
           ? query(collection(db, COLLECTIONS.REVIEWS), orderBy('createdAt', 'desc'))
           : query(collection(db, COLLECTIONS.REVIEWS), where('status', '==', 'APPROVED'));
         const querySnapshot = await getDocs(q);
-        if (!querySnapshot.empty) {
-          const reviews = querySnapshot.docs
-            .map(doc => doc.data() as CustomerReview)
-            .filter((review) => includePending || !LEGACY_SAMPLE_REVIEW_IDS.has(review.id))
-            .sort((a, b) => String(b.createdAt || '').localeCompare(String(a.createdAt || '')));
-          setLocalCache(STORAGE_KEYS.REVIEWS, reviews);
-          if (includePending) {
-            return reviews;
-          }
-          return reviews;
-        }
-        return includePending ? local.filter(r => r.status === 'APPROVED' || r.status === 'PENDING') : local.filter(r => r.status === 'APPROVED');
+        const reviews = querySnapshot.docs
+          .map(doc => doc.data() as CustomerReview)
+          .filter((review) => includePending || !LEGACY_SAMPLE_REVIEW_IDS.has(review.id))
+          .sort((a, b) => String(b.createdAt || '').localeCompare(String(a.createdAt || '')));
+        setLocalCache(STORAGE_KEYS.REVIEWS, reviews);
+        return reviews;
       } catch {
         return includePending ? local.filter(r => r.status === 'APPROVED' || r.status === 'PENDING') : local.filter(r => r.status === 'APPROVED');
       }
@@ -1291,56 +1289,56 @@ export async function importDatabaseData(rawJson: string): Promise<{ success: bo
 
     // Save bookings
     if (validated.data.bookings && validated.data.bookings.length > 0) {
-      setLocalCache(STORAGE_KEYS.BOOKINGS, validated.data.bookings);
       for (const b of validated.data.bookings) {
-        await setDoc(doc(db, COLLECTIONS.BOOKINGS, b.id), b).catch(() => {});
+        await setDoc(doc(db, COLLECTIONS.BOOKINGS, b.id), b);
       }
+      setLocalCache(STORAGE_KEYS.BOOKINGS, validated.data.bookings);
     }
 
     // Save works
     if (validated.data.works && validated.data.works.length > 0) {
-      setLocalCache(STORAGE_KEYS.WORKS, validated.data.works);
       for (const w of validated.data.works) {
-        await setDoc(doc(db, COLLECTIONS.WORKS, w.id), w).catch(() => {});
+        await setDoc(doc(db, COLLECTIONS.WORKS, w.id), w);
       }
+      setLocalCache(STORAGE_KEYS.WORKS, validated.data.works);
     }
 
     // Save for sale items
     if (validated.data.forSale && validated.data.forSale.length > 0) {
-      setLocalCache(STORAGE_KEYS.FOR_SALE, validated.data.forSale);
       for (const item of validated.data.forSale) {
-        await setDoc(doc(db, COLLECTIONS.FOR_SALE, item.id), item).catch(() => {});
+        await setDoc(doc(db, COLLECTIONS.FOR_SALE, item.id), item);
       }
+      setLocalCache(STORAGE_KEYS.FOR_SALE, validated.data.forSale);
     }
 
     // Save reviews
     if (validated.data.reviews && validated.data.reviews.length > 0) {
-      setLocalCache(STORAGE_KEYS.REVIEWS, validated.data.reviews);
       for (const r of validated.data.reviews) {
-        await setDoc(doc(db, COLLECTIONS.REVIEWS, r.id), r).catch(() => {});
+        await setDoc(doc(db, COLLECTIONS.REVIEWS, r.id), r);
       }
+      setLocalCache(STORAGE_KEYS.REVIEWS, validated.data.reviews);
     }
 
     // Save repairs
     if (validated.data.repairs && validated.data.repairs.length > 0) {
-      setLocalCache(STORAGE_KEYS.REPAIRS, validated.data.repairs);
       for (const rep of validated.data.repairs) {
-        await setDoc(doc(db, COLLECTIONS.REPAIRS, rep.id), rep).catch(() => {});
+        await setDoc(doc(db, COLLECTIONS.REPAIRS, rep.id), rep);
       }
+      setLocalCache(STORAGE_KEYS.REPAIRS, validated.data.repairs);
     }
 
     // Save customers
     if (validated.data.customers && validated.data.customers.length > 0) {
-      setLocalCache(STORAGE_KEYS.CUSTOMERS, validated.data.customers);
       for (const c of validated.data.customers) {
-        await setDoc(doc(db, COLLECTIONS.CUSTOMERS, c.id), c).catch(() => {});
+        await setDoc(doc(db, COLLECTIONS.CUSTOMERS, c.id), c);
       }
+      setLocalCache(STORAGE_KEYS.CUSTOMERS, validated.data.customers);
     }
 
     // Save settings if present
     if (validated.data.settings) {
+      await setDoc(doc(db, COLLECTIONS.SETTINGS, 'general'), validated.data.settings);
       setLocalCache(STORAGE_KEYS.SETTINGS, validated.data.settings);
-      await setDoc(doc(db, COLLECTIONS.SETTINGS, 'general'), validated.data.settings).catch(() => {});
     }
 
     await recordAuditLog(

@@ -14,7 +14,6 @@ import {
   AlertCircle
 } from 'lucide-react';
 import { CustomerReview } from '../types';
-import { processImageUpload } from '../lib/imageUtils';
 
 interface ReviewsSectionProps {
   reviews: CustomerReview[];
@@ -52,9 +51,10 @@ export const ReviewsSection: React.FC<ReviewsSectionProps> = ({
   const handleReviewPhoto = async (file: File) => {
     if (!file) return;
     try {
-      const processed = await processImageUpload(file, 800, 800, 0.85);
-      setReviewImage(processed.dataUrl);
-      onShowToast('تم تحسين وإرفاق صورة الجهاز مع التقييم', 'success');
+      const { compressAndUploadImage } = await import('../lib/imageUtils');
+      const uploaded = await compressAndUploadImage(file, 'reviews', `review_${Date.now()}`);
+      setReviewImage(uploaded.url);
+      onShowToast('تم رفع صورة التقييم؛ ستظهر للعامة فقط بعد اعتماد التقييم.', 'success');
     } catch (err: any) {
       onShowToast(err?.message || 'تعذر معالجة الصورة، يرجى اختيار ملف صورة صالح', 'error');
     }
@@ -271,8 +271,14 @@ export const ReviewsSection: React.FC<ReviewsSectionProps> = ({
               </div>
             );
           })}
-        </div> : <div className="rounded-2xl border border-dashed border-slate-300 bg-white px-6 py-10 text-center text-sm font-semibold leading-7 text-slate-600">
-          لسه ما عندناش تقييمات منشورة هنا. لو اتعاملت معانا، شاركنا رأيك.
+        </div> : <div role="status" className="rounded-3xl border border-slate-200 bg-white px-6 py-10 text-center shadow-sm sm:px-10">
+          <div className="mx-auto mb-4 flex h-14 w-14 items-center justify-center rounded-2xl bg-[#123b4a]/5 text-[#123b4a]">
+            <MessageSquarePlus className="h-6 w-6" aria-hidden="true" />
+          </div>
+          <h3 className="text-lg font-black text-[#123b4a]">لسه مفيش تقييمات منشورة</h3>
+          <p className="mx-auto mt-2 max-w-xl text-sm font-medium leading-7 text-slate-600">
+            لو اتعاملت معانا، شاركنا تجربتك من الزر اللي فوق. هنراجع الرأي قبل ما يظهر هنا.
+          </p>
         </div>}
 
         {reviews.length > 3 && (
@@ -287,8 +293,8 @@ export const ReviewsSection: React.FC<ReviewsSectionProps> = ({
           </div>
         )}
 
-        {/* Bottom CTA button */}
-        <div className="mt-12 text-center">
+        {/* Keep the second review invitation only after real reviews are available. */}
+        {reviews.length > 0 && <div className="mt-12 text-center">
           <button
             type="button"
             onClick={() => setIsAddModalOpen(true)}
@@ -297,7 +303,7 @@ export const ReviewsSection: React.FC<ReviewsSectionProps> = ({
             <MessageSquarePlus className="w-4 h-4 text-[#d97706]" />
             <span>اكتب رأيك — والصورة اختيارية</span>
           </button>
-        </div>
+        </div>}
 
         {/* ADD REVIEW MODAL */}
         {isAddModalOpen && (

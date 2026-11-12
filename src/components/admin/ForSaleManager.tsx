@@ -216,6 +216,11 @@ export const ForSaleManager: React.FC<ForSaleManagerProps> = ({
   const handleGalleryImageUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (!file) return;
+    if (formData.additionalImages.length >= 10) {
+      setErrorMsg('يسمح بحد أقصى 10 صور إضافية لكل جهاز. احذف صورة قبل إضافة أخرى.');
+      e.target.value = '';
+      return;
+    }
 
     try {
       setUploadingGalleryImage(true);
@@ -1270,7 +1275,7 @@ export const ForSaleManager: React.FC<ForSaleManagerProps> = ({
                       <span>صور إضافية للمعرض (لزوايا أخرى، الفريزر، الموتور، الصاج)</span>
                     </label>
                     <span className="text-[11px] font-bold text-slate-500">
-                      {formData.additionalImages.length} صور مضافة
+                      {formData.additionalImages.length} / 10 صور إضافية
                     </span>
                   </div>
 
@@ -1304,7 +1309,7 @@ export const ForSaleManager: React.FC<ForSaleManagerProps> = ({
 
                     <button
                       type="button"
-                      disabled={uploadingGalleryImage}
+                      disabled={uploadingGalleryImage || formData.additionalImages.length >= 10}
                       onClick={() => galleryFileInputRef.current?.click()}
                       className="w-20 h-20 rounded-2xl border-2 border-dashed border-slate-300 hover:border-[#123b4a] bg-white text-slate-500 hover:text-[#123b4a] flex flex-col items-center justify-center gap-1 transition-colors cursor-pointer disabled:opacity-50"
                     >

@@ -166,6 +166,20 @@ export async function compressAndUploadImage(
   filenamePrefix = 'img'
 ): Promise<{ url: string; sizeBytes: number; storagePath?: string }> {
   const processed = await processImageUpload(file, 1200, 1200, 0.82);
+  const maxBytesByFolder: Record<StorageFolder, number> = {
+    bookings: 5 * 1024 * 1024,
+    works: 8 * 1024 * 1024,
+    reviews: 3 * 1024 * 1024,
+    settings: 5 * 1024 * 1024,
+    for_sale: 8 * 1024 * 1024,
+    customers: 5 * 1024 * 1024,
+    repairs: 8 * 1024 * 1024
+  };
+  const maxBytes = maxBytesByFolder[folder];
+  if (processed.sizeBytes > maxBytes) {
+    const limitMiB = Math.floor(maxBytes / (1024 * 1024));
+    throw new Error(`حجم الصورة بعد الضغط ما زال أكبر من الحد المسموح (${limitMiB} ميجابايت). اختر صورة أصغر أو أقل دقة.`);
+  }
   const randomSuffix = Math.random().toString(36).substring(2, 8);
   const cleanPrefix = filenamePrefix.replace(/[^a-zA-Z0-9_-]/g, '_');
   const filename = `${cleanPrefix}_${Date.now()}_${randomSuffix}.jpg`;

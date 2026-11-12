@@ -21,24 +21,12 @@ import { getAreaLandingPage, getServiceLandingPage } from './data/landingPages';
 import { ArrowLeft } from 'lucide-react';
 
 import { RepairWork, CustomerReview, ToastNotification, BookingRecord, AppSystemSettings } from './types';
-import { 
-  seedInitialDataIfNeeded, 
-  fetchAllWorks, 
-  addWorkItem, 
-  deleteWorkItem, 
-  fetchAllReviews, 
-  addCustomerReview, 
-  deleteCustomerReview,
-  fetchSystemSettings 
-} from './lib/dbService';
-import { testConnection } from './lib/firebase';
 import { INITIAL_WORKS, INITIAL_SETTINGS } from './data/initialData';
 
 export default function App() {
   const [works, setWorks] = useState<RepairWork[]>(INITIAL_WORKS);
   const [reviews, setReviews] = useState<CustomerReview[]>([]);
   const [settings, setSettings] = useState<AppSystemSettings>(INITIAL_SETTINGS);
-  const [isLoading, setIsLoading] = useState<boolean>(true);
 
   // Admin Dashboard Modal State
   const [isAdminDashboardOpen, setIsAdminDashboardOpen] = useState<boolean>(() => window.location.hash === '#/admin');
@@ -80,17 +68,17 @@ export default function App() {
 
   // Load from Central Firestore Database on Startup
   useEffect(() => {
+    let cancelled = false;
     async function initData() {
       try {
-        setIsLoading(true);
-        // Test connection non-blockingly
-        testConnection().catch(() => {});
-        await seedInitialDataIfNeeded();
+        const dataService = await import('./lib/dbService');
+        await dataService.seedInitialDataIfNeeded();
         const [loadedWorks, loadedReviews, loadedSettings] = await Promise.all([
-          fetchAllWorks(),
-          fetchAllReviews(),
-          fetchSystemSettings()
+          dataService.fetchAllWorks(),
+          dataService.fetchAllReviews(),
+          dataService.fetchSystemSettings()
         ]);
+        if (cancelled) return;
         if (loadedWorks && loadedWorks.length > 0) {
           setWorks(loadedWorks);
         }
@@ -100,11 +88,13 @@ export default function App() {
         }
       } catch (err) {
         console.error('Error loading initial data from Firestore:', err);
-      } finally {
-        setIsLoading(false);
       }
     }
-    initData();
+    const timer = window.setTimeout(() => void initData(), 450);
+    return () => {
+      cancelled = true;
+      window.clearTimeout(timer);
+    };
   }, []);
 
   // Toast helper
@@ -126,6 +116,7 @@ export default function App() {
   // Add work handler (Persisted to Cloud Firestore)
   const handleAddWork = async (newWorkData: Omit<RepairWork, 'id'>) => {
     try {
+      const { addWorkItem } = await import('./lib/dbService');
       const created = await addWorkItem(newWorkData);
       setWorks((prev) => [created, ...prev]);
       showToast('تمت إضافة عمل الصيانة الجديد بنجاح وحفظه في قاعدة البيانات السحابية!', 'success');
@@ -138,6 +129,7 @@ export default function App() {
   // Delete work handler
   const handleDeleteWork = async (id: string) => {
     try {
+      const { deleteWorkItem } = await import('./lib/dbService');
       await deleteWorkItem(id);
       setWorks((prev) => prev.filter((w) => w.id !== id));
       showToast('تم حذف عمل الصيانة من قاعدة البيانات بنجاح', 'info');
@@ -148,12 +140,14 @@ export default function App() {
 
   // Add review handler (Persisted to Cloud Firestore)
   const handleAddReview = async (newReviewData: Omit<CustomerReview, 'id' | 'avatarLetter' | 'verified' | 'status' | 'createdAt'>) => {
+    const { addCustomerReview } = await import('./lib/dbService');
     await addCustomerReview(newReviewData);
   };
 
   // Delete review handler
   const handleDeleteReview = async (id: string) => {
     try {
+      const { deleteCustomerReview } = await import('./lib/dbService');
       await deleteCustomerReview(id);
       setReviews((prev) => prev.filter((r) => r.id !== id));
       showToast('تم حذف التقييم بنجاح', 'info');

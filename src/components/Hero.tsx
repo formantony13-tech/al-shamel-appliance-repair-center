@@ -11,10 +11,7 @@ import {
 } from '../config';
 import { AppSystemSettings } from '../types';
 import { safePublicCopy, safeRegionCopy } from '../lib/publicCopy';
-import realAlaskaFreezer from '../assets/images/real_alaska_freezer_1788256277335.webp';
-import silverWasherRepair from '../assets/images/silver_washer_repair_1788256297679.webp';
-import samsungWasherAfter from '../assets/images/samsung_washer_after_1788256332451.webp';
-import fridgeRestoredAfter from '../assets/images/fridge_restored_after_1788256368740.webp';
+import illustrativeRefrigerator from '../assets/images/illustrative_refrigerator.webp';
 
 interface HeroProps {
   onOpenBooking: () => void;
@@ -123,7 +120,7 @@ export const Hero: React.FC<HeroProps> = ({ onOpenBooking, settings }) => {
                 type="button"
                 onClick={onOpenBooking}
                 id="hero-book-btn"
-                className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-5 py-3.5 rounded-xl text-sm font-bold text-white bg-[#123b4a] hover:bg-[#174c5d] border border-[#123b4a] transition-colors active:scale-[0.98]"
+                className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-5 py-3.5 rounded-xl text-sm font-black text-white bg-gradient-to-r from-[#d97706] to-[#b45309] hover:from-[#b45309] hover:to-[#92400e] border border-[#b45309] shadow-lg shadow-[#d97706]/20 transition-all active:scale-[0.98] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#d97706] focus-visible:ring-offset-2"
               >
                 <CalendarDays className="w-4 h-4 shrink-0" />
                 <span className="whitespace-nowrap">اطلب زيارة</span>
@@ -135,7 +132,7 @@ export const Hero: React.FC<HeroProps> = ({ onOpenBooking, settings }) => {
                 target="_blank"
                 rel="noopener noreferrer"
                 id="hero-whatsapp-btn"
-                className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-5 py-3.5 rounded-xl text-sm font-bold text-emerald-800 bg-white hover:bg-emerald-50 border border-emerald-300 transition-colors active:scale-[0.98]"
+                className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-5 py-3.5 rounded-xl text-sm font-black text-white bg-[#159447] hover:bg-[#11783a] border border-[#11783a] shadow-md shadow-emerald-900/10 transition-all active:scale-[0.98] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-600 focus-visible:ring-offset-2"
               >
                 <MessageSquare className="w-5 h-5 shrink-0" />
                 <span className="whitespace-nowrap">اسألنا على واتساب</span>
@@ -145,7 +142,7 @@ export const Hero: React.FC<HeroProps> = ({ onOpenBooking, settings }) => {
               <a
                 href={`tel:+${phone1}`}
                 id="hero-call-btn-1"
-                className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-5 py-3.5 rounded-xl text-sm font-bold text-[#123b4a] bg-white hover:bg-slate-50 border border-slate-300 transition-colors active:scale-[0.98]"
+                className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-5 py-3.5 rounded-xl text-sm font-black text-[#123b4a] bg-white hover:bg-[#123b4a]/5 border border-[#123b4a]/25 shadow-sm transition-all active:scale-[0.98] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#123b4a] focus-visible:ring-offset-2"
               >
                 <Phone className="w-5 h-5 text-[#d97706] shrink-0" />
                 <span className="font-mono whitespace-nowrap" dir="ltr">{phone1Display}</span>
@@ -160,95 +157,42 @@ export const Hero: React.FC<HeroProps> = ({ onOpenBooking, settings }) => {
             </div>
           </div>
 
-          {/* Image Showcase Grid with REAL APPLIANCE PHOTOS (Left in RTL) */}
+          {/* صورة تحريرية حقيقية، وليست من أعمال المركز أو إعلانًا عن جهاز للبيع. */}
           <div className="lg:col-span-5 relative">
-            <div className="grid grid-cols-2 gap-3 sm:gap-4">
-              
-              {/* Card 1: Deep Freezer / Chest Freezer Repair */}
-              <div className="group relative rounded-2xl sm:rounded-3xl overflow-hidden shadow-md bg-white border border-slate-100 aspect-[4/5] transform hover:-translate-y-1 transition-all">
-                <img
-                  src={realAlaskaFreezer}
-                  alt="صيانة ديب فريزر ألاسكا رأسي وأفقي"
-                  width="720"
-                  height="900"
-                  loading="lazy"
-                  decoding="async"
-                  className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-[#123b4a]/95 via-[#123b4a]/30 to-transparent flex flex-col justify-end p-3.5 sm:p-4 text-white">
-                  <span className="text-[10px] sm:text-xs font-black text-[#d97706] bg-black/50 backdrop-blur-sm px-2 py-0.5 rounded-md w-fit mb-1">
-                    ديب فريزر ألاسكا وكريازي
-                  </span>
-                  <h3 className="text-xs sm:text-sm font-black leading-snug">شحن فريون وتغيير مواتير دانفوس</h3>
-                </div>
+            <figure className="relative mx-auto max-w-md overflow-hidden rounded-[2rem] border border-slate-200 bg-[#123b4a] shadow-2xl shadow-[#123b4a]/15 aspect-[4/5]">
+              <img
+                src={illustrativeRefrigerator}
+                alt="ثلاجة منزلية مفتوحة من الداخل — صورة توضيحية وليست من أعمال المركز"
+                width="1350"
+                height="1791"
+                loading="eager"
+                fetchPriority="high"
+                decoding="async"
+                className="w-full h-full object-cover object-center brightness-110"
+              />
+              <div className="absolute inset-0 bg-gradient-to-t from-[#061923]/85 via-transparent to-[#061923]/10" aria-hidden="true" />
+              <span className="absolute top-4 right-4 rounded-full border border-white/20 bg-[#123b4a]/75 px-3 py-1 text-[11px] font-bold text-white backdrop-blur-sm">
+                صورة توضيحية
+              </span>
+              <figcaption className="absolute bottom-5 right-5 left-5 text-right text-white">
+                <p className="text-sm font-black sm:text-base">صورة لجهاز منزلي</p>
+                <p className="mt-1 text-xs font-medium leading-5 text-white/80">ليست من أعمال المركز ولا تمثل جهازًا معروضًا للبيع.</p>
+              </figcaption>
+            </figure>
+            <div className="mx-auto mt-3 flex max-w-md flex-wrap items-center justify-between gap-2 px-1 text-[11px] text-slate-500">
+              <div className="flex items-center gap-2 font-bold text-[#123b4a]">
+                <MapPin className="h-4 w-4 text-[#d97706]" aria-hidden="true" />
+                <span>{centerName} · {location}</span>
               </div>
-
-              {/* Card 2: Refrigerator Repair & Restoration */}
-              <div className="group relative rounded-2xl sm:rounded-3xl overflow-hidden shadow-md bg-white border border-slate-100 aspect-[4/5] mt-6 transform hover:-translate-y-1 transition-all">
-                <img
-                  src={fridgeRestoredAfter}
-                  alt="تجديد ثلاجة بابين دوكو فرن وبارومة"
-                  width="720"
-                  height="900"
-                  loading="lazy"
-                  decoding="async"
-                  className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-[#123b4a]/95 via-[#123b4a]/30 to-transparent flex flex-col justify-end p-3.5 sm:p-4 text-white">
-                  <span className="text-[10px] sm:text-xs font-black text-[#d97706] bg-black/50 backdrop-blur-sm px-2 py-0.5 rounded-md w-fit mb-1">
-                    ثلاجات نوفروست وبابين
-                  </span>
-                  <h3 className="text-xs sm:text-sm font-black leading-snug">تجديد دوكو وعلاج بارومة وشحن</h3>
-                </div>
-              </div>
-
-              {/* Card 3: Washing Machine Repair & Baroma */}
-              <div className="group relative rounded-2xl sm:rounded-3xl overflow-hidden shadow-md bg-white border border-slate-100 aspect-[4/5] -mt-6 transform hover:-translate-y-1 transition-all">
-                <img
-                  src={samsungWasherAfter}
-                  alt="تجديد وصيانة غسالة سامسونج داياموند أوتوماتيك"
-                  width="720"
-                  height="900"
-                  loading="lazy"
-                  decoding="async"
-                  className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-[#123b4a]/95 via-[#123b4a]/30 to-transparent flex flex-col justify-end p-3.5 sm:p-4 text-white">
-                  <span className="text-[10px] sm:text-xs font-black text-[#d97706] bg-black/50 backdrop-blur-sm px-2 py-0.5 rounded-md w-fit mb-1">
-                    غسالات سامسونج وزانوسي
-                  </span>
-                  <h3 className="text-xs sm:text-sm font-black leading-snug">صوت العصر • رولمان بلي • شاسيه</h3>
-                </div>
-              </div>
-
-              {/* Card 4: Silver Washer & Appliances */}
-              <div className="group relative rounded-2xl sm:rounded-3xl overflow-hidden shadow-md bg-white border border-slate-100 aspect-[4/5] transform hover:-translate-y-1 transition-all">
-                <img
-                  src={silverWasherRepair}
-                  alt="صيانة غسالات أمامية وفوق أوتوماتيك"
-                  width="720"
-                  height="900"
-                  loading="lazy"
-                  decoding="async"
-                  className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-[#123b4a]/95 via-[#123b4a]/30 to-transparent flex flex-col justify-end p-3.5 sm:p-4 text-white">
-                  <span className="text-[10px] sm:text-xs font-black text-[#d97706] bg-black/50 backdrop-blur-sm px-2 py-0.5 rounded-md w-fit mb-1">
-                    غسالات وبوتاجازات
-                  </span>
-                  <h3 className="text-xs sm:text-sm font-black leading-snug">طلمبات طرد • جيربوكس • فحص وإصلاح</h3>
-                </div>
-              </div>
-            </div>
-
-            <div className="absolute -bottom-4 right-1/2 translate-x-1/2 sm:translate-x-0 sm:right-4 bg-white rounded-2xl p-3.5 sm:p-4 shadow-lg border border-slate-200/80 flex items-center gap-3">
-              <div className="w-11 h-11 rounded-xl bg-[#123b4a] text-white flex items-center justify-center">
-                <MapPin className="w-5 h-5 text-[#d97706]" />
-              </div>
-              <div className="text-right">
-                <p className="text-xs font-black text-[#123b4a]">{centerName}</p>
-                <p className="text-[10px] text-slate-500 font-bold">{location}</p>
-              </div>
+              <a
+                href="https://commons.wikimedia.org/wiki/File:Open_refrigerator_with_food_at_night.jpg"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="underline decoration-slate-300 underline-offset-2 hover:text-[#123b4a] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#d97706]"
+                aria-label="مصدر الصورة: W.carter على Wikimedia Commons، بترخيص CC BY-SA 4.0؛ تم تحجيمها وتحويلها إلى WebP"
+              >
+                الصورة: W.carter · CC BY-SA 4.0 · تم التحجيم
+              </a>
             </div>
           </div>
 

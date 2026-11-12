@@ -21,6 +21,7 @@ import {
   getAuth, 
   setPersistence,
   browserLocalPersistence,
+  browserSessionPersistence,
   signInWithEmailAndPassword,
   createUserWithEmailAndPassword,
   EmailAuthProvider,
@@ -75,9 +76,21 @@ export const db: Firestore = firestoreInstance;
 
 // Initialize Auth
 export const auth = getAuth(app);
-export const authPersistenceReady = setPersistence(auth, browserLocalPersistence).catch((error) => {
-  console.warn('Could not enable local auth persistence:', error);
-});
+export let authPersistenceMode: 'local' | 'session' | 'memory' = 'memory';
+export const authPersistenceReady = setPersistence(auth, browserLocalPersistence)
+  .then(() => {
+    authPersistenceMode = 'local';
+  })
+  .catch(async (error) => {
+    console.warn('Could not enable local auth persistence; trying session persistence:', error);
+    try {
+      await setPersistence(auth, browserSessionPersistence);
+      authPersistenceMode = 'session';
+    } catch (sessionError) {
+      authPersistenceMode = 'memory';
+      console.error('Firebase Auth persistence is unavailable in this browser:', sessionError);
+    }
+  });
 
 // Initialize Storage
 export const storage = getStorage(app);

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { Phone, Wrench, Menu, X, Calendar, ShieldCheck, MessageSquare, Search, HelpCircle } from 'lucide-react';
 import { 
   DISPLAY_PHONE_1, 
@@ -25,6 +25,7 @@ export const Header: React.FC<HeaderProps> = ({
   const [isScrolled, setIsScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [activeHash, setActiveHash] = useState('');
+  const mobileMenuToggleRef = useRef<HTMLButtonElement>(null);
 
   const centerName = settings?.centerName || CENTER_NAME;
   const phone1 = settings?.phone1 || PHONE_NUMBER_1;
@@ -50,16 +51,39 @@ export const Header: React.FC<HeaderProps> = ({
         }
       }
     };
+    const syncRouteState = () => {
+      if (window.location.hash === '#/works') setActiveHash('#works');
+      else if (window.location.hash === '#/reviews-contact') setActiveHash('#reviews');
+      else if (window.location.hash === '#/#services') setActiveHash('#services');
+      else handleScroll();
+    };
     window.addEventListener('scroll', handleScroll, { passive: true });
-    return () => window.removeEventListener('scroll', handleScroll);
+    window.addEventListener('hashchange', syncRouteState);
+    syncRouteState();
+    return () => {
+      window.removeEventListener('scroll', handleScroll);
+      window.removeEventListener('hashchange', syncRouteState);
+    };
   }, []);
 
+  useEffect(() => {
+    if (!mobileMenuOpen) return;
+    const handleEscape = (event: KeyboardEvent) => {
+      if (event.key === 'Escape') {
+        setMobileMenuOpen(false);
+        mobileMenuToggleRef.current?.focus();
+      }
+    };
+    window.addEventListener('keydown', handleEscape);
+    return () => window.removeEventListener('keydown', handleEscape);
+  }, [mobileMenuOpen]);
+
   const navLinks = [
-    { name: 'الرئيسية', href: '#/' },
-    { name: 'خدمات الصيانة', href: '#/#services' },
-    { name: 'أجهزة للبيع', href: '#for-sale-section' },
-    { name: 'أعمالنا', href: '#/works' },
-    { name: 'التواصل', href: '#/reviews-contact' },
+    { name: 'الرئيسية', href: '#/', active: '#hero' },
+    { name: 'خدمات الصيانة', href: '#/#services', active: '#services' },
+    { name: 'أجهزة للبيع', href: '#for-sale-section', active: '#for-sale-section' },
+    { name: 'أعمالنا', href: '#/works', active: '#works' },
+    { name: 'التواصل', href: '#/reviews-contact', active: '#reviews' },
   ];
 
 
@@ -125,7 +149,7 @@ export const Header: React.FC<HeaderProps> = ({
                   href={link.href}
                   id={`nav-${link.href.replace('#', '')}`}
                   className={`text-xs font-bold transition-colors relative py-1 ${
-                    activeHash === link.href
+                    activeHash === link.active
                       ? 'text-[#d97706] font-black'
                       : 'text-slate-700 hover:text-[#d97706]'
                   }`}
@@ -153,7 +177,7 @@ export const Header: React.FC<HeaderProps> = ({
                 type="button"
                 id="header-book-cta"
                 onClick={onOpenBooking}
-                className="inline-flex items-center gap-1.5 px-3 sm:px-4 py-1.5 sm:py-2 rounded-xl text-xs font-bold text-white bg-[#123b4a] hover:bg-[#174c5d] border border-[#123b4a] transition-colors active:scale-[0.98] cursor-pointer"
+                className="inline-flex items-center gap-1.5 px-3 sm:px-4 py-2 sm:py-2.5 rounded-xl text-xs font-black text-white bg-gradient-to-r from-[#d97706] to-[#b45309] hover:from-[#b45309] hover:to-[#92400e] border border-[#b45309] shadow-md shadow-[#d97706]/20 hover:shadow-lg transition-all active:scale-[0.98] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#d97706] focus-visible:ring-offset-2 cursor-pointer"
               >
                 <Calendar className="w-3.5 h-3.5 shrink-0" />
                 <span className="whitespace-nowrap">احجز صيانة</span>
@@ -163,6 +187,7 @@ export const Header: React.FC<HeaderProps> = ({
               <button
                 type="button"
                 id="mobile-menu-toggle"
+                ref={mobileMenuToggleRef}
                 onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
                 className="lg:hidden p-1.5 rounded-lg text-slate-700 hover:bg-slate-100 transition-colors"
                 aria-label={mobileMenuOpen ? 'إغلاق القائمة' : 'فتح القائمة'}

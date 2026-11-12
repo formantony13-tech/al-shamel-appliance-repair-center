@@ -57,14 +57,13 @@ export const BookingSchema = z.object({
   deletedBy: z.string().optional()
 });
 
-// Safe Booking Tracking Schema (Public, no raw phone digits or customer name)
+// Public tracking record: the unpredictable booking code is the access secret.
 export const BookingTrackingSchema = z.object({
   id: z.string().min(3),
   status: BookingStatusSchema,
   deviceType: z.string().min(2),
   brand: z.string().optional().default(''),
   preferredTime: z.string().optional().default(''),
-  phoneLast4Hash: z.string().length(64),
   hasWarranty: z.boolean().default(false),
   stage: z.number().min(1).max(4).default(1),
   createdAt: z.string(),

@@ -37,12 +37,11 @@ export interface BookingRecord {
 }
 
 export interface BookingTrackingRecord {
-  id: string; // e.g. BK-2026-MX8K2-7F3Q9A
+  id: string; // Private bearer code returned to the customer after submitting a booking.
   status: BookingStatus;
   deviceType: string;
   brand?: string;
   preferredTime: string;
-  phoneLast4Hash: string; // SHA-256; never expose the phone digits publicly
   hasWarranty: boolean;
   stage: number; // 1: استلام, 2: موعد, 3: فحص وإصلاح, 4: اكتمال وضمان
   createdAt: string;

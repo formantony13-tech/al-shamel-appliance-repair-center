@@ -10,12 +10,12 @@ import {
   MapPin, 
   Sparkles,
   Info,
+  Image as ImageIcon,
   ChevronRight,
   X,
   Clock
 } from 'lucide-react';
 import { ApplianceForSale, ForSaleCategory, AppSystemSettings } from '../types';
-import { fetchAllForSaleItems } from '../lib/dbService';
 import { safeRegionCopy } from '../lib/publicCopy';
 
 interface ForSaleSectionProps {
@@ -36,16 +36,20 @@ export const ForSaleSection: React.FC<ForSaleSectionProps> = ({ settings }) => {
   const [selectedCategory, setSelectedCategory] = useState<ForSaleCategory>('الكل');
   const [selectedItem, setSelectedItem] = useState<ApplianceForSale | null>(null);
   const [loading, setLoading] = useState<boolean>(true);
+  const [inventorySource, setInventorySource] = useState<'live' | 'cached' | 'unavailable'>('unavailable');
   const [showAllItems, setShowAllItems] = useState(false);
 
   useEffect(() => {
     async function loadItems() {
       try {
         setLoading(true);
-        const data = await fetchAllForSaleItems();
-        setItems(data);
+        const { fetchForSaleItemsWithStatus } = await import('../lib/dbService');
+        const result = await fetchForSaleItemsWithStatus();
+        setItems(result.items);
+        setInventorySource(result.source);
       } catch (err) {
         console.error('Error loading for-sale items:', err);
+        setInventorySource('unavailable');
       } finally {
         setLoading(false);
       }
@@ -149,16 +153,40 @@ export const ForSaleSection: React.FC<ForSaleSectionProps> = ({ settings }) => {
           </div>
         ) : filteredItems.length === 0 ? (
           /* Empty State */
-          <div className="text-center py-16 bg-white rounded-3xl border border-dashed border-slate-300 p-8 max-w-lg mx-auto shadow-xs">
+          <div className="text-center py-12 bg-white rounded-3xl border border-slate-200 p-6 sm:p-10 max-w-3xl mx-auto shadow-sm">
             <div className="w-16 h-16 rounded-full bg-[#123b4a]/5 flex items-center justify-center mx-auto mb-4 text-[#123b4a]/50">
               <ShoppingBag className="w-8 h-8" />
             </div>
             <h3 className="text-lg font-bold text-slate-800 mb-2">
-              {items.length === 0 ? 'مافيش أجهزة معروضة للبيع دلوقتي' : 'مافيش أجهزة من النوع ده معروضة حاليًا'}
+              {inventorySource === 'unavailable'
+                ? 'تعذر تحديث قائمة الأجهزة الآن'
+                : items.length === 0
+                  ? 'مافيش أجهزة معروضة للبيع دلوقتي'
+                  : 'مافيش أجهزة من النوع ده معروضة حاليًا'}
             </h3>
-            <p className="text-sm text-slate-500 mb-6">
-              تواصل معنا لو بتدور على جهاز بمواصفات معينة، واسأل عن المتاح قبل الزيارة.
+            <p className="text-sm text-slate-600 leading-7 mb-7 max-w-xl mx-auto">
+              {inventorySource === 'unavailable'
+                ? 'ما نقدرش نأكد حالة المعروضات من غير اتصال. تواصل معنا وهنأكد لك المتاح.'
+                : items.length === 0
+                  ? 'هنضيف هنا صور الجهاز الفعلية وحالته وسعره لما يتوفر للبيع. تواصل معنا لو بتدور على جهاز بمواصفات معينة.'
+                  : 'تواصل معنا لو بتدور على جهاز بمواصفات معينة، واسأل عن المتاح قبل الزيارة.'}
             </p>
+            {inventorySource !== 'unavailable' && items.length === 0 && (
+              <div className="grid grid-cols-1 gap-3 text-right sm:grid-cols-3 sm:gap-4">
+                <div className="flex items-center gap-3 rounded-2xl border border-slate-100 bg-slate-50 p-3">
+                  <ImageIcon className="h-5 w-5 shrink-0 text-[#d97706]" aria-hidden="true" />
+                  <span className="text-xs font-bold leading-5 text-slate-700">صورة الجهاز المعروض نفسه</span>
+                </div>
+                <div className="flex items-center gap-3 rounded-2xl border border-slate-100 bg-slate-50 p-3">
+                  <Info className="h-5 w-5 shrink-0 text-[#d97706]" aria-hidden="true" />
+                  <span className="text-xs font-bold leading-5 text-slate-700">حالة الجهاز ومواصفاته بوضوح</span>
+                </div>
+                <div className="flex items-center gap-3 rounded-2xl border border-slate-100 bg-slate-50 p-3">
+                  <ShieldCheck className="h-5 w-5 shrink-0 text-[#d97706]" aria-hidden="true" />
+                  <span className="text-xs font-bold leading-5 text-slate-700">تأكيد التوفر قبل الزيارة</span>
+                </div>
+              </div>
+            )}
             <a
               href={`https://wa.me/${settings.whatsappNumber.replace(/[^0-9]/g, '')}?text=${encodeURIComponent('السلام عليكم، أرغب في الاستفسار عن الأجهزة المنزلية المتاحة للبيع لدى مركزكم.')}`}
               target="_blank"
@@ -171,6 +199,11 @@ export const ForSaleSection: React.FC<ForSaleSectionProps> = ({ settings }) => {
           </div>
         ) : (
           <>
+          {inventorySource === 'cached' && (
+            <p role="status" className="mb-5 rounded-xl border border-amber-200 bg-amber-50 px-4 py-3 text-center text-xs font-bold leading-5 text-amber-900">
+              المعروضات من نسخة محفوظة وقد لا تكون محدثة؛ اتصل بنا للتأكد من توفر الجهاز قبل الزيارة.
+            </p>
+          )}
           {/* Items Grid */}
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
             {visibleItems.map(item => {

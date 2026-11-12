@@ -42,11 +42,13 @@ import {
   fetchAllAdmins, 
   createAdminUser, 
   deleteAdminUser,
-  importDatabaseData
+  importDatabaseData,
+  clearPrivateLocalCaches
 } from '../lib/dbService';
 import { 
   auth,
   authPersistenceReady,
+  authPersistenceMode,
   signInWithEmailAndPassword,
   signInWithPopup,
   signInWithRedirect,
@@ -136,25 +138,33 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, async (user) => {
       setIsAuthLoading(true);
-      if (user) {
-        setCurrentUser(user);
-        // Master owner auto-bootstrap using single source of truth
-        if (user.email && isMasterAdminEmail(user.email)) {
-          await bootstrapMasterAdmin(user);
-        }
-        const hasAdminPrivilege = await checkIsAdmin(user);
-        if (hasAdminPrivilege) {
-          setIsAuthenticated(true);
-          setLoginError('');
+      try {
+        if (user) {
+          setCurrentUser(user);
+          if (!user.emailVerified) {
+            setIsAuthenticated(false);
+            setLoginError('يرجى تفعيل البريد الإلكتروني المرتبط بالحساب قبل دخول لوحة الإدارة.');
+            return;
+          }
+          // Master owner auto-bootstrap using the verified account identity.
+          if (user.email && isMasterAdminEmail(user.email)) {
+            await bootstrapMasterAdmin(user);
+          }
+          const hasAdminPrivilege = await checkIsAdmin(user);
+          setIsAuthenticated(hasAdminPrivilege);
+          setLoginError(hasAdminPrivilege ? '' : `الحساب (${user.email}) لا يملك صلاحية إدارة مفعّلة.`);
         } else {
+          setCurrentUser(null);
           setIsAuthenticated(false);
-          setLoginError(`الحساب (${user.email}) مسجل بنجاح ولكن ليس لديه صلاحية مشرف بعد. يرجى التواصل مع مالك المركز لتفعيل الصلاحية.`);
+          setLoginError('');
         }
-      } else {
-        setCurrentUser(null);
+      } catch (error) {
+        console.error('Admin session verification failed:', error);
         setIsAuthenticated(false);
+        setLoginError('تعذر التحقق من صلاحية الحساب. تحقق من الاتصال ثم أعد المحاولة.');
+      } finally {
+        setIsAuthLoading(false);
       }
-      setIsAuthLoading(false);
     });
 
     return () => unsubscribe();
@@ -205,12 +215,22 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({
       const password = loginPassword;
 
       const userCredential = await signInWithEmailAndPassword(auth, email, password);
+      if (!userCredential.user.emailVerified) {
+        await signOut(auth);
+        setLoginError('تم العثور على الحساب، لكن البريد الإلكتروني غير مفعّل. فعّل البريد ثم أعد تسجيل الدخول.');
+        return;
+      }
       const allowed = await checkIsAdmin(userCredential.user);
       if (allowed) {
         if (isMasterAdminEmail(userCredential.user.email)) {
           await bootstrapMasterAdmin(userCredential.user);
         }
-        onShowToast('تم تسجيل الدخول بنجاح إلى لوحة الإدارة', 'success');
+        onShowToast(
+          authPersistenceMode === 'local'
+            ? 'تم تسجيل الدخول بنجاح إلى لوحة الإدارة'
+            : 'تم الدخول، لكن هذا المتصفح لا يسمح بحفظ الجلسة محليًا؛ قد تحتاج لتسجيل الدخول مجددًا بعد إغلاقه.',
+          authPersistenceMode === 'local' ? 'success' : 'info'
+        );
       } else {
         await signOut(auth);
         setLoginError('هذا الحساب غير مصرح له بالدخول إلى لوحة الإدارة.');
@@ -247,15 +267,20 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({
     try {
       await authPersistenceReady;
       const result = await signInWithPopup(auth, provider);
-      const isMaster = isMasterAdminEmail(result.user.email);
+      const isMaster = Boolean(result.user.emailVerified && isMasterAdminEmail(result.user.email));
       if (isMaster) await bootstrapMasterAdmin(result.user);
-      const allowed = isMaster || await checkIsAdmin(result.user);
+      const allowed = await checkIsAdmin(result.user);
       if (!allowed) {
         await signOut(auth);
         setLoginError('هذا الحساب غير مصرح له بالدخول إلى لوحة الإدارة.');
         return;
       }
-      onShowToast('تم تسجيل الدخول بنجاح عبر حساب Google!', 'success');
+      onShowToast(
+        authPersistenceMode === 'local'
+          ? 'تم تسجيل الدخول بنجاح عبر حساب Google.'
+          : 'تم الدخول، لكن هذا المتصفح لا يسمح بحفظ الجلسة محليًا؛ قد تحتاج لتسجيل الدخول مجددًا بعد إغلاقه.',
+        authPersistenceMode === 'local' ? 'success' : 'info'
+      );
     } catch (err: any) {
       console.error('Google Sign-In Error:', err);
       if (err.code === 'auth/popup-blocked') {
@@ -282,6 +307,7 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({
   const handleLogout = async () => {
     try {
       await signOut(auth);
+      clearPrivateLocalCaches();
       setIsAuthenticated(false);
       setCurrentUser(null);
       onShowToast('تم تسجيل الخروج بأمان', 'info');
@@ -487,6 +513,16 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({
   // RENDER LOGIN SCREEN (IF NOT AUTHENTICATED)
   // -------------------------------------------------------------
   if (!isAuthenticated) {
+    if (isAuthLoading) {
+      return (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-slate-950/80 p-4 backdrop-blur-md" role="status" aria-live="polite">
+          <div className="w-full max-w-sm rounded-3xl border border-slate-200 bg-white p-8 text-center shadow-2xl">
+            <div className="mx-auto mb-4 h-11 w-11 animate-spin rounded-full border-4 border-slate-200 border-t-[#d97706]" aria-hidden="true" />
+            <p className="font-bold text-[#123b4a]">جارٍ التحقق من جلسة الإدارة…</p>
+          </div>
+        </div>
+      );
+    }
     return (
       <div className="fixed inset-0 z-50 flex items-center justify-center bg-slate-900/80 backdrop-blur-sm p-4 overflow-y-auto">
         <div className="bg-white rounded-3xl shadow-2xl max-w-md w-full p-6 sm:p-8 text-right border border-slate-100 relative">

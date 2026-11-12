@@ -54,20 +54,21 @@ export const WorksGallery: React.FC<WorksGalleryProps> = ({
           <div>
             <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#d97706]/10 text-[#d97706] text-xs font-black uppercase tracking-wider mb-3">
               <Camera className="w-3.5 h-3.5" />
-              أعمال الصيانة المسجلة
+              معرض الأعمال
             </div>
             <h2 className="text-2xl sm:text-3xl lg:text-4xl font-black text-[#123b4a] leading-tight">
-              معرض عمليات صيانة {CENTER_NAME}
+              معرض أعمال {CENTER_NAME}
             </h2>
             <p className="mt-3 text-sm sm:text-base text-slate-600 font-semibold max-w-2xl leading-relaxed">
-              نماذج من أعمال صيانة الثلاجات والديب فريزر والغسالات وتجديد هياكل الأجهزة.
+              تظهر هنا صور أعمال الصيانة بعد إضافتها، مع نوع الجهاز وتفاصيل الإصلاح.
             </p>
           </div>
         </div>
 
         {/* Category Filter Tabs */}
-        <div className="flex items-center gap-2 sm:gap-3 overflow-x-auto pb-4 mb-8 no-scrollbar">
-          {categories.map((cat) => (
+        {works.length > 0 && (
+          <div className="flex items-center gap-2 sm:gap-3 overflow-x-auto pb-4 mb-8 no-scrollbar">
+            {categories.map((cat) => (
             <button
               key={cat}
               type="button"
@@ -84,15 +85,16 @@ export const WorksGallery: React.FC<WorksGalleryProps> = ({
             >
               {cat} ({cat === 'الكل' ? works.length : works.filter((w) => w.category === cat).length})
             </button>
-          ))}
-        </div>
+            ))}
+          </div>
+        )}
 
         {/* Works Grid */}
         {filteredWorks.length === 0 ? (
           <div className="text-center py-16 bg-slate-50 rounded-3xl border border-slate-200">
             <Layers className="w-12 h-12 text-slate-400 mx-auto mb-3" />
-            <h3 className="text-base font-bold text-slate-700">لا توجد أعمال مضافة في هذا القسم حالياً</h3>
-            <p className="text-xs text-slate-500 mt-1">يمكنك إضافة أول عمل من خلال زر "إضافة عمل صيانة جديد"</p>
+            <h3 className="text-base font-bold text-slate-700">مفيش صور أعمال منشورة دلوقتي</h3>
+            <p className="text-xs text-slate-500 mt-1">لما نضيف عملًا موثقًا، هتظهر صورته وتفاصيل الإصلاح هنا.</p>
           </div>
         ) : (
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8">

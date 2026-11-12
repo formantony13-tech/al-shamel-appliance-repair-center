@@ -1,5 +1,5 @@
 import { RepairWork, CustomerReview, AppSystemSettings, ApplianceForSale } from '../types';
-import realAlaskaFreezer from '../assets/images/real_alaska_freezer_1788256277335.webp';
+import illustrativeRefrigerator from '../assets/images/illustrative_refrigerator.webp';
 
 export const INITIAL_SETTINGS: AppSystemSettings = {
   centerName: 'مركز قطب للحل السريع',
@@ -19,7 +19,7 @@ export const INITIAL_SETTINGS: AppSystemSettings = {
   heroHeadline: 'جهازك عطلان؟ نبدأ بفحص واضح',
   heroHeadlineHighlight: 'ونشرح لك الحل والتكلفة قبل الإصلاح',
   heroSubheadline: 'صيانة ثلاجات وغسالات وديب فريزر وأجهزة منزلية داخل محافظة البحيرة. تواصل معنا لمعرفة التغطية والموعد المتاح.',
-  heroBannerImage: realAlaskaFreezer,
+  heroBannerImage: illustrativeRefrigerator,
   warrantyDurationDefault: 'تفاصيل الضمان حسب نوع الإصلاح والقطعة',
   maintenancePriceStart: 'الكشف مجاني عند إتمام الصيانة',
   emergencyNotice: 'الزيارات المنزلية يوميًا من 8 صباحًا إلى 11 مساءً، بعد التأكد من التغطية والموعد المتاح'

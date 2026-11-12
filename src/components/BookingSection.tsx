@@ -32,9 +32,7 @@ import {
   GOOGLE_MAPS_LINK 
 } from '../config';
 import { BookingFormData, BookingRecord } from '../types';
-import { createBooking } from '../lib/dbService';
 import { validateEgyptianPhone } from '../lib/validation';
-import { processImageUpload, compressAndUploadImage } from '../lib/imageUtils';
 import { checkSpamSubmission, recordSubmission } from '../lib/spamProtection';
 import { getArabicFirebaseErrorMessage } from '../lib/firebaseErrorHandler';
 
@@ -116,15 +114,11 @@ export const BookingSection: React.FC<BookingSectionProps> = ({
     if (!file) return;
     try {
       setUploadingImage(true);
-      // Process and compress image
-      const processed = await processImageUpload(file, 1200, 1200, 0.85);
-      
-      // Attempt uploading to Firebase Cloud Storage with fallback
+      const { compressAndUploadImage } = await import('../lib/imageUtils');
       const photoId = `booking_${Date.now()}_${Math.random().toString(36).substring(2, 7)}`;
       const uploadResult = await compressAndUploadImage(file, 'bookings', photoId);
-      
-      setAppliancePhoto(uploadResult.url || processed.dataUrl);
-      onShowToast('تم تحسين ورفع صورة الجهاز بنجاح', 'success');
+      setAppliancePhoto(uploadResult.url);
+      onShowToast(uploadResult.storagePath ? 'تم رفع الصورة إلى التخزين السحابي' : 'تم تجهيز الصورة للاستخدام دون اتصال', 'success');
     } catch (err: any) {
       onShowToast(err?.message || 'تعذر معالجة الصورة، يرجى اختيار ملف صورة صالح', 'error');
     } finally {
@@ -166,6 +160,7 @@ export const BookingSection: React.FC<BookingSectionProps> = ({
 
     try {
       // 1. SAVE BOOKING TO CENTRAL CLOUD DATABASE FIRST
+      const { createBooking } = await import('../lib/dbService');
       const savedBooking = await createBooking({
         fullName: formData.fullName.trim(),
         phoneNumber: phoneValidation.normalized,
@@ -258,8 +253,9 @@ ${formData.issueDescription.trim()}
                   {/* Booking ID Box */}
                   <div className="p-4 rounded-2xl bg-white border-2 border-[#123b4a]/20 max-w-sm mx-auto flex items-center justify-between shadow-sm">
                     <div className="text-right">
-                      <span className="text-[11px] font-bold text-slate-400 block">كود متابعة الحجز:</span>
+                      <span className="text-[11px] font-bold text-slate-500 block">كود المتابعة الخاص — احتفظ به:</span>
                       <span className="text-xl font-black text-[#123b4a] font-mono">{confirmedBooking.id}</span>
+                      <span className="mt-1 block max-w-[230px] text-[10px] font-semibold leading-5 text-slate-500">الكود هو مفتاح الاطلاع على حالة الطلب؛ لا ترسله إلا لمن تثق به.</span>
                     </div>
                     <button
                       type="button"
@@ -439,7 +435,7 @@ ${formData.issueDescription.trim()}
                         <input
                           type="text"
                           required
-                          placeholder="اكتب محافظتك والمركز / القرية بالتفصيل (مثال: دمنهور - شارع الجمهورية أو طنطا أو الزقازيق...)"
+                          placeholder="اكتب عنوانك داخل نطاق الخدمة: المركز أو القرية أو الشارع وأقرب علامة مميزة"
                           value={formData.address}
                           onChange={(e) => setFormData({ ...formData, address: e.target.value })}
                           className="w-full pl-4 pr-10 py-3 rounded-2xl border border-slate-200 bg-white text-sm font-semibold text-slate-800 focus:outline-none focus:ring-2 focus:ring-[#123b4a]/20 focus:border-[#123b4a] transition-all"

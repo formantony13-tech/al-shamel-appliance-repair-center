@@ -10,12 +10,10 @@ import {
   Award,
   MessageSquare, 
   ArrowRight,
-  Lock,
   Calendar,
   Sparkles
 } from 'lucide-react';
 import { BookingTrackingRecord, BookingStatus, BookingRecord } from '../types';
-import { getBookingTracking } from '../lib/dbService';
 import { PHONE_NUMBER_1, DISPLAY_PHONE_1 } from '../config';
 
 interface BookingTrackerModalProps {
@@ -32,7 +30,6 @@ export const BookingTrackerModal: React.FC<BookingTrackerModalProps> = ({
   onViewWarrantyCertificate,
 }) => {
   const [bookingIdInput, setBookingIdInput] = useState('');
-  const [phoneLast4Input, setPhoneLast4Input] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const [trackingRecord, setTrackingRecord] = useState<BookingTrackingRecord | null>(null);
   const [hasSearched, setHasSearched] = useState(false);
@@ -42,15 +39,9 @@ export const BookingTrackerModal: React.FC<BookingTrackerModalProps> = ({
   const handleSearch = async (e: React.FormEvent) => {
     e.preventDefault();
     const cleanId = bookingIdInput.trim().toUpperCase();
-    const cleanLast4 = phoneLast4Input.trim();
 
     if (!cleanId) {
-      onShowToast('يرجى إدخال كود الحجز (مثال: BK-2026-12345)', 'error');
-      return;
-    }
-
-    if (cleanLast4.length !== 4) {
-      onShowToast('يرجى إدخال آخر 4 أرقام من رقم الهاتف للتحقق من الملكية', 'error');
+      onShowToast('يرجى إدخال كود المتابعة الذي ظهر بعد إرسال الطلب.', 'error');
       return;
     }
 
@@ -59,7 +50,8 @@ export const BookingTrackerModal: React.FC<BookingTrackerModalProps> = ({
     setTrackingRecord(null);
 
     try {
-      const result = await getBookingTracking(cleanId, cleanLast4 || undefined);
+      const { getBookingTracking } = await import('../lib/dbService');
+      const result = await getBookingTracking(cleanId);
       if (result.success && result.data) {
         setTrackingRecord(result.data);
         onShowToast('تم التحقق واسترجاع حالة الطلب بنجاح', 'success');
@@ -150,7 +142,7 @@ export const BookingTrackerModal: React.FC<BookingTrackerModalProps> = ({
               متابعة حالة طلب الصيانة
             </h3>
             <p className="text-xs text-slate-500 font-semibold mt-0.5">
-              نظام استعلام آمن ومحمي لخصوصية بياناتك
+              أدخل كود المتابعة الخاص بطلبك؛ احتفظ به ولا تشاركه مع الآخرين.
             </p>
           </div>
         </div>
@@ -164,7 +156,7 @@ export const BookingTrackerModal: React.FC<BookingTrackerModalProps> = ({
             <div className="relative">
               <input
                 type="text"
-                placeholder="مثال: BK-2026-10294"
+                placeholder="ألصق كود المتابعة كما ظهر لك"
                 value={bookingIdInput}
                 onChange={(e) => setBookingIdInput(e.target.value)}
                 className="w-full px-4 py-3 pl-10 rounded-2xl border-2 border-slate-200 focus:border-[#123b4a] focus:outline-none text-sm font-bold text-slate-800 uppercase"
@@ -174,30 +166,10 @@ export const BookingTrackerModal: React.FC<BookingTrackerModalProps> = ({
             </div>
           </div>
 
-          <div>
-            <div className="flex items-center justify-between mb-1">
-              <label className="block text-xs font-bold text-slate-700">
-                آخر 4 أرقام من رقم الموبايل (مطلوبة للخصوصية) <span className="text-red-500">*</span>
-              </label>
-            </div>
-            <div className="relative">
-              <input
-                type="text"
-                maxLength={4}
-                placeholder="مثال: 7455"
-                value={phoneLast4Input}
-                onChange={(e) => setPhoneLast4Input(e.target.value.replace(/\D/g, ''))}
-                className="w-full px-4 py-3 pl-10 rounded-2xl border-2 border-slate-200 focus:border-[#123b4a] focus:outline-none text-sm font-mono font-bold text-slate-800 text-left tracking-widest"
-                required
-              />
-              <Lock className="w-4 h-4 text-slate-400 absolute left-3 top-3.5" />
-            </div>
-          </div>
-
           <button
             type="submit"
             disabled={isLoading}
-            className="w-full py-3.5 rounded-2xl bg-[#123b4a] hover:bg-[#174c5d] text-white text-sm font-black transition-all disabled:opacity-50 flex items-center justify-center gap-2 shadow-md"
+            className="w-full py-3.5 rounded-2xl bg-gradient-to-r from-[#d97706] to-[#b45309] hover:from-[#b45309] hover:to-[#92400e] text-white text-sm font-black transition-all disabled:opacity-50 flex items-center justify-center gap-2 shadow-md shadow-[#d97706]/20 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#d97706] focus-visible:ring-offset-2"
           >
             {isLoading ? (
               <span>جاري التحقق والاستعلام...</span>
